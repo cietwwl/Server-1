@@ -27,7 +27,8 @@ public class GroupPrayHandler implements RandomMethodIF {
 	private GroupPrayOpenMainViewMsgReceiver openMainViewMsgReceiver = new GroupPrayOpenMainViewMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "打开主界面");
 	private GroupPrayCommonMsgReceiver needPrayMsgReceiver = new GroupPrayCommonMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "请求祈福");
 	private GroupPrayCommonMsgReceiver sendPrayMsgReceiver = new GroupPrayCommonMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "给群成员祈福");
-	private GroupPrayCommonMsgReceiver getPrayRewardMsgReceiver = new GroupPrayCommonMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "领取祈福奖励");
+
+	// private GroupPrayCommonMsgReceiver getPrayRewardMsgReceiver = new GroupPrayCommonMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "领取祈福奖励");
 
 	private GroupPrayHandler() {
 	}
@@ -82,18 +83,18 @@ public class GroupPrayHandler implements RandomMethodIF {
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), sendPrayMsgReceiver);
 	}
 
-	/**
-	 * 获取祈福奖励
-	 * 
-	 * @param client
-	 * @return
-	 */
-	public boolean getGroupPrayRewardHandler(Client client) {
-		GroupPrayCommonReqMsg.Builder req = GroupPrayCommonReqMsg.newBuilder();
-		req.setReqType(ReqType.GET_PRAY_REWARD);
-
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), getPrayRewardMsgReceiver);
-	}
+	// /**
+	// * 获取祈福奖励
+	// *
+	// * @param client
+	// * @return
+	// */
+	// public boolean getGroupPrayRewardHandler(Client client) {
+	// GroupPrayCommonReqMsg.Builder req = GroupPrayCommonReqMsg.newBuilder();
+	// req.setReqType(ReqType.GET_PRAY_REWARD);
+	//
+	// return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), getPrayRewardMsgReceiver);
+	// }
 
 	@Override
 	public boolean executeMethod(Client client) {

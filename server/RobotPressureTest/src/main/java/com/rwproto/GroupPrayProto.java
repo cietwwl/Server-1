@@ -4,5201 +4,5785 @@
 package com.rwproto;
 
 public final class GroupPrayProto {
-  private GroupPrayProto() {}
-  public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistry registry) {
-  }
-  /**
-   * Protobuf enum {@code groupproto.ReqType}
-   */
-  public enum ReqType
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>OPEN_MAIN_VIEW = 1;</code>
-     *
-     * <pre>
-     *打开祈福主界面
-     * </pre>
-     */
-    OPEN_MAIN_VIEW(0, 1),
-    /**
-     * <code>NEED_PRAY = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    NEED_PRAY(1, 2),
-    /**
-     * <code>SEND_PRAY = 3;</code>
-     *
-     * <pre>
-     *赠送卡片给某人
-     * </pre>
-     */
-    SEND_PRAY(2, 3),
-    /**
-     * <code>GET_PRAY_REWARD = 4;</code>
-     *
-     * <pre>
-     *获取祈福的奖励
-     * </pre>
-     */
-    GET_PRAY_REWARD(3, 4),
-    ;
-
-    /**
-     * <code>OPEN_MAIN_VIEW = 1;</code>
-     *
-     * <pre>
-     *打开祈福主界面
-     * </pre>
-     */
-    public static final int OPEN_MAIN_VIEW_VALUE = 1;
-    /**
-     * <code>NEED_PRAY = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    public static final int NEED_PRAY_VALUE = 2;
-    /**
-     * <code>SEND_PRAY = 3;</code>
-     *
-     * <pre>
-     *赠送卡片给某人
-     * </pre>
-     */
-    public static final int SEND_PRAY_VALUE = 3;
-    /**
-     * <code>GET_PRAY_REWARD = 4;</code>
-     *
-     * <pre>
-     *获取祈福的奖励
-     * </pre>
-     */
-    public static final int GET_PRAY_REWARD_VALUE = 4;
-
-
-    public final int getNumber() { return value; }
-
-    public static ReqType valueOf(int value) {
-      switch (value) {
-        case 1: return OPEN_MAIN_VIEW;
-        case 2: return NEED_PRAY;
-        case 3: return SEND_PRAY;
-        case 4: return GET_PRAY_REWARD;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<ReqType>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<ReqType>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<ReqType>() {
-            public ReqType findValueByNumber(int number) {
-              return ReqType.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final ReqType[] VALUES = values();
-
-    public static ReqType valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private ReqType(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:groupproto.ReqType)
-  }
-
-  public interface PrayEntryOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required string memberId = 1;
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *成员的Id
-     * </pre>
-     */
-    boolean hasMemberId();
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *成员的Id
-     * </pre>
-     */
-    java.lang.String getMemberId();
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *成员的Id
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getMemberIdBytes();
-
-    // required int32 soulId = 2;
-    /**
-     * <code>required int32 soulId = 2;</code>
-     *
-     * <pre>
-     *魂石的Id
-     * </pre>
-     */
-    boolean hasSoulId();
-    /**
-     * <code>required int32 soulId = 2;</code>
-     *
-     * <pre>
-     *魂石的Id
-     * </pre>
-     */
-    int getSoulId();
-
-    // required int32 process = 3;
-    /**
-     * <code>required int32 process = 3;</code>
-     *
-     * <pre>
-     *进度
-     * </pre>
-     */
-    boolean hasProcess();
-    /**
-     * <code>required int32 process = 3;</code>
-     *
-     * <pre>
-     *进度
-     * </pre>
-     */
-    int getProcess();
-
-    // required bool hasSend = 4;
-    /**
-     * <code>required bool hasSend = 4;</code>
-     *
-     * <pre>
-     *是否赠送过这个人
-     * </pre>
-     */
-    boolean hasHasSend();
-    /**
-     * <code>required bool hasSend = 4;</code>
-     *
-     * <pre>
-     *是否赠送过这个人
-     * </pre>
-     */
-    boolean getHasSend();
-  }
-  /**
-   * Protobuf type {@code groupproto.PrayEntry}
-   *
-   * <pre>
-   *单个祈福的数据
-   * </pre>
-   */
-  public static final class PrayEntry extends
-      com.google.protobuf.GeneratedMessage
-      implements PrayEntryOrBuilder {
-    // Use PrayEntry.newBuilder() to construct.
-    private PrayEntry(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private PrayEntry(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final PrayEntry defaultInstance;
-    public static PrayEntry getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public PrayEntry getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private PrayEntry(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              memberId_ = input.readBytes();
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              soulId_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              process_ = input.readInt32();
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000008;
-              hasSend_ = input.readBool();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupPrayProto.PrayEntry.class, com.rwproto.GroupPrayProto.PrayEntry.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<PrayEntry> PARSER =
-        new com.google.protobuf.AbstractParser<PrayEntry>() {
-      public PrayEntry parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new PrayEntry(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<PrayEntry> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required string memberId = 1;
-    public static final int MEMBERID_FIELD_NUMBER = 1;
-    private java.lang.Object memberId_;
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *成员的Id
-     * </pre>
-     */
-    public boolean hasMemberId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *成员的Id
-     * </pre>
-     */
-    public java.lang.String getMemberId() {
-      java.lang.Object ref = memberId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          memberId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *成员的Id
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getMemberIdBytes() {
-      java.lang.Object ref = memberId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        memberId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // required int32 soulId = 2;
-    public static final int SOULID_FIELD_NUMBER = 2;
-    private int soulId_;
-    /**
-     * <code>required int32 soulId = 2;</code>
-     *
-     * <pre>
-     *魂石的Id
-     * </pre>
-     */
-    public boolean hasSoulId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 soulId = 2;</code>
-     *
-     * <pre>
-     *魂石的Id
-     * </pre>
-     */
-    public int getSoulId() {
-      return soulId_;
-    }
-
-    // required int32 process = 3;
-    public static final int PROCESS_FIELD_NUMBER = 3;
-    private int process_;
-    /**
-     * <code>required int32 process = 3;</code>
-     *
-     * <pre>
-     *进度
-     * </pre>
-     */
-    public boolean hasProcess() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>required int32 process = 3;</code>
-     *
-     * <pre>
-     *进度
-     * </pre>
-     */
-    public int getProcess() {
-      return process_;
-    }
-
-    // required bool hasSend = 4;
-    public static final int HASSEND_FIELD_NUMBER = 4;
-    private boolean hasSend_;
-    /**
-     * <code>required bool hasSend = 4;</code>
-     *
-     * <pre>
-     *是否赠送过这个人
-     * </pre>
-     */
-    public boolean hasHasSend() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required bool hasSend = 4;</code>
-     *
-     * <pre>
-     *是否赠送过这个人
-     * </pre>
-     */
-    public boolean getHasSend() {
-      return hasSend_;
-    }
-
-    private void initFields() {
-      memberId_ = "";
-      soulId_ = 0;
-      process_ = 0;
-      hasSend_ = false;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasMemberId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasSoulId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasProcess()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasHasSend()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getMemberIdBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, soulId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, process_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(4, hasSend_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getMemberIdBytes());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, soulId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, process_);
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(4, hasSend_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupPrayProto.PrayEntry prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupproto.PrayEntry}
-     *
-     * <pre>
-     *单个祈福的数据
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupPrayProto.PrayEntryOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupPrayProto.PrayEntry.class, com.rwproto.GroupPrayProto.PrayEntry.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupPrayProto.PrayEntry.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        memberId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        soulId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        process_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        hasSend_ = false;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_descriptor;
-      }
-
-      public com.rwproto.GroupPrayProto.PrayEntry getDefaultInstanceForType() {
-        return com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupPrayProto.PrayEntry build() {
-        com.rwproto.GroupPrayProto.PrayEntry result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupPrayProto.PrayEntry buildPartial() {
-        com.rwproto.GroupPrayProto.PrayEntry result = new com.rwproto.GroupPrayProto.PrayEntry(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.memberId_ = memberId_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.soulId_ = soulId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.process_ = process_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        result.hasSend_ = hasSend_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupPrayProto.PrayEntry) {
-          return mergeFrom((com.rwproto.GroupPrayProto.PrayEntry)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupPrayProto.PrayEntry other) {
-        if (other == com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance()) return this;
-        if (other.hasMemberId()) {
-          bitField0_ |= 0x00000001;
-          memberId_ = other.memberId_;
-          onChanged();
-        }
-        if (other.hasSoulId()) {
-          setSoulId(other.getSoulId());
-        }
-        if (other.hasProcess()) {
-          setProcess(other.getProcess());
-        }
-        if (other.hasHasSend()) {
-          setHasSend(other.getHasSend());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasMemberId()) {
-          
-          return false;
-        }
-        if (!hasSoulId()) {
-          
-          return false;
-        }
-        if (!hasProcess()) {
-          
-          return false;
-        }
-        if (!hasHasSend()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupPrayProto.PrayEntry parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupPrayProto.PrayEntry) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required string memberId = 1;
-      private java.lang.Object memberId_ = "";
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *成员的Id
-       * </pre>
-       */
-      public boolean hasMemberId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *成员的Id
-       * </pre>
-       */
-      public java.lang.String getMemberId() {
-        java.lang.Object ref = memberId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          memberId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *成员的Id
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getMemberIdBytes() {
-        java.lang.Object ref = memberId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          memberId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *成员的Id
-       * </pre>
-       */
-      public Builder setMemberId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        memberId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *成员的Id
-       * </pre>
-       */
-      public Builder clearMemberId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        memberId_ = getDefaultInstance().getMemberId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *成员的Id
-       * </pre>
-       */
-      public Builder setMemberIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        memberId_ = value;
-        onChanged();
-        return this;
-      }
-
-      // required int32 soulId = 2;
-      private int soulId_ ;
-      /**
-       * <code>required int32 soulId = 2;</code>
-       *
-       * <pre>
-       *魂石的Id
-       * </pre>
-       */
-      public boolean hasSoulId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 soulId = 2;</code>
-       *
-       * <pre>
-       *魂石的Id
-       * </pre>
-       */
-      public int getSoulId() {
-        return soulId_;
-      }
-      /**
-       * <code>required int32 soulId = 2;</code>
-       *
-       * <pre>
-       *魂石的Id
-       * </pre>
-       */
-      public Builder setSoulId(int value) {
-        bitField0_ |= 0x00000002;
-        soulId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 soulId = 2;</code>
-       *
-       * <pre>
-       *魂石的Id
-       * </pre>
-       */
-      public Builder clearSoulId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        soulId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required int32 process = 3;
-      private int process_ ;
-      /**
-       * <code>required int32 process = 3;</code>
-       *
-       * <pre>
-       *进度
-       * </pre>
-       */
-      public boolean hasProcess() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 process = 3;</code>
-       *
-       * <pre>
-       *进度
-       * </pre>
-       */
-      public int getProcess() {
-        return process_;
-      }
-      /**
-       * <code>required int32 process = 3;</code>
-       *
-       * <pre>
-       *进度
-       * </pre>
-       */
-      public Builder setProcess(int value) {
-        bitField0_ |= 0x00000004;
-        process_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 process = 3;</code>
-       *
-       * <pre>
-       *进度
-       * </pre>
-       */
-      public Builder clearProcess() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        process_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool hasSend = 4;
-      private boolean hasSend_ ;
-      /**
-       * <code>required bool hasSend = 4;</code>
-       *
-       * <pre>
-       *是否赠送过这个人
-       * </pre>
-       */
-      public boolean hasHasSend() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required bool hasSend = 4;</code>
-       *
-       * <pre>
-       *是否赠送过这个人
-       * </pre>
-       */
-      public boolean getHasSend() {
-        return hasSend_;
-      }
-      /**
-       * <code>required bool hasSend = 4;</code>
-       *
-       * <pre>
-       *是否赠送过这个人
-       * </pre>
-       */
-      public Builder setHasSend(boolean value) {
-        bitField0_ |= 0x00000008;
-        hasSend_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool hasSend = 4;</code>
-       *
-       * <pre>
-       *是否赠送过这个人
-       * </pre>
-       */
-      public Builder clearHasSend() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        hasSend_ = false;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupproto.PrayEntry)
-    }
-
-    static {
-      defaultInstance = new PrayEntry(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupproto.PrayEntry)
-  }
-
-  public interface OpenPrayMainViewRspMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated .groupproto.PrayEntry entry = 1;
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    java.util.List<com.rwproto.GroupPrayProto.PrayEntry> 
-        getEntryList();
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.PrayEntry getEntry(int index);
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    int getEntryCount();
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    java.util.List<? extends com.rwproto.GroupPrayProto.PrayEntryOrBuilder> 
-        getEntryOrBuilderList();
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.PrayEntryOrBuilder getEntryOrBuilder(
-        int index);
-
-    // required bool hasPray = 2;
-    /**
-     * <code>required bool hasPray = 2;</code>
-     *
-     * <pre>
-     *自己是否祈福过
-     * </pre>
-     */
-    boolean hasHasPray();
-    /**
-     * <code>required bool hasPray = 2;</code>
-     *
-     * <pre>
-     *自己是否祈福过
-     * </pre>
-     */
-    boolean getHasPray();
-
-    // required bool hasGetPrayReward = 3;
-    /**
-     * <code>required bool hasGetPrayReward = 3;</code>
-     *
-     * <pre>
-     *是否已经领取了奖励
-     * </pre>
-     */
-    boolean hasHasGetPrayReward();
-    /**
-     * <code>required bool hasGetPrayReward = 3;</code>
-     *
-     * <pre>
-     *是否已经领取了奖励
-     * </pre>
-     */
-    boolean getHasGetPrayReward();
-  }
-  /**
-   * Protobuf type {@code groupproto.OpenPrayMainViewRspMsg}
-   *
-   * <pre>
-   *请求打开祈福界面
-   * </pre>
-   */
-  public static final class OpenPrayMainViewRspMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements OpenPrayMainViewRspMsgOrBuilder {
-    // Use OpenPrayMainViewRspMsg.newBuilder() to construct.
-    private OpenPrayMainViewRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private OpenPrayMainViewRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final OpenPrayMainViewRspMsg defaultInstance;
-    public static OpenPrayMainViewRspMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public OpenPrayMainViewRspMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private OpenPrayMainViewRspMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                entry_ = new java.util.ArrayList<com.rwproto.GroupPrayProto.PrayEntry>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              entry_.add(input.readMessage(com.rwproto.GroupPrayProto.PrayEntry.PARSER, extensionRegistry));
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000001;
-              hasPray_ = input.readBool();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000002;
-              hasGetPrayReward_ = input.readBool();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          entry_ = java.util.Collections.unmodifiableList(entry_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.class, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<OpenPrayMainViewRspMsg> PARSER =
-        new com.google.protobuf.AbstractParser<OpenPrayMainViewRspMsg>() {
-      public OpenPrayMainViewRspMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new OpenPrayMainViewRspMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<OpenPrayMainViewRspMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // repeated .groupproto.PrayEntry entry = 1;
-    public static final int ENTRY_FIELD_NUMBER = 1;
-    private java.util.List<com.rwproto.GroupPrayProto.PrayEntry> entry_;
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    public java.util.List<com.rwproto.GroupPrayProto.PrayEntry> getEntryList() {
-      return entry_;
-    }
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    public java.util.List<? extends com.rwproto.GroupPrayProto.PrayEntryOrBuilder> 
-        getEntryOrBuilderList() {
-      return entry_;
-    }
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    public int getEntryCount() {
-      return entry_.size();
-    }
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.PrayEntry getEntry(int index) {
-      return entry_.get(index);
-    }
-    /**
-     * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-     *
-     * <pre>
-     *所有成员祈福数据
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.PrayEntryOrBuilder getEntryOrBuilder(
-        int index) {
-      return entry_.get(index);
-    }
-
-    // required bool hasPray = 2;
-    public static final int HASPRAY_FIELD_NUMBER = 2;
-    private boolean hasPray_;
-    /**
-     * <code>required bool hasPray = 2;</code>
-     *
-     * <pre>
-     *自己是否祈福过
-     * </pre>
-     */
-    public boolean hasHasPray() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required bool hasPray = 2;</code>
-     *
-     * <pre>
-     *自己是否祈福过
-     * </pre>
-     */
-    public boolean getHasPray() {
-      return hasPray_;
-    }
-
-    // required bool hasGetPrayReward = 3;
-    public static final int HASGETPRAYREWARD_FIELD_NUMBER = 3;
-    private boolean hasGetPrayReward_;
-    /**
-     * <code>required bool hasGetPrayReward = 3;</code>
-     *
-     * <pre>
-     *是否已经领取了奖励
-     * </pre>
-     */
-    public boolean hasHasGetPrayReward() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bool hasGetPrayReward = 3;</code>
-     *
-     * <pre>
-     *是否已经领取了奖励
-     * </pre>
-     */
-    public boolean getHasGetPrayReward() {
-      return hasGetPrayReward_;
-    }
-
-    private void initFields() {
-      entry_ = java.util.Collections.emptyList();
-      hasPray_ = false;
-      hasGetPrayReward_ = false;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasHasPray()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasHasGetPrayReward()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getEntryCount(); i++) {
-        if (!getEntry(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < entry_.size(); i++) {
-        output.writeMessage(1, entry_.get(i));
-      }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(2, hasPray_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(3, hasGetPrayReward_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < entry_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, entry_.get(i));
-      }
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, hasPray_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, hasGetPrayReward_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupproto.OpenPrayMainViewRspMsg}
-     *
-     * <pre>
-     *请求打开祈福界面
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.class, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getEntryFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (entryBuilder_ == null) {
-          entry_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          entryBuilder_.clear();
-        }
-        hasPray_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        hasGetPrayReward_ = false;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
-      }
-
-      public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg build() {
-        com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg buildPartial() {
-        com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg result = new com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (entryBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            entry_ = java.util.Collections.unmodifiableList(entry_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.entry_ = entry_;
-        } else {
-          result.entry_ = entryBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.hasPray_ = hasPray_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.hasGetPrayReward_ = hasGetPrayReward_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg) {
-          return mergeFrom((com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg other) {
-        if (other == com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance()) return this;
-        if (entryBuilder_ == null) {
-          if (!other.entry_.isEmpty()) {
-            if (entry_.isEmpty()) {
-              entry_ = other.entry_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureEntryIsMutable();
-              entry_.addAll(other.entry_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.entry_.isEmpty()) {
-            if (entryBuilder_.isEmpty()) {
-              entryBuilder_.dispose();
-              entryBuilder_ = null;
-              entry_ = other.entry_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              entryBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getEntryFieldBuilder() : null;
-            } else {
-              entryBuilder_.addAllMessages(other.entry_);
-            }
-          }
-        }
-        if (other.hasHasPray()) {
-          setHasPray(other.getHasPray());
-        }
-        if (other.hasHasGetPrayReward()) {
-          setHasGetPrayReward(other.getHasGetPrayReward());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasHasPray()) {
-          
-          return false;
-        }
-        if (!hasHasGetPrayReward()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getEntryCount(); i++) {
-          if (!getEntry(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // repeated .groupproto.PrayEntry entry = 1;
-      private java.util.List<com.rwproto.GroupPrayProto.PrayEntry> entry_ =
-        java.util.Collections.emptyList();
-      private void ensureEntryIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          entry_ = new java.util.ArrayList<com.rwproto.GroupPrayProto.PrayEntry>(entry_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupPrayProto.PrayEntry, com.rwproto.GroupPrayProto.PrayEntry.Builder, com.rwproto.GroupPrayProto.PrayEntryOrBuilder> entryBuilder_;
-
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public java.util.List<com.rwproto.GroupPrayProto.PrayEntry> getEntryList() {
-        if (entryBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(entry_);
-        } else {
-          return entryBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public int getEntryCount() {
-        if (entryBuilder_ == null) {
-          return entry_.size();
-        } else {
-          return entryBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.PrayEntry getEntry(int index) {
-        if (entryBuilder_ == null) {
-          return entry_.get(index);
-        } else {
-          return entryBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder setEntry(
-          int index, com.rwproto.GroupPrayProto.PrayEntry value) {
-        if (entryBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureEntryIsMutable();
-          entry_.set(index, value);
-          onChanged();
-        } else {
-          entryBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder setEntry(
-          int index, com.rwproto.GroupPrayProto.PrayEntry.Builder builderForValue) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          entryBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder addEntry(com.rwproto.GroupPrayProto.PrayEntry value) {
-        if (entryBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureEntryIsMutable();
-          entry_.add(value);
-          onChanged();
-        } else {
-          entryBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder addEntry(
-          int index, com.rwproto.GroupPrayProto.PrayEntry value) {
-        if (entryBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureEntryIsMutable();
-          entry_.add(index, value);
-          onChanged();
-        } else {
-          entryBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder addEntry(
-          com.rwproto.GroupPrayProto.PrayEntry.Builder builderForValue) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.add(builderForValue.build());
-          onChanged();
-        } else {
-          entryBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder addEntry(
-          int index, com.rwproto.GroupPrayProto.PrayEntry.Builder builderForValue) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          entryBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder addAllEntry(
-          java.lang.Iterable<? extends com.rwproto.GroupPrayProto.PrayEntry> values) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          super.addAll(values, entry_);
-          onChanged();
-        } else {
-          entryBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder clearEntry() {
-        if (entryBuilder_ == null) {
-          entry_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          entryBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public Builder removeEntry(int index) {
-        if (entryBuilder_ == null) {
-          ensureEntryIsMutable();
-          entry_.remove(index);
-          onChanged();
-        } else {
-          entryBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.PrayEntry.Builder getEntryBuilder(
-          int index) {
-        return getEntryFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.PrayEntryOrBuilder getEntryOrBuilder(
-          int index) {
-        if (entryBuilder_ == null) {
-          return entry_.get(index);  } else {
-          return entryBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public java.util.List<? extends com.rwproto.GroupPrayProto.PrayEntryOrBuilder> 
-           getEntryOrBuilderList() {
-        if (entryBuilder_ != null) {
-          return entryBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(entry_);
-        }
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.PrayEntry.Builder addEntryBuilder() {
-        return getEntryFieldBuilder().addBuilder(
-            com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.PrayEntry.Builder addEntryBuilder(
-          int index) {
-        return getEntryFieldBuilder().addBuilder(
-            index, com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupproto.PrayEntry entry = 1;</code>
-       *
-       * <pre>
-       *所有成员祈福数据
-       * </pre>
-       */
-      public java.util.List<com.rwproto.GroupPrayProto.PrayEntry.Builder> 
-           getEntryBuilderList() {
-        return getEntryFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupPrayProto.PrayEntry, com.rwproto.GroupPrayProto.PrayEntry.Builder, com.rwproto.GroupPrayProto.PrayEntryOrBuilder> 
-          getEntryFieldBuilder() {
-        if (entryBuilder_ == null) {
-          entryBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.GroupPrayProto.PrayEntry, com.rwproto.GroupPrayProto.PrayEntry.Builder, com.rwproto.GroupPrayProto.PrayEntryOrBuilder>(
-                  entry_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          entry_ = null;
-        }
-        return entryBuilder_;
-      }
-
-      // required bool hasPray = 2;
-      private boolean hasPray_ ;
-      /**
-       * <code>required bool hasPray = 2;</code>
-       *
-       * <pre>
-       *自己是否祈福过
-       * </pre>
-       */
-      public boolean hasHasPray() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bool hasPray = 2;</code>
-       *
-       * <pre>
-       *自己是否祈福过
-       * </pre>
-       */
-      public boolean getHasPray() {
-        return hasPray_;
-      }
-      /**
-       * <code>required bool hasPray = 2;</code>
-       *
-       * <pre>
-       *自己是否祈福过
-       * </pre>
-       */
-      public Builder setHasPray(boolean value) {
-        bitField0_ |= 0x00000002;
-        hasPray_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool hasPray = 2;</code>
-       *
-       * <pre>
-       *自己是否祈福过
-       * </pre>
-       */
-      public Builder clearHasPray() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        hasPray_ = false;
-        onChanged();
-        return this;
-      }
-
-      // required bool hasGetPrayReward = 3;
-      private boolean hasGetPrayReward_ ;
-      /**
-       * <code>required bool hasGetPrayReward = 3;</code>
-       *
-       * <pre>
-       *是否已经领取了奖励
-       * </pre>
-       */
-      public boolean hasHasGetPrayReward() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required bool hasGetPrayReward = 3;</code>
-       *
-       * <pre>
-       *是否已经领取了奖励
-       * </pre>
-       */
-      public boolean getHasGetPrayReward() {
-        return hasGetPrayReward_;
-      }
-      /**
-       * <code>required bool hasGetPrayReward = 3;</code>
-       *
-       * <pre>
-       *是否已经领取了奖励
-       * </pre>
-       */
-      public Builder setHasGetPrayReward(boolean value) {
-        bitField0_ |= 0x00000004;
-        hasGetPrayReward_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool hasGetPrayReward = 3;</code>
-       *
-       * <pre>
-       *是否已经领取了奖励
-       * </pre>
-       */
-      public Builder clearHasGetPrayReward() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        hasGetPrayReward_ = false;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupproto.OpenPrayMainViewRspMsg)
-    }
-
-    static {
-      defaultInstance = new OpenPrayMainViewRspMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupproto.OpenPrayMainViewRspMsg)
-  }
-
-  public interface NeedPrayReqMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required int32 soulId = 1;
-    /**
-     * <code>required int32 soulId = 1;</code>
-     *
-     * <pre>
-     *请求的魂石Id
-     * </pre>
-     */
-    boolean hasSoulId();
-    /**
-     * <code>required int32 soulId = 1;</code>
-     *
-     * <pre>
-     *请求的魂石Id
-     * </pre>
-     */
-    int getSoulId();
-  }
-  /**
-   * Protobuf type {@code groupproto.NeedPrayReqMsg}
-   *
-   * <pre>
-   *请求祈福的消息
-   * </pre>
-   */
-  public static final class NeedPrayReqMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements NeedPrayReqMsgOrBuilder {
-    // Use NeedPrayReqMsg.newBuilder() to construct.
-    private NeedPrayReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private NeedPrayReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final NeedPrayReqMsg defaultInstance;
-    public static NeedPrayReqMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public NeedPrayReqMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private NeedPrayReqMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              soulId_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupPrayProto.NeedPrayReqMsg.class, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<NeedPrayReqMsg> PARSER =
-        new com.google.protobuf.AbstractParser<NeedPrayReqMsg>() {
-      public NeedPrayReqMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new NeedPrayReqMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<NeedPrayReqMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required int32 soulId = 1;
-    public static final int SOULID_FIELD_NUMBER = 1;
-    private int soulId_;
-    /**
-     * <code>required int32 soulId = 1;</code>
-     *
-     * <pre>
-     *请求的魂石Id
-     * </pre>
-     */
-    public boolean hasSoulId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required int32 soulId = 1;</code>
-     *
-     * <pre>
-     *请求的魂石Id
-     * </pre>
-     */
-    public int getSoulId() {
-      return soulId_;
-    }
-
-    private void initFields() {
-      soulId_ = 0;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasSoulId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, soulId_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, soulId_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupPrayProto.NeedPrayReqMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupproto.NeedPrayReqMsg}
-     *
-     * <pre>
-     *请求祈福的消息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupPrayProto.NeedPrayReqMsg.class, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupPrayProto.NeedPrayReqMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        soulId_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_descriptor;
-      }
-
-      public com.rwproto.GroupPrayProto.NeedPrayReqMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupPrayProto.NeedPrayReqMsg build() {
-        com.rwproto.GroupPrayProto.NeedPrayReqMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupPrayProto.NeedPrayReqMsg buildPartial() {
-        com.rwproto.GroupPrayProto.NeedPrayReqMsg result = new com.rwproto.GroupPrayProto.NeedPrayReqMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.soulId_ = soulId_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupPrayProto.NeedPrayReqMsg) {
-          return mergeFrom((com.rwproto.GroupPrayProto.NeedPrayReqMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupPrayProto.NeedPrayReqMsg other) {
-        if (other == com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance()) return this;
-        if (other.hasSoulId()) {
-          setSoulId(other.getSoulId());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasSoulId()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupPrayProto.NeedPrayReqMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupPrayProto.NeedPrayReqMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required int32 soulId = 1;
-      private int soulId_ ;
-      /**
-       * <code>required int32 soulId = 1;</code>
-       *
-       * <pre>
-       *请求的魂石Id
-       * </pre>
-       */
-      public boolean hasSoulId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required int32 soulId = 1;</code>
-       *
-       * <pre>
-       *请求的魂石Id
-       * </pre>
-       */
-      public int getSoulId() {
-        return soulId_;
-      }
-      /**
-       * <code>required int32 soulId = 1;</code>
-       *
-       * <pre>
-       *请求的魂石Id
-       * </pre>
-       */
-      public Builder setSoulId(int value) {
-        bitField0_ |= 0x00000001;
-        soulId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 soulId = 1;</code>
-       *
-       * <pre>
-       *请求的魂石Id
-       * </pre>
-       */
-      public Builder clearSoulId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        soulId_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupproto.NeedPrayReqMsg)
-    }
-
-    static {
-      defaultInstance = new NeedPrayReqMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupproto.NeedPrayReqMsg)
-  }
-
-  public interface SendPrayReqMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required string memberId = 1;
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *赠送给成员的Id
-     * </pre>
-     */
-    boolean hasMemberId();
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *赠送给成员的Id
-     * </pre>
-     */
-    java.lang.String getMemberId();
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *赠送给成员的Id
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getMemberIdBytes();
-  }
-  /**
-   * Protobuf type {@code groupproto.SendPrayReqMsg}
-   *
-   * <pre>
-   *给某人赠送卡片的消息
-   * </pre>
-   */
-  public static final class SendPrayReqMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements SendPrayReqMsgOrBuilder {
-    // Use SendPrayReqMsg.newBuilder() to construct.
-    private SendPrayReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private SendPrayReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final SendPrayReqMsg defaultInstance;
-    public static SendPrayReqMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public SendPrayReqMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private SendPrayReqMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              bitField0_ |= 0x00000001;
-              memberId_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupPrayProto.SendPrayReqMsg.class, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<SendPrayReqMsg> PARSER =
-        new com.google.protobuf.AbstractParser<SendPrayReqMsg>() {
-      public SendPrayReqMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new SendPrayReqMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<SendPrayReqMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required string memberId = 1;
-    public static final int MEMBERID_FIELD_NUMBER = 1;
-    private java.lang.Object memberId_;
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *赠送给成员的Id
-     * </pre>
-     */
-    public boolean hasMemberId() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *赠送给成员的Id
-     * </pre>
-     */
-    public java.lang.String getMemberId() {
-      java.lang.Object ref = memberId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          memberId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string memberId = 1;</code>
-     *
-     * <pre>
-     *赠送给成员的Id
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getMemberIdBytes() {
-      java.lang.Object ref = memberId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        memberId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    private void initFields() {
-      memberId_ = "";
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasMemberId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getMemberIdBytes());
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getMemberIdBytes());
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupPrayProto.SendPrayReqMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupproto.SendPrayReqMsg}
-     *
-     * <pre>
-     *给某人赠送卡片的消息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupPrayProto.SendPrayReqMsg.class, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupPrayProto.SendPrayReqMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        memberId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_descriptor;
-      }
-
-      public com.rwproto.GroupPrayProto.SendPrayReqMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupPrayProto.SendPrayReqMsg build() {
-        com.rwproto.GroupPrayProto.SendPrayReqMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupPrayProto.SendPrayReqMsg buildPartial() {
-        com.rwproto.GroupPrayProto.SendPrayReqMsg result = new com.rwproto.GroupPrayProto.SendPrayReqMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.memberId_ = memberId_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupPrayProto.SendPrayReqMsg) {
-          return mergeFrom((com.rwproto.GroupPrayProto.SendPrayReqMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupPrayProto.SendPrayReqMsg other) {
-        if (other == com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance()) return this;
-        if (other.hasMemberId()) {
-          bitField0_ |= 0x00000001;
-          memberId_ = other.memberId_;
-          onChanged();
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasMemberId()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupPrayProto.SendPrayReqMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupPrayProto.SendPrayReqMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required string memberId = 1;
-      private java.lang.Object memberId_ = "";
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *赠送给成员的Id
-       * </pre>
-       */
-      public boolean hasMemberId() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *赠送给成员的Id
-       * </pre>
-       */
-      public java.lang.String getMemberId() {
-        java.lang.Object ref = memberId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          memberId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *赠送给成员的Id
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getMemberIdBytes() {
-        java.lang.Object ref = memberId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          memberId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *赠送给成员的Id
-       * </pre>
-       */
-      public Builder setMemberId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        memberId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *赠送给成员的Id
-       * </pre>
-       */
-      public Builder clearMemberId() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        memberId_ = getDefaultInstance().getMemberId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string memberId = 1;</code>
-       *
-       * <pre>
-       *赠送给成员的Id
-       * </pre>
-       */
-      public Builder setMemberIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        memberId_ = value;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupproto.SendPrayReqMsg)
-    }
-
-    static {
-      defaultInstance = new SendPrayReqMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupproto.SendPrayReqMsg)
-  }
-
-  public interface GroupPrayCommonReqMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required .groupproto.ReqType reqType = 1;
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    boolean hasReqType();
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.ReqType getReqType();
-
-    // optional .groupproto.NeedPrayReqMsg needPrayReq = 2;
-    /**
-     * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    boolean hasNeedPrayReq();
-    /**
-     * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.NeedPrayReqMsg getNeedPrayReq();
-    /**
-     * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder getNeedPrayReqOrBuilder();
-
-    // optional .groupproto.SendPrayReqMsg sendPrayReq = 3;
-    /**
-     * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-     *
-     * <pre>
-     *赠送卡片
-     * </pre>
-     */
-    boolean hasSendPrayReq();
-    /**
-     * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-     *
-     * <pre>
-     *赠送卡片
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.SendPrayReqMsg getSendPrayReq();
-    /**
-     * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-     *
-     * <pre>
-     *赠送卡片
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder getSendPrayReqOrBuilder();
-  }
-  /**
-   * Protobuf type {@code groupproto.GroupPrayCommonReqMsg}
-   *
-   * <pre>
-   *祈福的通用请求消息
-   * </pre>
-   */
-  public static final class GroupPrayCommonReqMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements GroupPrayCommonReqMsgOrBuilder {
-    // Use GroupPrayCommonReqMsg.newBuilder() to construct.
-    private GroupPrayCommonReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GroupPrayCommonReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GroupPrayCommonReqMsg defaultInstance;
-    public static GroupPrayCommonReqMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GroupPrayCommonReqMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GroupPrayCommonReqMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.GroupPrayProto.ReqType value = com.rwproto.GroupPrayProto.ReqType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                reqType_ = value;
-              }
-              break;
-            }
-            case 18: {
-              com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = needPrayReq_.toBuilder();
-              }
-              needPrayReq_ = input.readMessage(com.rwproto.GroupPrayProto.NeedPrayReqMsg.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(needPrayReq_);
-                needPrayReq_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-            case 26: {
-              com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                subBuilder = sendPrayReq_.toBuilder();
-              }
-              sendPrayReq_ = input.readMessage(com.rwproto.GroupPrayProto.SendPrayReqMsg.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(sendPrayReq_);
-                sendPrayReq_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000004;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GroupPrayCommonReqMsg> PARSER =
-        new com.google.protobuf.AbstractParser<GroupPrayCommonReqMsg>() {
-      public GroupPrayCommonReqMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GroupPrayCommonReqMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GroupPrayCommonReqMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required .groupproto.ReqType reqType = 1;
-    public static final int REQTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.GroupPrayProto.ReqType reqType_;
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    public boolean hasReqType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.ReqType getReqType() {
-      return reqType_;
-    }
-
-    // optional .groupproto.NeedPrayReqMsg needPrayReq = 2;
-    public static final int NEEDPRAYREQ_FIELD_NUMBER = 2;
-    private com.rwproto.GroupPrayProto.NeedPrayReqMsg needPrayReq_;
-    /**
-     * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    public boolean hasNeedPrayReq() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.NeedPrayReqMsg getNeedPrayReq() {
-      return needPrayReq_;
-    }
-    /**
-     * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-     *
-     * <pre>
-     *请求祈福
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder getNeedPrayReqOrBuilder() {
-      return needPrayReq_;
-    }
-
-    // optional .groupproto.SendPrayReqMsg sendPrayReq = 3;
-    public static final int SENDPRAYREQ_FIELD_NUMBER = 3;
-    private com.rwproto.GroupPrayProto.SendPrayReqMsg sendPrayReq_;
-    /**
-     * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-     *
-     * <pre>
-     *赠送卡片
-     * </pre>
-     */
-    public boolean hasSendPrayReq() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-     *
-     * <pre>
-     *赠送卡片
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.SendPrayReqMsg getSendPrayReq() {
-      return sendPrayReq_;
-    }
-    /**
-     * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-     *
-     * <pre>
-     *赠送卡片
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder getSendPrayReqOrBuilder() {
-      return sendPrayReq_;
-    }
-
-    private void initFields() {
-      reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-      needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
-      sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasReqType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (hasNeedPrayReq()) {
-        if (!getNeedPrayReq().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      if (hasSendPrayReq()) {
-        if (!getSendPrayReq().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, reqType_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, needPrayReq_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, sendPrayReq_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, reqType_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, needPrayReq_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, sendPrayReq_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupproto.GroupPrayCommonReqMsg}
-     *
-     * <pre>
-     *祈福的通用请求消息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupPrayProto.GroupPrayCommonReqMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getNeedPrayReqFieldBuilder();
-          getSendPrayReqFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (needPrayReqBuilder_ == null) {
-          needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
-        } else {
-          needPrayReqBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        if (sendPrayReqBuilder_ == null) {
-          sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
-        } else {
-          sendPrayReqBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
-      }
-
-      public com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg build() {
-        com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg buildPartial() {
-        com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg result = new com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.reqType_ = reqType_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        if (needPrayReqBuilder_ == null) {
-          result.needPrayReq_ = needPrayReq_;
-        } else {
-          result.needPrayReq_ = needPrayReqBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        if (sendPrayReqBuilder_ == null) {
-          result.sendPrayReq_ = sendPrayReq_;
-        } else {
-          result.sendPrayReq_ = sendPrayReqBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg) {
-          return mergeFrom((com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg other) {
-        if (other == com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.getDefaultInstance()) return this;
-        if (other.hasReqType()) {
-          setReqType(other.getReqType());
-        }
-        if (other.hasNeedPrayReq()) {
-          mergeNeedPrayReq(other.getNeedPrayReq());
-        }
-        if (other.hasSendPrayReq()) {
-          mergeSendPrayReq(other.getSendPrayReq());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasReqType()) {
-          
-          return false;
-        }
-        if (hasNeedPrayReq()) {
-          if (!getNeedPrayReq().isInitialized()) {
-            
-            return false;
-          }
-        }
-        if (hasSendPrayReq()) {
-          if (!getSendPrayReq().isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required .groupproto.ReqType reqType = 1;
-      private com.rwproto.GroupPrayProto.ReqType reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public boolean hasReqType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.ReqType getReqType() {
-        return reqType_;
-      }
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public Builder setReqType(com.rwproto.GroupPrayProto.ReqType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        reqType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public Builder clearReqType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-        onChanged();
-        return this;
-      }
-
-      // optional .groupproto.NeedPrayReqMsg needPrayReq = 2;
-      private com.rwproto.GroupPrayProto.NeedPrayReqMsg needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupPrayProto.NeedPrayReqMsg, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder, com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder> needPrayReqBuilder_;
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public boolean hasNeedPrayReq() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.NeedPrayReqMsg getNeedPrayReq() {
-        if (needPrayReqBuilder_ == null) {
-          return needPrayReq_;
-        } else {
-          return needPrayReqBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public Builder setNeedPrayReq(com.rwproto.GroupPrayProto.NeedPrayReqMsg value) {
-        if (needPrayReqBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          needPrayReq_ = value;
-          onChanged();
-        } else {
-          needPrayReqBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public Builder setNeedPrayReq(
-          com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder builderForValue) {
-        if (needPrayReqBuilder_ == null) {
-          needPrayReq_ = builderForValue.build();
-          onChanged();
-        } else {
-          needPrayReqBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public Builder mergeNeedPrayReq(com.rwproto.GroupPrayProto.NeedPrayReqMsg value) {
-        if (needPrayReqBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              needPrayReq_ != com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance()) {
-            needPrayReq_ =
-              com.rwproto.GroupPrayProto.NeedPrayReqMsg.newBuilder(needPrayReq_).mergeFrom(value).buildPartial();
-          } else {
-            needPrayReq_ = value;
-          }
-          onChanged();
-        } else {
-          needPrayReqBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000002;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public Builder clearNeedPrayReq() {
-        if (needPrayReqBuilder_ == null) {
-          needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
-          onChanged();
-        } else {
-          needPrayReqBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder getNeedPrayReqBuilder() {
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return getNeedPrayReqFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder getNeedPrayReqOrBuilder() {
-        if (needPrayReqBuilder_ != null) {
-          return needPrayReqBuilder_.getMessageOrBuilder();
-        } else {
-          return needPrayReq_;
-        }
-      }
-      /**
-       * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
-       *
-       * <pre>
-       *请求祈福
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupPrayProto.NeedPrayReqMsg, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder, com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder> 
-          getNeedPrayReqFieldBuilder() {
-        if (needPrayReqBuilder_ == null) {
-          needPrayReqBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.GroupPrayProto.NeedPrayReqMsg, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder, com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder>(
-                  needPrayReq_,
-                  getParentForChildren(),
-                  isClean());
-          needPrayReq_ = null;
-        }
-        return needPrayReqBuilder_;
-      }
-
-      // optional .groupproto.SendPrayReqMsg sendPrayReq = 3;
-      private com.rwproto.GroupPrayProto.SendPrayReqMsg sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupPrayProto.SendPrayReqMsg, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder, com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder> sendPrayReqBuilder_;
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public boolean hasSendPrayReq() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.SendPrayReqMsg getSendPrayReq() {
-        if (sendPrayReqBuilder_ == null) {
-          return sendPrayReq_;
-        } else {
-          return sendPrayReqBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public Builder setSendPrayReq(com.rwproto.GroupPrayProto.SendPrayReqMsg value) {
-        if (sendPrayReqBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          sendPrayReq_ = value;
-          onChanged();
-        } else {
-          sendPrayReqBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public Builder setSendPrayReq(
-          com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder builderForValue) {
-        if (sendPrayReqBuilder_ == null) {
-          sendPrayReq_ = builderForValue.build();
-          onChanged();
-        } else {
-          sendPrayReqBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public Builder mergeSendPrayReq(com.rwproto.GroupPrayProto.SendPrayReqMsg value) {
-        if (sendPrayReqBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004) &&
-              sendPrayReq_ != com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance()) {
-            sendPrayReq_ =
-              com.rwproto.GroupPrayProto.SendPrayReqMsg.newBuilder(sendPrayReq_).mergeFrom(value).buildPartial();
-          } else {
-            sendPrayReq_ = value;
-          }
-          onChanged();
-        } else {
-          sendPrayReqBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000004;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public Builder clearSendPrayReq() {
-        if (sendPrayReqBuilder_ == null) {
-          sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
-          onChanged();
-        } else {
-          sendPrayReqBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000004);
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder getSendPrayReqBuilder() {
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return getSendPrayReqFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder getSendPrayReqOrBuilder() {
-        if (sendPrayReqBuilder_ != null) {
-          return sendPrayReqBuilder_.getMessageOrBuilder();
-        } else {
-          return sendPrayReq_;
-        }
-      }
-      /**
-       * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
-       *
-       * <pre>
-       *赠送卡片
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupPrayProto.SendPrayReqMsg, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder, com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder> 
-          getSendPrayReqFieldBuilder() {
-        if (sendPrayReqBuilder_ == null) {
-          sendPrayReqBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.GroupPrayProto.SendPrayReqMsg, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder, com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder>(
-                  sendPrayReq_,
-                  getParentForChildren(),
-                  isClean());
-          sendPrayReq_ = null;
-        }
-        return sendPrayReqBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupproto.GroupPrayCommonReqMsg)
-    }
-
-    static {
-      defaultInstance = new GroupPrayCommonReqMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupproto.GroupPrayCommonReqMsg)
-  }
-
-  public interface GroupPrayCommonRspMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required .groupproto.ReqType reqType = 1;
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    boolean hasReqType();
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.ReqType getReqType();
-
-    // required bool isSuccess = 2;
-    /**
-     * <code>required bool isSuccess = 2;</code>
-     *
-     * <pre>
-     *是否处理成功
-     * </pre>
-     */
-    boolean hasIsSuccess();
-    /**
-     * <code>required bool isSuccess = 2;</code>
-     *
-     * <pre>
-     *是否处理成功
-     * </pre>
-     */
-    boolean getIsSuccess();
-
-    // optional string tipMsg = 3;
-    /**
-     * <code>optional string tipMsg = 3;</code>
-     *
-     * <pre>
-     *提示的消息(这个不管成功和失败都有可能会发)
-     * </pre>
-     */
-    boolean hasTipMsg();
-    /**
-     * <code>optional string tipMsg = 3;</code>
-     *
-     * <pre>
-     *提示的消息(这个不管成功和失败都有可能会发)
-     * </pre>
-     */
-    java.lang.String getTipMsg();
-    /**
-     * <code>optional string tipMsg = 3;</code>
-     *
-     * <pre>
-     *提示的消息(这个不管成功和失败都有可能会发)
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getTipMsgBytes();
-
-    // optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;
-    /**
-     * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-     *
-     * <pre>
-     *打开祈福主界面的响应
-     * </pre>
-     */
-    boolean hasOpenPrayMainViewRsp();
-    /**
-     * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-     *
-     * <pre>
-     *打开祈福主界面的响应
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getOpenPrayMainViewRsp();
-    /**
-     * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-     *
-     * <pre>
-     *打开祈福主界面的响应
-     * </pre>
-     */
-    com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder getOpenPrayMainViewRspOrBuilder();
-  }
-  /**
-   * Protobuf type {@code groupproto.GroupPrayCommonRspMsg}
-   *
-   * <pre>
-   *祈福的通用响应消息
-   * </pre>
-   */
-  public static final class GroupPrayCommonRspMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements GroupPrayCommonRspMsgOrBuilder {
-    // Use GroupPrayCommonRspMsg.newBuilder() to construct.
-    private GroupPrayCommonRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private GroupPrayCommonRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final GroupPrayCommonRspMsg defaultInstance;
-    public static GroupPrayCommonRspMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public GroupPrayCommonRspMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private GroupPrayCommonRspMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.GroupPrayProto.ReqType value = com.rwproto.GroupPrayProto.ReqType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                reqType_ = value;
-              }
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              isSuccess_ = input.readBool();
-              break;
-            }
-            case 26: {
-              bitField0_ |= 0x00000004;
-              tipMsg_ = input.readBytes();
-              break;
-            }
-            case 34: {
-              com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = openPrayMainViewRsp_.toBuilder();
-              }
-              openPrayMainViewRsp_ = input.readMessage(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(openPrayMainViewRsp_);
-                openPrayMainViewRsp_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000008;
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<GroupPrayCommonRspMsg> PARSER =
-        new com.google.protobuf.AbstractParser<GroupPrayCommonRspMsg>() {
-      public GroupPrayCommonRspMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new GroupPrayCommonRspMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GroupPrayCommonRspMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required .groupproto.ReqType reqType = 1;
-    public static final int REQTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.GroupPrayProto.ReqType reqType_;
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    public boolean hasReqType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .groupproto.ReqType reqType = 1;</code>
-     *
-     * <pre>
-     *请求的类型
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.ReqType getReqType() {
-      return reqType_;
-    }
-
-    // required bool isSuccess = 2;
-    public static final int ISSUCCESS_FIELD_NUMBER = 2;
-    private boolean isSuccess_;
-    /**
-     * <code>required bool isSuccess = 2;</code>
-     *
-     * <pre>
-     *是否处理成功
-     * </pre>
-     */
-    public boolean hasIsSuccess() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required bool isSuccess = 2;</code>
-     *
-     * <pre>
-     *是否处理成功
-     * </pre>
-     */
-    public boolean getIsSuccess() {
-      return isSuccess_;
-    }
-
-    // optional string tipMsg = 3;
-    public static final int TIPMSG_FIELD_NUMBER = 3;
-    private java.lang.Object tipMsg_;
-    /**
-     * <code>optional string tipMsg = 3;</code>
-     *
-     * <pre>
-     *提示的消息(这个不管成功和失败都有可能会发)
-     * </pre>
-     */
-    public boolean hasTipMsg() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional string tipMsg = 3;</code>
-     *
-     * <pre>
-     *提示的消息(这个不管成功和失败都有可能会发)
-     * </pre>
-     */
-    public java.lang.String getTipMsg() {
-      java.lang.Object ref = tipMsg_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          tipMsg_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string tipMsg = 3;</code>
-     *
-     * <pre>
-     *提示的消息(这个不管成功和失败都有可能会发)
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getTipMsgBytes() {
-      java.lang.Object ref = tipMsg_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        tipMsg_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    // optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;
-    public static final int OPENPRAYMAINVIEWRSP_FIELD_NUMBER = 4;
-    private com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg openPrayMainViewRsp_;
-    /**
-     * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-     *
-     * <pre>
-     *打开祈福主界面的响应
-     * </pre>
-     */
-    public boolean hasOpenPrayMainViewRsp() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-     *
-     * <pre>
-     *打开祈福主界面的响应
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getOpenPrayMainViewRsp() {
-      return openPrayMainViewRsp_;
-    }
-    /**
-     * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-     *
-     * <pre>
-     *打开祈福主界面的响应
-     * </pre>
-     */
-    public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder getOpenPrayMainViewRspOrBuilder() {
-      return openPrayMainViewRsp_;
-    }
-
-    private void initFields() {
-      reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-      isSuccess_ = false;
-      tipMsg_ = "";
-      openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasReqType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasIsSuccess()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (hasOpenPrayMainViewRsp()) {
-        if (!getOpenPrayMainViewRsp().isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, reqType_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(2, isSuccess_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, getTipMsgBytes());
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, openPrayMainViewRsp_);
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, reqType_.getNumber());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(2, isSuccess_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, getTipMsgBytes());
-      }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, openPrayMainViewRsp_);
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupproto.GroupPrayCommonRspMsg}
-     *
-     * <pre>
-     *祈福的通用响应消息
-     * </pre>
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupPrayProto.GroupPrayCommonRspMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getOpenPrayMainViewRspFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isSuccess_ = false;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        tipMsg_ = "";
-        bitField0_ = (bitField0_ & ~0x00000004);
-        if (openPrayMainViewRspBuilder_ == null) {
-          openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
-        } else {
-          openPrayMainViewRspBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
-      }
-
-      public com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg build() {
-        com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg buildPartial() {
-        com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg result = new com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.reqType_ = reqType_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.isSuccess_ = isSuccess_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.tipMsg_ = tipMsg_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000008;
-        }
-        if (openPrayMainViewRspBuilder_ == null) {
-          result.openPrayMainViewRsp_ = openPrayMainViewRsp_;
-        } else {
-          result.openPrayMainViewRsp_ = openPrayMainViewRspBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg) {
-          return mergeFrom((com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg other) {
-        if (other == com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.getDefaultInstance()) return this;
-        if (other.hasReqType()) {
-          setReqType(other.getReqType());
-        }
-        if (other.hasIsSuccess()) {
-          setIsSuccess(other.getIsSuccess());
-        }
-        if (other.hasTipMsg()) {
-          bitField0_ |= 0x00000004;
-          tipMsg_ = other.tipMsg_;
-          onChanged();
-        }
-        if (other.hasOpenPrayMainViewRsp()) {
-          mergeOpenPrayMainViewRsp(other.getOpenPrayMainViewRsp());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasReqType()) {
-          
-          return false;
-        }
-        if (!hasIsSuccess()) {
-          
-          return false;
-        }
-        if (hasOpenPrayMainViewRsp()) {
-          if (!getOpenPrayMainViewRsp().isInitialized()) {
-            
-            return false;
-          }
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required .groupproto.ReqType reqType = 1;
-      private com.rwproto.GroupPrayProto.ReqType reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public boolean hasReqType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.ReqType getReqType() {
-        return reqType_;
-      }
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public Builder setReqType(com.rwproto.GroupPrayProto.ReqType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        reqType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .groupproto.ReqType reqType = 1;</code>
-       *
-       * <pre>
-       *请求的类型
-       * </pre>
-       */
-      public Builder clearReqType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
-        onChanged();
-        return this;
-      }
-
-      // required bool isSuccess = 2;
-      private boolean isSuccess_ ;
-      /**
-       * <code>required bool isSuccess = 2;</code>
-       *
-       * <pre>
-       *是否处理成功
-       * </pre>
-       */
-      public boolean hasIsSuccess() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required bool isSuccess = 2;</code>
-       *
-       * <pre>
-       *是否处理成功
-       * </pre>
-       */
-      public boolean getIsSuccess() {
-        return isSuccess_;
-      }
-      /**
-       * <code>required bool isSuccess = 2;</code>
-       *
-       * <pre>
-       *是否处理成功
-       * </pre>
-       */
-      public Builder setIsSuccess(boolean value) {
-        bitField0_ |= 0x00000002;
-        isSuccess_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required bool isSuccess = 2;</code>
-       *
-       * <pre>
-       *是否处理成功
-       * </pre>
-       */
-      public Builder clearIsSuccess() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        isSuccess_ = false;
-        onChanged();
-        return this;
-      }
-
-      // optional string tipMsg = 3;
-      private java.lang.Object tipMsg_ = "";
-      /**
-       * <code>optional string tipMsg = 3;</code>
-       *
-       * <pre>
-       *提示的消息(这个不管成功和失败都有可能会发)
-       * </pre>
-       */
-      public boolean hasTipMsg() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional string tipMsg = 3;</code>
-       *
-       * <pre>
-       *提示的消息(这个不管成功和失败都有可能会发)
-       * </pre>
-       */
-      public java.lang.String getTipMsg() {
-        java.lang.Object ref = tipMsg_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          tipMsg_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string tipMsg = 3;</code>
-       *
-       * <pre>
-       *提示的消息(这个不管成功和失败都有可能会发)
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getTipMsgBytes() {
-        java.lang.Object ref = tipMsg_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          tipMsg_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string tipMsg = 3;</code>
-       *
-       * <pre>
-       *提示的消息(这个不管成功和失败都有可能会发)
-       * </pre>
-       */
-      public Builder setTipMsg(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        tipMsg_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string tipMsg = 3;</code>
-       *
-       * <pre>
-       *提示的消息(这个不管成功和失败都有可能会发)
-       * </pre>
-       */
-      public Builder clearTipMsg() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        tipMsg_ = getDefaultInstance().getTipMsg();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string tipMsg = 3;</code>
-       *
-       * <pre>
-       *提示的消息(这个不管成功和失败都有可能会发)
-       * </pre>
-       */
-      public Builder setTipMsgBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        tipMsg_ = value;
-        onChanged();
-        return this;
-      }
-
-      // optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;
-      private com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder> openPrayMainViewRspBuilder_;
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public boolean hasOpenPrayMainViewRsp() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getOpenPrayMainViewRsp() {
-        if (openPrayMainViewRspBuilder_ == null) {
-          return openPrayMainViewRsp_;
-        } else {
-          return openPrayMainViewRspBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public Builder setOpenPrayMainViewRsp(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg value) {
-        if (openPrayMainViewRspBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          openPrayMainViewRsp_ = value;
-          onChanged();
-        } else {
-          openPrayMainViewRspBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public Builder setOpenPrayMainViewRsp(
-          com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder builderForValue) {
-        if (openPrayMainViewRspBuilder_ == null) {
-          openPrayMainViewRsp_ = builderForValue.build();
-          onChanged();
-        } else {
-          openPrayMainViewRspBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public Builder mergeOpenPrayMainViewRsp(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg value) {
-        if (openPrayMainViewRspBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              openPrayMainViewRsp_ != com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance()) {
-            openPrayMainViewRsp_ =
-              com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.newBuilder(openPrayMainViewRsp_).mergeFrom(value).buildPartial();
-          } else {
-            openPrayMainViewRsp_ = value;
-          }
-          onChanged();
-        } else {
-          openPrayMainViewRspBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000008;
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public Builder clearOpenPrayMainViewRsp() {
-        if (openPrayMainViewRspBuilder_ == null) {
-          openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
-          onChanged();
-        } else {
-          openPrayMainViewRspBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000008);
-        return this;
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder getOpenPrayMainViewRspBuilder() {
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return getOpenPrayMainViewRspFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder getOpenPrayMainViewRspOrBuilder() {
-        if (openPrayMainViewRspBuilder_ != null) {
-          return openPrayMainViewRspBuilder_.getMessageOrBuilder();
-        } else {
-          return openPrayMainViewRsp_;
-        }
-      }
-      /**
-       * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
-       *
-       * <pre>
-       *打开祈福主界面的响应
-       * </pre>
-       */
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder> 
-          getOpenPrayMainViewRspFieldBuilder() {
-        if (openPrayMainViewRspBuilder_ == null) {
-          openPrayMainViewRspBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder>(
-                  openPrayMainViewRsp_,
-                  getParentForChildren(),
-                  isClean());
-          openPrayMainViewRsp_ = null;
-        }
-        return openPrayMainViewRspBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupproto.GroupPrayCommonRspMsg)
-    }
-
-    static {
-      defaultInstance = new GroupPrayCommonRspMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupproto.GroupPrayCommonRspMsg)
-  }
-
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupproto_PrayEntry_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupproto_PrayEntry_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupproto_NeedPrayReqMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupproto_SendPrayReqMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable;
-
-  public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
-    return descriptor;
-  }
-  private static com.google.protobuf.Descriptors.FileDescriptor
-      descriptor;
-  static {
-    java.lang.String[] descriptorData = {
-      "\n\017GroupPray.proto\022\ngroupproto\"O\n\tPrayEnt" +
-      "ry\022\020\n\010memberId\030\001 \002(\t\022\016\n\006soulId\030\002 \002(\005\022\017\n\007" +
-      "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"i\n\026OpenPr" +
-      "ayMainViewRspMsg\022$\n\005entry\030\001 \003(\0132\025.groupp" +
-      "roto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010\022\030\n\020hasGe" +
-      "tPrayReward\030\003 \002(\010\" \n\016NeedPrayReqMsg\022\016\n\006s" +
-      "oulId\030\001 \002(\005\"\"\n\016SendPrayReqMsg\022\020\n\010memberI" +
-      "d\030\001 \002(\t\"\237\001\n\025GroupPrayCommonReqMsg\022$\n\007req" +
-      "Type\030\001 \002(\0162\023.groupproto.ReqType\022/\n\013needP" +
-      "rayReq\030\002 \001(\0132\032.groupproto.NeedPrayReqMsg",
-      "\022/\n\013sendPrayReq\030\003 \001(\0132\032.groupproto.SendP" +
-      "rayReqMsg\"\241\001\n\025GroupPrayCommonRspMsg\022$\n\007r" +
-      "eqType\030\001 \002(\0162\023.groupproto.ReqType\022\021\n\tisS" +
-      "uccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022?\n\023openPray" +
-      "MainViewRsp\030\004 \001(\0132\".groupproto.OpenPrayM" +
-      "ainViewRspMsg*P\n\007ReqType\022\022\n\016OPEN_MAIN_VI" +
-      "EW\020\001\022\r\n\tNEED_PRAY\020\002\022\r\n\tSEND_PRAY\020\003\022\023\n\017GE" +
-      "T_PRAY_REWARD\020\004B\035\n\013com.rwprotoB\016GroupPra" +
-      "yProto"
-    };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_groupproto_PrayEntry_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_groupproto_PrayEntry_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupproto_PrayEntry_descriptor,
-              new java.lang.String[] { "MemberId", "SoulId", "Process", "HasSend", });
-          internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor,
-              new java.lang.String[] { "Entry", "HasPray", "HasGetPrayReward", });
-          internal_static_groupproto_NeedPrayReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupproto_NeedPrayReqMsg_descriptor,
-              new java.lang.String[] { "SoulId", });
-          internal_static_groupproto_SendPrayReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(3);
-          internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupproto_SendPrayReqMsg_descriptor,
-              new java.lang.String[] { "MemberId", });
-          internal_static_groupproto_GroupPrayCommonReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
-          internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupproto_GroupPrayCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "NeedPrayReq", "SendPrayReq", });
-          internal_static_groupproto_GroupPrayCommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
-          internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupproto_GroupPrayCommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "OpenPrayMainViewRsp", });
-          return null;
-        }
-      };
-    com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-        }, assigner);
-  }
-
-  // @@protoc_insertion_point(outer_class_scope)
+	private GroupPrayProto() {
+	}
+
+	public static void registerAllExtensions(com.google.protobuf.ExtensionRegistry registry) {
+	}
+
+	/**
+	 * Protobuf enum {@code groupproto.ReqType}
+	 */
+	public enum ReqType implements com.google.protobuf.ProtocolMessageEnum {
+		/**
+		 * <code>OPEN_MAIN_VIEW = 1;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面
+		 * </pre>
+		 */
+		OPEN_MAIN_VIEW(0, 1),
+		/**
+		 * <code>NEED_PRAY = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		NEED_PRAY(1, 2),
+		/**
+		 * <code>SEND_PRAY = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片给某人
+		 * </pre>
+		 */
+		SEND_PRAY(2, 3), ;
+
+		/**
+		 * <code>OPEN_MAIN_VIEW = 1;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面
+		 * </pre>
+		 */
+		public static final int OPEN_MAIN_VIEW_VALUE = 1;
+		/**
+		 * <code>NEED_PRAY = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		public static final int NEED_PRAY_VALUE = 2;
+		/**
+		 * <code>SEND_PRAY = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片给某人
+		 * </pre>
+		 */
+		public static final int SEND_PRAY_VALUE = 3;
+
+		public final int getNumber() {
+			return value;
+		}
+
+		public static ReqType valueOf(int value) {
+			switch (value) {
+			case 1:
+				return OPEN_MAIN_VIEW;
+			case 2:
+				return NEED_PRAY;
+			case 3:
+				return SEND_PRAY;
+			default:
+				return null;
+			}
+		}
+
+		public static com.google.protobuf.Internal.EnumLiteMap<ReqType> internalGetValueMap() {
+			return internalValueMap;
+		}
+
+		private static com.google.protobuf.Internal.EnumLiteMap<ReqType> internalValueMap = new com.google.protobuf.Internal.EnumLiteMap<ReqType>() {
+			public ReqType findValueByNumber(int number) {
+				return ReqType.valueOf(number);
+			}
+		};
+
+		public final com.google.protobuf.Descriptors.EnumValueDescriptor getValueDescriptor() {
+			return getDescriptor().getValues().get(index);
+		}
+
+		public final com.google.protobuf.Descriptors.EnumDescriptor getDescriptorForType() {
+			return getDescriptor();
+		}
+
+		public static final com.google.protobuf.Descriptors.EnumDescriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.getDescriptor().getEnumTypes().get(0);
+		}
+
+		private static final ReqType[] VALUES = values();
+
+		public static ReqType valueOf(com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+			if (desc.getType() != getDescriptor()) {
+				throw new java.lang.IllegalArgumentException("EnumValueDescriptor is not for this type.");
+			}
+			return VALUES[desc.getIndex()];
+		}
+
+		private final int index;
+		private final int value;
+
+		private ReqType(int index, int value) {
+			this.index = index;
+			this.value = value;
+		}
+
+		// @@protoc_insertion_point(enum_scope:groupproto.ReqType)
+	}
+
+	public interface PrayEntryOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// required string memberId = 1;
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 成员的Id
+		 * </pre>
+		 */
+		boolean hasMemberId();
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 成员的Id
+		 * </pre>
+		 */
+		java.lang.String getMemberId();
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 成员的Id
+		 * </pre>
+		 */
+		com.google.protobuf.ByteString getMemberIdBytes();
+
+		// required int32 soulId = 2;
+		/**
+		 * <code>required int32 soulId = 2;</code>
+		 *
+		 * <pre>
+		 * 魂石的Id
+		 * </pre>
+		 */
+		boolean hasSoulId();
+
+		/**
+		 * <code>required int32 soulId = 2;</code>
+		 *
+		 * <pre>
+		 * 魂石的Id
+		 * </pre>
+		 */
+		int getSoulId();
+
+		// required int32 process = 3;
+		/**
+		 * <code>required int32 process = 3;</code>
+		 *
+		 * <pre>
+		 * 进度
+		 * </pre>
+		 */
+		boolean hasProcess();
+
+		/**
+		 * <code>required int32 process = 3;</code>
+		 *
+		 * <pre>
+		 * 进度
+		 * </pre>
+		 */
+		int getProcess();
+
+		// required bool hasSend = 4;
+		/**
+		 * <code>required bool hasSend = 4;</code>
+		 *
+		 * <pre>
+		 * 是否赠送过这个人
+		 * </pre>
+		 */
+		boolean hasHasSend();
+
+		/**
+		 * <code>required bool hasSend = 4;</code>
+		 *
+		 * <pre>
+		 * 是否赠送过这个人
+		 * </pre>
+		 */
+		boolean getHasSend();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.PrayEntry}
+	 *
+	 * <pre>
+	 * 单个祈福的数据
+	 * </pre>
+	 */
+	public static final class PrayEntry extends com.google.protobuf.GeneratedMessage implements PrayEntryOrBuilder {
+		// Use PrayEntry.newBuilder() to construct.
+		private PrayEntry(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private PrayEntry(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final PrayEntry defaultInstance;
+
+		public static PrayEntry getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public PrayEntry getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private PrayEntry(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 10: {
+						bitField0_ |= 0x00000001;
+						memberId_ = input.readBytes();
+						break;
+					}
+					case 16: {
+						bitField0_ |= 0x00000002;
+						soulId_ = input.readInt32();
+						break;
+					}
+					case 24: {
+						bitField0_ |= 0x00000004;
+						process_ = input.readInt32();
+						break;
+					}
+					case 32: {
+						bitField0_ |= 0x00000008;
+						hasSend_ = input.readBool();
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.PrayEntry.class, com.rwproto.GroupPrayProto.PrayEntry.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<PrayEntry> PARSER = new com.google.protobuf.AbstractParser<PrayEntry>() {
+			public PrayEntry parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new PrayEntry(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<PrayEntry> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// required string memberId = 1;
+		public static final int MEMBERID_FIELD_NUMBER = 1;
+		private java.lang.Object memberId_;
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 成员的Id
+		 * </pre>
+		 */
+		public boolean hasMemberId() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 成员的Id
+		 * </pre>
+		 */
+		public java.lang.String getMemberId() {
+			java.lang.Object ref = memberId_;
+			if (ref instanceof java.lang.String) {
+				return (java.lang.String) ref;
+			} else {
+				com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+				java.lang.String s = bs.toStringUtf8();
+				if (bs.isValidUtf8()) {
+					memberId_ = s;
+				}
+				return s;
+			}
+		}
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 成员的Id
+		 * </pre>
+		 */
+		public com.google.protobuf.ByteString getMemberIdBytes() {
+			java.lang.Object ref = memberId_;
+			if (ref instanceof java.lang.String) {
+				com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+				memberId_ = b;
+				return b;
+			} else {
+				return (com.google.protobuf.ByteString) ref;
+			}
+		}
+
+		// required int32 soulId = 2;
+		public static final int SOULID_FIELD_NUMBER = 2;
+		private int soulId_;
+
+		/**
+		 * <code>required int32 soulId = 2;</code>
+		 *
+		 * <pre>
+		 * 魂石的Id
+		 * </pre>
+		 */
+		public boolean hasSoulId() {
+			return ((bitField0_ & 0x00000002) == 0x00000002);
+		}
+
+		/**
+		 * <code>required int32 soulId = 2;</code>
+		 *
+		 * <pre>
+		 * 魂石的Id
+		 * </pre>
+		 */
+		public int getSoulId() {
+			return soulId_;
+		}
+
+		// required int32 process = 3;
+		public static final int PROCESS_FIELD_NUMBER = 3;
+		private int process_;
+
+		/**
+		 * <code>required int32 process = 3;</code>
+		 *
+		 * <pre>
+		 * 进度
+		 * </pre>
+		 */
+		public boolean hasProcess() {
+			return ((bitField0_ & 0x00000004) == 0x00000004);
+		}
+
+		/**
+		 * <code>required int32 process = 3;</code>
+		 *
+		 * <pre>
+		 * 进度
+		 * </pre>
+		 */
+		public int getProcess() {
+			return process_;
+		}
+
+		// required bool hasSend = 4;
+		public static final int HASSEND_FIELD_NUMBER = 4;
+		private boolean hasSend_;
+
+		/**
+		 * <code>required bool hasSend = 4;</code>
+		 *
+		 * <pre>
+		 * 是否赠送过这个人
+		 * </pre>
+		 */
+		public boolean hasHasSend() {
+			return ((bitField0_ & 0x00000008) == 0x00000008);
+		}
+
+		/**
+		 * <code>required bool hasSend = 4;</code>
+		 *
+		 * <pre>
+		 * 是否赠送过这个人
+		 * </pre>
+		 */
+		public boolean getHasSend() {
+			return hasSend_;
+		}
+
+		private void initFields() {
+			memberId_ = "";
+			soulId_ = 0;
+			process_ = 0;
+			hasSend_ = false;
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasMemberId()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (!hasSoulId()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (!hasProcess()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (!hasHasSend()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeBytes(1, getMemberIdBytes());
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				output.writeInt32(2, soulId_);
+			}
+			if (((bitField0_ & 0x00000004) == 0x00000004)) {
+				output.writeInt32(3, process_);
+			}
+			if (((bitField0_ & 0x00000008) == 0x00000008)) {
+				output.writeBool(4, hasSend_);
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, getMemberIdBytes());
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				size += com.google.protobuf.CodedOutputStream.computeInt32Size(2, soulId_);
+			}
+			if (((bitField0_ & 0x00000004) == 0x00000004)) {
+				size += com.google.protobuf.CodedOutputStream.computeInt32Size(3, process_);
+			}
+			if (((bitField0_ & 0x00000008) == 0x00000008)) {
+				size += com.google.protobuf.CodedOutputStream.computeBoolSize(4, hasSend_);
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayEntry parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.PrayEntry prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.PrayEntry}
+		 *
+		 * <pre>
+		 * 单个祈福的数据
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.PrayEntryOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.PrayEntry.class, com.rwproto.GroupPrayProto.PrayEntry.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.PrayEntry.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				memberId_ = "";
+				bitField0_ = (bitField0_ & ~0x00000001);
+				soulId_ = 0;
+				bitField0_ = (bitField0_ & ~0x00000002);
+				process_ = 0;
+				bitField0_ = (bitField0_ & ~0x00000004);
+				hasSend_ = false;
+				bitField0_ = (bitField0_ & ~0x00000008);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayEntry_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.PrayEntry getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.PrayEntry build() {
+				com.rwproto.GroupPrayProto.PrayEntry result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.PrayEntry buildPartial() {
+				com.rwproto.GroupPrayProto.PrayEntry result = new com.rwproto.GroupPrayProto.PrayEntry(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.memberId_ = memberId_;
+				if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+					to_bitField0_ |= 0x00000002;
+				}
+				result.soulId_ = soulId_;
+				if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+					to_bitField0_ |= 0x00000004;
+				}
+				result.process_ = process_;
+				if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+					to_bitField0_ |= 0x00000008;
+				}
+				result.hasSend_ = hasSend_;
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.PrayEntry) {
+					return mergeFrom((com.rwproto.GroupPrayProto.PrayEntry) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.PrayEntry other) {
+				if (other == com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance())
+					return this;
+				if (other.hasMemberId()) {
+					bitField0_ |= 0x00000001;
+					memberId_ = other.memberId_;
+					onChanged();
+				}
+				if (other.hasSoulId()) {
+					setSoulId(other.getSoulId());
+				}
+				if (other.hasProcess()) {
+					setProcess(other.getProcess());
+				}
+				if (other.hasHasSend()) {
+					setHasSend(other.getHasSend());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasMemberId()) {
+
+					return false;
+				}
+				if (!hasSoulId()) {
+
+					return false;
+				}
+				if (!hasProcess()) {
+
+					return false;
+				}
+				if (!hasHasSend()) {
+
+					return false;
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.PrayEntry parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.PrayEntry) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// required string memberId = 1;
+			private java.lang.Object memberId_ = "";
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 成员的Id
+			 * </pre>
+			 */
+			public boolean hasMemberId() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 成员的Id
+			 * </pre>
+			 */
+			public java.lang.String getMemberId() {
+				java.lang.Object ref = memberId_;
+				if (!(ref instanceof java.lang.String)) {
+					java.lang.String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+					memberId_ = s;
+					return s;
+				} else {
+					return (java.lang.String) ref;
+				}
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 成员的Id
+			 * </pre>
+			 */
+			public com.google.protobuf.ByteString getMemberIdBytes() {
+				java.lang.Object ref = memberId_;
+				if (ref instanceof String) {
+					com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+					memberId_ = b;
+					return b;
+				} else {
+					return (com.google.protobuf.ByteString) ref;
+				}
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 成员的Id
+			 * </pre>
+			 */
+			public Builder setMemberId(java.lang.String value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000001;
+				memberId_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 成员的Id
+			 * </pre>
+			 */
+			public Builder clearMemberId() {
+				bitField0_ = (bitField0_ & ~0x00000001);
+				memberId_ = getDefaultInstance().getMemberId();
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 成员的Id
+			 * </pre>
+			 */
+			public Builder setMemberIdBytes(com.google.protobuf.ByteString value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000001;
+				memberId_ = value;
+				onChanged();
+				return this;
+			}
+
+			// required int32 soulId = 2;
+			private int soulId_;
+
+			/**
+			 * <code>required int32 soulId = 2;</code>
+			 *
+			 * <pre>
+			 * 魂石的Id
+			 * </pre>
+			 */
+			public boolean hasSoulId() {
+				return ((bitField0_ & 0x00000002) == 0x00000002);
+			}
+
+			/**
+			 * <code>required int32 soulId = 2;</code>
+			 *
+			 * <pre>
+			 * 魂石的Id
+			 * </pre>
+			 */
+			public int getSoulId() {
+				return soulId_;
+			}
+
+			/**
+			 * <code>required int32 soulId = 2;</code>
+			 *
+			 * <pre>
+			 * 魂石的Id
+			 * </pre>
+			 */
+			public Builder setSoulId(int value) {
+				bitField0_ |= 0x00000002;
+				soulId_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required int32 soulId = 2;</code>
+			 *
+			 * <pre>
+			 * 魂石的Id
+			 * </pre>
+			 */
+			public Builder clearSoulId() {
+				bitField0_ = (bitField0_ & ~0x00000002);
+				soulId_ = 0;
+				onChanged();
+				return this;
+			}
+
+			// required int32 process = 3;
+			private int process_;
+
+			/**
+			 * <code>required int32 process = 3;</code>
+			 *
+			 * <pre>
+			 * 进度
+			 * </pre>
+			 */
+			public boolean hasProcess() {
+				return ((bitField0_ & 0x00000004) == 0x00000004);
+			}
+
+			/**
+			 * <code>required int32 process = 3;</code>
+			 *
+			 * <pre>
+			 * 进度
+			 * </pre>
+			 */
+			public int getProcess() {
+				return process_;
+			}
+
+			/**
+			 * <code>required int32 process = 3;</code>
+			 *
+			 * <pre>
+			 * 进度
+			 * </pre>
+			 */
+			public Builder setProcess(int value) {
+				bitField0_ |= 0x00000004;
+				process_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required int32 process = 3;</code>
+			 *
+			 * <pre>
+			 * 进度
+			 * </pre>
+			 */
+			public Builder clearProcess() {
+				bitField0_ = (bitField0_ & ~0x00000004);
+				process_ = 0;
+				onChanged();
+				return this;
+			}
+
+			// required bool hasSend = 4;
+			private boolean hasSend_;
+
+			/**
+			 * <code>required bool hasSend = 4;</code>
+			 *
+			 * <pre>
+			 * 是否赠送过这个人
+			 * </pre>
+			 */
+			public boolean hasHasSend() {
+				return ((bitField0_ & 0x00000008) == 0x00000008);
+			}
+
+			/**
+			 * <code>required bool hasSend = 4;</code>
+			 *
+			 * <pre>
+			 * 是否赠送过这个人
+			 * </pre>
+			 */
+			public boolean getHasSend() {
+				return hasSend_;
+			}
+
+			/**
+			 * <code>required bool hasSend = 4;</code>
+			 *
+			 * <pre>
+			 * 是否赠送过这个人
+			 * </pre>
+			 */
+			public Builder setHasSend(boolean value) {
+				bitField0_ |= 0x00000008;
+				hasSend_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required bool hasSend = 4;</code>
+			 *
+			 * <pre>
+			 * 是否赠送过这个人
+			 * </pre>
+			 */
+			public Builder clearHasSend() {
+				bitField0_ = (bitField0_ & ~0x00000008);
+				hasSend_ = false;
+				onChanged();
+				return this;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.PrayEntry)
+		}
+
+		static {
+			defaultInstance = new PrayEntry(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.PrayEntry)
+	}
+
+	public interface PrayRewardInfoOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// required int32 soulId = 1;
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 奖励的魂石Id
+		 * </pre>
+		 */
+		boolean hasSoulId();
+
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 奖励的魂石Id
+		 * </pre>
+		 */
+		int getSoulId();
+
+		// required int32 count = 2;
+		/**
+		 * <code>required int32 count = 2;</code>
+		 *
+		 * <pre>
+		 * 获取的魂石奖励
+		 * </pre>
+		 */
+		boolean hasCount();
+
+		/**
+		 * <code>required int32 count = 2;</code>
+		 *
+		 * <pre>
+		 * 获取的魂石奖励
+		 * </pre>
+		 */
+		int getCount();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.PrayRewardInfo}
+	 *
+	 * <pre>
+	 * 祈福的奖励
+	 * </pre>
+	 */
+	public static final class PrayRewardInfo extends com.google.protobuf.GeneratedMessage implements PrayRewardInfoOrBuilder {
+		// Use PrayRewardInfo.newBuilder() to construct.
+		private PrayRewardInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private PrayRewardInfo(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final PrayRewardInfo defaultInstance;
+
+		public static PrayRewardInfo getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public PrayRewardInfo getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private PrayRewardInfo(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 8: {
+						bitField0_ |= 0x00000001;
+						soulId_ = input.readInt32();
+						break;
+					}
+					case 16: {
+						bitField0_ |= 0x00000002;
+						count_ = input.readInt32();
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.PrayRewardInfo.class, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<PrayRewardInfo> PARSER = new com.google.protobuf.AbstractParser<PrayRewardInfo>() {
+			public PrayRewardInfo parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new PrayRewardInfo(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<PrayRewardInfo> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// required int32 soulId = 1;
+		public static final int SOULID_FIELD_NUMBER = 1;
+		private int soulId_;
+
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 奖励的魂石Id
+		 * </pre>
+		 */
+		public boolean hasSoulId() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 奖励的魂石Id
+		 * </pre>
+		 */
+		public int getSoulId() {
+			return soulId_;
+		}
+
+		// required int32 count = 2;
+		public static final int COUNT_FIELD_NUMBER = 2;
+		private int count_;
+
+		/**
+		 * <code>required int32 count = 2;</code>
+		 *
+		 * <pre>
+		 * 获取的魂石奖励
+		 * </pre>
+		 */
+		public boolean hasCount() {
+			return ((bitField0_ & 0x00000002) == 0x00000002);
+		}
+
+		/**
+		 * <code>required int32 count = 2;</code>
+		 *
+		 * <pre>
+		 * 获取的魂石奖励
+		 * </pre>
+		 */
+		public int getCount() {
+			return count_;
+		}
+
+		private void initFields() {
+			soulId_ = 0;
+			count_ = 0;
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasSoulId()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (!hasCount()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeInt32(1, soulId_);
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				output.writeInt32(2, count_);
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeInt32Size(1, soulId_);
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				size += com.google.protobuf.CodedOutputStream.computeInt32Size(2, count_);
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.PrayRewardInfo prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.PrayRewardInfo}
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.PrayRewardInfo.class, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.PrayRewardInfo.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				soulId_ = 0;
+				bitField0_ = (bitField0_ & ~0x00000001);
+				count_ = 0;
+				bitField0_ = (bitField0_ & ~0x00000002);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.PrayRewardInfo getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.PrayRewardInfo build() {
+				com.rwproto.GroupPrayProto.PrayRewardInfo result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.PrayRewardInfo buildPartial() {
+				com.rwproto.GroupPrayProto.PrayRewardInfo result = new com.rwproto.GroupPrayProto.PrayRewardInfo(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.soulId_ = soulId_;
+				if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+					to_bitField0_ |= 0x00000002;
+				}
+				result.count_ = count_;
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.PrayRewardInfo) {
+					return mergeFrom((com.rwproto.GroupPrayProto.PrayRewardInfo) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.PrayRewardInfo other) {
+				if (other == com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance())
+					return this;
+				if (other.hasSoulId()) {
+					setSoulId(other.getSoulId());
+				}
+				if (other.hasCount()) {
+					setCount(other.getCount());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasSoulId()) {
+
+					return false;
+				}
+				if (!hasCount()) {
+
+					return false;
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.PrayRewardInfo parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.PrayRewardInfo) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// required int32 soulId = 1;
+			private int soulId_;
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 奖励的魂石Id
+			 * </pre>
+			 */
+			public boolean hasSoulId() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 奖励的魂石Id
+			 * </pre>
+			 */
+			public int getSoulId() {
+				return soulId_;
+			}
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 奖励的魂石Id
+			 * </pre>
+			 */
+			public Builder setSoulId(int value) {
+				bitField0_ |= 0x00000001;
+				soulId_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 奖励的魂石Id
+			 * </pre>
+			 */
+			public Builder clearSoulId() {
+				bitField0_ = (bitField0_ & ~0x00000001);
+				soulId_ = 0;
+				onChanged();
+				return this;
+			}
+
+			// required int32 count = 2;
+			private int count_;
+
+			/**
+			 * <code>required int32 count = 2;</code>
+			 *
+			 * <pre>
+			 * 获取的魂石奖励
+			 * </pre>
+			 */
+			public boolean hasCount() {
+				return ((bitField0_ & 0x00000002) == 0x00000002);
+			}
+
+			/**
+			 * <code>required int32 count = 2;</code>
+			 *
+			 * <pre>
+			 * 获取的魂石奖励
+			 * </pre>
+			 */
+			public int getCount() {
+				return count_;
+			}
+
+			/**
+			 * <code>required int32 count = 2;</code>
+			 *
+			 * <pre>
+			 * 获取的魂石奖励
+			 * </pre>
+			 */
+			public Builder setCount(int value) {
+				bitField0_ |= 0x00000002;
+				count_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required int32 count = 2;</code>
+			 *
+			 * <pre>
+			 * 获取的魂石奖励
+			 * </pre>
+			 */
+			public Builder clearCount() {
+				bitField0_ = (bitField0_ & ~0x00000002);
+				count_ = 0;
+				onChanged();
+				return this;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.PrayRewardInfo)
+		}
+
+		static {
+			defaultInstance = new PrayRewardInfo(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.PrayRewardInfo)
+	}
+
+	public interface OpenPrayMainViewRspMsgOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// repeated .groupproto.PrayEntry entry = 1;
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		java.util.List<com.rwproto.GroupPrayProto.PrayEntry> getEntryList();
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.PrayEntry getEntry(int index);
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		int getEntryCount();
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		java.util.List<? extends com.rwproto.GroupPrayProto.PrayEntryOrBuilder> getEntryOrBuilderList();
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.PrayEntryOrBuilder getEntryOrBuilder(int index);
+
+		// required bool hasPray = 2;
+		/**
+		 * <code>required bool hasPray = 2;</code>
+		 *
+		 * <pre>
+		 * 自己是否祈福过
+		 * </pre>
+		 */
+		boolean hasHasPray();
+
+		/**
+		 * <code>required bool hasPray = 2;</code>
+		 *
+		 * <pre>
+		 * 自己是否祈福过
+		 * </pre>
+		 */
+		boolean getHasPray();
+
+		// optional .groupproto.PrayRewardInfo prayReward = 3;
+		/**
+		 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		boolean hasPrayReward();
+
+		/**
+		 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.PrayRewardInfo getPrayReward();
+
+		/**
+		 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder getPrayRewardOrBuilder();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.OpenPrayMainViewRspMsg}
+	 *
+	 * <pre>
+	 * 请求打开祈福界面
+	 * </pre>
+	 */
+	public static final class OpenPrayMainViewRspMsg extends com.google.protobuf.GeneratedMessage implements OpenPrayMainViewRspMsgOrBuilder {
+		// Use OpenPrayMainViewRspMsg.newBuilder() to construct.
+		private OpenPrayMainViewRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private OpenPrayMainViewRspMsg(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final OpenPrayMainViewRspMsg defaultInstance;
+
+		public static OpenPrayMainViewRspMsg getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public OpenPrayMainViewRspMsg getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private OpenPrayMainViewRspMsg(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 10: {
+						if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+							entry_ = new java.util.ArrayList<com.rwproto.GroupPrayProto.PrayEntry>();
+							mutable_bitField0_ |= 0x00000001;
+						}
+						entry_.add(input.readMessage(com.rwproto.GroupPrayProto.PrayEntry.PARSER, extensionRegistry));
+						break;
+					}
+					case 16: {
+						bitField0_ |= 0x00000001;
+						hasPray_ = input.readBool();
+						break;
+					}
+					case 26: {
+						com.rwproto.GroupPrayProto.PrayRewardInfo.Builder subBuilder = null;
+						if (((bitField0_ & 0x00000002) == 0x00000002)) {
+							subBuilder = prayReward_.toBuilder();
+						}
+						prayReward_ = input.readMessage(com.rwproto.GroupPrayProto.PrayRewardInfo.PARSER, extensionRegistry);
+						if (subBuilder != null) {
+							subBuilder.mergeFrom(prayReward_);
+							prayReward_ = subBuilder.buildPartial();
+						}
+						bitField0_ |= 0x00000002;
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+					entry_ = java.util.Collections.unmodifiableList(entry_);
+				}
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.class, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<OpenPrayMainViewRspMsg> PARSER = new com.google.protobuf.AbstractParser<OpenPrayMainViewRspMsg>() {
+			public OpenPrayMainViewRspMsg parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new OpenPrayMainViewRspMsg(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<OpenPrayMainViewRspMsg> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// repeated .groupproto.PrayEntry entry = 1;
+		public static final int ENTRY_FIELD_NUMBER = 1;
+		private java.util.List<com.rwproto.GroupPrayProto.PrayEntry> entry_;
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		public java.util.List<com.rwproto.GroupPrayProto.PrayEntry> getEntryList() {
+			return entry_;
+		}
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		public java.util.List<? extends com.rwproto.GroupPrayProto.PrayEntryOrBuilder> getEntryOrBuilderList() {
+			return entry_;
+		}
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		public int getEntryCount() {
+			return entry_.size();
+		}
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.PrayEntry getEntry(int index) {
+			return entry_.get(index);
+		}
+
+		/**
+		 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+		 *
+		 * <pre>
+		 * 所有成员祈福数据
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.PrayEntryOrBuilder getEntryOrBuilder(int index) {
+			return entry_.get(index);
+		}
+
+		// required bool hasPray = 2;
+		public static final int HASPRAY_FIELD_NUMBER = 2;
+		private boolean hasPray_;
+
+		/**
+		 * <code>required bool hasPray = 2;</code>
+		 *
+		 * <pre>
+		 * 自己是否祈福过
+		 * </pre>
+		 */
+		public boolean hasHasPray() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required bool hasPray = 2;</code>
+		 *
+		 * <pre>
+		 * 自己是否祈福过
+		 * </pre>
+		 */
+		public boolean getHasPray() {
+			return hasPray_;
+		}
+
+		// optional .groupproto.PrayRewardInfo prayReward = 3;
+		public static final int PRAYREWARD_FIELD_NUMBER = 3;
+		private com.rwproto.GroupPrayProto.PrayRewardInfo prayReward_;
+
+		/**
+		 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		public boolean hasPrayReward() {
+			return ((bitField0_ & 0x00000002) == 0x00000002);
+		}
+
+		/**
+		 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.PrayRewardInfo getPrayReward() {
+			return prayReward_;
+		}
+
+		/**
+		 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+		 *
+		 * <pre>
+		 * 祈福的奖励
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder getPrayRewardOrBuilder() {
+			return prayReward_;
+		}
+
+		private void initFields() {
+			entry_ = java.util.Collections.emptyList();
+			hasPray_ = false;
+			prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasHasPray()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			for (int i = 0; i < getEntryCount(); i++) {
+				if (!getEntry(i).isInitialized()) {
+					memoizedIsInitialized = 0;
+					return false;
+				}
+			}
+			if (hasPrayReward()) {
+				if (!getPrayReward().isInitialized()) {
+					memoizedIsInitialized = 0;
+					return false;
+				}
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			for (int i = 0; i < entry_.size(); i++) {
+				output.writeMessage(1, entry_.get(i));
+			}
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeBool(2, hasPray_);
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				output.writeMessage(3, prayReward_);
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			for (int i = 0; i < entry_.size(); i++) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(1, entry_.get(i));
+			}
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeBoolSize(2, hasPray_);
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(3, prayReward_);
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.OpenPrayMainViewRspMsg}
+		 *
+		 * <pre>
+		 * 请求打开祈福界面
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.class, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+					getEntryFieldBuilder();
+					getPrayRewardFieldBuilder();
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				if (entryBuilder_ == null) {
+					entry_ = java.util.Collections.emptyList();
+					bitField0_ = (bitField0_ & ~0x00000001);
+				} else {
+					entryBuilder_.clear();
+				}
+				hasPray_ = false;
+				bitField0_ = (bitField0_ & ~0x00000002);
+				if (prayRewardBuilder_ == null) {
+					prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+				} else {
+					prayRewardBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000004);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg build() {
+				com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg buildPartial() {
+				com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg result = new com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (entryBuilder_ == null) {
+					if (((bitField0_ & 0x00000001) == 0x00000001)) {
+						entry_ = java.util.Collections.unmodifiableList(entry_);
+						bitField0_ = (bitField0_ & ~0x00000001);
+					}
+					result.entry_ = entry_;
+				} else {
+					result.entry_ = entryBuilder_.build();
+				}
+				if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.hasPray_ = hasPray_;
+				if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+					to_bitField0_ |= 0x00000002;
+				}
+				if (prayRewardBuilder_ == null) {
+					result.prayReward_ = prayReward_;
+				} else {
+					result.prayReward_ = prayRewardBuilder_.build();
+				}
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg) {
+					return mergeFrom((com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg other) {
+				if (other == com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance())
+					return this;
+				if (entryBuilder_ == null) {
+					if (!other.entry_.isEmpty()) {
+						if (entry_.isEmpty()) {
+							entry_ = other.entry_;
+							bitField0_ = (bitField0_ & ~0x00000001);
+						} else {
+							ensureEntryIsMutable();
+							entry_.addAll(other.entry_);
+						}
+						onChanged();
+					}
+				} else {
+					if (!other.entry_.isEmpty()) {
+						if (entryBuilder_.isEmpty()) {
+							entryBuilder_.dispose();
+							entryBuilder_ = null;
+							entry_ = other.entry_;
+							bitField0_ = (bitField0_ & ~0x00000001);
+							entryBuilder_ = com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ? getEntryFieldBuilder() : null;
+						} else {
+							entryBuilder_.addAllMessages(other.entry_);
+						}
+					}
+				}
+				if (other.hasHasPray()) {
+					setHasPray(other.getHasPray());
+				}
+				if (other.hasPrayReward()) {
+					mergePrayReward(other.getPrayReward());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasHasPray()) {
+
+					return false;
+				}
+				for (int i = 0; i < getEntryCount(); i++) {
+					if (!getEntry(i).isInitialized()) {
+
+						return false;
+					}
+				}
+				if (hasPrayReward()) {
+					if (!getPrayReward().isInitialized()) {
+
+						return false;
+					}
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// repeated .groupproto.PrayEntry entry = 1;
+			private java.util.List<com.rwproto.GroupPrayProto.PrayEntry> entry_ = java.util.Collections.emptyList();
+
+			private void ensureEntryIsMutable() {
+				if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+					entry_ = new java.util.ArrayList<com.rwproto.GroupPrayProto.PrayEntry>(entry_);
+					bitField0_ |= 0x00000001;
+				}
+			}
+
+			private com.google.protobuf.RepeatedFieldBuilder<com.rwproto.GroupPrayProto.PrayEntry, com.rwproto.GroupPrayProto.PrayEntry.Builder, com.rwproto.GroupPrayProto.PrayEntryOrBuilder> entryBuilder_;
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public java.util.List<com.rwproto.GroupPrayProto.PrayEntry> getEntryList() {
+				if (entryBuilder_ == null) {
+					return java.util.Collections.unmodifiableList(entry_);
+				} else {
+					return entryBuilder_.getMessageList();
+				}
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public int getEntryCount() {
+				if (entryBuilder_ == null) {
+					return entry_.size();
+				} else {
+					return entryBuilder_.getCount();
+				}
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayEntry getEntry(int index) {
+				if (entryBuilder_ == null) {
+					return entry_.get(index);
+				} else {
+					return entryBuilder_.getMessage(index);
+				}
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder setEntry(int index, com.rwproto.GroupPrayProto.PrayEntry value) {
+				if (entryBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureEntryIsMutable();
+					entry_.set(index, value);
+					onChanged();
+				} else {
+					entryBuilder_.setMessage(index, value);
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder setEntry(int index, com.rwproto.GroupPrayProto.PrayEntry.Builder builderForValue) {
+				if (entryBuilder_ == null) {
+					ensureEntryIsMutable();
+					entry_.set(index, builderForValue.build());
+					onChanged();
+				} else {
+					entryBuilder_.setMessage(index, builderForValue.build());
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder addEntry(com.rwproto.GroupPrayProto.PrayEntry value) {
+				if (entryBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureEntryIsMutable();
+					entry_.add(value);
+					onChanged();
+				} else {
+					entryBuilder_.addMessage(value);
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder addEntry(int index, com.rwproto.GroupPrayProto.PrayEntry value) {
+				if (entryBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureEntryIsMutable();
+					entry_.add(index, value);
+					onChanged();
+				} else {
+					entryBuilder_.addMessage(index, value);
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder addEntry(com.rwproto.GroupPrayProto.PrayEntry.Builder builderForValue) {
+				if (entryBuilder_ == null) {
+					ensureEntryIsMutable();
+					entry_.add(builderForValue.build());
+					onChanged();
+				} else {
+					entryBuilder_.addMessage(builderForValue.build());
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder addEntry(int index, com.rwproto.GroupPrayProto.PrayEntry.Builder builderForValue) {
+				if (entryBuilder_ == null) {
+					ensureEntryIsMutable();
+					entry_.add(index, builderForValue.build());
+					onChanged();
+				} else {
+					entryBuilder_.addMessage(index, builderForValue.build());
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder addAllEntry(java.lang.Iterable<? extends com.rwproto.GroupPrayProto.PrayEntry> values) {
+				if (entryBuilder_ == null) {
+					ensureEntryIsMutable();
+					super.addAll(values, entry_);
+					onChanged();
+				} else {
+					entryBuilder_.addAllMessages(values);
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder clearEntry() {
+				if (entryBuilder_ == null) {
+					entry_ = java.util.Collections.emptyList();
+					bitField0_ = (bitField0_ & ~0x00000001);
+					onChanged();
+				} else {
+					entryBuilder_.clear();
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public Builder removeEntry(int index) {
+				if (entryBuilder_ == null) {
+					ensureEntryIsMutable();
+					entry_.remove(index);
+					onChanged();
+				} else {
+					entryBuilder_.remove(index);
+				}
+				return this;
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayEntry.Builder getEntryBuilder(int index) {
+				return getEntryFieldBuilder().getBuilder(index);
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayEntryOrBuilder getEntryOrBuilder(int index) {
+				if (entryBuilder_ == null) {
+					return entry_.get(index);
+				} else {
+					return entryBuilder_.getMessageOrBuilder(index);
+				}
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public java.util.List<? extends com.rwproto.GroupPrayProto.PrayEntryOrBuilder> getEntryOrBuilderList() {
+				if (entryBuilder_ != null) {
+					return entryBuilder_.getMessageOrBuilderList();
+				} else {
+					return java.util.Collections.unmodifiableList(entry_);
+				}
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayEntry.Builder addEntryBuilder() {
+				return getEntryFieldBuilder().addBuilder(com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance());
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayEntry.Builder addEntryBuilder(int index) {
+				return getEntryFieldBuilder().addBuilder(index, com.rwproto.GroupPrayProto.PrayEntry.getDefaultInstance());
+			}
+
+			/**
+			 * <code>repeated .groupproto.PrayEntry entry = 1;</code>
+			 *
+			 * <pre>
+			 * 所有成员祈福数据
+			 * </pre>
+			 */
+			public java.util.List<com.rwproto.GroupPrayProto.PrayEntry.Builder> getEntryBuilderList() {
+				return getEntryFieldBuilder().getBuilderList();
+			}
+
+			private com.google.protobuf.RepeatedFieldBuilder<com.rwproto.GroupPrayProto.PrayEntry, com.rwproto.GroupPrayProto.PrayEntry.Builder, com.rwproto.GroupPrayProto.PrayEntryOrBuilder> getEntryFieldBuilder() {
+				if (entryBuilder_ == null) {
+					entryBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<com.rwproto.GroupPrayProto.PrayEntry, com.rwproto.GroupPrayProto.PrayEntry.Builder, com.rwproto.GroupPrayProto.PrayEntryOrBuilder>(entry_, ((bitField0_ & 0x00000001) == 0x00000001), getParentForChildren(), isClean());
+					entry_ = null;
+				}
+				return entryBuilder_;
+			}
+
+			// required bool hasPray = 2;
+			private boolean hasPray_;
+
+			/**
+			 * <code>required bool hasPray = 2;</code>
+			 *
+			 * <pre>
+			 * 自己是否祈福过
+			 * </pre>
+			 */
+			public boolean hasHasPray() {
+				return ((bitField0_ & 0x00000002) == 0x00000002);
+			}
+
+			/**
+			 * <code>required bool hasPray = 2;</code>
+			 *
+			 * <pre>
+			 * 自己是否祈福过
+			 * </pre>
+			 */
+			public boolean getHasPray() {
+				return hasPray_;
+			}
+
+			/**
+			 * <code>required bool hasPray = 2;</code>
+			 *
+			 * <pre>
+			 * 自己是否祈福过
+			 * </pre>
+			 */
+			public Builder setHasPray(boolean value) {
+				bitField0_ |= 0x00000002;
+				hasPray_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required bool hasPray = 2;</code>
+			 *
+			 * <pre>
+			 * 自己是否祈福过
+			 * </pre>
+			 */
+			public Builder clearHasPray() {
+				bitField0_ = (bitField0_ & ~0x00000002);
+				hasPray_ = false;
+				onChanged();
+				return this;
+			}
+
+			// optional .groupproto.PrayRewardInfo prayReward = 3;
+			private com.rwproto.GroupPrayProto.PrayRewardInfo prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.PrayRewardInfo, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder, com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder> prayRewardBuilder_;
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public boolean hasPrayReward() {
+				return ((bitField0_ & 0x00000004) == 0x00000004);
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayRewardInfo getPrayReward() {
+				if (prayRewardBuilder_ == null) {
+					return prayReward_;
+				} else {
+					return prayRewardBuilder_.getMessage();
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public Builder setPrayReward(com.rwproto.GroupPrayProto.PrayRewardInfo value) {
+				if (prayRewardBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					prayReward_ = value;
+					onChanged();
+				} else {
+					prayRewardBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000004;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public Builder setPrayReward(com.rwproto.GroupPrayProto.PrayRewardInfo.Builder builderForValue) {
+				if (prayRewardBuilder_ == null) {
+					prayReward_ = builderForValue.build();
+					onChanged();
+				} else {
+					prayRewardBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000004;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public Builder mergePrayReward(com.rwproto.GroupPrayProto.PrayRewardInfo value) {
+				if (prayRewardBuilder_ == null) {
+					if (((bitField0_ & 0x00000004) == 0x00000004) && prayReward_ != com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance()) {
+						prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.newBuilder(prayReward_).mergeFrom(value).buildPartial();
+					} else {
+						prayReward_ = value;
+					}
+					onChanged();
+				} else {
+					prayRewardBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000004;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public Builder clearPrayReward() {
+				if (prayRewardBuilder_ == null) {
+					prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+					onChanged();
+				} else {
+					prayRewardBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000004);
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayRewardInfo.Builder getPrayRewardBuilder() {
+				bitField0_ |= 0x00000004;
+				onChanged();
+				return getPrayRewardFieldBuilder().getBuilder();
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder getPrayRewardOrBuilder() {
+				if (prayRewardBuilder_ != null) {
+					return prayRewardBuilder_.getMessageOrBuilder();
+				} else {
+					return prayReward_;
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+			 *
+			 * <pre>
+			 * 祈福的奖励
+			 * </pre>
+			 */
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.PrayRewardInfo, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder, com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder> getPrayRewardFieldBuilder() {
+				if (prayRewardBuilder_ == null) {
+					prayRewardBuilder_ = new com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.PrayRewardInfo, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder, com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder>(prayReward_, getParentForChildren(), isClean());
+					prayReward_ = null;
+				}
+				return prayRewardBuilder_;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.OpenPrayMainViewRspMsg)
+		}
+
+		static {
+			defaultInstance = new OpenPrayMainViewRspMsg(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.OpenPrayMainViewRspMsg)
+	}
+
+	public interface NeedPrayReqMsgOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// required int32 soulId = 1;
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的魂石Id
+		 * </pre>
+		 */
+		boolean hasSoulId();
+
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的魂石Id
+		 * </pre>
+		 */
+		int getSoulId();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.NeedPrayReqMsg}
+	 *
+	 * <pre>
+	 * 请求祈福的消息
+	 * </pre>
+	 */
+	public static final class NeedPrayReqMsg extends com.google.protobuf.GeneratedMessage implements NeedPrayReqMsgOrBuilder {
+		// Use NeedPrayReqMsg.newBuilder() to construct.
+		private NeedPrayReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private NeedPrayReqMsg(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final NeedPrayReqMsg defaultInstance;
+
+		public static NeedPrayReqMsg getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public NeedPrayReqMsg getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private NeedPrayReqMsg(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 8: {
+						bitField0_ |= 0x00000001;
+						soulId_ = input.readInt32();
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.NeedPrayReqMsg.class, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<NeedPrayReqMsg> PARSER = new com.google.protobuf.AbstractParser<NeedPrayReqMsg>() {
+			public NeedPrayReqMsg parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new NeedPrayReqMsg(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<NeedPrayReqMsg> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// required int32 soulId = 1;
+		public static final int SOULID_FIELD_NUMBER = 1;
+		private int soulId_;
+
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的魂石Id
+		 * </pre>
+		 */
+		public boolean hasSoulId() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required int32 soulId = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的魂石Id
+		 * </pre>
+		 */
+		public int getSoulId() {
+			return soulId_;
+		}
+
+		private void initFields() {
+			soulId_ = 0;
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasSoulId()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeInt32(1, soulId_);
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeInt32Size(1, soulId_);
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.NeedPrayReqMsg parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.NeedPrayReqMsg prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.NeedPrayReqMsg}
+		 *
+		 * <pre>
+		 * 请求祈福的消息
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.NeedPrayReqMsg.class, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.NeedPrayReqMsg.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				soulId_ = 0;
+				bitField0_ = (bitField0_ & ~0x00000001);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_NeedPrayReqMsg_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.NeedPrayReqMsg getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.NeedPrayReqMsg build() {
+				com.rwproto.GroupPrayProto.NeedPrayReqMsg result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.NeedPrayReqMsg buildPartial() {
+				com.rwproto.GroupPrayProto.NeedPrayReqMsg result = new com.rwproto.GroupPrayProto.NeedPrayReqMsg(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.soulId_ = soulId_;
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.NeedPrayReqMsg) {
+					return mergeFrom((com.rwproto.GroupPrayProto.NeedPrayReqMsg) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.NeedPrayReqMsg other) {
+				if (other == com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance())
+					return this;
+				if (other.hasSoulId()) {
+					setSoulId(other.getSoulId());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasSoulId()) {
+
+					return false;
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.NeedPrayReqMsg parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.NeedPrayReqMsg) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// required int32 soulId = 1;
+			private int soulId_;
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的魂石Id
+			 * </pre>
+			 */
+			public boolean hasSoulId() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的魂石Id
+			 * </pre>
+			 */
+			public int getSoulId() {
+				return soulId_;
+			}
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的魂石Id
+			 * </pre>
+			 */
+			public Builder setSoulId(int value) {
+				bitField0_ |= 0x00000001;
+				soulId_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required int32 soulId = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的魂石Id
+			 * </pre>
+			 */
+			public Builder clearSoulId() {
+				bitField0_ = (bitField0_ & ~0x00000001);
+				soulId_ = 0;
+				onChanged();
+				return this;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.NeedPrayReqMsg)
+		}
+
+		static {
+			defaultInstance = new NeedPrayReqMsg(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.NeedPrayReqMsg)
+	}
+
+	public interface SendPrayReqMsgOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// required string memberId = 1;
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 赠送给成员的Id
+		 * </pre>
+		 */
+		boolean hasMemberId();
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 赠送给成员的Id
+		 * </pre>
+		 */
+		java.lang.String getMemberId();
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 赠送给成员的Id
+		 * </pre>
+		 */
+		com.google.protobuf.ByteString getMemberIdBytes();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.SendPrayReqMsg}
+	 *
+	 * <pre>
+	 * 给某人赠送卡片的消息
+	 * </pre>
+	 */
+	public static final class SendPrayReqMsg extends com.google.protobuf.GeneratedMessage implements SendPrayReqMsgOrBuilder {
+		// Use SendPrayReqMsg.newBuilder() to construct.
+		private SendPrayReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private SendPrayReqMsg(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final SendPrayReqMsg defaultInstance;
+
+		public static SendPrayReqMsg getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public SendPrayReqMsg getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private SendPrayReqMsg(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 10: {
+						bitField0_ |= 0x00000001;
+						memberId_ = input.readBytes();
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.SendPrayReqMsg.class, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<SendPrayReqMsg> PARSER = new com.google.protobuf.AbstractParser<SendPrayReqMsg>() {
+			public SendPrayReqMsg parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new SendPrayReqMsg(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<SendPrayReqMsg> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// required string memberId = 1;
+		public static final int MEMBERID_FIELD_NUMBER = 1;
+		private java.lang.Object memberId_;
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 赠送给成员的Id
+		 * </pre>
+		 */
+		public boolean hasMemberId() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 赠送给成员的Id
+		 * </pre>
+		 */
+		public java.lang.String getMemberId() {
+			java.lang.Object ref = memberId_;
+			if (ref instanceof java.lang.String) {
+				return (java.lang.String) ref;
+			} else {
+				com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+				java.lang.String s = bs.toStringUtf8();
+				if (bs.isValidUtf8()) {
+					memberId_ = s;
+				}
+				return s;
+			}
+		}
+
+		/**
+		 * <code>required string memberId = 1;</code>
+		 *
+		 * <pre>
+		 * 赠送给成员的Id
+		 * </pre>
+		 */
+		public com.google.protobuf.ByteString getMemberIdBytes() {
+			java.lang.Object ref = memberId_;
+			if (ref instanceof java.lang.String) {
+				com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+				memberId_ = b;
+				return b;
+			} else {
+				return (com.google.protobuf.ByteString) ref;
+			}
+		}
+
+		private void initFields() {
+			memberId_ = "";
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasMemberId()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeBytes(1, getMemberIdBytes());
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, getMemberIdBytes());
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.SendPrayReqMsg parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.SendPrayReqMsg prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.SendPrayReqMsg}
+		 *
+		 * <pre>
+		 * 给某人赠送卡片的消息
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.SendPrayReqMsg.class, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.SendPrayReqMsg.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				memberId_ = "";
+				bitField0_ = (bitField0_ & ~0x00000001);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_SendPrayReqMsg_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.SendPrayReqMsg getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.SendPrayReqMsg build() {
+				com.rwproto.GroupPrayProto.SendPrayReqMsg result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.SendPrayReqMsg buildPartial() {
+				com.rwproto.GroupPrayProto.SendPrayReqMsg result = new com.rwproto.GroupPrayProto.SendPrayReqMsg(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.memberId_ = memberId_;
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.SendPrayReqMsg) {
+					return mergeFrom((com.rwproto.GroupPrayProto.SendPrayReqMsg) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.SendPrayReqMsg other) {
+				if (other == com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance())
+					return this;
+				if (other.hasMemberId()) {
+					bitField0_ |= 0x00000001;
+					memberId_ = other.memberId_;
+					onChanged();
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasMemberId()) {
+
+					return false;
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.SendPrayReqMsg parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.SendPrayReqMsg) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// required string memberId = 1;
+			private java.lang.Object memberId_ = "";
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 赠送给成员的Id
+			 * </pre>
+			 */
+			public boolean hasMemberId() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 赠送给成员的Id
+			 * </pre>
+			 */
+			public java.lang.String getMemberId() {
+				java.lang.Object ref = memberId_;
+				if (!(ref instanceof java.lang.String)) {
+					java.lang.String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+					memberId_ = s;
+					return s;
+				} else {
+					return (java.lang.String) ref;
+				}
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 赠送给成员的Id
+			 * </pre>
+			 */
+			public com.google.protobuf.ByteString getMemberIdBytes() {
+				java.lang.Object ref = memberId_;
+				if (ref instanceof String) {
+					com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+					memberId_ = b;
+					return b;
+				} else {
+					return (com.google.protobuf.ByteString) ref;
+				}
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 赠送给成员的Id
+			 * </pre>
+			 */
+			public Builder setMemberId(java.lang.String value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000001;
+				memberId_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 赠送给成员的Id
+			 * </pre>
+			 */
+			public Builder clearMemberId() {
+				bitField0_ = (bitField0_ & ~0x00000001);
+				memberId_ = getDefaultInstance().getMemberId();
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required string memberId = 1;</code>
+			 *
+			 * <pre>
+			 * 赠送给成员的Id
+			 * </pre>
+			 */
+			public Builder setMemberIdBytes(com.google.protobuf.ByteString value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000001;
+				memberId_ = value;
+				onChanged();
+				return this;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.SendPrayReqMsg)
+		}
+
+		static {
+			defaultInstance = new SendPrayReqMsg(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.SendPrayReqMsg)
+	}
+
+	public interface GroupPrayCommonReqMsgOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// required .groupproto.ReqType reqType = 1;
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		boolean hasReqType();
+
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.ReqType getReqType();
+
+		// optional .groupproto.NeedPrayReqMsg needPrayReq = 2;
+		/**
+		 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		boolean hasNeedPrayReq();
+
+		/**
+		 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.NeedPrayReqMsg getNeedPrayReq();
+
+		/**
+		 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder getNeedPrayReqOrBuilder();
+
+		// optional .groupproto.SendPrayReqMsg sendPrayReq = 3;
+		/**
+		 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片
+		 * </pre>
+		 */
+		boolean hasSendPrayReq();
+
+		/**
+		 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.SendPrayReqMsg getSendPrayReq();
+
+		/**
+		 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder getSendPrayReqOrBuilder();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.GroupPrayCommonReqMsg}
+	 *
+	 * <pre>
+	 * 祈福的通用请求消息
+	 * </pre>
+	 */
+	public static final class GroupPrayCommonReqMsg extends com.google.protobuf.GeneratedMessage implements GroupPrayCommonReqMsgOrBuilder {
+		// Use GroupPrayCommonReqMsg.newBuilder() to construct.
+		private GroupPrayCommonReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private GroupPrayCommonReqMsg(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final GroupPrayCommonReqMsg defaultInstance;
+
+		public static GroupPrayCommonReqMsg getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public GroupPrayCommonReqMsg getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private GroupPrayCommonReqMsg(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 8: {
+						int rawValue = input.readEnum();
+						com.rwproto.GroupPrayProto.ReqType value = com.rwproto.GroupPrayProto.ReqType.valueOf(rawValue);
+						if (value == null) {
+							unknownFields.mergeVarintField(1, rawValue);
+						} else {
+							bitField0_ |= 0x00000001;
+							reqType_ = value;
+						}
+						break;
+					}
+					case 18: {
+						com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder subBuilder = null;
+						if (((bitField0_ & 0x00000002) == 0x00000002)) {
+							subBuilder = needPrayReq_.toBuilder();
+						}
+						needPrayReq_ = input.readMessage(com.rwproto.GroupPrayProto.NeedPrayReqMsg.PARSER, extensionRegistry);
+						if (subBuilder != null) {
+							subBuilder.mergeFrom(needPrayReq_);
+							needPrayReq_ = subBuilder.buildPartial();
+						}
+						bitField0_ |= 0x00000002;
+						break;
+					}
+					case 26: {
+						com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder subBuilder = null;
+						if (((bitField0_ & 0x00000004) == 0x00000004)) {
+							subBuilder = sendPrayReq_.toBuilder();
+						}
+						sendPrayReq_ = input.readMessage(com.rwproto.GroupPrayProto.SendPrayReqMsg.PARSER, extensionRegistry);
+						if (subBuilder != null) {
+							subBuilder.mergeFrom(sendPrayReq_);
+							sendPrayReq_ = subBuilder.buildPartial();
+						}
+						bitField0_ |= 0x00000004;
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<GroupPrayCommonReqMsg> PARSER = new com.google.protobuf.AbstractParser<GroupPrayCommonReqMsg>() {
+			public GroupPrayCommonReqMsg parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new GroupPrayCommonReqMsg(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<GroupPrayCommonReqMsg> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// required .groupproto.ReqType reqType = 1;
+		public static final int REQTYPE_FIELD_NUMBER = 1;
+		private com.rwproto.GroupPrayProto.ReqType reqType_;
+
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		public boolean hasReqType() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.ReqType getReqType() {
+			return reqType_;
+		}
+
+		// optional .groupproto.NeedPrayReqMsg needPrayReq = 2;
+		public static final int NEEDPRAYREQ_FIELD_NUMBER = 2;
+		private com.rwproto.GroupPrayProto.NeedPrayReqMsg needPrayReq_;
+
+		/**
+		 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		public boolean hasNeedPrayReq() {
+			return ((bitField0_ & 0x00000002) == 0x00000002);
+		}
+
+		/**
+		 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.NeedPrayReqMsg getNeedPrayReq() {
+			return needPrayReq_;
+		}
+
+		/**
+		 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+		 *
+		 * <pre>
+		 * 请求祈福
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder getNeedPrayReqOrBuilder() {
+			return needPrayReq_;
+		}
+
+		// optional .groupproto.SendPrayReqMsg sendPrayReq = 3;
+		public static final int SENDPRAYREQ_FIELD_NUMBER = 3;
+		private com.rwproto.GroupPrayProto.SendPrayReqMsg sendPrayReq_;
+
+		/**
+		 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片
+		 * </pre>
+		 */
+		public boolean hasSendPrayReq() {
+			return ((bitField0_ & 0x00000004) == 0x00000004);
+		}
+
+		/**
+		 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.SendPrayReqMsg getSendPrayReq() {
+			return sendPrayReq_;
+		}
+
+		/**
+		 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+		 *
+		 * <pre>
+		 * 赠送卡片
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder getSendPrayReqOrBuilder() {
+			return sendPrayReq_;
+		}
+
+		private void initFields() {
+			reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+			needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
+			sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasReqType()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (hasNeedPrayReq()) {
+				if (!getNeedPrayReq().isInitialized()) {
+					memoizedIsInitialized = 0;
+					return false;
+				}
+			}
+			if (hasSendPrayReq()) {
+				if (!getSendPrayReq().isInitialized()) {
+					memoizedIsInitialized = 0;
+					return false;
+				}
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeEnum(1, reqType_.getNumber());
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				output.writeMessage(2, needPrayReq_);
+			}
+			if (((bitField0_ & 0x00000004) == 0x00000004)) {
+				output.writeMessage(3, sendPrayReq_);
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeEnumSize(1, reqType_.getNumber());
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(2, needPrayReq_);
+			}
+			if (((bitField0_ & 0x00000004) == 0x00000004)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(3, sendPrayReq_);
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.GroupPrayCommonReqMsg}
+		 *
+		 * <pre>
+		 * 祈福的通用请求消息
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.GroupPrayCommonReqMsgOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+					getNeedPrayReqFieldBuilder();
+					getSendPrayReqFieldBuilder();
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+				bitField0_ = (bitField0_ & ~0x00000001);
+				if (needPrayReqBuilder_ == null) {
+					needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
+				} else {
+					needPrayReqBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000002);
+				if (sendPrayReqBuilder_ == null) {
+					sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
+				} else {
+					sendPrayReqBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000004);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg build() {
+				com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg buildPartial() {
+				com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg result = new com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.reqType_ = reqType_;
+				if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+					to_bitField0_ |= 0x00000002;
+				}
+				if (needPrayReqBuilder_ == null) {
+					result.needPrayReq_ = needPrayReq_;
+				} else {
+					result.needPrayReq_ = needPrayReqBuilder_.build();
+				}
+				if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+					to_bitField0_ |= 0x00000004;
+				}
+				if (sendPrayReqBuilder_ == null) {
+					result.sendPrayReq_ = sendPrayReq_;
+				} else {
+					result.sendPrayReq_ = sendPrayReqBuilder_.build();
+				}
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg) {
+					return mergeFrom((com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg other) {
+				if (other == com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg.getDefaultInstance())
+					return this;
+				if (other.hasReqType()) {
+					setReqType(other.getReqType());
+				}
+				if (other.hasNeedPrayReq()) {
+					mergeNeedPrayReq(other.getNeedPrayReq());
+				}
+				if (other.hasSendPrayReq()) {
+					mergeSendPrayReq(other.getSendPrayReq());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasReqType()) {
+
+					return false;
+				}
+				if (hasNeedPrayReq()) {
+					if (!getNeedPrayReq().isInitialized()) {
+
+						return false;
+					}
+				}
+				if (hasSendPrayReq()) {
+					if (!getSendPrayReq().isInitialized()) {
+
+						return false;
+					}
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// required .groupproto.ReqType reqType = 1;
+			private com.rwproto.GroupPrayProto.ReqType reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public boolean hasReqType() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.ReqType getReqType() {
+				return reqType_;
+			}
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public Builder setReqType(com.rwproto.GroupPrayProto.ReqType value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000001;
+				reqType_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public Builder clearReqType() {
+				bitField0_ = (bitField0_ & ~0x00000001);
+				reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+				onChanged();
+				return this;
+			}
+
+			// optional .groupproto.NeedPrayReqMsg needPrayReq = 2;
+			private com.rwproto.GroupPrayProto.NeedPrayReqMsg needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.NeedPrayReqMsg, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder, com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder> needPrayReqBuilder_;
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public boolean hasNeedPrayReq() {
+				return ((bitField0_ & 0x00000002) == 0x00000002);
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.NeedPrayReqMsg getNeedPrayReq() {
+				if (needPrayReqBuilder_ == null) {
+					return needPrayReq_;
+				} else {
+					return needPrayReqBuilder_.getMessage();
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public Builder setNeedPrayReq(com.rwproto.GroupPrayProto.NeedPrayReqMsg value) {
+				if (needPrayReqBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					needPrayReq_ = value;
+					onChanged();
+				} else {
+					needPrayReqBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000002;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public Builder setNeedPrayReq(com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder builderForValue) {
+				if (needPrayReqBuilder_ == null) {
+					needPrayReq_ = builderForValue.build();
+					onChanged();
+				} else {
+					needPrayReqBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000002;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public Builder mergeNeedPrayReq(com.rwproto.GroupPrayProto.NeedPrayReqMsg value) {
+				if (needPrayReqBuilder_ == null) {
+					if (((bitField0_ & 0x00000002) == 0x00000002) && needPrayReq_ != com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance()) {
+						needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.newBuilder(needPrayReq_).mergeFrom(value).buildPartial();
+					} else {
+						needPrayReq_ = value;
+					}
+					onChanged();
+				} else {
+					needPrayReqBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000002;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public Builder clearNeedPrayReq() {
+				if (needPrayReqBuilder_ == null) {
+					needPrayReq_ = com.rwproto.GroupPrayProto.NeedPrayReqMsg.getDefaultInstance();
+					onChanged();
+				} else {
+					needPrayReqBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000002);
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder getNeedPrayReqBuilder() {
+				bitField0_ |= 0x00000002;
+				onChanged();
+				return getNeedPrayReqFieldBuilder().getBuilder();
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder getNeedPrayReqOrBuilder() {
+				if (needPrayReqBuilder_ != null) {
+					return needPrayReqBuilder_.getMessageOrBuilder();
+				} else {
+					return needPrayReq_;
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.NeedPrayReqMsg needPrayReq = 2;</code>
+			 *
+			 * <pre>
+			 * 请求祈福
+			 * </pre>
+			 */
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.NeedPrayReqMsg, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder, com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder> getNeedPrayReqFieldBuilder() {
+				if (needPrayReqBuilder_ == null) {
+					needPrayReqBuilder_ = new com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.NeedPrayReqMsg, com.rwproto.GroupPrayProto.NeedPrayReqMsg.Builder, com.rwproto.GroupPrayProto.NeedPrayReqMsgOrBuilder>(needPrayReq_, getParentForChildren(), isClean());
+					needPrayReq_ = null;
+				}
+				return needPrayReqBuilder_;
+			}
+
+			// optional .groupproto.SendPrayReqMsg sendPrayReq = 3;
+			private com.rwproto.GroupPrayProto.SendPrayReqMsg sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.SendPrayReqMsg, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder, com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder> sendPrayReqBuilder_;
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public boolean hasSendPrayReq() {
+				return ((bitField0_ & 0x00000004) == 0x00000004);
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.SendPrayReqMsg getSendPrayReq() {
+				if (sendPrayReqBuilder_ == null) {
+					return sendPrayReq_;
+				} else {
+					return sendPrayReqBuilder_.getMessage();
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public Builder setSendPrayReq(com.rwproto.GroupPrayProto.SendPrayReqMsg value) {
+				if (sendPrayReqBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					sendPrayReq_ = value;
+					onChanged();
+				} else {
+					sendPrayReqBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000004;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public Builder setSendPrayReq(com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder builderForValue) {
+				if (sendPrayReqBuilder_ == null) {
+					sendPrayReq_ = builderForValue.build();
+					onChanged();
+				} else {
+					sendPrayReqBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000004;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public Builder mergeSendPrayReq(com.rwproto.GroupPrayProto.SendPrayReqMsg value) {
+				if (sendPrayReqBuilder_ == null) {
+					if (((bitField0_ & 0x00000004) == 0x00000004) && sendPrayReq_ != com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance()) {
+						sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.newBuilder(sendPrayReq_).mergeFrom(value).buildPartial();
+					} else {
+						sendPrayReq_ = value;
+					}
+					onChanged();
+				} else {
+					sendPrayReqBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000004;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public Builder clearSendPrayReq() {
+				if (sendPrayReqBuilder_ == null) {
+					sendPrayReq_ = com.rwproto.GroupPrayProto.SendPrayReqMsg.getDefaultInstance();
+					onChanged();
+				} else {
+					sendPrayReqBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000004);
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder getSendPrayReqBuilder() {
+				bitField0_ |= 0x00000004;
+				onChanged();
+				return getSendPrayReqFieldBuilder().getBuilder();
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder getSendPrayReqOrBuilder() {
+				if (sendPrayReqBuilder_ != null) {
+					return sendPrayReqBuilder_.getMessageOrBuilder();
+				} else {
+					return sendPrayReq_;
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.SendPrayReqMsg sendPrayReq = 3;</code>
+			 *
+			 * <pre>
+			 * 赠送卡片
+			 * </pre>
+			 */
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.SendPrayReqMsg, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder, com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder> getSendPrayReqFieldBuilder() {
+				if (sendPrayReqBuilder_ == null) {
+					sendPrayReqBuilder_ = new com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.SendPrayReqMsg, com.rwproto.GroupPrayProto.SendPrayReqMsg.Builder, com.rwproto.GroupPrayProto.SendPrayReqMsgOrBuilder>(sendPrayReq_, getParentForChildren(), isClean());
+					sendPrayReq_ = null;
+				}
+				return sendPrayReqBuilder_;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.GroupPrayCommonReqMsg)
+		}
+
+		static {
+			defaultInstance = new GroupPrayCommonReqMsg(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.GroupPrayCommonReqMsg)
+	}
+
+	public interface GroupPrayCommonRspMsgOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// required .groupproto.ReqType reqType = 1;
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		boolean hasReqType();
+
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.ReqType getReqType();
+
+		// required bool isSuccess = 2;
+		/**
+		 * <code>required bool isSuccess = 2;</code>
+		 *
+		 * <pre>
+		 * 是否处理成功
+		 * </pre>
+		 */
+		boolean hasIsSuccess();
+
+		/**
+		 * <code>required bool isSuccess = 2;</code>
+		 *
+		 * <pre>
+		 * 是否处理成功
+		 * </pre>
+		 */
+		boolean getIsSuccess();
+
+		// optional string tipMsg = 3;
+		/**
+		 * <code>optional string tipMsg = 3;</code>
+		 *
+		 * <pre>
+		 * 提示的消息(这个不管成功和失败都有可能会发)
+		 * </pre>
+		 */
+		boolean hasTipMsg();
+
+		/**
+		 * <code>optional string tipMsg = 3;</code>
+		 *
+		 * <pre>
+		 * 提示的消息(这个不管成功和失败都有可能会发)
+		 * </pre>
+		 */
+		java.lang.String getTipMsg();
+
+		/**
+		 * <code>optional string tipMsg = 3;</code>
+		 *
+		 * <pre>
+		 * 提示的消息(这个不管成功和失败都有可能会发)
+		 * </pre>
+		 */
+		com.google.protobuf.ByteString getTipMsgBytes();
+
+		// optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;
+		/**
+		 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面的响应
+		 * </pre>
+		 */
+		boolean hasOpenPrayMainViewRsp();
+
+		/**
+		 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面的响应
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getOpenPrayMainViewRsp();
+
+		/**
+		 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面的响应
+		 * </pre>
+		 */
+		com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder getOpenPrayMainViewRspOrBuilder();
+	}
+
+	/**
+	 * Protobuf type {@code groupproto.GroupPrayCommonRspMsg}
+	 *
+	 * <pre>
+	 * 祈福的通用响应消息
+	 * </pre>
+	 */
+	public static final class GroupPrayCommonRspMsg extends com.google.protobuf.GeneratedMessage implements GroupPrayCommonRspMsgOrBuilder {
+		// Use GroupPrayCommonRspMsg.newBuilder() to construct.
+		private GroupPrayCommonRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+			super(builder);
+			this.unknownFields = builder.getUnknownFields();
+		}
+
+		private GroupPrayCommonRspMsg(boolean noInit) {
+			this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+		}
+
+		private static final GroupPrayCommonRspMsg defaultInstance;
+
+		public static GroupPrayCommonRspMsg getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public GroupPrayCommonRspMsg getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		private final com.google.protobuf.UnknownFieldSet unknownFields;
+
+		@java.lang.Override
+		public final com.google.protobuf.UnknownFieldSet getUnknownFields() {
+			return this.unknownFields;
+		}
+
+		private GroupPrayCommonRspMsg(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			initFields();
+			int mutable_bitField0_ = 0;
+			com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google.protobuf.UnknownFieldSet.newBuilder();
+			try {
+				boolean done = false;
+				while (!done) {
+					int tag = input.readTag();
+					switch (tag) {
+					case 0:
+						done = true;
+						break;
+					default: {
+						if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+							done = true;
+						}
+						break;
+					}
+					case 8: {
+						int rawValue = input.readEnum();
+						com.rwproto.GroupPrayProto.ReqType value = com.rwproto.GroupPrayProto.ReqType.valueOf(rawValue);
+						if (value == null) {
+							unknownFields.mergeVarintField(1, rawValue);
+						} else {
+							bitField0_ |= 0x00000001;
+							reqType_ = value;
+						}
+						break;
+					}
+					case 16: {
+						bitField0_ |= 0x00000002;
+						isSuccess_ = input.readBool();
+						break;
+					}
+					case 26: {
+						bitField0_ |= 0x00000004;
+						tipMsg_ = input.readBytes();
+						break;
+					}
+					case 34: {
+						com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder subBuilder = null;
+						if (((bitField0_ & 0x00000008) == 0x00000008)) {
+							subBuilder = openPrayMainViewRsp_.toBuilder();
+						}
+						openPrayMainViewRsp_ = input.readMessage(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.PARSER, extensionRegistry);
+						if (subBuilder != null) {
+							subBuilder.mergeFrom(openPrayMainViewRsp_);
+							openPrayMainViewRsp_ = subBuilder.buildPartial();
+						}
+						bitField0_ |= 0x00000008;
+						break;
+					}
+					}
+				}
+			} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+				throw e.setUnfinishedMessage(this);
+			} catch (java.io.IOException e) {
+				throw new com.google.protobuf.InvalidProtocolBufferException(e.getMessage()).setUnfinishedMessage(this);
+			} finally {
+				this.unknownFields = unknownFields.build();
+				makeExtensionsImmutable();
+			}
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.Builder.class);
+		}
+
+		public static com.google.protobuf.Parser<GroupPrayCommonRspMsg> PARSER = new com.google.protobuf.AbstractParser<GroupPrayCommonRspMsg>() {
+			public GroupPrayCommonRspMsg parsePartialFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+				return new GroupPrayCommonRspMsg(input, extensionRegistry);
+			}
+		};
+
+		@java.lang.Override
+		public com.google.protobuf.Parser<GroupPrayCommonRspMsg> getParserForType() {
+			return PARSER;
+		}
+
+		private int bitField0_;
+		// required .groupproto.ReqType reqType = 1;
+		public static final int REQTYPE_FIELD_NUMBER = 1;
+		private com.rwproto.GroupPrayProto.ReqType reqType_;
+
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		public boolean hasReqType() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		/**
+		 * <code>required .groupproto.ReqType reqType = 1;</code>
+		 *
+		 * <pre>
+		 * 请求的类型
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.ReqType getReqType() {
+			return reqType_;
+		}
+
+		// required bool isSuccess = 2;
+		public static final int ISSUCCESS_FIELD_NUMBER = 2;
+		private boolean isSuccess_;
+
+		/**
+		 * <code>required bool isSuccess = 2;</code>
+		 *
+		 * <pre>
+		 * 是否处理成功
+		 * </pre>
+		 */
+		public boolean hasIsSuccess() {
+			return ((bitField0_ & 0x00000002) == 0x00000002);
+		}
+
+		/**
+		 * <code>required bool isSuccess = 2;</code>
+		 *
+		 * <pre>
+		 * 是否处理成功
+		 * </pre>
+		 */
+		public boolean getIsSuccess() {
+			return isSuccess_;
+		}
+
+		// optional string tipMsg = 3;
+		public static final int TIPMSG_FIELD_NUMBER = 3;
+		private java.lang.Object tipMsg_;
+
+		/**
+		 * <code>optional string tipMsg = 3;</code>
+		 *
+		 * <pre>
+		 * 提示的消息(这个不管成功和失败都有可能会发)
+		 * </pre>
+		 */
+		public boolean hasTipMsg() {
+			return ((bitField0_ & 0x00000004) == 0x00000004);
+		}
+
+		/**
+		 * <code>optional string tipMsg = 3;</code>
+		 *
+		 * <pre>
+		 * 提示的消息(这个不管成功和失败都有可能会发)
+		 * </pre>
+		 */
+		public java.lang.String getTipMsg() {
+			java.lang.Object ref = tipMsg_;
+			if (ref instanceof java.lang.String) {
+				return (java.lang.String) ref;
+			} else {
+				com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+				java.lang.String s = bs.toStringUtf8();
+				if (bs.isValidUtf8()) {
+					tipMsg_ = s;
+				}
+				return s;
+			}
+		}
+
+		/**
+		 * <code>optional string tipMsg = 3;</code>
+		 *
+		 * <pre>
+		 * 提示的消息(这个不管成功和失败都有可能会发)
+		 * </pre>
+		 */
+		public com.google.protobuf.ByteString getTipMsgBytes() {
+			java.lang.Object ref = tipMsg_;
+			if (ref instanceof java.lang.String) {
+				com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+				tipMsg_ = b;
+				return b;
+			} else {
+				return (com.google.protobuf.ByteString) ref;
+			}
+		}
+
+		// optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;
+		public static final int OPENPRAYMAINVIEWRSP_FIELD_NUMBER = 4;
+		private com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg openPrayMainViewRsp_;
+
+		/**
+		 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面的响应
+		 * </pre>
+		 */
+		public boolean hasOpenPrayMainViewRsp() {
+			return ((bitField0_ & 0x00000008) == 0x00000008);
+		}
+
+		/**
+		 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面的响应
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getOpenPrayMainViewRsp() {
+			return openPrayMainViewRsp_;
+		}
+
+		/**
+		 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+		 *
+		 * <pre>
+		 * 打开祈福主界面的响应
+		 * </pre>
+		 */
+		public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder getOpenPrayMainViewRspOrBuilder() {
+			return openPrayMainViewRsp_;
+		}
+
+		private void initFields() {
+			reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+			isSuccess_ = false;
+			tipMsg_ = "";
+			openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1)
+				return isInitialized == 1;
+
+			if (!hasReqType()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (!hasIsSuccess()) {
+				memoizedIsInitialized = 0;
+				return false;
+			}
+			if (hasOpenPrayMainViewRsp()) {
+				if (!getOpenPrayMainViewRsp().isInitialized()) {
+					memoizedIsInitialized = 0;
+					return false;
+				}
+			}
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeEnum(1, reqType_.getNumber());
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				output.writeBool(2, isSuccess_);
+			}
+			if (((bitField0_ & 0x00000004) == 0x00000004)) {
+				output.writeBytes(3, getTipMsgBytes());
+			}
+			if (((bitField0_ & 0x00000008) == 0x00000008)) {
+				output.writeMessage(4, openPrayMainViewRsp_);
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1)
+				return size;
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeEnumSize(1, reqType_.getNumber());
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				size += com.google.protobuf.CodedOutputStream.computeBoolSize(2, isSuccess_);
+			}
+			if (((bitField0_ & 0x00000004) == 0x00000004)) {
+				size += com.google.protobuf.CodedOutputStream.computeBytesSize(3, getTipMsgBytes());
+			}
+			if (((bitField0_ & 0x00000008) == 0x00000008)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(4, openPrayMainViewRsp_);
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(com.google.protobuf.ByteString data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(byte[] data, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return PARSER.parseFrom(data, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseDelimitedFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseDelimitedFrom(input, extensionRegistry);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return PARSER.parseFrom(input);
+		}
+
+		public static com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parseFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return PARSER.parseFrom(input, extensionRegistry);
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		/**
+		 * Protobuf type {@code groupproto.GroupPrayCommonRspMsg}
+		 *
+		 * <pre>
+		 * 祈福的通用响应消息
+		 * </pre>
+		 */
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements com.rwproto.GroupPrayProto.GroupPrayCommonRspMsgOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable.ensureFieldAccessorsInitialized(com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.class, com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.Builder.class);
+			}
+
+			// Construct using com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+					getOpenPrayMainViewRspFieldBuilder();
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+				bitField0_ = (bitField0_ & ~0x00000001);
+				isSuccess_ = false;
+				bitField0_ = (bitField0_ & ~0x00000002);
+				tipMsg_ = "";
+				bitField0_ = (bitField0_ & ~0x00000004);
+				if (openPrayMainViewRspBuilder_ == null) {
+					openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
+				} else {
+					openPrayMainViewRspBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000008);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return com.rwproto.GroupPrayProto.internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
+			}
+
+			public com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg getDefaultInstanceForType() {
+				return com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.getDefaultInstance();
+			}
+
+			public com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg build() {
+				com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			public com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg buildPartial() {
+				com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg result = new com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg(this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				result.reqType_ = reqType_;
+				if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+					to_bitField0_ |= 0x00000002;
+				}
+				result.isSuccess_ = isSuccess_;
+				if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+					to_bitField0_ |= 0x00000004;
+				}
+				result.tipMsg_ = tipMsg_;
+				if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+					to_bitField0_ |= 0x00000008;
+				}
+				if (openPrayMainViewRspBuilder_ == null) {
+					result.openPrayMainViewRsp_ = openPrayMainViewRsp_;
+				} else {
+					result.openPrayMainViewRsp_ = openPrayMainViewRspBuilder_.build();
+				}
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg) {
+					return mergeFrom((com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg other) {
+				if (other == com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg.getDefaultInstance())
+					return this;
+				if (other.hasReqType()) {
+					setReqType(other.getReqType());
+				}
+				if (other.hasIsSuccess()) {
+					setIsSuccess(other.getIsSuccess());
+				}
+				if (other.hasTipMsg()) {
+					bitField0_ |= 0x00000004;
+					tipMsg_ = other.tipMsg_;
+					onChanged();
+				}
+				if (other.hasOpenPrayMainViewRsp()) {
+					mergeOpenPrayMainViewRsp(other.getOpenPrayMainViewRsp());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				if (!hasReqType()) {
+
+					return false;
+				}
+				if (!hasIsSuccess()) {
+
+					return false;
+				}
+				if (hasOpenPrayMainViewRsp()) {
+					if (!getOpenPrayMainViewRsp().isInitialized()) {
+
+						return false;
+					}
+				}
+				return true;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.CodedInputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg parsedMessage = null;
+				try {
+					parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+				} catch (com.google.protobuf.InvalidProtocolBufferException e) {
+					parsedMessage = (com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg) e.getUnfinishedMessage();
+					throw e;
+				} finally {
+					if (parsedMessage != null) {
+						mergeFrom(parsedMessage);
+					}
+				}
+				return this;
+			}
+
+			private int bitField0_;
+
+			// required .groupproto.ReqType reqType = 1;
+			private com.rwproto.GroupPrayProto.ReqType reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public boolean hasReqType() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.ReqType getReqType() {
+				return reqType_;
+			}
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public Builder setReqType(com.rwproto.GroupPrayProto.ReqType value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000001;
+				reqType_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required .groupproto.ReqType reqType = 1;</code>
+			 *
+			 * <pre>
+			 * 请求的类型
+			 * </pre>
+			 */
+			public Builder clearReqType() {
+				bitField0_ = (bitField0_ & ~0x00000001);
+				reqType_ = com.rwproto.GroupPrayProto.ReqType.OPEN_MAIN_VIEW;
+				onChanged();
+				return this;
+			}
+
+			// required bool isSuccess = 2;
+			private boolean isSuccess_;
+
+			/**
+			 * <code>required bool isSuccess = 2;</code>
+			 *
+			 * <pre>
+			 * 是否处理成功
+			 * </pre>
+			 */
+			public boolean hasIsSuccess() {
+				return ((bitField0_ & 0x00000002) == 0x00000002);
+			}
+
+			/**
+			 * <code>required bool isSuccess = 2;</code>
+			 *
+			 * <pre>
+			 * 是否处理成功
+			 * </pre>
+			 */
+			public boolean getIsSuccess() {
+				return isSuccess_;
+			}
+
+			/**
+			 * <code>required bool isSuccess = 2;</code>
+			 *
+			 * <pre>
+			 * 是否处理成功
+			 * </pre>
+			 */
+			public Builder setIsSuccess(boolean value) {
+				bitField0_ |= 0x00000002;
+				isSuccess_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>required bool isSuccess = 2;</code>
+			 *
+			 * <pre>
+			 * 是否处理成功
+			 * </pre>
+			 */
+			public Builder clearIsSuccess() {
+				bitField0_ = (bitField0_ & ~0x00000002);
+				isSuccess_ = false;
+				onChanged();
+				return this;
+			}
+
+			// optional string tipMsg = 3;
+			private java.lang.Object tipMsg_ = "";
+
+			/**
+			 * <code>optional string tipMsg = 3;</code>
+			 *
+			 * <pre>
+			 * 提示的消息(这个不管成功和失败都有可能会发)
+			 * </pre>
+			 */
+			public boolean hasTipMsg() {
+				return ((bitField0_ & 0x00000004) == 0x00000004);
+			}
+
+			/**
+			 * <code>optional string tipMsg = 3;</code>
+			 *
+			 * <pre>
+			 * 提示的消息(这个不管成功和失败都有可能会发)
+			 * </pre>
+			 */
+			public java.lang.String getTipMsg() {
+				java.lang.Object ref = tipMsg_;
+				if (!(ref instanceof java.lang.String)) {
+					java.lang.String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+					tipMsg_ = s;
+					return s;
+				} else {
+					return (java.lang.String) ref;
+				}
+			}
+
+			/**
+			 * <code>optional string tipMsg = 3;</code>
+			 *
+			 * <pre>
+			 * 提示的消息(这个不管成功和失败都有可能会发)
+			 * </pre>
+			 */
+			public com.google.protobuf.ByteString getTipMsgBytes() {
+				java.lang.Object ref = tipMsg_;
+				if (ref instanceof String) {
+					com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((java.lang.String) ref);
+					tipMsg_ = b;
+					return b;
+				} else {
+					return (com.google.protobuf.ByteString) ref;
+				}
+			}
+
+			/**
+			 * <code>optional string tipMsg = 3;</code>
+			 *
+			 * <pre>
+			 * 提示的消息(这个不管成功和失败都有可能会发)
+			 * </pre>
+			 */
+			public Builder setTipMsg(java.lang.String value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000004;
+				tipMsg_ = value;
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>optional string tipMsg = 3;</code>
+			 *
+			 * <pre>
+			 * 提示的消息(这个不管成功和失败都有可能会发)
+			 * </pre>
+			 */
+			public Builder clearTipMsg() {
+				bitField0_ = (bitField0_ & ~0x00000004);
+				tipMsg_ = getDefaultInstance().getTipMsg();
+				onChanged();
+				return this;
+			}
+
+			/**
+			 * <code>optional string tipMsg = 3;</code>
+			 *
+			 * <pre>
+			 * 提示的消息(这个不管成功和失败都有可能会发)
+			 * </pre>
+			 */
+			public Builder setTipMsgBytes(com.google.protobuf.ByteString value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000004;
+				tipMsg_ = value;
+				onChanged();
+				return this;
+			}
+
+			// optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;
+			private com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder> openPrayMainViewRspBuilder_;
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public boolean hasOpenPrayMainViewRsp() {
+				return ((bitField0_ & 0x00000008) == 0x00000008);
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg getOpenPrayMainViewRsp() {
+				if (openPrayMainViewRspBuilder_ == null) {
+					return openPrayMainViewRsp_;
+				} else {
+					return openPrayMainViewRspBuilder_.getMessage();
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public Builder setOpenPrayMainViewRsp(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg value) {
+				if (openPrayMainViewRspBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					openPrayMainViewRsp_ = value;
+					onChanged();
+				} else {
+					openPrayMainViewRspBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000008;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public Builder setOpenPrayMainViewRsp(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder builderForValue) {
+				if (openPrayMainViewRspBuilder_ == null) {
+					openPrayMainViewRsp_ = builderForValue.build();
+					onChanged();
+				} else {
+					openPrayMainViewRspBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000008;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public Builder mergeOpenPrayMainViewRsp(com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg value) {
+				if (openPrayMainViewRspBuilder_ == null) {
+					if (((bitField0_ & 0x00000008) == 0x00000008) && openPrayMainViewRsp_ != com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance()) {
+						openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.newBuilder(openPrayMainViewRsp_).mergeFrom(value).buildPartial();
+					} else {
+						openPrayMainViewRsp_ = value;
+					}
+					onChanged();
+				} else {
+					openPrayMainViewRspBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000008;
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public Builder clearOpenPrayMainViewRsp() {
+				if (openPrayMainViewRspBuilder_ == null) {
+					openPrayMainViewRsp_ = com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.getDefaultInstance();
+					onChanged();
+				} else {
+					openPrayMainViewRspBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000008);
+				return this;
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder getOpenPrayMainViewRspBuilder() {
+				bitField0_ |= 0x00000008;
+				onChanged();
+				return getOpenPrayMainViewRspFieldBuilder().getBuilder();
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			public com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder getOpenPrayMainViewRspOrBuilder() {
+				if (openPrayMainViewRspBuilder_ != null) {
+					return openPrayMainViewRspBuilder_.getMessageOrBuilder();
+				} else {
+					return openPrayMainViewRsp_;
+				}
+			}
+
+			/**
+			 * <code>optional .groupproto.OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;</code>
+			 *
+			 * <pre>
+			 * 打开祈福主界面的响应
+			 * </pre>
+			 */
+			private com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder> getOpenPrayMainViewRspFieldBuilder() {
+				if (openPrayMainViewRspBuilder_ == null) {
+					openPrayMainViewRspBuilder_ = new com.google.protobuf.SingleFieldBuilder<com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg.Builder, com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsgOrBuilder>(openPrayMainViewRsp_,
+							getParentForChildren(), isClean());
+					openPrayMainViewRsp_ = null;
+				}
+				return openPrayMainViewRspBuilder_;
+			}
+
+			// @@protoc_insertion_point(builder_scope:groupproto.GroupPrayCommonRspMsg)
+		}
+
+		static {
+			defaultInstance = new GroupPrayCommonRspMsg(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:groupproto.GroupPrayCommonRspMsg)
+	}
+
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_PrayEntry_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_PrayEntry_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_PrayRewardInfo_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_PrayRewardInfo_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_NeedPrayReqMsg_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_SendPrayReqMsg_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_GroupPrayCommonReqMsg_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_groupproto_GroupPrayCommonRspMsg_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable;
+
+	public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor() {
+		return descriptor;
+	}
+
+	private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
+	static {
+		java.lang.String[] descriptorData = {
+				"\n\017GroupPray.proto\022\ngroupproto\"O\n\tPrayEnt" + "ry\022\020\n\010memberId\030\001 \002(\t\022\016\n\006soulId\030\002 \002(\005\022\017\n\007" + "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"/\n\016PrayRe"
+						+ "wardInfo\022\016\n\006soulId\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"" + "\177\n\026OpenPrayMainViewRspMsg\022$\n\005entry\030\001 \003(\013" + "2\025.groupproto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010"
+						+ "\022.\n\nprayReward\030\003 \001(\0132\032.groupproto.PrayRe" + "wardInfo\" \n\016NeedPrayReqMsg\022\016\n\006soulId\030\001 \002" + "(\005\"\"\n\016SendPrayReqMsg\022\020\n\010memberId\030\001 \002(\t\"\237"
+						+ "\001\n\025GroupPrayCommonReqMsg\022$\n\007reqType\030\001 \002(",
+				"\0162\023.groupproto.ReqType\022/\n\013needPrayReq\030\002 " + "\001(\0132\032.groupproto.NeedPrayReqMsg\022/\n\013sendP" + "rayReq\030\003 \001(\0132\032.groupproto.SendPrayReqMsg" + "\"\241\001\n\025GroupPrayCommonRspMsg\022$\n\007reqType\030\001 "
+						+ "\002(\0162\023.groupproto.ReqType\022\021\n\tisSuccess\030\002 " + "\002(\010\022\016\n\006tipMsg\030\003 \001(\t\022?\n\023openPrayMainViewR" + "sp\030\004 \001(\0132\".groupproto.OpenPrayMainViewRs" + "pMsg*;\n\007ReqType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\r\n\tN"
+						+ "EED_PRAY\020\002\022\r\n\tSEND_PRAY\020\003B\035\n\013com.rwproto" + "B\016GroupPrayProto" };
+		com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner = new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+			public com.google.protobuf.ExtensionRegistry assignDescriptors(com.google.protobuf.Descriptors.FileDescriptor root) {
+				descriptor = root;
+				internal_static_groupproto_PrayEntry_descriptor = getDescriptor().getMessageTypes().get(0);
+				internal_static_groupproto_PrayEntry_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_PrayEntry_descriptor, new java.lang.String[] { "MemberId", "SoulId", "Process", "HasSend", });
+				internal_static_groupproto_PrayRewardInfo_descriptor = getDescriptor().getMessageTypes().get(1);
+				internal_static_groupproto_PrayRewardInfo_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_PrayRewardInfo_descriptor, new java.lang.String[] { "SoulId", "Count", });
+				internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor = getDescriptor().getMessageTypes().get(2);
+				internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor, new java.lang.String[] { "Entry", "HasPray", "PrayReward", });
+				internal_static_groupproto_NeedPrayReqMsg_descriptor = getDescriptor().getMessageTypes().get(3);
+				internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_NeedPrayReqMsg_descriptor, new java.lang.String[] { "SoulId", });
+				internal_static_groupproto_SendPrayReqMsg_descriptor = getDescriptor().getMessageTypes().get(4);
+				internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_SendPrayReqMsg_descriptor, new java.lang.String[] { "MemberId", });
+				internal_static_groupproto_GroupPrayCommonReqMsg_descriptor = getDescriptor().getMessageTypes().get(5);
+				internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_GroupPrayCommonReqMsg_descriptor, new java.lang.String[] { "ReqType", "NeedPrayReq", "SendPrayReq", });
+				internal_static_groupproto_GroupPrayCommonRspMsg_descriptor = getDescriptor().getMessageTypes().get(6);
+				internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(internal_static_groupproto_GroupPrayCommonRspMsg_descriptor, new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "OpenPrayMainViewRsp", });
+				return null;
+			}
+		};
+		com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(descriptorData, new com.google.protobuf.Descriptors.FileDescriptor[] {}, assigner);
+	}
+
+	// @@protoc_insertion_point(outer_class_scope)
 }

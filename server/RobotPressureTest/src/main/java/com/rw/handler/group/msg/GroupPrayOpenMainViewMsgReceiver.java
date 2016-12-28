@@ -53,6 +53,11 @@ public class GroupPrayOpenMainViewMsgReceiver extends PrintMsgReciver {
 
 				client.getGroupPrayData().setEntryList(saveEntryList);
 			}
+
+			// 获取是否有奖励
+			if (openPrayMainViewRsp.hasPrayReward()) {
+				RobotLog.info(parseFunctionDesc() + "成功了，获取到的奖励是：" + openPrayMainViewRsp.getPrayReward());
+			}
 		} catch (InvalidProtocolBufferException e) {
 			RobotLog.fail("解析帮派祈福的响应消息出现了异常", e);
 		}
