@@ -185,6 +185,7 @@ public class ChargeMgr {
 								GameLog.error("chargeMgr", player.getUserId(), "充值事件通知出错，类型：" + type, e);
 							}
 						}
+						chargeContentPojo.setMoney(target.getMoneyCount());
 						BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
 
 						// 通知要玩，充值完成了
