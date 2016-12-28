@@ -121,21 +121,12 @@ public class GroupMemberHelper {
 		}
 	};
 
-	private static GroupMemberHelper instance = new GroupMemberHelper();
-
-	public static GroupMemberHelper getInstance() {
-		return instance;
-	}
-
-	protected GroupMemberHelper() {
-	}
-
 	/**
 	 * 当角色上线的时候检查帮派相关数据
 	 * 
 	 * @param player
 	 */
-	public void onPlayerLogin(Player player) {
+	public static void onPlayerLogin(Player player) {
 		updateMemberData(player, true);
 	}
 
@@ -144,7 +135,7 @@ public class GroupMemberHelper {
 	 * 
 	 * @param player
 	 */
-	public void onPlayerLogout(Player player) {
+	public static void onPlayerLogout(Player player) {
 		updateMemberData(player, false);
 	}
 
@@ -154,12 +145,12 @@ public class GroupMemberHelper {
 	 * @param player
 	 * @param isLogin
 	 */
-	public void updateMemberData(Player player, boolean isLogin) {
+	public static void updateMemberData(Player player, boolean isLogin) {
 		String playerId = player.getUserId();
 		// 角色是否有帮派数据
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
-		if (baseData == null) {
+		if(baseData == null){
 			return;
 		}
 		String groupId = baseData.getGroupId();
@@ -167,7 +158,7 @@ public class GroupMemberHelper {
 			return;
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -193,7 +184,7 @@ public class GroupMemberHelper {
 		int post = memberData.getPost();
 		if (post == GroupPost.LEADER_VALUE) {// 帮主
 			// 三个榜都要更新
-			GroupRankHelper.getInstance().updateTheTypeForGroupRankExtension(groupId);
+			GroupRankHelper.updateTheTypeForGroupRankExtension(groupId);
 		}
 	}
 
@@ -203,7 +194,7 @@ public class GroupMemberHelper {
 	 * @param player
 	 * @return
 	 */
-	public String getGroupName(Player player) {
+	public static String getGroupName(Player player) {
 		UserGroupAttributeDataIF groupBaseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		if (groupBaseData == null) {
 			return "";
@@ -219,7 +210,7 @@ public class GroupMemberHelper {
 			return groupName;
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return "";
 		}

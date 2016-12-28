@@ -54,8 +54,7 @@ public class ChatHandler {
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
 	public static final int MAX_CACHE_MSG_SIZE_PER_ONE = 10; // 私聊频道最每个人最高的保存数量
 	private static ChatHandler instance = new ChatHandler();
-
-	// private int m_ChatCost = 0;
+//	private int m_ChatCost = 0;
 
 	protected ChatHandler() {
 	}
@@ -95,7 +94,7 @@ public class ChatHandler {
 		messageUserInfoBuilder.setVipLv(player.getVip());
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
-		if (null != usingFashion) {
+		if(null != usingFashion){
 			messageUserInfoBuilder.setFashionUsed(usingFashion);
 		}
 		return messageUserInfoBuilder;
@@ -229,7 +228,7 @@ public class ChatHandler {
 			return result;
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			msgChatResponse.setChatResultType(eChatResultType.FAIL);
 			ByteString result = msgChatResponse.build().toByteString();
@@ -399,10 +398,10 @@ public class ChatHandler {
 		ByteString result = msgChatResponseBuilder.build().toByteString();
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
-			// PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
+//			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
 			UserChannelMgr.sendAyncResponse(toPlayer.getUserId(), Command.MSG_CHAT, chatType, result);
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getUserId());
-			// System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
+//			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
 				// 如果我是對方的當前聊天對象，表示對方正打開與我的聊天面板，所以這裡可以標示為已讀
 				data.setIsRead(true);
@@ -564,7 +563,7 @@ public class ChatHandler {
 
 				msgChatResponse.addListMessage(msgData);
 				ByteString result = msgChatResponse.build().toByteString();
-				// PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
+//				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
 				UserChannelMgr.sendAyncResponse(p.getUserId(), Command.MSG_CHAT, chatType, result);
 			}
 

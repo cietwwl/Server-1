@@ -169,7 +169,7 @@ public class AngelArrayMatchHelper {
 						readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
 						if (readOnlyPlayer != null) {
 							teamFighting = getCopyEmbattleTeamFighting(readOnlyPlayer, heroModelIdList);
-							teamInfo = AngelArrayTeamInfoHelper.getInstance().parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
+							teamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
 							canUseRanking = false;
 
 							// logFighting = teamFighting;
@@ -209,7 +209,7 @@ public class AngelArrayMatchHelper {
 							finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 							// sb.append("阵容正好合适，并且玩家没有阵容，要用纯机器人：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 						} else {
-							finalTeamInfo = AngelArrayTeamInfoHelper.getInstance().parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
+							finalTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
 							isRobot = false;
 							// sb.append("阵容正好合适，玩家有阵容，用机器人数据填充：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 						}
@@ -382,7 +382,7 @@ public class AngelArrayMatchHelper {
 				atkHeroList.remove(userId);
 			}
 
-			teamFighting = AngelArrayTeamInfoHelper.getInstance().getTeamInfoHeroModelListById(player, atkHeroList, heroModelIdList);
+			teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListById(player, atkHeroList, heroModelIdList);
 			// sb.append("取自竞技场排行攻击阵容：").append(userId).append(",战斗力：").append(teamFighting).append("\n");
 		} else {
 			// 再找防守阵容
@@ -391,7 +391,7 @@ public class AngelArrayMatchHelper {
 				if (atkHeroList.contains(userId)) {
 					atkHeroList.remove(userId);
 				}
-				teamFighting = AngelArrayTeamInfoHelper.getInstance().getTeamInfoHeroModelListByUUIDList(player, heroIdList, heroModelIdList);
+				teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListByUUIDList(player, heroIdList, heroModelIdList);
 
 				// sb.append("取自竞技场排行防守阵容：").append(userId).append(",战斗力：").append(teamFighting).append("\n");
 			}

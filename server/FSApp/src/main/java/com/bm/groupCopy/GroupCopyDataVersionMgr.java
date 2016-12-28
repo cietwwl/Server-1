@@ -5,31 +5,33 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.group.GroupBM;
 import com.playerdata.Player;
 import com.rw.fsutil.util.jackson.JsonUtil;
-import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 
 public class GroupCopyDataVersionMgr {
+	
 
 	public static void synAllDataByVersion(final Player player, String versionJson) {
+		
+		if(StringUtils.isNotBlank(versionJson)){
+			String groupId = com.rw.service.group.helper.GroupHelper.getGroupId(player);    
 
-		if (StringUtils.isNotBlank(versionJson)) {
-			String groupId = GroupHelper.getInstance().getGroupId(player);
-
-			Group group = GroupBM.getInstance().get(groupId);
-			if (group != null) {
-
+			Group group = GroupBM.get(groupId);
+			if(group!=null){				
+				
 				GroupCopyDataVersion groupDataVersion = fromJson(versionJson);
 				if (groupDataVersion == null) {
 					return;
 				}
-
+				
 				group.synGroupLevelData(player, groupDataVersion.getGroupCopyLevelData());
 				group.synGroupMapData(player, groupDataVersion.getGroupCopyMapData());
 				player.getUserGroupCopyRecordMgr().syncData(player);
-
+				
+				
 			}
-
+			
 		}
+		
 
 	}
 
@@ -38,4 +40,7 @@ public class GroupCopyDataVersionMgr {
 		return groupDataVersion;
 	}
 
+	
+	
+	
 }
