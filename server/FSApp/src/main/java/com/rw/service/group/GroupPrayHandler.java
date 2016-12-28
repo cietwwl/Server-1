@@ -144,7 +144,7 @@ public class GroupPrayHandler {
 		openMainViewRsp.setHasPray(!resetTime);// 是否已经祈福过了
 		PrayRewardInfo rewardInfo = memberMgr.checkPrayCanGetReward(userId);
 		if (rewardInfo != null) {
-			System.err.println("获取到的奖励信息----->" + rewardInfo);
+			// System.err.println("获取到的奖励信息----->" + rewardInfo);
 			openMainViewRsp.setPrayReward(rewardInfo);
 		}
 

@@ -8,7 +8,6 @@ enum ReqType{
 	OPEN_MAIN_VIEW = 1;//打开祈福主界面
 	NEED_PRAY = 2;//请求祈福
 	SEND_PRAY = 3;//赠送卡片给某人
-	GET_PRAY_REWARD = 4;//获取祈福的奖励
 }
 
 //单个祈福的数据
@@ -19,11 +18,17 @@ message PrayEntry{
 	required bool hasSend = 4;//是否赠送过这个人
 }
 
+//祈福的奖励
+message PrayRewardInfo{
+	required int32 soulId = 1;//奖励的魂石Id
+	required int32 count = 2;//获取的魂石奖励
+}
+
 //请求打开祈福界面
 message OpenPrayMainViewRspMsg{
 	repeated PrayEntry entry = 1;//所有成员祈福数据
 	required bool hasPray = 2;//自己是否祈福过
-	required bool hasGetPrayReward = 3;//是否已经领取了奖励
+	optional PrayRewardInfo prayReward = 3;//祈福的奖励
 }
 
 //请求祈福的消息
