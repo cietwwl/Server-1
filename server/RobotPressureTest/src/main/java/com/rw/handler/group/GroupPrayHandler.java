@@ -73,10 +73,10 @@ public class GroupPrayHandler implements RandomMethodIF {
 		req.setReqType(ReqType.SEND_PRAY);
 
 		SendPrayReqMsg.Builder sendPrayReq = SendPrayReqMsg.newBuilder();
-		String randomPrayUserId = client.getGroupPrayData().randomPrayUserId();
-		System.err.println("随机到的帮派成员Id---->" + randomPrayUserId);
-		// sendPrayReq.setMemberId(randomPrayUserId);
-		sendPrayReq.setMemberId("600100000018");
+		sendPrayReq.setMemberId(client.getGroupPrayData().randomPrayUserId());
+		// String randomPrayUserId = client.getGroupPrayData().randomPrayUserId();
+		// System.err.println("随机到的帮派成员Id---->" + randomPrayUserId);
+		// sendPrayReq.setMemberId("600100000018");
 		req.setSendPrayReq(sendPrayReq);
 
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), sendPrayMsgReceiver);
