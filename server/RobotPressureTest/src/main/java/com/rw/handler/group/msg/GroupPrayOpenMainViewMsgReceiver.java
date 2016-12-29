@@ -53,8 +53,6 @@ public class GroupPrayOpenMainViewMsgReceiver extends PrintMsgReciver {
 
 				client.getGroupPrayData().setEntryList(saveEntryList);
 			}
-
-			System.err.println(rsp);
 		} catch (InvalidProtocolBufferException e) {
 			RobotLog.fail("解析帮派祈福的响应消息出现了异常", e);
 		}
