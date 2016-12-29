@@ -148,7 +148,6 @@ public class GroupPrayHandler {
 		commonRsp.setOpenPrayMainViewRsp(openMainViewRsp);
 		commonRsp.setIsSuccess(true);
 
-		System.err.println(commonRsp.build());
 		return commonRsp.build().toByteString();
 	}
 
