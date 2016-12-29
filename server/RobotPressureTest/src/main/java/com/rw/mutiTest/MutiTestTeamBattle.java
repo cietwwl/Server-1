@@ -46,18 +46,20 @@ public class MutiTestTeamBattle {
 				@Override
 				public void run() {
 					try {
-						Thread.sleep(span);
-						long start = System.currentTimeMillis();
-						//robot.startTBCreateTeam();
-						boolean success = robot.startTBFight();
-						tmpLog.info("组队战测试结果:" + success);
-						long cost = System.currentTimeMillis() - start;
-						timeCost.addAndGet(cost);
-						executeCount.incrementAndGet();
-						if (maxTimecost.get() < cost) {
-							maxTimecost.set(cost);
+						while (true) {
+							Thread.sleep(span);
+							long start = System.currentTimeMillis();
+							//robot.startTBCreateTeam();
+							boolean success = robot.startTBFight();
+							tmpLog.info("组队战测试结果:" + success);
+							long cost = System.currentTimeMillis() - start;
+							timeCost.addAndGet(cost);
+							executeCount.incrementAndGet();
+							if (maxTimecost.get() < cost) {
+								maxTimecost.set(cost);
+							}
 						}
-						robot.close();
+						// robot.close();
 					} catch (Throwable e) {
 						e.printStackTrace();
 					} finally {

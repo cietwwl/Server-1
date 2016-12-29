@@ -39,11 +39,11 @@ public class TeamBattleHandler {
 			RobotLog.fail("startTBCreateTeam[send]组队同步数据反馈结果=" + result);
 			return result;
 		}
-		try {
-			Thread.sleep(500l);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(500l);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
 		if(null != utbData.getTeamID() && !utbData.getTeamID().isEmpty()) {
 			if(null != UserTeamBattleDataHolder.getInstance().getCurrentHardID() &&
@@ -80,20 +80,20 @@ public class TeamBattleHandler {
 			RobotLog.fail("startTBFight[send]组队开战数据同步反馈结果=" + result);
 			return result;
 		}
-		try {
-			Thread.sleep(500l);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(500l);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
 		if(null == utbData.getTeamID() || utbData.getTeamID().isEmpty()) {
 			return startTBCreateTeam(client);
 		}
-		try {
-			Thread.sleep(500l);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(500l);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		TBTeamItem teamItem = TBTeamItemHolder.getInstance().getTeamData();
 		if(teamItem.getMembers().size() < 3){
 			RobotLog.info("startTBFight[send]组队队伍人数没有满员，不能开战");
@@ -104,11 +104,11 @@ public class TeamBattleHandler {
 			RobotLog.fail("startTBFight[send]组队开战反馈结果=" + result);
 			return result;
 		}
-		try {
-			Thread.sleep(500l);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(500l);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		result = informTBFightResult(client);
 		if (!result) {
 			RobotLog.fail("startTBFight[send]组队通知战斗结果反馈结果=" + result);
