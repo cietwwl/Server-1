@@ -1,7 +1,5 @@
 package com.rw.service.group;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -112,15 +110,16 @@ public class GroupPrayHandler {
 			}
 
 			// 检查是否是今天祈福的，不是今天的或者上次的时间是0，辣么就直接不用发送到客户端
+			int prayProcess = member.getPrayProcess();
 			long lastPrayTime = groupAttrData.getLastPrayTime();
-			if (lastPrayTime <= 0 || DateUtils.isResetTime(5, 0, 0, lastPrayTime)) {
+			if (lastPrayTime <= 0 || prayProcess <= 0 || groupAttrData.getState() > 0) {
 				continue;
 			}
 
 			PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
 			prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
 			prayEntry.setMemberId(id);// 设置成员的Id
-			prayEntry.setProcess(member.getPrayProcess());// 设置当前的数量
+			prayEntry.setProcess(prayProcess);// 设置当前的数量
 			prayEntry.setHasSend(prayList != null && prayList.contains(id));// 检查是否赠送过某个人的
 
 			openMainViewRsp.addEntry(prayEntry);
@@ -129,28 +128,27 @@ public class GroupPrayHandler {
 		// 检查自己当前的祈福状态
 		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
 		int prayCardId = memberData.getPrayCardId();
-		boolean hasGetReward = false;
 		if (prayCardId > 0) {// 祈福过
 			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-			int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
+			// int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
 			int prayProcess = memberData.getPrayProcess();
-			if (!resetTime || soulLimit > 0 && prayProcess >= soulLimit && baseData.getState() <= 0) {// 不是重置点或者进度满了还没领取过奖励
+			if (!resetTime || prayProcess > 0 && baseData.getState() <= 0) {// 不是重置点或者进度满了还没领取过奖励
 				PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
 				prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
 				prayEntry.setMemberId(userId);// 设置成员的Id
 				prayEntry.setProcess(prayProcess);// 设置当前的数量
 				prayEntry.setHasSend(false);// 检查是否赠送过某个人的
 				openMainViewRsp.addEntry(prayEntry);
-
-				hasGetReward = baseData.getState() > 0;
 			}
 		}
 
 		openMainViewRsp.setHasPray(!resetTime);// 是否已经祈福过了
-		openMainViewRsp.setHasGetPrayReward(hasGetReward);// 是否已经获取了奖励
+		openMainViewRsp.setHasGetPrayReward(baseData.getState() > 0);// 是否已经获取了奖励
 
 		commonRsp.setOpenPrayMainViewRsp(openMainViewRsp);
 		commonRsp.setIsSuccess(true);
+
+		System.err.println(commonRsp.build());
 		return commonRsp.build().toByteString();
 	}
 
@@ -219,9 +217,8 @@ public class GroupPrayHandler {
 		int prayCardId = memberData.getPrayCardId();
 		if (prayCardId > 0) {// 祈福过
 			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-			int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
 			int prayProcess = memberData.getPrayProcess();
-			if (soulLimit > 0 && prayProcess >= soulLimit && baseData.getState() <= 0) {// 还没领取过
+			if (prayProcess > 0 && baseData.getState() <= 0) {// 还没领取过
 				GameLog.error("请求祈福", userId, String.format("角色[%s]昨日祈福的卡已经足够了，但是还没领取", userId));
 				return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "请先领取已经完成的祈福奖励");
 			}
@@ -376,23 +373,25 @@ public class GroupPrayHandler {
 			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
-		// 检查自己当前的祈福状态
-		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
-		if (resetTime) {
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
-		}
-
 		int prayCardId = memberData.getPrayCardId();
 		if (prayCardId <= 0) {// 祈福过
 			GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]中角色[%s]当前祈福卡的Id是[%s]不存在不能领取奖励", groupId, userId, prayCardId));
 			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
 		}
 
-		// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-		int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
-		int prayProcess = memberData.getPrayProcess();
-		if (prayProcess < soulLimit) {// 还没完成
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福尚未完成，暂不能领取");
+		int prayProcess = memberData.getPrayProcess();// 当前的进度
+		// 检查自己当前的祈福状态
+		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
+		if (resetTime) {// 可以重置
+			if (prayProcess <= 0) {
+				return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
+			}
+		} else {
+			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
+			int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
+			if (prayProcess < soulLimit) {// 还没完成
+				return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福尚未完成，暂不能领取");
+			}
 		}
 
 		if (baseData.getState() > 0) {// 是否领取过
@@ -408,11 +407,5 @@ public class GroupPrayHandler {
 
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
-	}
-
-	public static void main(String[] args) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String format = sdf.format(new Date(1482786015153l));
-		System.err.println(format);
 	}
 }

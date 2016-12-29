@@ -15,7 +15,6 @@ import com.playerdata.army.ArmyFashion;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
-import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -27,7 +26,6 @@ import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
-import com.rwbase.dao.group.pojo.cfg.dao.GroupPrayCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.group.pojo.db.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
@@ -785,10 +783,10 @@ public class GroupMemberMgr {
 		UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
 		UserGroupAttributeData baseData = mgr.getUserGroupAttributeData(userId);
 		// 检查自己当前的祈福状态
-		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
-		if (resetTime) {
-			return;
-		}
+		// boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
+		// if (resetTime) {
+		// return;
+		// }
 
 		GroupMemberDataIF memberData = getMemberData(userId, false);
 		int prayCardId = memberData.getPrayCardId();
@@ -797,9 +795,9 @@ public class GroupMemberMgr {
 		}
 
 		// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-		int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
+		// int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
 		int prayProcess = memberData.getPrayProcess();
-		if (prayProcess < soulLimit) {// 还没完成
+		if (prayProcess <= 0) {// 还没完成
 			return;
 		}
 
