@@ -129,29 +129,6 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 		return player.getVip() >= itemCfg.getVipLimit();
 	}
 	
-	/**
-	 * 不需要每日刷新的活动
-	 * 每天要检查有更改的子项
-	 * @param player
-	 * @param item
-	 */
-	protected void dailyCheck(Player player, ActivityDailyDiscountTypeItem item){
-		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
-		List<ActivityDailyDiscountTypeSubItem> subItemList = item.getSubItemList();	
-		ActivityDailyDiscountTypeItemHolder itemHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		List<ActivityDailyDiscountTypeSubItem> newSubs = itemHolder.newSubItemList(item.getCfgId());
-		for(ActivityDailyDiscountTypeSubItem newSub : newSubs){
-			for(ActivityDailyDiscountTypeSubItem oldSub : subItemList){
-				if(StringUtils.equals(newSub.getCfgId(), oldSub.getCfgId())
-						&& newSub.getItemId() == oldSub.getItemId()){
-					newSub.setCount(oldSub.getCount());
-				}
-			}
-		}
-		item.setSubItemList(newSubs);
-		getHolder().updateItem(player, item);
-	}
-	
 	@Override
 	protected List<String> checkRedPoint(Player player, ActivityDailyDiscountTypeItem item) {
 		List<String> redPointList = new ArrayList<String>();

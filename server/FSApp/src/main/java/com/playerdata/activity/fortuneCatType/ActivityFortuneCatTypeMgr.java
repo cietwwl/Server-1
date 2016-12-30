@@ -170,16 +170,6 @@ public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortu
 	}
 	
 	/**
-	 * 不需要每日刷新的活动
-	 * 每天要检查有更改的子项
-	 * @param player
-	 * @param item
-	 */
-	protected void dailyCheck(Player player, ActivityFortuneCatTypeItem item){
-		//TODO do nothing
-	}
-	
-	/**
 	 * 此红点不和活动红点统一判断，所以没有实现父类的红点方法
 	 * @param player
 	 * @return
@@ -187,28 +177,32 @@ public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortu
 	public List<String> getRedPoint(Player player) {
 		List<String> redPointList = new ArrayList<String>();
 		List<ActivityFortuneCatTypeItem> items = getHolder().getItemList(player.getUserId());
-		if (null == items || items.isEmpty())
+		if (null == items || items.isEmpty()){
 			return redPointList;
+		}
 		for (ActivityFortuneCatTypeItem item : items) {
-			redPointList.addAll(getRedPoint(player, item));
+			if(haveRedPoint(player, item)){
+				redPointList.add(item.getCfgId());
+			}
 		}
 		return redPointList;
-	}	
+	}
 		
-	private List<String> getRedPoint(Player player, ActivityFortuneCatTypeItem item) {
-		List<String> redPointList = new ArrayList<String>();
-//		EvilBaoArriveSubCfgDAO subCfgDao = EvilBaoArriveSubCfgDAO.getInstance();
-//		List<EvilBaoArriveSubItem> subItems = item.getSubItemList();
-//		for (EvilBaoArriveSubItem subItem : subItems) {
-//			EvilBaoArriveSubCfg subCfg = subCfgDao.getCfgById(subItem.getCfgId());
-//			if (null == subCfg)
-//				continue;
-//			if ((subCfg.getAwardCount() <= item.getFinishCount() && !subItem.isGet()) || !item.isHasViewed()) {
-//				redPointList.add(String.valueOf(item.getCfgId()));
-//				break;
-//			}
-//		}
-		return redPointList;
+	private boolean haveRedPoint(Player player, ActivityFortuneCatTypeItem item) {
+		if (!item.isTouchRedPoint()) {
+			return true;
+		}
+		int rewardTimes = item.getTimes();
+		int totalTimes = item.getSubItemList().size();
+		if(rewardTimes < totalTimes){
+			for(int i = rewardTimes; i < totalTimes; i++){
+				ActivityFortuneCatTypeSubItem subItem = item.getSubItemList().get(i);
+				if(player.getUserGameDataMgr().getGold() >= Integer.parseInt(subItem.getCost()) && player.getVip() >= subItem.getVip()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	@Override

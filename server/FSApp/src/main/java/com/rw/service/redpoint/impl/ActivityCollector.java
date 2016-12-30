@@ -141,33 +141,6 @@ public class ActivityCollector implements RedPointCollector {
 			}
 
 		}
-		// ----------------------------------
-//		ActivityDailyDiscountTypeItemHolder dailyDiscountDataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-//		List<ActivityDailyDiscountTypeCfg> dailyDiscountAllCfgList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
-//		ActivityDailyDiscountTypeMgr activityDailyDiscountTypeMgr = ActivityDailyDiscountTypeMgr.getInstance();
-//		for (ActivityDailyDiscountTypeCfg cfg : dailyDiscountAllCfgList) {
-//			if (!activityDailyDiscountTypeMgr.isOpen(cfg)) {
-//				continue;
-//			}
-//			if (cfg.getLevelLimit() > level) {
-//				continue;
-//			}
-//			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
-//			if (dailyDiscountEnum == null) {
-//				continue;
-//			}
-//			ActivityDailyDiscountTypeItem targetItem = dailyDiscountDataHolder.getItem(player.getUserId(), dailyDiscountEnum);
-//			if (targetItem == null) {
-//				continue;
-//			}
-//			if (!targetItem.isTouchRedPoint()) {
-//				activityList.add(targetItem.getCfgId());
-//				continue;
-//			}
-//		}
-
-//		List<String> ranklist = ActivityRankTypeMgr.getInstance().haveRedPoint(player);
-//		activityList.addAll(ranklist);
 
 		List<String> redEnvelopeList = ActivityRedEnvelopeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(redEnvelopeList);
@@ -181,7 +154,7 @@ public class ActivityCollector implements RedPointCollector {
 		
 		List<String> evilBaoArriveList = EvilBaoArriveMgr.getInstance().getRedPoint(player);
 		if(!evilBaoArriveList.isEmpty()){
-			map.put(RedPointType.EVIL_BAO_ARRIVE, EvilBaoArriveMgr.getInstance().getRedPoint(player));
+			map.put(RedPointType.EVIL_BAO_ARRIVE, evilBaoArriveList);
 		}
 	}
 
