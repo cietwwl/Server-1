@@ -27,6 +27,7 @@ import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -73,6 +74,8 @@ public class Server {
 			ActivityModifyMgr.getInstance().checkModifiedActivity();
 			//每次启服的时候，初始化活动配置表的时间
 			ActivityMgrHelper.getInstance().initActivityTime();
+			//从登录服同步活动的时间数据
+			PlatformGSService.notifyServerStatusToPlatform(false);
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			GmHotFixManager.serverStartComplete(); // 自动执行hot fix
 

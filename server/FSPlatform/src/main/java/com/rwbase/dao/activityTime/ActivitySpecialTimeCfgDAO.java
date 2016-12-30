@@ -8,22 +8,21 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.bm.login.ZoneBM;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
-import com.rw.netty.http.requestHandler.ServerStatusHandler;
 import com.rwbase.common.config.CfgCsvHelper;
-import com.rwbase.dao.zone.TableZoneInfo;
-import com.rwproto.PlatformGSMsg.ActCfgInfo;
 
 //	<bean class="com.rwbase.dao.activityTime.ActivitySpecialTimeCfgDAO"  init-method="init" />
 
 public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg> {
 	
 	private static long LAST_MODIFY_TIME = 0;
+	private static AtomicInteger platformVersion = new AtomicInteger(0);
 	private static boolean OPENED_TIMER = false;
-	private HashMap<Integer, List<ActCfgInfo>> actCfgMap = new HashMap<Integer, List<ActCfgInfo>>();
+	private HashMap<Integer, List<SingleActTime>> actCfgMap = new HashMap<Integer, List<SingleActTime>>();
+	private HashMap<Integer, List<SingleActTime>> actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
 	
 	public static ActivitySpecialTimeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivitySpecialTimeCfgDAO.class);
@@ -31,11 +30,13 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 
 	@Override
 	public Map<String, ActivitySpecialTimeCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivitySpecialTimeCfg.csv",ActivitySpecialTimeCfg.class);
-		for(ActivitySpecialTimeCfg cfgTmp : cfgCacheMap.values()){
+		Map<String, ActivitySpecialTimeCfg> tmpMap = CfgCsvHelper.readCsv2Map("Activity/ActivitySpecialTimeCfg.csv",ActivitySpecialTimeCfg.class);
+		actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
+		for(ActivitySpecialTimeCfg cfgTmp : tmpMap.values()){
 			decodeActivityZone(cfgTmp);
 		}
 		if(!OPENED_TIMER){
+			//第一次执行时，启动定时器
 			OPENED_TIMER = true;
 			ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 			service.scheduleAtFixedRate(new Runnable() {
@@ -51,6 +52,8 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 				
 			}, 0, 10, TimeUnit.SECONDS);
 		}
+		cfgCacheMap = tmpMap;
+		actCfgMap = actCfgTmpMap;
 		return cfgCacheMap;
 	}
 	
@@ -62,18 +65,22 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		}
 		if(LAST_MODIFY_TIME != cfgFile.lastModified()){
 			reload();
-			List<TableZoneInfo> zoneList = ZoneBM.getInstance().getAllZoneCfg();
-			for(TableZoneInfo zone : zoneList){
-				if(zone.getStatus() >= 0){
-					ServerStatusHandler.sendActivityTimeData(zone.getId());
-				}
-			}
 			LAST_MODIFY_TIME = cfgFile.lastModified();
+			platformVersion.incrementAndGet();
 		}
 	}
 	
-	public List<ActCfgInfo> getZoneAct(int zoneId){
-		return actCfgMap.get(zoneId);
+	public ActCfgInfo getZoneAct(int zoneId, int version){
+		ActCfgInfo actInfo = new ActCfgInfo();
+		int thisVersion = platformVersion.get();
+		actInfo.setPlatformVersion(thisVersion);
+		if(0 == version && 0 == thisVersion){
+			return actInfo;
+		}
+		if(0 == thisVersion || version < thisVersion){
+			actInfo.setActList(actCfgMap.get(zoneId));
+		}
+		return actInfo;
 	}
 	
 	private void decodeActivityZone(ActivitySpecialTimeCfg timeCfg){
@@ -93,18 +100,18 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 				continue;
 			}
 			for(int i = startZoneId; i <= endZoneId; i++){
-				List<ActCfgInfo> cfgList = actCfgMap.get(i);
+				List<SingleActTime> cfgList = actCfgTmpMap.get(i);
 				if(null == cfgList){
-					cfgList = new ArrayList<ActCfgInfo>();
-					actCfgMap.put(i, cfgList);
+					cfgList = new ArrayList<SingleActTime>();
+					actCfgTmpMap.put(i, cfgList);
 				}
-				cfgList.add(buildActCfgInfo(timeCfg));
+				cfgList.add(buildSingleActTime(timeCfg));
 			}
 		}
 	}
-
-	private ActCfgInfo buildActCfgInfo(ActivitySpecialTimeCfg specialTimecfg){
-		ActCfgInfo.Builder cfgInfo = ActCfgInfo.newBuilder();
+	
+	private SingleActTime buildSingleActTime(ActivitySpecialTimeCfg specialTimecfg){
+		SingleActTime cfgInfo = new SingleActTime();
 		cfgInfo.setCfgId(specialTimecfg.getCfgId());
 		cfgInfo.setActDesc(specialTimecfg.getActDesc());
 		cfgInfo.setStartTime(specialTimecfg.getStartTime());
@@ -112,6 +119,6 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		cfgInfo.setStartViceTime(specialTimecfg.getStartViceTime());
 		cfgInfo.setEndViceTime(specialTimecfg.getEndViceTime());
 		cfgInfo.setRangeTime(specialTimecfg.getRangeTime());
-		return cfgInfo.build();
+		return cfgInfo;
 	}
 }
