@@ -6,7 +6,7 @@ public class AllRolesInfo {
 	
 	private String accountId;
 	
-	public List<UserZoneInfo> roles;
+	public List<UserMappingInfo> roles;
 
 	public String getAccountId() {
 		return accountId;
@@ -16,11 +16,11 @@ public class AllRolesInfo {
 		this.accountId = accountId;
 	}
 
-	public List<UserZoneInfo> getRoles() {
+	public List<UserMappingInfo> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<UserZoneInfo> roles) {
+	public void setRoles(List<UserMappingInfo> roles) {
 		this.roles = roles;
 	}
 }

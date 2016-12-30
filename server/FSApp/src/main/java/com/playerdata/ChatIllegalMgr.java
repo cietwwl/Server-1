@@ -152,7 +152,6 @@ public class ChatIllegalMgr {
 			} else {
 				chatTempAttribute.setLastWorldMsg(msg);
 				chatTempAttribute.setMsgRepeatedTimes(0);
-				return;
 			}
 
 			// 检查违规

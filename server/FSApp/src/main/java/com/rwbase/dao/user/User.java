@@ -5,19 +5,14 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.bm.login.ZoneBM;
-import com.log.GameLog;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.IgnoreUpdate;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
-import com.rw.fsutil.util.DateUtils;
-import com.rw.manager.GameManager;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.user.readonly.TableUserIF;
-import com.rwbase.dao.zone.TableZoneInfo;
 
 @JsonIgnoreProperties(ignoreUnknown = false)
 @Table(name = "user")
@@ -36,6 +31,9 @@ public class User implements TableUserIF {
 	private String headImage;
 	@IgnoreUpdate
 	private long createTime; // 创建的时间
+	@IgnoreUpdate
+	private String openAccount;//
+
 	private long lastLoginTime; // 上次登录时间
 
 	// 踢出的用户冷却时间
@@ -46,7 +44,7 @@ public class User implements TableUserIF {
 
 	@SaveAsJson
 	private UserExtendInfo extendInfo;
-	
+
 	@SaveAsJson
 	private ZoneLoginInfo zoneLoginInfo;
 
@@ -59,8 +57,6 @@ public class User implements TableUserIF {
 
 	@NonSave
 	private String channelId;// 渠道Id
-	@NonSave
-	private long openTime;//开服时间
 
 	public String getUserId() {
 		return userId;
@@ -77,14 +73,6 @@ public class User implements TableUserIF {
 	public void setZoneId(int zoneId) {
 		this.zoneId = zoneId;
 	}
-
-	// public int getMapId() {
-	// return mapId;
-	// }
-	//
-	// public void setMapId(int mapId) {
-	// this.mapId = mapId;
-	// }
 
 	public int getVip() {
 		return vip;
@@ -279,22 +267,12 @@ public class User implements TableUserIF {
 		this.isRobot = isRobot;
 	}
 
-	public long getOpenTime() {
-		return openTime;
+	public String getOpenAccount() {
+		return openAccount;
 	}
 
-	public void setOpenTime(long openTime) {
-		this.openTime = openTime;
+	public void setOpenAccount(String openAccount) {
+		this.openAccount = openAccount;
 	}
-	public void initOpenTime(){
-		if (openTime == 0) {
-			try {
-				TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(
-						GameManager.getZoneId());
-				openTime = DateUtils.getTime(zoneInfo.getOpenTime());
-			} catch (Exception ex) {
-				GameLog.error("login", "", "can not find the open time");
-			}
-		}
-	}
+
 }

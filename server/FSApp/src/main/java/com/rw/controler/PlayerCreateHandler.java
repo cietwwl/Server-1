@@ -1,7 +1,10 @@
 package com.rw.controler;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.bm.login.AccoutBM;
 import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.ERoleAttrs;
 import com.common.HPCUtil;
@@ -21,7 +24,6 @@ import com.rw.manager.GameManager;
 import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
-import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -39,6 +41,7 @@ import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.gameworld.GameWorld;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.GameLoginProtos.GameLoginRequest;
@@ -50,6 +53,7 @@ public class PlayerCreateHandler {
 
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private static PlayerCreateHandler instance = new PlayerCreateHandler();
+	private static UserCreationWriteBack writeBackHandler = new UserCreationWriteBack();
 	private static int maxNameLength = 12;
 
 	public static PlayerCreateHandler getInstance() {
@@ -110,8 +114,17 @@ public class PlayerCreateHandler {
 		}
 		// 用serverId+identifier的方式生成userId
 		userId = newUserId(generator);
-		createUser(userId, zoneId, accountId, nick, sex, clientInfoJson);
-
+		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
+		if (userAccount == null) {
+			response.setResultType(eLoginResultType.FAIL);
+			String reason = "账号异常,请重新登录";
+			response.setError(reason);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.EMPTY_NICK, response.build().toByteString(), sessionId);
+			GameLog.error("", "", "account is null,accountId=" + accountId + "," + executeTime);
+			return;
+		}
+		String openAccount = userAccount.getOpenAccount();
+		createUser(userId, zoneId, accountId, openAccount, nick, sex, clientInfoJson);
 		String headImage;
 		String roleId;
 		if (sex == ESex.Men.getOrder()) {
@@ -144,11 +157,13 @@ public class PlayerCreateHandler {
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		User user = player.getUserDataMgr().getUser();
 		user.setZoneLoginInfo(zoneLoginInfo);
-
+		
+		//回写登录服
+		writeBackHandler.addWriteBackTask(userId, accountId, openAccount, zoneId);
+		// 封测充值返利
+		ActivityChargeRebateMgr.getInstance().processChargeRebate(player, accountId, userAccount);
 		// 通知精准营销
 		TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_CreateTime.getId());
-		// 封测充值返利
-		ActivityChargeRebateMgr.getInstance().processChargeRebate(player, accountId);
 
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);
@@ -169,7 +184,7 @@ public class PlayerCreateHandler {
 		FSTraceLogger.logger("run", current - executeTime, "CREATE", seqID, userId, accountId, true);
 	}
 
-	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {
+	private void createUser(String userId, int zoneId, String accountId, String openAccount, String nick, int sex, String clientInfoJson) {
 		User baseInfo = new User();
 		baseInfo.setUserId(userId);
 		baseInfo.setAccount(accountId);
@@ -178,6 +193,7 @@ public class PlayerCreateHandler {
 		baseInfo.setLevel(1);
 		baseInfo.setUserName(nick);
 		baseInfo.setSex(sex);
+		baseInfo.setOpenAccount(openAccount);
 		baseInfo.setCreateTime(System.currentTimeMillis()); // 记录创建角色的时间
 		// 设置默认头像
 		if (sex == ESex.Men.getOrder()) {
