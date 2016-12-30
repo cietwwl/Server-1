@@ -12,6 +12,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupPrayCfgDAO;
@@ -216,20 +217,13 @@ public class GroupPrayHandler {
 			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "此魂石不能祈福");
 		}
 
-		// int prayCardId = memberData.getPrayCardId();
-		// if (prayCardId > 0) {// 祈福过
-		// // 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-		// int prayProcess = memberData.getPrayProcess();
-		// if (prayProcess > 0 && baseData.getState() <= 0) {// 还没领取过
-		// GameLog.error("请求祈福", userId, String.format("角色[%s]昨日祈福的卡已经足够了，但是还没领取", userId));
-		// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "请先领取已经完成的祈福奖励");
-		// }
-		// }
-
 		// 重置数据
 		memberMgr.resetPrayData(userId, soulId);
 
 		commonRsp.setIsSuccess(true);
+
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUP_PRAY, 1);// 通知日常
+
 		return commonRsp.build().toByteString();
 	}
 
@@ -329,6 +323,9 @@ public class GroupPrayHandler {
 		memberMgr.addPrayProcess(memberId);// 增加自己的魂石数量
 
 		commonRsp.setIsSuccess(true);
+
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUP_SEND_PRAY_2_MEMBER, 1);// 通知日常
+
 		return commonRsp.build().toByteString();
 	}
 
