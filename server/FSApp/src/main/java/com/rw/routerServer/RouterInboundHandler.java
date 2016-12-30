@@ -22,6 +22,9 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			case GetGift:
 				result = RouterServiceHandler.getInstance().getGift(reqParam.getContent());
 				break;
+			case GetRoleDataFromGS:
+				result = RouterServiceHandler.getInstance().getRoleInfo(reqParam.getContent());
+				break;
 			default:
 				RouterRespObject obj = new RouterRespObject();
 				obj.setResult(ResultState.PARAM_ERROR);

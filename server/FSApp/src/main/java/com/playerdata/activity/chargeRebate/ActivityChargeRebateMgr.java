@@ -53,10 +53,9 @@ public class ActivityChargeRebateMgr {
 	protected ActivityChargeRebateMgr() {
 	};
 
-	public void processChargeRebate(Player player, String accountId) {
+	public void processChargeRebate(Player player, String accountId,TableAccount userAccount) {
 
 		try {
-			TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 			String openAccount = userAccount.getOpenAccount();
 			if (StringUtils.isEmpty(openAccount)) {
 				return;

@@ -9,39 +9,45 @@ public class Test {
 	/** 所有运行起来的客户端 */
 	public static final Random random = new Random();
 	public static void main(String[] args) throws InterruptedException {
-		 Robot robot = loginRobot("norway");
-//		 robot.addCoin(10000000);
-//		 robot.addGold(1000000);
-//		 robot.playerMagicSecret();
-//		 robot.testTaoist();
-//		 System.out.println(robot.testCopyJbzd(1));
-//		 Robot robot = createRobot("tmpcllen"+ 912);
-		 if(robot == null){
-		 }else{
-			 //boolean issucc = robot.startTBCreateTeam();
-//			 robot.upgrade(33);
-//			 robot.checkEnoughMoney();
-//			 robot.gambleByGold();
-//			 robot.addFixEquip();
-//			 robot.addGold(9999);
-//			 robot.addCoin(9999);
-//			 robot.addHero(1);
-//			 robot.addHero(1);
-//			 robot.createGroup("tmpallen112");
-//			 boolean issucc = robot.attackEnemyGroupSecret();
-//			 boolean issucc = robot.testFixEquip(0, 0, 0, 2);
-			 //robot.addHero(5);
-//			 robot.createGroup("xiaofei338");
-//			 robot.playerMagicSecret();
-//			 robot.playerMagicSecret();
-//			 robot.playerMagicSecret();
-//			 robot.playerMagicSecret();
-//			 System.out.println("@@@@@@@@@@@test：" + issucc);
-			while (true) {
-				robot.testGroupCompetition();
-				TimeUnit.MILLISECONDS.sleep(100);
-			}
-		 }
+//		 Robot robot = loginRobot("norway");
+////		 robot.addCoin(10000000);
+////		 robot.addGold(1000000);
+////		 robot.playerMagicSecret();
+////		 robot.testTaoist();
+////		 System.out.println(robot.testCopyJbzd(1));
+////		 Robot robot = createRobot("tmpcllen"+ 912);
+//		 if(robot == null){
+//		 }else{
+//			 //boolean issucc = robot.startTBCreateTeam();
+////			 robot.upgrade(33);
+////			 robot.checkEnoughMoney();
+////			 robot.gambleByGold();
+////			 robot.addFixEquip();
+////			 robot.addGold(9999);
+////			 robot.addCoin(9999);
+////			 robot.addHero(1);
+////			 robot.addHero(1);
+////			 robot.createGroup("tmpallen112");
+////			 boolean issucc = robot.attackEnemyGroupSecret();
+////			 boolean issucc = robot.testFixEquip(0, 0, 0, 2);
+//			 //robot.addHero(5);
+////			 robot.createGroup("xiaofei338");
+////			 robot.playerMagicSecret();
+////			 robot.playerMagicSecret();
+////			 robot.playerMagicSecret();
+////			 robot.playerMagicSecret();
+////			 System.out.println("@@@@@@@@@@@test：" + issucc);
+//			while (true) {
+//				robot.testGroupCompetition();
+//				TimeUnit.MILLISECONDS.sleep(100);
+//			}
+//		 }
+		
+		Robot robot = Robot.newInstance("feiyu30001");
+		robot.regPlatform();
+		robot.creatRole();
+		robot.selectCarrer();
+		robot.doPvE();
 		 
 		 
 		//5-27新增部分
