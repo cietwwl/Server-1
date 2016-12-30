@@ -47,11 +47,13 @@ public class GameLogicTask implements PlayerTask {
 	private final Request request;
 	private final Long sessionId;
 	private final long submitTime;
+	private final Command command;
 
-	public GameLogicTask(Long sessionId, Request request) {
+	public GameLogicTask(Long sessionId, Request request, Command command) {
 		this.request = request;
 		this.sessionId = sessionId;
 		this.submitTime = System.currentTimeMillis();
+		this.command = command;
 	}
 
 	@Override
@@ -60,7 +62,6 @@ public class GameLogicTask implements PlayerTask {
 		String userId = null;
 		RequestHeader header = request.getHeader();
 		final int seqID = header.getSeqID();
-		final Command command = header.getCommand();
 		final long executeTime = System.currentTimeMillis();
 		ProtocolMessageEnum msgType = null;
 		ByteString synData = null;// 同步数据
@@ -171,9 +172,11 @@ public class GameLogicTask implements PlayerTask {
 	private void registerBehavior(String userId, FsService serivice, Command command, ProtocolMessageEnum msgType, GeneratedMessage msg, int viewId) {
 		// if (msgType != null) {
 		// String value = String.valueOf(msgType.getNumber());
-		// GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+		// GameBehaviorMgr.getInstance().registerBehavior(player, command,
+		// msgType, value, viewId);
 		// } else {
-		// GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
+		// GameBehaviorMgr.getInstance().registerBehavior(player, command,
+		// msgType, "-1", viewId);
 		// }
 		GameBehaviorMgr.getInstance().registerBehavior(userId, command, msgType, viewId);
 	}
