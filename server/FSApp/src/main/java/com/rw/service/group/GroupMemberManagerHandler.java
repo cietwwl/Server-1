@@ -1,5 +1,6 @@
 package com.rw.service.group;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -8,6 +9,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupLogMgr;
 import com.bm.group.GroupMemberMgr;
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -642,8 +644,23 @@ public class GroupMemberManagerHandler {
 		// 检查邮件标题
 		String emailTitle = req.getEmailTitle();
 		String emailContent = req.getEmailContent();
-		if (StringUtils.isEmpty(emailTitle) || StringUtils.isEmpty(emailContent)) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "邮件标题或内容不能为空");
+
+		// 检查Emoji4字节
+		RefInt outTitle4Bytes = new RefInt();
+		RefInt outContent4Bytes = new RefInt();
+		try {
+			emailTitle = check4ByteString(emailTitle, outTitle4Bytes);
+			emailContent = check4ByteString(emailContent, outContent4Bytes);
+		} catch (UnsupportedEncodingException e) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "邮件标题或内容出现转码错误");
+		}
+
+		if (StringUtils.isEmpty(emailTitle)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, outTitle4Bytes.value > 0 ? "邮件标题不支持Emoji表情" : "邮件标题不能为空");
+		}
+
+		if (StringUtils.isEmpty(emailContent)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, outContent4Bytes.value > 0 ? "邮件内容不支持Emoji表情" : "邮件内容不能为空");
 		}
 
 		int titleLen = GroupUtils.getChineseNumLimitLength(emailTitle);
@@ -741,8 +758,8 @@ public class GroupMemberManagerHandler {
 		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派已经是解散状态");
 		}
-		
-		if(GroupCompetitionMgr.getInstance().isGroupInCompetition(groupId)) {
+
+		if (GroupCompetitionMgr.getInstance().isGroupInCompetition(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "你的帮派在本届帮派争霸中有赛事，不能踢除成员！");
 		}
 
@@ -819,5 +836,105 @@ public class GroupMemberManagerHandler {
 		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		GroupCompetitionMgr.getInstance().notifyGroupMemberLeave(group, playerId);
 		return commonRsp.build().toByteString();
+	}
+
+	/**
+	 * 解析字符串是否包含4字节字符
+	 * 
+	 * @param source
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public String check4ByteString(String source, RefInt out4BytesMark) throws UnsupportedEncodingException {
+		out4BytesMark = out4BytesMark == null ? new RefInt() : out4BytesMark;
+		String hexString = toHexString(source, out4BytesMark);// 16进制
+		if (out4BytesMark.value > 0) {
+			return hexToSaveString(hexString);
+		} else {
+			return source;
+		}
+	}
+
+	/**
+	 * <pre>
+	 * 这里与0xff原因是因为，bs[i]原本也可以强转到int，
+	 * 但是存储负数用的是补码<font color="ff0000"><b>-1</b></font>的原码是1000 0001
+	 * 反码是：原码除符号位外取反，变成1111 1110 
+	 * 补码是：反码+1，变成1111 1111 所以如果强转到int就变成了32位都是1
+	 * 那么输出来16进制就变成了ff ff ff ff
+	 * 实际上只想取得两位16进制，即为ff才对
+	 * </pre>
+	 * 
+	 * @param str
+	 * @param 返回包含4字节的字符的数量。如果是0就不用再把hex转码到byte，重新new String了
+	 * @return
+	 */
+	private String toHexString(String str, RefInt out4BytesMark) {
+		if (StringUtils.isEmpty(str)) {
+			return "";
+		}
+
+		byte[] bs;
+		try {
+			bs = str.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "";
+		}
+
+		if (bs == null || bs.length <= 0) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0, len = bs.length; i < len;) {
+			String hexString = Integer.toHexString(bs[i] & 0xff);// 转换成16进制
+			int hexLen = hexString.length();
+			if (hexLen >= 2 && "f".equalsIgnoreCase(hexString.substring(0, 1))) {// 看下开头第一个是不是f，是就说明下边4个字节是关联的，是属于4字节的emoji直接跳过4个自己
+				i += 4;
+				out4BytesMark.value++;
+				continue;
+			}
+
+			if (hexLen < 2) {
+				sb.append('0');
+			}
+			sb.append(hexString.toLowerCase());
+			i++;
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * 把16进制字符转到String
+	 * 
+	 * @param hexString
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	private String hexToSaveString(String hexString) throws UnsupportedEncodingException {
+		if (StringUtils.isEmpty(hexString)) {
+			return "";
+		}
+
+		char[] charArray = hexString.toCharArray();
+		int len = charArray.length / 2;
+		byte[] bs = new byte[len];
+		for (int i = 0; i < len; i++) {
+			bs[i] = (byte) (getHexString2Byte(charArray[i * 2]) << 4 | getHexString2Byte(charArray[i * 2 + 1]));
+		}
+
+		return new String(bs, "UTF-8");
+	}
+
+	/**
+	 * 获取16进制对应的值
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private byte getHexString2Byte(char c) {
+		return (byte) "0123456789abcdef".indexOf(c);
 	}
 }
