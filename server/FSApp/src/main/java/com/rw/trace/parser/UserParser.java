@@ -24,6 +24,7 @@ public class UserParser implements DataValueParser<User> {
         userCopy.setUserName(entity.getUserName());
         userCopy.setHeadImage(entity.getHeadImage());
         userCopy.setCreateTime(entity.getCreateTime());
+        userCopy.setOpenAccount(entity.getOpenAccount());
         userCopy.setLastLoginTime(entity.getLastLoginTime());
         userCopy.setKickOffCoolTime(entity.getKickOffCoolTime());
         userCopy.setZoneRegInfo(writer.copyObject(entity.getZoneRegInfo()));
@@ -84,6 +85,12 @@ public class UserParser implements DataValueParser<User> {
         if (createTime1 != createTime2) {
             entity1.setCreateTime(createTime2);
             jsonMap = writer.write(jsonMap, "createTime", createTime2);
+        }
+        String openAccount1 = entity1.getOpenAccount();
+        String openAccount2 = entity2.getOpenAccount();
+        if (!writer.equals(openAccount1, openAccount2)) {
+            entity1.setOpenAccount(openAccount2);
+            jsonMap = writer.write(jsonMap, "openAccount", openAccount2);
         }
         long lastLoginTime1 = entity1.getLastLoginTime();
         long lastLoginTime2 = entity2.getLastLoginTime();
@@ -171,6 +178,9 @@ public class UserParser implements DataValueParser<User> {
         if (entity1.getCreateTime() != entity2.getCreateTime()) {
             return true;
         }
+        if (!writer.equals(entity1.getOpenAccount(), entity2.getOpenAccount())) {
+            return true;
+        }
         if (entity1.getLastLoginTime() != entity2.getLastLoginTime()) {
             return true;
         }
@@ -197,7 +207,7 @@ public class UserParser implements DataValueParser<User> {
 
     @Override
     public JSONObject toJson(User entity) {
-        JSONObject json = new JSONObject(21);
+        JSONObject json = new JSONObject(22);
         json.put("userId", entity.getUserId());
         json.put("zoneId", entity.getZoneId());
         json.put("vip", entity.getVip());
@@ -206,6 +216,7 @@ public class UserParser implements DataValueParser<User> {
         json.put("userName", entity.getUserName());
         json.put("headImage", entity.getHeadImage());
         json.put("createTime", entity.getCreateTime());
+        json.put("openAccount", entity.getOpenAccount());
         json.put("lastLoginTime", entity.getLastLoginTime());
         json.put("kickOffCoolTime", entity.getKickOffCoolTime());
         Object zoneRegInfoJson = writer.toJSON(entity.getZoneRegInfo());

@@ -56,7 +56,7 @@ public class GameLoginHandler {
 		req.setAccountId(accountId);
 		req.setPassword(client.getPassword());
 		req.setZoneId(sInfo.getZoneId());
-		req.setNick("aa#;" + accountId);// 随机角色名字
+		req.setNick(accountId);// 随机角色名字
 		req.setSex(random.nextInt(2));// 随机性别
 //		ClientInfo clientInfo = new ClientInfo();
 //		clientInfo.setAccountId(accountId);
