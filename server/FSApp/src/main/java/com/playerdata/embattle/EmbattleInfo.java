@@ -1,6 +1,7 @@
 package com.playerdata.embattle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -123,5 +124,9 @@ public class EmbattleInfo implements IMapItem {
 
 	public int getType() {
 		return type;
+	}
+	
+	public List<EmbattlePositionInfo> getAll() {
+		return Collections.unmodifiableList(posInfo);
 	}
 }
