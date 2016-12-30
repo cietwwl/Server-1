@@ -4,28 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_fortunecattype_item")
-public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
+public class ActivityFortuneCatTypeItem implements ActivityTypeItemIF<ActivityFortuneCatTypeSubItem> {
 
 	@Id
 	private Integer id;
+	
 	@OwnerId
 	private String userId;// 对应的角色Id
 
-	
 	@CombineSave
 	private String cfgId;
 	
@@ -35,9 +32,8 @@ public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 	@CombineSave
 	private List<ActivityFortuneCatTypeSubItem> subItemList = new ArrayList<ActivityFortuneCatTypeSubItem>();
 	
-
 	@CombineSave
-	private String version ;
+	private int version;
 	
 	@CombineSave
 	private long redPointLastTime;
@@ -45,9 +41,9 @@ public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 	@CombineSave
 	private int times ;
 	
+	@CombineSave
+	private boolean isTouchRedPoint;	
 	
-
-
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -56,9 +52,6 @@ public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 		this.redPointLastTime = redPointLastTime;
 	}
 	
-	@CombineSave
-	private boolean isTouchRedPoint;	
-
 	public boolean isTouchRedPoint() {
 		return isTouchRedPoint;
 	}
@@ -66,20 +59,7 @@ public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 	public void setTouchRedPoint(boolean isTouchRedPoint) {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
-	
-	
-	/**版本刷新*/
-	public void reset(ActivityFortuneCatTypeCfg targetCfg,List<ActivityFortuneCatTypeSubItem> list){
-		this.cfgId = targetCfg.getId();
-		this.closed = false;
-		this.version = targetCfg.getVersion();
-		subItemList = list;
-		isTouchRedPoint = false;
-		this.times = 0;
-	}
 
-	
-	
 	public int getTimes() {
 		return times;
 	}
@@ -87,28 +67,10 @@ public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 	public void setTimes(int times) {
 		this.times = times;
 	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-
-
-
 	
-
-
-
+	
 	public Integer getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public List<ActivityFortuneCatTypeSubItem> getSubItemList() {
@@ -143,9 +105,33 @@ public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 		this.closed = closed;
 	}
 
-	
+	@Override
+	public void setId(int id) {
+		this.id = id;
+		this.cfgId = String.valueOf(id);
+	}
 
-	
-	
-	
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public boolean isHasViewed() {
+		return isTouchRedPoint;
+	}
+
+	@Override
+	public void setHasViewed(boolean hasViewed) {
+		isTouchRedPoint = hasViewed;
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+	}
 }

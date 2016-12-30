@@ -226,7 +226,7 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityFortuneCat, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityFortuneCatTypeCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
 				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
@@ -234,7 +234,6 @@ public class ActivityCfgChecker {
 				}
 				GameLog.cfgError(LogModule.ComActivityFortuneCat, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
 			}
-			
 		}		
 	}
 	

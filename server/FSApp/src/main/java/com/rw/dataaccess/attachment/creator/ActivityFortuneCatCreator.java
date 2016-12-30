@@ -1,10 +1,9 @@
 package com.rw.dataaccess.attachment.creator;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
-import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -18,13 +17,9 @@ public class ActivityFortuneCatCreator  implements PlayerExtPropertyCreator<Acti
 		return null;
 	}
 
-
-
 	@Override
-	public List<ActivityFortuneCatTypeItem> firstCreate(
-			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityFortuneCatTypeMgr.getInstance().creatItems(params.getUserId(), false);
+	public List<ActivityFortuneCatTypeItem> firstCreate(PlayerPropertyParams params) {
+		return new ArrayList<ActivityFortuneCatTypeItem>();
 	}
 
 	@Override
@@ -37,10 +32,6 @@ public class ActivityFortuneCatCreator  implements PlayerExtPropertyCreator<Acti
 
 	@Override
 	public boolean requiredToPreload(PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityFortuneCatTypeMgr.getInstance().isOpen(params.getCreateTime());
+		return true;
 	}
-
-	
-	
 }

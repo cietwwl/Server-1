@@ -3,7 +3,6 @@ package com.common.serverdata;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -37,7 +36,6 @@ public class ServerCommonData {
 	
 	@CombineSave
 	private HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord = new HashMap<Integer, ActivityFortuneCatRecord>();	//记录最近的三个摇奖
-	
 	
 	//临时存一下，稍后分割出去
 	@CombineSave

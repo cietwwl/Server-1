@@ -125,6 +125,10 @@ public enum GameWorldKey {
 	 * 活动:超值欢乐购
 	 */
 	ACTIVITY_DISCOUNT("ACTIVITY_DISCOUNT"),
+	/**
+	 * 活动:招财猫
+	 */
+	ACTIVITY_FORTUNECAT("ACTIVITY_FORTUNECAT"),
 	;
 	
 

@@ -98,15 +98,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param item
 	 */
 	protected void dailyRefresh(Player player, T item){
-		List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
-		ActivityType activityType = getHolder().getActivityType();
-		for (String subId : todaySubs) {
-			ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
-			subItem.setCfgId(subId);
-			subItemList.add(subItem);
-		}
-		item.setSubItemList(subItemList);
+		item.setSubItemList(getHolder().newSubItemList(item.getCfgId()));
 		getHolder().updateItem(player, item);
 	}
 	

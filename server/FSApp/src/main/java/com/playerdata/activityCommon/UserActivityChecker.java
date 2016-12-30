@@ -100,16 +100,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 					item.setCfgId(String.valueOf(cfg.getCfgId()));
 					item.setUserId(userId);
 					item.setVersion(cfg.getVersion());
-					List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-					List<String> todaySubs = getTodaySubActivity(String.valueOf(cfg.getCfgId()));
-					for(String subId : todaySubs){
-						ActivityTypeSubItemIF subItem = getActivityType().getNewActivityTypeSubItem();
-						if(null != subItem){
-							subItem.setCfgId(subId);
-							subItemList.add(subItem);
-						}
-					}
-					item.setSubItemList(subItemList);
+					item.setSubItemList(newSubItemList(String.valueOf(cfg.getCfgId())));
 					newAddItems.add(item);
 				}
 			}
@@ -120,6 +111,19 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			e.printStackTrace();
 		}
 		return newAddItems;
+	}
+	
+	public List<? extends ActivityTypeSubItemIF> newSubItemList(String cfgId){
+		List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
+		List<String> todaySubs = getTodaySubActivity(cfgId);
+		for(String subId : todaySubs){
+			ActivityTypeSubItemIF subItem = getActivityType().getNewActivityTypeSubItem();
+			if(null != subItem){
+				subItem.setCfgId(subId);
+				subItemList.add(subItem);
+			}
+		} 
+		return subItemList;
 	}
 	
 	/**

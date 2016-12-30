@@ -2,11 +2,12 @@ package com.playerdata.activity.fortuneCatType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityFortuneCatTypeSubItem {
+public class ActivityFortuneCatTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
@@ -17,8 +18,6 @@ public class ActivityFortuneCatTypeSubItem {
 	private int num;
 	
 	private int vip ;
-	
-	
 	
 	public int getVip() {
 		return vip;
@@ -35,8 +34,6 @@ public class ActivityFortuneCatTypeSubItem {
 	public void setCfgId(String cfgId) {
 		this.cfgId = cfgId;
 	}
-
-
 
 	public int getGetGold() {
 		return getGold;
@@ -61,7 +58,4 @@ public class ActivityFortuneCatTypeSubItem {
 	public void setNum(int num) {
 		this.num = num;
 	}
-	
-	
-
 }

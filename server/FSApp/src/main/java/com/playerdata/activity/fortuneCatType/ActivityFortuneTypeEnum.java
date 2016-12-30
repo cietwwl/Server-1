@@ -2,20 +2,21 @@ package com.playerdata.activity.fortuneCatType;
 
 
 public enum ActivityFortuneTypeEnum {
-	FortuneCat("90001");// 超值欢乐购
+	
+	FortuneCat(90001);// 招财猫
 
-	private String cfgId;
+	private int cfgId;
 
-	private ActivityFortuneTypeEnum(String cfgId) {
+	private ActivityFortuneTypeEnum(int cfgId) {
 		this.cfgId = cfgId;
 	}
 
-	public String getCfgId() {
+	public int getCfgId() {
 		return cfgId;
 	}
 
-	public static ActivityFortuneTypeEnum getById(String cfgId) {
-		if (FortuneCat.cfgId.equals(cfgId)) {
+	public static ActivityFortuneTypeEnum getById(int cfgId) {
+		if (FortuneCat.cfgId == cfgId) {
 			return FortuneCat;
 		} else {
 			return null;
