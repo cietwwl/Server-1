@@ -69,9 +69,6 @@ public class Server {
 			// 初始化每日热点数据
 			GambleMgr.resetWhenStart();
 			// GambleTest.Test();
-
-			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
-			GmHotFixManager.serverStartComplete(); // 自动执行hot fix
 			
 			//每次启服的时候，检查是否有GM修改过的活动配置（启服最后检查）
 			ActivityModifyMgr.getInstance().checkModifiedActivity();
