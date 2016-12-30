@@ -16,19 +16,18 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 
 	public static final String appID = "1012"; // 银汉的AppId
 	public static final String appKey = "6489CD1B7E9AE5BD8311435"; // 银汉的AppKey
-	
+
 	private void appendField(StringBuilder strBld, String value) {
-		if(value == null || value.length() == 0) {
+		if (value == null || value.length() == 0) {
 			value = "";
 		}
 		strBld.append(value).append("|");
 	}
-	
+
 	@Override
 	public boolean checkChargeCallback(ChargeContentPojo content) {
 		/*
-		 * sign=md5(cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey)
-		 * 字段如果为null则用空的字符串代替 
+		 * sign=md5(cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey) 字段如果为null则用空的字符串代替
 		 */
 		if (content.getSign() == null) {
 			GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "订单签名为空！订单号：" + content.getCpTradeNo());
@@ -51,13 +50,13 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		if (content.getSign().equals(sign)) {
 			return true;
 		} else {
-//			GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
+			// GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" +
+			// strBld.toString());
 			System.err.println("签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
 			return false;
 		}
 	}
 
-	
 	@Override
 	public ChargeRecord generateChargeRecord(ChargeContentPojo content) {
 		ChargeRecord record = new ChargeRecord();
@@ -75,7 +74,7 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		String itemId;
 		if ((itemId = content.getItemId()) != null && itemId.length() > 0) {
 			record.setItemId(itemId);
-		} else if((itemId = content.getPrivateField()) != null && itemId.length() > 0){
+		} else if ((itemId = content.getPrivateField()) != null && itemId.length() > 0) {
 			record.setItemId(itemId.split(",")[0]);
 		} else {
 			record.setItemId("");
@@ -83,7 +82,7 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		record.setChargeTime(System.currentTimeMillis());
 		return record;
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 		YinHanChargeCallbackChecker checker = new YinHanChargeCallbackChecker();
 		BufferedReader br = new BufferedReader(new FileReader(new File("D:\\work\\chargeOrder.txt")));

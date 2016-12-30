@@ -45,6 +45,7 @@ import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.randomname.RandomNameMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
+import com.rw.config.YaoWanLogConfig;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
@@ -68,6 +69,8 @@ import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
 import com.rw.trace.HeroPropertyMigration;
+import com.rwbase.ServerType;
+import com.rwbase.ServerTypeMgr;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
@@ -112,6 +115,13 @@ public class GameManager {
 
 		GameLog.debug("初始化后台服务");
 		// TODO 游戏逻辑处理线程数，需要在配置里面统一配置
+		
+		try {
+			ServerTypeMgr.getInstance().loadServerType();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
@@ -220,6 +230,11 @@ public class GameManager {
 
 		// 世界boss 初始化
 		WBStateFSM.getInstance().init();
+
+		// 启用要玩的日志发送配置
+		if (ServerTypeMgr.getInstance().getServerType() == ServerType.IOS_YAOWAN) {
+			YaoWanLogConfig.init();
+		}
 	}
 
 	public static void initServerProperties() {
