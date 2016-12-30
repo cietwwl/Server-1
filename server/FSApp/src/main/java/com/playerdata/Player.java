@@ -46,6 +46,7 @@ import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
+import com.rw.routerServer.giftManger.RouterGiftMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.Privilege.IPrivilegeManager;
@@ -166,12 +167,12 @@ public class Player implements PlayerIF {
 
 	private OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo;
 
-	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
+	// private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
 	private volatile long groupRankRecommentCacheTime;// 帮派排行榜推荐的时间
 	private volatile long groupRandomRecommentCacheTime;// 帮派排行榜随机推荐的时间
 	private volatile int lastWorldChatId;// 聊天上次的版本号
-	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
-	private volatile long lastTeamChatCahceTime;// 上次发送组队聊天时间
+	// private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
+	// private volatile long lastTeamChatCahceTime;// 上次发送组队聊天时间
 
 	private TimeAction oneSecondTimeAction;// 秒时效
 
@@ -423,7 +424,7 @@ public class Player implements PlayerIF {
 					PraiseMgr.getMgr().synData(player);
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
-					//发送屏蔽新手引导信息
+					// 发送屏蔽新手引导信息
 					NewGuideStateChecker.getInstance().check(player, true);
 
 				}
@@ -456,6 +457,7 @@ public class Player implements PlayerIF {
 			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 
 			WBMgr.getInstance().onPlayerLogin(this);
+			RouterGiftMgr.getInstance().takeGift(userId);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}
@@ -1276,41 +1278,41 @@ public class Player implements PlayerIF {
 		return me_FetterMgr;
 	}
 
-	/**
-	 * 获取上次世界聊天发言的时间
-	 * 
-	 * @return
-	 */
-	public long getLastWorldChatCacheTime() {
-		return lastWorldChatCacheTime;
-	}
-
-	/**
-	 * 设置上次世界聊天发言的时间
-	 * 
-	 * @param lastWorldChatCacheTime
-	 */
-	public void setLastWorldChatCacheTime(long lastWorldChatCacheTime) {
-		this.lastWorldChatCacheTime = lastWorldChatCacheTime;
-	}
-
-	/**
-	 * 获取上次帮派聊天的时间
-	 * 
-	 * @return
-	 */
-	public long getLastGroupChatCacheTime() {
-		return lastGroupChatCacheTime;
-	}
-
-	/**
-	 * 设置上次帮派聊天的时间
-	 * 
-	 * @param lastGroupChatCacheTime
-	 */
-	public void setLastGroupChatCacheTime(long lastGroupChatCacheTime) {
-		this.lastGroupChatCacheTime = lastGroupChatCacheTime;
-	}
+	// /**
+	// * 获取上次世界聊天发言的时间
+	// *
+	// * @return
+	// */
+	// public long getLastWorldChatCacheTime() {
+	// return lastWorldChatCacheTime;
+	// }
+	//
+	// /**
+	// * 设置上次世界聊天发言的时间
+	// *
+	// * @param lastWorldChatCacheTime
+	// */
+	// public void setLastWorldChatCacheTime(long lastWorldChatCacheTime) {
+	// this.lastWorldChatCacheTime = lastWorldChatCacheTime;
+	// }
+	//
+	// /**
+	// * 获取上次帮派聊天的时间
+	// *
+	// * @return
+	// */
+	// public long getLastGroupChatCacheTime() {
+	// return lastGroupChatCacheTime;
+	// }
+	//
+	// /**
+	// * 设置上次帮派聊天的时间
+	// *
+	// * @param lastGroupChatCacheTime
+	// */
+	// public void setLastGroupChatCacheTime(long lastGroupChatCacheTime) {
+	// this.lastGroupChatCacheTime = lastGroupChatCacheTime;
+	// }
 
 	public int getLastWorldChatId() {
 		return lastWorldChatId;
@@ -1498,23 +1500,23 @@ public class Player implements PlayerIF {
 		return teamHolder;
 	}
 
-	/**
-	 * 获取上次发送组队信息的时间
-	 * 
-	 * @return
-	 */
-	public long getLastTeamChatCahceTime() {
-		return lastTeamChatCahceTime;
-	}
-
-	/**
-	 * 设置上次发送组队信息的缓存时间
-	 * 
-	 * @param lastTeamChatCahceTime
-	 */
-	public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
-		this.lastTeamChatCahceTime = lastTeamChatCahceTime;
-	}
+	// /**
+	// * 获取上次发送组队信息的时间
+	// *
+	// * @return
+	// */
+	// public long getLastTeamChatCahceTime() {
+	// return lastTeamChatCahceTime;
+	// }
+	//
+	// /**
+	// * 设置上次发送组队信息的缓存时间
+	// *
+	// * @param lastTeamChatCahceTime
+	// */
+	// public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
+	// this.lastTeamChatCahceTime = lastTeamChatCahceTime;
+	// }
 
 	@Override
 	public long getLastLoginTime() {
