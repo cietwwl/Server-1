@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.fsutil.util.DateUtils;
@@ -63,6 +64,7 @@ public class ZoneLoginInfo {
 		}
 	}
 	
+	@JsonIgnore
 	public Map<String,String> getInfoMap() throws Exception{
 		Map<String, String> infoMap = new HashMap<String, String>();
 		for (Field field : fieldList) {
