@@ -24,6 +24,10 @@ public class VersionDao {
 	
 	private Map<String, ChannelAddressInfo> addressInfoMap = new HashMap<String, ChannelAddressInfo>();
 	
+	private Map<String, Map<String, ChannelAddressInfo>> packageNameAddressInfoMap = new HashMap<String, Map<String, ChannelAddressInfo>>();
+	
+	public static String DEFAULT_PACKAGENAME = "DEAFULT";
+	
 	private String verDirPath = "";
 	
 	public static VersionDao getInstance(){
@@ -46,8 +50,9 @@ public class VersionDao {
 
 				for (File file : pathFileList) {
 
-					ChannelAddressInfo channelAddressInfo = ChannelAddressInfoDao.fromFile(file);
-					addressInfoMap.put(channelAddressInfo.getChannel(), channelAddressInfo);
+					Map<String, ChannelAddressInfo> map = ChannelAddressInfoDao.fromFile(file);
+					ChannelAddressInfo channelAddressInfo = map.get(DEFAULT_PACKAGENAME);
+					packageNameAddressInfoMap.put(channelAddressInfo.getChannel(), map);
 				}
 			}
 		} catch (Exception ex) {
@@ -160,19 +165,37 @@ public class VersionDao {
 		try {
 			version = Version.fromFile(file);
 
-			String channel = version.getChannel();
-			ChannelAddressInfo channelAddressInfo = addressInfoMap.get(channel);
-			if (channelAddressInfo != null) {
-				version.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
-				version.setCdnDomain(channelAddressInfo.getCdnDomain());
-				version.setCdnBackUpDomain(channelAddressInfo.getCdnBackUpDomain());
-				version.setLogServerAddress(channelAddressInfo.getLogServerAddress());
-				version.setCheckServerURL(channelAddressInfo.getCheckServerURL());
-				version.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
-				version.setBackUrl(channelAddressInfo.getBackUrl());
-			}else{
-				throw (new RuntimeException("版本配置有错，请检查."));
-			}
+//			String channel = version.getChannel();
+//			String packageName = version.getPackageName();
+//			ChannelAddressInfo channelAddressInfo = addressInfoMap.get(channel);
+//			
+//			Map<String, ChannelAddressInfo> packageNameMap = packageNameAddressInfoMap.get(channel);
+//			if(packageNameMap == null){
+//				packageNameMap = new HashMap<String, ChannelAddressInfo>();
+//				packageNameAddressInfoMap.put(packageName, packageNameMap);
+//			}
+//			
+//			Map<String, ChannelAddressInfo> map = packageNameAddressInfoMap.get(packageName);
+//			
+//			int main = version.getMain();
+//			ChannelAddressInfo channelAddressInfo = null;
+//			if(map.containsKey(main)){
+//				channelAddressInfo = map.get(main);
+//			}else{
+//				channelAddressInfo = map.get(DefaultVersion);
+//			}
+//			
+//			if (channelAddressInfo != null) {
+//				version.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
+//				version.setCdnDomain(channelAddressInfo.getCdnDomain());
+//				version.setCdnBackUpDomain(channelAddressInfo.getCdnBackUpDomain());
+//				version.setLogServerAddress(channelAddressInfo.getLogServerAddress());
+//				version.setCheckServerURL(channelAddressInfo.getCheckServerURL());
+//				version.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
+//				version.setBackUrl(channelAddressInfo.getBackUrl());
+//			}else{
+//				throw (new RuntimeException("版本配置有错，请检查."));
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw (new RuntimeException("版本配置有错，请检查."));
@@ -188,7 +211,19 @@ public class VersionDao {
 	}
 	
 	public ChannelAddressInfo getChannelAddressInfo(String channel){
-		return addressInfoMap.get(channel);
+		Map<String, ChannelAddressInfo> map = packageNameAddressInfoMap.get(channel);
+		return map.get(DEFAULT_PACKAGENAME);
+	}
+	
+	public ChannelAddressInfo getChannelAddressInfoByPackageName(String channel, String packageName){
+		Map<String, ChannelAddressInfo> map = packageNameAddressInfoMap.get(channel);
+		ChannelAddressInfo channelAddressInfo;
+		if(map.containsKey(packageName)){
+			channelAddressInfo = map.get(packageName);
+		}else{
+			channelAddressInfo = map.get(DEFAULT_PACKAGENAME);
+		}
+		return channelAddressInfo;
 	}
 
 	public static void main(String[] args) {
