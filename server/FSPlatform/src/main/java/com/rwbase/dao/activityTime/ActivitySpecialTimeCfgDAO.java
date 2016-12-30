@@ -34,6 +34,9 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
 		for(ActivitySpecialTimeCfg cfgTmp : tmpMap.values()){
 			decodeActivityZone(cfgTmp);
+			if(cfgTmp.getId() == 1) {
+				platformVersion.set(cfgTmp.getVersion());
+			}
 		}
 		if(!OPENED_TIMER){
 			//第一次执行时，启动定时器
@@ -66,7 +69,6 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		if(LAST_MODIFY_TIME != cfgFile.lastModified()){
 			reload();
 			LAST_MODIFY_TIME = cfgFile.lastModified();
-			platformVersion.incrementAndGet();
 		}
 	}
 	
@@ -74,10 +76,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		ActCfgInfo actInfo = new ActCfgInfo();
 		int thisVersion = platformVersion.get();
 		actInfo.setPlatformVersion(thisVersion);
-		if(0 == version && 0 == thisVersion){
-			return actInfo;
-		}
-		if(0 == thisVersion || version < thisVersion){
+		if(version < thisVersion){
 			actInfo.setActList(actCfgMap.get(zoneId));
 		}
 		return actInfo;

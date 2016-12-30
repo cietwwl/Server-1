@@ -11,6 +11,7 @@ public class ActivitySpecialTimeCfg{
 	private String endViceTime; //活动版本
 	private String rangeTime;	//活动的开启时间
 	private String actDesc;	//活动的结束时间
+	private int version;
 	
 	public int getId() {
 		return id;
@@ -82,5 +83,13 @@ public class ActivitySpecialTimeCfg{
 	
 	public void setActDesc(String actDesc) {
 		this.actDesc = actDesc;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }
