@@ -56,6 +56,6 @@ public class TeamBattleFullCollector implements RedPointCollector {
 
 	@Override
 	public eOpenLevelType getOpenType() {
-		return null;
+		return eOpenLevelType.TEAM_BATTLE;
 	}
 }
