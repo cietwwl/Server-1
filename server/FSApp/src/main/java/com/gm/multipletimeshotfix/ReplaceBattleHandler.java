@@ -22,7 +22,7 @@ import com.rw.service.groupCopy.GroupCopyBattleHandler;
 import com.rw.service.ranodmBoss.RandomBossMsgHandler;
 import com.rwproto.MsgDef.Command;
 
-public class ReplaceBattleHandler implements Callable<Object> {
+public class ReplaceBattleHandler /*implements Callable<Object>*/ {
 
 	private void replaceHandler(Class<?> targetClass, String fieldName, Object refObject, Object newObj, StringBuilder strBld) throws Exception {
 		Field declaredField = targetClass.getDeclaredField(fieldName);
@@ -40,7 +40,7 @@ public class ReplaceBattleHandler implements Callable<Object> {
 	}
 
 	@SuppressWarnings("rawtypes")
-	@Override
+	//@Override
 	public Object call() throws Exception {
 		Field fNettyController = GameLogicTask.class.getDeclaredField("nettyControler");
 		Field fCommandMap = FsNettyControler.class.getDeclaredField("commandMap");

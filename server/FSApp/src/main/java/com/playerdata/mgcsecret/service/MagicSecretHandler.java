@@ -1,8 +1,11 @@
 package com.playerdata.mgcsecret.service;
 
+import com.common.IHeroSynHandler;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 
@@ -10,7 +13,9 @@ public class MagicSecretHandler {
 
 	private static MagicSecretHandler instance = new MagicSecretHandler();
 
+	private IHeroSynHandler _synHandler; // 战前同步数据处理
 	protected MagicSecretHandler() {
+		_synHandler = new CommonHeroSynHandler();
 	}
 
 	public static MagicSecretHandler getInstance() {
@@ -30,6 +35,7 @@ public class MagicSecretHandler {
 		msRsp.setReqType(msgMSRequest.getReqType());
 		MagicSecretMgr msMgr = MagicSecretMgr.getInstance();
 		msMgr.enterMSFight(player, msRsp, msgMSRequest.getDungeonId());
+		_synHandler.synHeroData(player, eBattlePositionType.MagicSecret, null);
 		return msRsp.build().toByteString();
 	}
 

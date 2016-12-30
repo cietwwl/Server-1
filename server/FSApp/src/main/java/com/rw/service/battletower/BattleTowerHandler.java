@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.IHeroSynHandler;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
@@ -24,6 +25,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
@@ -53,6 +55,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonRspMsg;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerConfig;
 import com.rwproto.BattleTowerServiceProtos.BossInfoMsg;
@@ -91,7 +94,9 @@ import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
  */
 public class BattleTowerHandler {
 	private static final int BOSS_RANDOM_RATE = 10000;
-
+	
+	private static IHeroSynHandler _synHandler = new CommonHeroSynHandler();
+	
 	/**
 	 * 打开角色的试练塔主界面
 	 * 
@@ -1047,6 +1052,7 @@ public class BattleTowerHandler {
 
 		commonRsp.setReqType(ERequestType.CHALLENGE_START);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+		_synHandler.synHeroData(player, eBattlePositionType.TowerBattle, null);
 	}
 
 	/**
@@ -1381,6 +1387,8 @@ public class BattleTowerHandler {
 		}
 
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+		
+		_synHandler.synHeroData(player, eBattlePositionType.TowerBattle, null);
 	}
 
 	/**

@@ -2,6 +2,7 @@ package com.playerdata.teambattle.service;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.IHeroSynHandler;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -16,6 +17,8 @@ import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.playerdata.teambattle.manager.TeamMatchData;
 import com.playerdata.teambattle.manager.TeamMatchMgr;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
@@ -26,6 +29,11 @@ public class TeamBattleHandler {
 
 	public static TeamBattleHandler getInstance() {
 		return instance;
+	}
+	
+	private IHeroSynHandler _synHandler;
+	protected TeamBattleHandler() {
+		_synHandler = new CommonHeroSynHandler();
 	}
 
 	public ByteString synTeamBattle(Player player, TeamBattleReqMsg msgTBRequest) {
@@ -100,6 +108,7 @@ public class TeamBattleHandler {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
 		tbBM.startFight(player, tbRsp, msgTBRequest.getLoopID(), msgTBRequest.getBattleTime());
+		_synHandler.synHeroData(player, eBattlePositionType.TeamBattle, null);
 		return tbRsp.build().toByteString();
 	}
 

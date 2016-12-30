@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.bm.arena.ArenaConstant;
 import com.bm.arena.ArenaScoreTemplate;
+import com.common.IHeroSynHandler;
 import com.common.RefBool;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
@@ -59,6 +60,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
+import com.rwbase.common.herosynhandler.PeakArenaHeroSynHandler;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.fashion.FashionUsedIF;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
@@ -96,7 +98,9 @@ public class PeakArenaHandler {
 
 	private static PeakArenaHandler instance = new PeakArenaHandler();
 
+	private IHeroSynHandler _synHandler;
 	protected PeakArenaHandler() {
+		_synHandler = new PeakArenaHeroSynHandler();
 	}
 
 	public static PeakArenaHandler getInstance() {
@@ -433,6 +437,7 @@ public class PeakArenaHandler {
 		response.setChallengeCount(challengeCount);
 
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
+		_synHandler.synHeroData(player, eBattlePositionType.PeakArenaPos, null);
 		return response.build().toByteString();
 	}
 
@@ -469,6 +474,7 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 		}
 
+		_synHandler.synHeroData(player, eBattlePositionType.PeakArenaPos, null);
 		return response.build().toByteString();
 	}
 
