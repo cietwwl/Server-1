@@ -10,7 +10,6 @@ import com.bm.randomBoss.RandomBossMgr;
 import com.bm.targetSell.TargetSellManager;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
-import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
@@ -255,14 +254,6 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityTimeCountType);
-
-		versionMap.put(eSynType.ActivityExchangeType, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {
-				ActivityExchangeTypeMgr.getInstance().synCountTypeData(player);
-			}
-		}));
-		orderList.add(eSynType.ActivityExchangeType);
 
 		versionMap.put(eSynType.ActivityDailyRechargeType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override

@@ -31,7 +31,7 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 	
 	private String version;
 	
-	private String day = "1";
+	private int day = 1;
 	
 	public String getEnumId() {
 		return enumId;
@@ -122,7 +122,7 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 	}
 
 	@Override
-	public String getDay() {
+	public int getDay() {
 		return day;
 	}
 

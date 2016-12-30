@@ -35,6 +35,8 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 0;	//是否服务端同步描述
 	
+	private int isDailyRefresh = 1;
+	
 	public String getEnumId() {
 		return String.valueOf(enumId);
 	}
@@ -137,7 +139,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 
 	@Override
 	public long getStartTime() {
-		return changeStartTime;
+		return changeStartTime < dropStartTime ? changeStartTime : dropStartTime;
 	}
 
 	@Override
@@ -157,12 +159,12 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 
 	@Override
 	public boolean isDailyRefresh() {
-		return false;
+		return 1 == isDailyRefresh;
 	}
 
 	@Override
 	public boolean isEveryDaySame() {
-		return false;
+		return true;
 	}
  	
  	public void ExtraInitAfterLoad() {
@@ -205,7 +207,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 
 	@Override
 	public String getStartTimeStr() {
-		return changeStartTimeStr;
+		return changeStartTime < dropStartTime ? changeStartTimeStr : dropStartTimeStr;
 	}
 
 	@Override

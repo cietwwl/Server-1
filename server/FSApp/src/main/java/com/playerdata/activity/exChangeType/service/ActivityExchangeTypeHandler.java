@@ -3,7 +3,6 @@ package com.playerdata.activity.exChangeType.service;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
@@ -26,27 +25,13 @@ public class ActivityExchangeTypeHandler {
 		ActivityExchangeTypeCfg cfg = ActivityExchangeTypeCfgDAO.getInstance().getCfgById(activityId);		
 		boolean success = false;
 		String tips = "没找到对应的活动";
-		
-		
-		
 		if(cfg!=null){
-			ActivityExChangeTypeEnum countType = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
-			if(countType != null){
-				ActivityComResult result = ActivityExchangeTypeMgr.getInstance().takeGift(player, countType, subItemId);
-				success = result.isSuccess();
-				tips = result.getReason()+"";
-			}
-			
+			ActivityComResult result = ActivityExchangeTypeMgr.getInstance().takeGift(player, String.valueOf(cfg.getId()), subItemId);
+			success = result.isSuccess();
+			tips = result.getReason()+"";
 		}
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);
 		return response.build().toByteString();
 	}
-	
-//	public static void GmTakeGift(Player player,String[] strs){
-//		ActivityExchangeTypeMgr.getInstance().takeGift(player, ActivityExChangeTypeEnum.getById(strs[0]), strs[1]);
-//	}
-	
-	
-	
 }

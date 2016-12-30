@@ -8,7 +8,7 @@ import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 public class ActivityDailyDiscountTypeSubCfg implements ActivitySubCfgIF{
 	private int id;
 	private int parentId;
-	private String afterSomeDays;
+	private int afterSomeDays;
 	private String itemIdList;
 	private List<Integer> itemList = new ArrayList<Integer>();
 	
@@ -28,11 +28,11 @@ public class ActivityDailyDiscountTypeSubCfg implements ActivitySubCfgIF{
 		this.parentId = parentId;
 	}
 	
-	public String getAfterSomeDays() {
+	public int getAfterSomeDays() {
 		return afterSomeDays;
 	}
 	
-	public void setAfterSomeDays(String afterSomeDays) {
+	public void setAfterSomeDays(int afterSomeDays) {
 		this.afterSomeDays = afterSomeDays;
 	}
 	
@@ -53,7 +53,7 @@ public class ActivityDailyDiscountTypeSubCfg implements ActivitySubCfgIF{
 	}
 
 	@Override
-	public String getDay() {
+	public int getDay() {
 		return afterSomeDays;
 	}
 

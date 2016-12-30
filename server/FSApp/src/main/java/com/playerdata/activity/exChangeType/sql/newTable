@@ -1,9 +1,0 @@
-CREATE TABLE `activity_exchange_item` (
-  `id` varchar(128) NOT NULL DEFAULT '',
-  `userId` varchar(128) NOT NULL,
-  `extention` varchar(4096) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `userId` (`extention`(255)) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
-

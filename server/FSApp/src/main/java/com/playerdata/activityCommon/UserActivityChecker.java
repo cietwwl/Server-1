@@ -206,8 +206,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		//还在活跃期内，取当天的数据
 		int todayNum = getCurrentDay(cfg);
 		for(ActivitySubCfgIF subCfg : subDao.getAllCfg()){
-			if(StringUtils.equals(subCfg.getDay(), String.valueOf(todayNum)) && 
-					StringUtils.equals(String.valueOf(subCfg.getType()), cfgID)){
+			if(subCfg.getDay() == todayNum && StringUtils.equals(String.valueOf(subCfg.getType()), cfgID)){
 				todaySubs.add(String.valueOf(subCfg.getId()));
 			}
 		}

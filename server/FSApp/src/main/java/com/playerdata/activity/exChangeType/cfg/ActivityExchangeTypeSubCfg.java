@@ -2,14 +2,14 @@ package com.playerdata.activity.exChangeType.cfg;
 
 import java.util.HashMap;
 
+import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
 
+public class ActivityExchangeTypeSubCfg implements ActivitySubCfgIF{
 
-public class ActivityExchangeTypeSubCfg {
-
-	private String id;
+	private int id;
 	
-	private String parentCfg;
+	private int parentCfg;
 	
 	private String emailTitle;
 	
@@ -25,11 +25,10 @@ public class ActivityExchangeTypeSubCfg {
 	private HashMap<Integer, Integer> changelist = new HashMap<Integer, Integer>();
 	
 	private HashMap<Integer,Integer> eSpecialItemChangeList = new HashMap<Integer, Integer>();
+	
+	private String version;
 
 	
-
-
-
 	public String getEmailTitle() {
 		return emailTitle;
 	}
@@ -46,24 +45,8 @@ public class ActivityExchangeTypeSubCfg {
 		this.version = version;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	private String version;
-	
-	public String getId() {
-		return id;
-	}
-
-
-
-	public String getParentCfg() {
+	public int getParentCfg() {
 		return parentCfg;
-	}
-
-	public void setParentCfg(String parentCfg) {
-		this.parentCfg = parentCfg;
 	}
 
 	public String getAwardGift() {
@@ -78,41 +61,48 @@ public class ActivityExchangeTypeSubCfg {
 		return time;
 	}
 
-	public void setTime(int time) {
-		this.time = time;
-	}
-
 	public boolean isIsrefresh() {
 		return isrefresh;
-	}
-
-	public void setIsrefresh(boolean isrefresh) {
-		this.isrefresh = isrefresh;
 	}
 
 	public String getExchangeneed() {
 		return exchangeneed;
 	}
 
-	public void setExchangeneed(String exchangeneed) {
-		this.exchangeneed = exchangeneed;
-	}
-
 	public HashMap<Integer,Integer> geteSpecialItemChangeList() {
 		return eSpecialItemChangeList;
-	}
-
-	public void seteSpecialItemChangeList(HashMap<Integer,Integer> eSpecialItemChangeList) {
-		this.eSpecialItemChangeList = eSpecialItemChangeList;
 	}
 
 	public HashMap<Integer, Integer> getChangelist() {
 		return changelist;
 	}
-
+	
 	public void setChangelist(HashMap<Integer, Integer> changelist) {
 		this.changelist = changelist;
 	}
 
-		
+	public void seteSpecialItemChangeList(
+			HashMap<Integer, Integer> eSpecialItemChangeList) {
+		this.eSpecialItemChangeList = eSpecialItemChangeList;
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public int getDay() {
+		return 1;
+	}
+
+	@Override
+	public int getType() {
+		return parentCfg;
+	}
+
+	@Override
+	public void setCfgReward(String reward) {
+		awardGift = reward;
+	}
 }

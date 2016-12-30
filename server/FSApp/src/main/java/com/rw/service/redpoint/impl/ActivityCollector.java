@@ -9,13 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
-import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
-import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
@@ -98,46 +91,6 @@ public class ActivityCollector implements RedPointCollector {
 
 		List<String> vitalityList = ActivityVitalityTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(vitalityList);
-
-		// ------------------------------
-		// 检查可召唤佣兵
-		ActivityExchangeTypeItemHolder exchangeDataHolder = ActivityExchangeTypeItemHolder.getInstance();
-		List<ActivityExchangeTypeCfg> exchangeAllCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
-		ActivityExchangeTypeMgr exchangeTypeMgr = ActivityExchangeTypeMgr.getInstance();
-		for (ActivityExchangeTypeCfg cfg : exchangeAllCfgList) {
-			if (!exchangeTypeMgr.isOpen(cfg)) {
-				continue;
-			}
-			if (!exchangeTypeMgr.isLevelEnough(player, cfg)) {
-				continue;
-			}
-
-			ActivityExChangeTypeEnum activityExChangeTypeEnum = ActivityExChangeTypeEnum.getById(cfg.getEnumId());
-			if (activityExChangeTypeEnum == null) {
-				continue;
-			}
-			ActivityExchangeTypeItem targetItem = exchangeDataHolder.getItem(player.getUserId(), activityExChangeTypeEnum);
-			if (targetItem == null) {
-				continue;
-			}
-
-			if (!targetItem.isTouchRedPoint()) {
-				activityList.add(targetItem.getCfgId());
-				continue;
-			}
-
-			List<ActivityExchangeTypeSubItem> exchangeSubitemlist = targetItem.getSubItemList();
-			for (ActivityExchangeTypeSubItem subitem : exchangeSubitemlist) {
-				if (exchangeTypeMgr.isCanTaken(player, subitem)) {
-					if (targetItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
-						continue;
-					}
-					activityList.add(String.valueOf(cfg.getId()));
-					break;
-				}
-			}
-
-		}
 
 		List<String> redEnvelopeList = ActivityRedEnvelopeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(redEnvelopeList);

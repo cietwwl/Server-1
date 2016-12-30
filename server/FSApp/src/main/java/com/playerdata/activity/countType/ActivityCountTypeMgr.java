@@ -14,7 +14,6 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
@@ -47,7 +46,6 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityExchangeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityLimitHeroTypeMgr.getInstance().checkActivityOpen(player);

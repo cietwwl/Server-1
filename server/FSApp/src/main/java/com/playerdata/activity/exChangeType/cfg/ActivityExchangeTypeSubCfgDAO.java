@@ -30,7 +30,7 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		}
 		HashMap<String, List<ActivityExchangeTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeSubCfg>>();
 		for (ActivityExchangeTypeSubCfg subCfg : cfgCacheMap.values()) {
-			ActivityTypeHelper.add(subCfg, subCfg.getParentCfg(), subCfgListMapTmp);
+			ActivityTypeHelper.add(subCfg, String.valueOf(subCfg.getParentCfg()), subCfgListMapTmp);
 		}
 		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;
@@ -68,7 +68,7 @@ public final class ActivityExchangeTypeSubCfgDAO extends CfgCsvDao<ActivityExcha
 		ActivityExchangeTypeSubCfg cfg = null;
 		List<ActivityExchangeTypeSubCfg> cfglist = getAllCfg();
 		for (ActivityExchangeTypeSubCfg subcfg : cfglist) {
-			if (StringUtils.equals(subcfg.getId(), cfgId)) {
+			if (StringUtils.equals(String.valueOf(subcfg.getId()), cfgId)) {
 				cfg = subcfg;
 				break;
 			}

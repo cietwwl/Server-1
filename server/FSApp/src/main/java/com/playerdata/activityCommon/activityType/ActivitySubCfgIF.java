@@ -4,7 +4,7 @@ public interface ActivitySubCfgIF {
 	
 	int getId();
 	
-	String getDay();
+	int getDay();
 	
 	/**
 	 * 父类型id（主表的配置id）

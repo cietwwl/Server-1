@@ -25,8 +25,8 @@ public class EvilBaoArriveSubCfg extends BaseConfig implements ActivitySubCfgIF{
  	}
 
 	@Override
-	public String getDay() {
-		return "1";
+	public int getDay() {
+		return 1;
 	}
 
 	@Override
