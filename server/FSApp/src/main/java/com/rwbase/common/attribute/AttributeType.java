@@ -258,14 +258,14 @@ public enum AttributeType implements TypeIdentification {
 	S_ATTACK_GROWUP(33, "sAttackGrowUp", false, 23) {
 		@Override
 		public void setAttributeValue(Builder builder, int value) {
-			builder.setsAttackGrowUp(value);
+			builder.setSAttackGrowUp(value);
 		}
 	},
 	/** 物理攻击成长 */
 	P_ATTACK_GROWUP(36, "pAttackGrowUp", false, 5) {
 		@Override
 		public void setAttributeValue(Builder builder, int value) {
-			builder.setpAttackGrowUp(value);
+			builder.setPAttackGrowUp(value);
 		}
 	},
 	/** 体魄防御成长 */

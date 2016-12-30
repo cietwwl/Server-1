@@ -136,7 +136,16 @@ public class WBHandler {
 
 	
 	private WBResult checkFightBegin(Player player ){
-		WBResult result = checkBoss();
+		
+		WBResult result = WBResult.newInstance(true);
+		WBState state = WBStateFSM.getInstance().getState();
+		if(state == WBState.PreStart){
+			result.setSuccess(false);
+			result.setReason("魔神尚未降临。");
+		}else if(state == WBState.FightEnd || state == WBState.SendAward || state == WBState.Finish){
+			result.setSuccess(false);
+			result.setReason("活动已经结束。");
+		}
 		if(result.isSuccess()){
 			result = checkCD(player);
 		}
@@ -158,7 +167,8 @@ public class WBHandler {
 				//不扣血，只做同步
 				result.setSuccess(true);
 			}else{
-				
+				//检查一下伤害值  暂时不做伤害检查 后面再加  加的时候记得修改applicationcontent.xml
+//				updateHurt = WBMgr.getInstance().checkHurt(player, updateHurt);
 				updateHurt = WBMgr.getInstance().decrHp(player,updateHurt);
 				if(updateHurt >= 0){				
 					long totalHurt = WBUserMgr.getInstance().fightUpdate(player, updateHurt);
@@ -250,7 +260,12 @@ public class WBHandler {
 		BuyBuffParam buyBuffParam = commonReq.getBuyBuffParam();
 		String bufBuffCfgId = buyBuffParam.getCfgId();
 		
-		WBResult result = checkBoss();
+		WBResult result = WBResult.newInstance(true);
+		WBState state = WBStateFSM.getInstance().getState();
+		if(state != WBState.PreStart && state != WBState.FightStart){
+			result.setSuccess(false);
+			result.setReason("活动已经结束");
+		}
 		if(result.isSuccess()){
 			result = checkBuyBuff(player);
 			if(result.isSuccess()){
@@ -259,7 +274,6 @@ public class WBHandler {
 					result.setReason("配置不存在。");
 				}else{
 					eSpecialItemId costType = buyBuffCfg.getCostTypeEnum();
-					
 					int costCount = buyBuffCfg.getCostCount();			
 					result = WBHelper.takeCost(player, costType, costCount);
 					if(result.isSuccess()){

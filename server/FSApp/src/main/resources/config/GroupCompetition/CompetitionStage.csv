@@ -1,4 +1,4 @@
 key,remarks,cfgId,stageName,stageType,startImmediately,startTime,lastDays,endTime
-1,,1,海选期,1,false,5:00,7,21:00
-2,,2,赛事期,2,false,18:50,3,
-3,,3,休整期,3,true,0:00,3,4:59
+1,,1,海选期,1,false,5:00,3,21:00
+2,,2,赛事期,2,false,20:50,3,
+3,,3,休整期,3,true,0:00,7,4:59

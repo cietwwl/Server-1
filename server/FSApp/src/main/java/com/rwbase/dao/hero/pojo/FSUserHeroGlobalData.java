@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -35,6 +36,8 @@ public class FSUserHeroGlobalData {
 	@IgnoreSynField
 	@JsonProperty("5")
 	private Map<String, Integer> fightingTeamInfos = new HashMap<String, Integer>();
+	@JsonIgnore
+	private boolean openCardEvaluation = false; // 是否开放卡牌评价
 
 	public FSUserHeroGlobalData() {
 	}
@@ -95,5 +98,13 @@ public class FSUserHeroGlobalData {
 
 	public String getUserId() {
 		return userId;
+	}
+
+	public boolean isOpenCardEvaluation() {
+		return openCardEvaluation;
+	}
+
+	public void setOpenCardEvaluation(boolean openCardEvaluation) {
+		this.openCardEvaluation = openCardEvaluation;
 	}
 }

@@ -89,7 +89,7 @@ public final class BattleVerifyProto {
      * <code>required string copyId = 1;</code>
      *
      * <pre>
-     *����id
+     *副本id
      * </pre>
      */
     boolean hasCopyId();
@@ -97,7 +97,7 @@ public final class BattleVerifyProto {
      * <code>required string copyId = 1;</code>
      *
      * <pre>
-     *����id
+     *副本id
      * </pre>
      */
     java.lang.String getCopyId();
@@ -105,7 +105,7 @@ public final class BattleVerifyProto {
      * <code>required string copyId = 1;</code>
      *
      * <pre>
-     *����id
+     *副本id
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -116,7 +116,7 @@ public final class BattleVerifyProto {
      * <code>required string code = 2;</code>
      *
      * <pre>
-     *У������
+     *校验密码
      * </pre>
      */
     boolean hasCode();
@@ -124,7 +124,7 @@ public final class BattleVerifyProto {
      * <code>required string code = 2;</code>
      *
      * <pre>
-     *У������
+     *校验密码
      * </pre>
      */
     java.lang.String getCode();
@@ -132,7 +132,7 @@ public final class BattleVerifyProto {
      * <code>required string code = 2;</code>
      *
      * <pre>
-     *У������
+     *校验密码
      * </pre>
      */
     com.google.protobuf.ByteString
@@ -246,7 +246,7 @@ public final class BattleVerifyProto {
      * <code>required string copyId = 1;</code>
      *
      * <pre>
-     *����id
+     *副本id
      * </pre>
      */
     public boolean hasCopyId() {
@@ -256,7 +256,7 @@ public final class BattleVerifyProto {
      * <code>required string copyId = 1;</code>
      *
      * <pre>
-     *����id
+     *副本id
      * </pre>
      */
     public java.lang.String getCopyId() {
@@ -277,7 +277,7 @@ public final class BattleVerifyProto {
      * <code>required string copyId = 1;</code>
      *
      * <pre>
-     *����id
+     *副本id
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -301,7 +301,7 @@ public final class BattleVerifyProto {
      * <code>required string code = 2;</code>
      *
      * <pre>
-     *У������
+     *校验密码
      * </pre>
      */
     public boolean hasCode() {
@@ -311,7 +311,7 @@ public final class BattleVerifyProto {
      * <code>required string code = 2;</code>
      *
      * <pre>
-     *У������
+     *校验密码
      * </pre>
      */
     public java.lang.String getCode() {
@@ -332,7 +332,7 @@ public final class BattleVerifyProto {
      * <code>required string code = 2;</code>
      *
      * <pre>
-     *У������
+     *校验密码
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -619,7 +619,7 @@ public final class BattleVerifyProto {
        * <code>required string copyId = 1;</code>
        *
        * <pre>
-       *����id
+       *副本id
        * </pre>
        */
       public boolean hasCopyId() {
@@ -629,7 +629,7 @@ public final class BattleVerifyProto {
        * <code>required string copyId = 1;</code>
        *
        * <pre>
-       *����id
+       *副本id
        * </pre>
        */
       public java.lang.String getCopyId() {
@@ -647,7 +647,7 @@ public final class BattleVerifyProto {
        * <code>required string copyId = 1;</code>
        *
        * <pre>
-       *����id
+       *副本id
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -667,7 +667,7 @@ public final class BattleVerifyProto {
        * <code>required string copyId = 1;</code>
        *
        * <pre>
-       *����id
+       *副本id
        * </pre>
        */
       public Builder setCopyId(
@@ -684,7 +684,7 @@ public final class BattleVerifyProto {
        * <code>required string copyId = 1;</code>
        *
        * <pre>
-       *����id
+       *副本id
        * </pre>
        */
       public Builder clearCopyId() {
@@ -697,7 +697,7 @@ public final class BattleVerifyProto {
        * <code>required string copyId = 1;</code>
        *
        * <pre>
-       *����id
+       *副本id
        * </pre>
        */
       public Builder setCopyIdBytes(
@@ -717,7 +717,7 @@ public final class BattleVerifyProto {
        * <code>required string code = 2;</code>
        *
        * <pre>
-       *У������
+       *校验密码
        * </pre>
        */
       public boolean hasCode() {
@@ -727,7 +727,7 @@ public final class BattleVerifyProto {
        * <code>required string code = 2;</code>
        *
        * <pre>
-       *У������
+       *校验密码
        * </pre>
        */
       public java.lang.String getCode() {
@@ -745,7 +745,7 @@ public final class BattleVerifyProto {
        * <code>required string code = 2;</code>
        *
        * <pre>
-       *У������
+       *校验密码
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -765,7 +765,7 @@ public final class BattleVerifyProto {
        * <code>required string code = 2;</code>
        *
        * <pre>
-       *У������
+       *校验密码
        * </pre>
        */
       public Builder setCode(
@@ -782,7 +782,7 @@ public final class BattleVerifyProto {
        * <code>required string code = 2;</code>
        *
        * <pre>
-       *У������
+       *校验密码
        * </pre>
        */
       public Builder clearCode() {
@@ -795,7 +795,7 @@ public final class BattleVerifyProto {
        * <code>required string code = 2;</code>
        *
        * <pre>
-       *У������
+       *校验密码
        * </pre>
        */
       public Builder setCodeBytes(
@@ -2164,6 +2164,3358 @@ public final class BattleVerifyProto {
     // @@protoc_insertion_point(class_scope:BattleVerifyProto.BattleVerifyComRspMsg)
   }
 
+  public interface HeroVerifyDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string uuid = 1;
+    /**
+     * <code>required string uuid = 1;</code>
+     *
+     * <pre>
+     * 英雄的uuid
+     * </pre>
+     */
+    boolean hasUuid();
+    /**
+     * <code>required string uuid = 1;</code>
+     *
+     * <pre>
+     * 英雄的uuid
+     * </pre>
+     */
+    java.lang.String getUuid();
+    /**
+     * <code>required string uuid = 1;</code>
+     *
+     * <pre>
+     * 英雄的uuid
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUuidBytes();
+
+    // required string md5 = 2;
+    /**
+     * <code>required string md5 = 2;</code>
+     *
+     * <pre>
+     * attrData的md5校对信息
+     * </pre>
+     */
+    boolean hasMd5();
+    /**
+     * <code>required string md5 = 2;</code>
+     *
+     * <pre>
+     * attrData的md5校对信息
+     * </pre>
+     */
+    java.lang.String getMd5();
+    /**
+     * <code>required string md5 = 2;</code>
+     *
+     * <pre>
+     * attrData的md5校对信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMd5Bytes();
+  }
+  /**
+   * Protobuf type {@code BattleVerifyProto.HeroVerifyData}
+   *
+   * <pre>
+   * 英雄属性校对信息
+   * </pre>
+   */
+  public static final class HeroVerifyData extends
+      com.google.protobuf.GeneratedMessage
+      implements HeroVerifyDataOrBuilder {
+    // Use HeroVerifyData.newBuilder() to construct.
+    private HeroVerifyData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HeroVerifyData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HeroVerifyData defaultInstance;
+    public static HeroVerifyData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HeroVerifyData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HeroVerifyData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              uuid_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              md5_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_HeroVerifyData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_HeroVerifyData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleVerifyProto.HeroVerifyData.class, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HeroVerifyData> PARSER =
+        new com.google.protobuf.AbstractParser<HeroVerifyData>() {
+      public HeroVerifyData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HeroVerifyData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HeroVerifyData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string uuid = 1;
+    public static final int UUID_FIELD_NUMBER = 1;
+    private java.lang.Object uuid_;
+    /**
+     * <code>required string uuid = 1;</code>
+     *
+     * <pre>
+     * 英雄的uuid
+     * </pre>
+     */
+    public boolean hasUuid() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string uuid = 1;</code>
+     *
+     * <pre>
+     * 英雄的uuid
+     * </pre>
+     */
+    public java.lang.String getUuid() {
+      java.lang.Object ref = uuid_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          uuid_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string uuid = 1;</code>
+     *
+     * <pre>
+     * 英雄的uuid
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUuidBytes() {
+      java.lang.Object ref = uuid_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        uuid_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string md5 = 2;
+    public static final int MD5_FIELD_NUMBER = 2;
+    private java.lang.Object md5_;
+    /**
+     * <code>required string md5 = 2;</code>
+     *
+     * <pre>
+     * attrData的md5校对信息
+     * </pre>
+     */
+    public boolean hasMd5() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string md5 = 2;</code>
+     *
+     * <pre>
+     * attrData的md5校对信息
+     * </pre>
+     */
+    public java.lang.String getMd5() {
+      java.lang.Object ref = md5_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          md5_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string md5 = 2;</code>
+     *
+     * <pre>
+     * attrData的md5校对信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMd5Bytes() {
+      java.lang.Object ref = md5_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        md5_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      uuid_ = "";
+      md5_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUuid()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMd5()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUuidBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getMd5Bytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUuidBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getMd5Bytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.HeroVerifyData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleVerifyProto.HeroVerifyData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleVerifyProto.HeroVerifyData}
+     *
+     * <pre>
+     * 英雄属性校对信息
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_HeroVerifyData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_HeroVerifyData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleVerifyProto.HeroVerifyData.class, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleVerifyProto.HeroVerifyData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uuid_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        md5_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_HeroVerifyData_descriptor;
+      }
+
+      public com.rwproto.BattleVerifyProto.HeroVerifyData getDefaultInstanceForType() {
+        return com.rwproto.BattleVerifyProto.HeroVerifyData.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleVerifyProto.HeroVerifyData build() {
+        com.rwproto.BattleVerifyProto.HeroVerifyData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleVerifyProto.HeroVerifyData buildPartial() {
+        com.rwproto.BattleVerifyProto.HeroVerifyData result = new com.rwproto.BattleVerifyProto.HeroVerifyData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uuid_ = uuid_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.md5_ = md5_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleVerifyProto.HeroVerifyData) {
+          return mergeFrom((com.rwproto.BattleVerifyProto.HeroVerifyData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleVerifyProto.HeroVerifyData other) {
+        if (other == com.rwproto.BattleVerifyProto.HeroVerifyData.getDefaultInstance()) return this;
+        if (other.hasUuid()) {
+          bitField0_ |= 0x00000001;
+          uuid_ = other.uuid_;
+          onChanged();
+        }
+        if (other.hasMd5()) {
+          bitField0_ |= 0x00000002;
+          md5_ = other.md5_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUuid()) {
+          
+          return false;
+        }
+        if (!hasMd5()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleVerifyProto.HeroVerifyData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleVerifyProto.HeroVerifyData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string uuid = 1;
+      private java.lang.Object uuid_ = "";
+      /**
+       * <code>required string uuid = 1;</code>
+       *
+       * <pre>
+       * 英雄的uuid
+       * </pre>
+       */
+      public boolean hasUuid() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       *
+       * <pre>
+       * 英雄的uuid
+       * </pre>
+       */
+      public java.lang.String getUuid() {
+        java.lang.Object ref = uuid_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          uuid_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       *
+       * <pre>
+       * 英雄的uuid
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUuidBytes() {
+        java.lang.Object ref = uuid_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          uuid_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       *
+       * <pre>
+       * 英雄的uuid
+       * </pre>
+       */
+      public Builder setUuid(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        uuid_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       *
+       * <pre>
+       * 英雄的uuid
+       * </pre>
+       */
+      public Builder clearUuid() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uuid_ = getDefaultInstance().getUuid();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string uuid = 1;</code>
+       *
+       * <pre>
+       * 英雄的uuid
+       * </pre>
+       */
+      public Builder setUuidBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        uuid_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string md5 = 2;
+      private java.lang.Object md5_ = "";
+      /**
+       * <code>required string md5 = 2;</code>
+       *
+       * <pre>
+       * attrData的md5校对信息
+       * </pre>
+       */
+      public boolean hasMd5() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string md5 = 2;</code>
+       *
+       * <pre>
+       * attrData的md5校对信息
+       * </pre>
+       */
+      public java.lang.String getMd5() {
+        java.lang.Object ref = md5_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          md5_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string md5 = 2;</code>
+       *
+       * <pre>
+       * attrData的md5校对信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getMd5Bytes() {
+        java.lang.Object ref = md5_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          md5_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string md5 = 2;</code>
+       *
+       * <pre>
+       * attrData的md5校对信息
+       * </pre>
+       */
+      public Builder setMd5(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        md5_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string md5 = 2;</code>
+       *
+       * <pre>
+       * attrData的md5校对信息
+       * </pre>
+       */
+      public Builder clearMd5() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        md5_ = getDefaultInstance().getMd5();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string md5 = 2;</code>
+       *
+       * <pre>
+       * attrData的md5校对信息
+       * </pre>
+       */
+      public Builder setMd5Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        md5_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleVerifyProto.HeroVerifyData)
+    }
+
+    static {
+      defaultInstance = new HeroVerifyData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleVerifyProto.HeroVerifyData)
+  }
+
+  public interface TeamVerifyDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 index = 1;
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     * 队伍索引，从0开始
+     * </pre>
+     */
+    boolean hasIndex();
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     * 队伍索引，从0开始
+     * </pre>
+     */
+    int getIndex();
+
+    // required string userId = 2;
+    /**
+     * <code>required string userId = 2;</code>
+     *
+     * <pre>
+     * 队伍所属的userId
+     * </pre>
+     */
+    boolean hasUserId();
+    /**
+     * <code>required string userId = 2;</code>
+     *
+     * <pre>
+     * 队伍所属的userId
+     * </pre>
+     */
+    java.lang.String getUserId();
+    /**
+     * <code>required string userId = 2;</code>
+     *
+     * <pre>
+     * 队伍所属的userId
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getUserIdBytes();
+
+    // repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    java.util.List<com.rwproto.BattleVerifyProto.HeroVerifyData> 
+        getVerifyDataList();
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    com.rwproto.BattleVerifyProto.HeroVerifyData getVerifyData(int index);
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    int getVerifyDataCount();
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder> 
+        getVerifyDataOrBuilderList();
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder getVerifyDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code BattleVerifyProto.TeamVerifyData}
+   *
+   * <pre>
+   * 队伍属性校验数据
+   * </pre>
+   */
+  public static final class TeamVerifyData extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamVerifyDataOrBuilder {
+    // Use TeamVerifyData.newBuilder() to construct.
+    private TeamVerifyData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamVerifyData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamVerifyData defaultInstance;
+    public static TeamVerifyData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamVerifyData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamVerifyData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              index_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              userId_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                verifyData_ = new java.util.ArrayList<com.rwproto.BattleVerifyProto.HeroVerifyData>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              verifyData_.add(input.readMessage(com.rwproto.BattleVerifyProto.HeroVerifyData.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          verifyData_ = java.util.Collections.unmodifiableList(verifyData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_TeamVerifyData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_TeamVerifyData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleVerifyProto.TeamVerifyData.class, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamVerifyData> PARSER =
+        new com.google.protobuf.AbstractParser<TeamVerifyData>() {
+      public TeamVerifyData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamVerifyData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamVerifyData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 index = 1;
+    public static final int INDEX_FIELD_NUMBER = 1;
+    private int index_;
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     * 队伍索引，从0开始
+     * </pre>
+     */
+    public boolean hasIndex() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 index = 1;</code>
+     *
+     * <pre>
+     * 队伍索引，从0开始
+     * </pre>
+     */
+    public int getIndex() {
+      return index_;
+    }
+
+    // required string userId = 2;
+    public static final int USERID_FIELD_NUMBER = 2;
+    private java.lang.Object userId_;
+    /**
+     * <code>required string userId = 2;</code>
+     *
+     * <pre>
+     * 队伍所属的userId
+     * </pre>
+     */
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string userId = 2;</code>
+     *
+     * <pre>
+     * 队伍所属的userId
+     * </pre>
+     */
+    public java.lang.String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userId = 2;</code>
+     *
+     * <pre>
+     * 队伍所属的userId
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;
+    public static final int VERIFYDATA_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.BattleVerifyProto.HeroVerifyData> verifyData_;
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    public java.util.List<com.rwproto.BattleVerifyProto.HeroVerifyData> getVerifyDataList() {
+      return verifyData_;
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder> 
+        getVerifyDataOrBuilderList() {
+      return verifyData_;
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    public int getVerifyDataCount() {
+      return verifyData_.size();
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    public com.rwproto.BattleVerifyProto.HeroVerifyData getVerifyData(int index) {
+      return verifyData_.get(index);
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+     *
+     * <pre>
+     * 英雄校验数据
+     * </pre>
+     */
+    public com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder getVerifyDataOrBuilder(
+        int index) {
+      return verifyData_.get(index);
+    }
+
+    private void initFields() {
+      index_ = 0;
+      userId_ = "";
+      verifyData_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasIndex()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getVerifyDataCount(); i++) {
+        if (!getVerifyData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getUserIdBytes());
+      }
+      for (int i = 0; i < verifyData_.size(); i++) {
+        output.writeMessage(3, verifyData_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, index_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getUserIdBytes());
+      }
+      for (int i = 0; i < verifyData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, verifyData_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.TeamVerifyData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleVerifyProto.TeamVerifyData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleVerifyProto.TeamVerifyData}
+     *
+     * <pre>
+     * 队伍属性校验数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_TeamVerifyData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_TeamVerifyData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleVerifyProto.TeamVerifyData.class, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleVerifyProto.TeamVerifyData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getVerifyDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        index_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (verifyDataBuilder_ == null) {
+          verifyData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          verifyDataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_TeamVerifyData_descriptor;
+      }
+
+      public com.rwproto.BattleVerifyProto.TeamVerifyData getDefaultInstanceForType() {
+        return com.rwproto.BattleVerifyProto.TeamVerifyData.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleVerifyProto.TeamVerifyData build() {
+        com.rwproto.BattleVerifyProto.TeamVerifyData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleVerifyProto.TeamVerifyData buildPartial() {
+        com.rwproto.BattleVerifyProto.TeamVerifyData result = new com.rwproto.BattleVerifyProto.TeamVerifyData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.index_ = index_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.userId_ = userId_;
+        if (verifyDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            verifyData_ = java.util.Collections.unmodifiableList(verifyData_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.verifyData_ = verifyData_;
+        } else {
+          result.verifyData_ = verifyDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleVerifyProto.TeamVerifyData) {
+          return mergeFrom((com.rwproto.BattleVerifyProto.TeamVerifyData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleVerifyProto.TeamVerifyData other) {
+        if (other == com.rwproto.BattleVerifyProto.TeamVerifyData.getDefaultInstance()) return this;
+        if (other.hasIndex()) {
+          setIndex(other.getIndex());
+        }
+        if (other.hasUserId()) {
+          bitField0_ |= 0x00000002;
+          userId_ = other.userId_;
+          onChanged();
+        }
+        if (verifyDataBuilder_ == null) {
+          if (!other.verifyData_.isEmpty()) {
+            if (verifyData_.isEmpty()) {
+              verifyData_ = other.verifyData_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureVerifyDataIsMutable();
+              verifyData_.addAll(other.verifyData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.verifyData_.isEmpty()) {
+            if (verifyDataBuilder_.isEmpty()) {
+              verifyDataBuilder_.dispose();
+              verifyDataBuilder_ = null;
+              verifyData_ = other.verifyData_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              verifyDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getVerifyDataFieldBuilder() : null;
+            } else {
+              verifyDataBuilder_.addAllMessages(other.verifyData_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasIndex()) {
+          
+          return false;
+        }
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getVerifyDataCount(); i++) {
+          if (!getVerifyData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleVerifyProto.TeamVerifyData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleVerifyProto.TeamVerifyData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 index = 1;
+      private int index_ ;
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       * 队伍索引，从0开始
+       * </pre>
+       */
+      public boolean hasIndex() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       * 队伍索引，从0开始
+       * </pre>
+       */
+      public int getIndex() {
+        return index_;
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       * 队伍索引，从0开始
+       * </pre>
+       */
+      public Builder setIndex(int value) {
+        bitField0_ |= 0x00000001;
+        index_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 index = 1;</code>
+       *
+       * <pre>
+       * 队伍索引，从0开始
+       * </pre>
+       */
+      public Builder clearIndex() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        index_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string userId = 2;
+      private java.lang.Object userId_ = "";
+      /**
+       * <code>required string userId = 2;</code>
+       *
+       * <pre>
+       * 队伍所属的userId
+       * </pre>
+       */
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string userId = 2;</code>
+       *
+       * <pre>
+       * 队伍所属的userId
+       * </pre>
+       */
+      public java.lang.String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 2;</code>
+       *
+       * <pre>
+       * 队伍所属的userId
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getUserIdBytes() {
+        java.lang.Object ref = userId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userId = 2;</code>
+       *
+       * <pre>
+       * 队伍所属的userId
+       * </pre>
+       */
+      public Builder setUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 2;</code>
+       *
+       * <pre>
+       * 队伍所属的userId
+       * </pre>
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userId = 2;</code>
+       *
+       * <pre>
+       * 队伍所属的userId
+       * </pre>
+       */
+      public Builder setUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;
+      private java.util.List<com.rwproto.BattleVerifyProto.HeroVerifyData> verifyData_ =
+        java.util.Collections.emptyList();
+      private void ensureVerifyDataIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          verifyData_ = new java.util.ArrayList<com.rwproto.BattleVerifyProto.HeroVerifyData>(verifyData_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleVerifyProto.HeroVerifyData, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder, com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder> verifyDataBuilder_;
+
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleVerifyProto.HeroVerifyData> getVerifyDataList() {
+        if (verifyDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(verifyData_);
+        } else {
+          return verifyDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public int getVerifyDataCount() {
+        if (verifyDataBuilder_ == null) {
+          return verifyData_.size();
+        } else {
+          return verifyDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.HeroVerifyData getVerifyData(int index) {
+        if (verifyDataBuilder_ == null) {
+          return verifyData_.get(index);
+        } else {
+          return verifyDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder setVerifyData(
+          int index, com.rwproto.BattleVerifyProto.HeroVerifyData value) {
+        if (verifyDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVerifyDataIsMutable();
+          verifyData_.set(index, value);
+          onChanged();
+        } else {
+          verifyDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder setVerifyData(
+          int index, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder builderForValue) {
+        if (verifyDataBuilder_ == null) {
+          ensureVerifyDataIsMutable();
+          verifyData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          verifyDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder addVerifyData(com.rwproto.BattleVerifyProto.HeroVerifyData value) {
+        if (verifyDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVerifyDataIsMutable();
+          verifyData_.add(value);
+          onChanged();
+        } else {
+          verifyDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder addVerifyData(
+          int index, com.rwproto.BattleVerifyProto.HeroVerifyData value) {
+        if (verifyDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVerifyDataIsMutable();
+          verifyData_.add(index, value);
+          onChanged();
+        } else {
+          verifyDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder addVerifyData(
+          com.rwproto.BattleVerifyProto.HeroVerifyData.Builder builderForValue) {
+        if (verifyDataBuilder_ == null) {
+          ensureVerifyDataIsMutable();
+          verifyData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          verifyDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder addVerifyData(
+          int index, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder builderForValue) {
+        if (verifyDataBuilder_ == null) {
+          ensureVerifyDataIsMutable();
+          verifyData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          verifyDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder addAllVerifyData(
+          java.lang.Iterable<? extends com.rwproto.BattleVerifyProto.HeroVerifyData> values) {
+        if (verifyDataBuilder_ == null) {
+          ensureVerifyDataIsMutable();
+          super.addAll(values, verifyData_);
+          onChanged();
+        } else {
+          verifyDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder clearVerifyData() {
+        if (verifyDataBuilder_ == null) {
+          verifyData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          verifyDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public Builder removeVerifyData(int index) {
+        if (verifyDataBuilder_ == null) {
+          ensureVerifyDataIsMutable();
+          verifyData_.remove(index);
+          onChanged();
+        } else {
+          verifyDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.HeroVerifyData.Builder getVerifyDataBuilder(
+          int index) {
+        return getVerifyDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder getVerifyDataOrBuilder(
+          int index) {
+        if (verifyDataBuilder_ == null) {
+          return verifyData_.get(index);  } else {
+          return verifyDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder> 
+           getVerifyDataOrBuilderList() {
+        if (verifyDataBuilder_ != null) {
+          return verifyDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(verifyData_);
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.HeroVerifyData.Builder addVerifyDataBuilder() {
+        return getVerifyDataFieldBuilder().addBuilder(
+            com.rwproto.BattleVerifyProto.HeroVerifyData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.HeroVerifyData.Builder addVerifyDataBuilder(
+          int index) {
+        return getVerifyDataFieldBuilder().addBuilder(
+            index, com.rwproto.BattleVerifyProto.HeroVerifyData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.HeroVerifyData verifyData = 3;</code>
+       *
+       * <pre>
+       * 英雄校验数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleVerifyProto.HeroVerifyData.Builder> 
+           getVerifyDataBuilderList() {
+        return getVerifyDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleVerifyProto.HeroVerifyData, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder, com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder> 
+          getVerifyDataFieldBuilder() {
+        if (verifyDataBuilder_ == null) {
+          verifyDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleVerifyProto.HeroVerifyData, com.rwproto.BattleVerifyProto.HeroVerifyData.Builder, com.rwproto.BattleVerifyProto.HeroVerifyDataOrBuilder>(
+                  verifyData_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          verifyData_ = null;
+        }
+        return verifyDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleVerifyProto.TeamVerifyData)
+    }
+
+    static {
+      defaultInstance = new TeamVerifyData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleVerifyProto.TeamVerifyData)
+  }
+
+  public interface BattleVerifyMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 copyType = 1;
+    /**
+     * <code>required int32 copyType = 1;</code>
+     *
+     * <pre>
+     * 副本类型
+     * </pre>
+     */
+    boolean hasCopyType();
+    /**
+     * <code>required int32 copyType = 1;</code>
+     *
+     * <pre>
+     * 副本类型
+     * </pre>
+     */
+    int getCopyType();
+
+    // required int32 levelId = 2;
+    /**
+     * <code>required int32 levelId = 2;</code>
+     *
+     * <pre>
+     * 关卡id
+     * </pre>
+     */
+    boolean hasLevelId();
+    /**
+     * <code>required int32 levelId = 2;</code>
+     *
+     * <pre>
+     * 关卡id
+     * </pre>
+     */
+    int getLevelId();
+
+    // repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    java.util.List<com.rwproto.BattleVerifyProto.TeamVerifyData> 
+        getVerifyTeamDataList();
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    com.rwproto.BattleVerifyProto.TeamVerifyData getVerifyTeamData(int index);
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    int getVerifyTeamDataCount();
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder> 
+        getVerifyTeamDataOrBuilderList();
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder getVerifyTeamDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code BattleVerifyProto.BattleVerifyMsg}
+   *
+   * <pre>
+   * 阵容校验数据
+   * </pre>
+   */
+  public static final class BattleVerifyMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements BattleVerifyMsgOrBuilder {
+    // Use BattleVerifyMsg.newBuilder() to construct.
+    private BattleVerifyMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BattleVerifyMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BattleVerifyMsg defaultInstance;
+    public static BattleVerifyMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BattleVerifyMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BattleVerifyMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              copyType_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              levelId_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                verifyTeamData_ = new java.util.ArrayList<com.rwproto.BattleVerifyProto.TeamVerifyData>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              verifyTeamData_.add(input.readMessage(com.rwproto.BattleVerifyProto.TeamVerifyData.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          verifyTeamData_ = java.util.Collections.unmodifiableList(verifyTeamData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleVerifyProto.BattleVerifyMsg.class, com.rwproto.BattleVerifyProto.BattleVerifyMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BattleVerifyMsg> PARSER =
+        new com.google.protobuf.AbstractParser<BattleVerifyMsg>() {
+      public BattleVerifyMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BattleVerifyMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BattleVerifyMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 copyType = 1;
+    public static final int COPYTYPE_FIELD_NUMBER = 1;
+    private int copyType_;
+    /**
+     * <code>required int32 copyType = 1;</code>
+     *
+     * <pre>
+     * 副本类型
+     * </pre>
+     */
+    public boolean hasCopyType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 copyType = 1;</code>
+     *
+     * <pre>
+     * 副本类型
+     * </pre>
+     */
+    public int getCopyType() {
+      return copyType_;
+    }
+
+    // required int32 levelId = 2;
+    public static final int LEVELID_FIELD_NUMBER = 2;
+    private int levelId_;
+    /**
+     * <code>required int32 levelId = 2;</code>
+     *
+     * <pre>
+     * 关卡id
+     * </pre>
+     */
+    public boolean hasLevelId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 levelId = 2;</code>
+     *
+     * <pre>
+     * 关卡id
+     * </pre>
+     */
+    public int getLevelId() {
+      return levelId_;
+    }
+
+    // repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;
+    public static final int VERIFYTEAMDATA_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.BattleVerifyProto.TeamVerifyData> verifyTeamData_;
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    public java.util.List<com.rwproto.BattleVerifyProto.TeamVerifyData> getVerifyTeamDataList() {
+      return verifyTeamData_;
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder> 
+        getVerifyTeamDataOrBuilderList() {
+      return verifyTeamData_;
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    public int getVerifyTeamDataCount() {
+      return verifyTeamData_.size();
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    public com.rwproto.BattleVerifyProto.TeamVerifyData getVerifyTeamData(int index) {
+      return verifyTeamData_.get(index);
+    }
+    /**
+     * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+     *
+     * <pre>
+     * 队伍校验数据
+     * </pre>
+     */
+    public com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder getVerifyTeamDataOrBuilder(
+        int index) {
+      return verifyTeamData_.get(index);
+    }
+
+    private void initFields() {
+      copyType_ = 0;
+      levelId_ = 0;
+      verifyTeamData_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasCopyType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevelId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getVerifyTeamDataCount(); i++) {
+        if (!getVerifyTeamData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, copyType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, levelId_);
+      }
+      for (int i = 0; i < verifyTeamData_.size(); i++) {
+        output.writeMessage(3, verifyTeamData_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, copyType_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, levelId_);
+      }
+      for (int i = 0; i < verifyTeamData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, verifyTeamData_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleVerifyProto.BattleVerifyMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleVerifyProto.BattleVerifyMsg}
+     *
+     * <pre>
+     * 阵容校验数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleVerifyProto.BattleVerifyMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleVerifyProto.BattleVerifyMsg.class, com.rwproto.BattleVerifyProto.BattleVerifyMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleVerifyProto.BattleVerifyMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getVerifyTeamDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        copyType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        levelId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (verifyTeamDataBuilder_ == null) {
+          verifyTeamData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          verifyTeamDataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyMsg_descriptor;
+      }
+
+      public com.rwproto.BattleVerifyProto.BattleVerifyMsg getDefaultInstanceForType() {
+        return com.rwproto.BattleVerifyProto.BattleVerifyMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleVerifyProto.BattleVerifyMsg build() {
+        com.rwproto.BattleVerifyProto.BattleVerifyMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleVerifyProto.BattleVerifyMsg buildPartial() {
+        com.rwproto.BattleVerifyProto.BattleVerifyMsg result = new com.rwproto.BattleVerifyProto.BattleVerifyMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.copyType_ = copyType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.levelId_ = levelId_;
+        if (verifyTeamDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            verifyTeamData_ = java.util.Collections.unmodifiableList(verifyTeamData_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.verifyTeamData_ = verifyTeamData_;
+        } else {
+          result.verifyTeamData_ = verifyTeamDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleVerifyProto.BattleVerifyMsg) {
+          return mergeFrom((com.rwproto.BattleVerifyProto.BattleVerifyMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleVerifyProto.BattleVerifyMsg other) {
+        if (other == com.rwproto.BattleVerifyProto.BattleVerifyMsg.getDefaultInstance()) return this;
+        if (other.hasCopyType()) {
+          setCopyType(other.getCopyType());
+        }
+        if (other.hasLevelId()) {
+          setLevelId(other.getLevelId());
+        }
+        if (verifyTeamDataBuilder_ == null) {
+          if (!other.verifyTeamData_.isEmpty()) {
+            if (verifyTeamData_.isEmpty()) {
+              verifyTeamData_ = other.verifyTeamData_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureVerifyTeamDataIsMutable();
+              verifyTeamData_.addAll(other.verifyTeamData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.verifyTeamData_.isEmpty()) {
+            if (verifyTeamDataBuilder_.isEmpty()) {
+              verifyTeamDataBuilder_.dispose();
+              verifyTeamDataBuilder_ = null;
+              verifyTeamData_ = other.verifyTeamData_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              verifyTeamDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getVerifyTeamDataFieldBuilder() : null;
+            } else {
+              verifyTeamDataBuilder_.addAllMessages(other.verifyTeamData_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasCopyType()) {
+          
+          return false;
+        }
+        if (!hasLevelId()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getVerifyTeamDataCount(); i++) {
+          if (!getVerifyTeamData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleVerifyProto.BattleVerifyMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleVerifyProto.BattleVerifyMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 copyType = 1;
+      private int copyType_ ;
+      /**
+       * <code>required int32 copyType = 1;</code>
+       *
+       * <pre>
+       * 副本类型
+       * </pre>
+       */
+      public boolean hasCopyType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 copyType = 1;</code>
+       *
+       * <pre>
+       * 副本类型
+       * </pre>
+       */
+      public int getCopyType() {
+        return copyType_;
+      }
+      /**
+       * <code>required int32 copyType = 1;</code>
+       *
+       * <pre>
+       * 副本类型
+       * </pre>
+       */
+      public Builder setCopyType(int value) {
+        bitField0_ |= 0x00000001;
+        copyType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 copyType = 1;</code>
+       *
+       * <pre>
+       * 副本类型
+       * </pre>
+       */
+      public Builder clearCopyType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        copyType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 levelId = 2;
+      private int levelId_ ;
+      /**
+       * <code>required int32 levelId = 2;</code>
+       *
+       * <pre>
+       * 关卡id
+       * </pre>
+       */
+      public boolean hasLevelId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 levelId = 2;</code>
+       *
+       * <pre>
+       * 关卡id
+       * </pre>
+       */
+      public int getLevelId() {
+        return levelId_;
+      }
+      /**
+       * <code>required int32 levelId = 2;</code>
+       *
+       * <pre>
+       * 关卡id
+       * </pre>
+       */
+      public Builder setLevelId(int value) {
+        bitField0_ |= 0x00000002;
+        levelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 levelId = 2;</code>
+       *
+       * <pre>
+       * 关卡id
+       * </pre>
+       */
+      public Builder clearLevelId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        levelId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;
+      private java.util.List<com.rwproto.BattleVerifyProto.TeamVerifyData> verifyTeamData_ =
+        java.util.Collections.emptyList();
+      private void ensureVerifyTeamDataIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          verifyTeamData_ = new java.util.ArrayList<com.rwproto.BattleVerifyProto.TeamVerifyData>(verifyTeamData_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleVerifyProto.TeamVerifyData, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder, com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder> verifyTeamDataBuilder_;
+
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleVerifyProto.TeamVerifyData> getVerifyTeamDataList() {
+        if (verifyTeamDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(verifyTeamData_);
+        } else {
+          return verifyTeamDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public int getVerifyTeamDataCount() {
+        if (verifyTeamDataBuilder_ == null) {
+          return verifyTeamData_.size();
+        } else {
+          return verifyTeamDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.TeamVerifyData getVerifyTeamData(int index) {
+        if (verifyTeamDataBuilder_ == null) {
+          return verifyTeamData_.get(index);
+        } else {
+          return verifyTeamDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder setVerifyTeamData(
+          int index, com.rwproto.BattleVerifyProto.TeamVerifyData value) {
+        if (verifyTeamDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.set(index, value);
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder setVerifyTeamData(
+          int index, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder builderForValue) {
+        if (verifyTeamDataBuilder_ == null) {
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder addVerifyTeamData(com.rwproto.BattleVerifyProto.TeamVerifyData value) {
+        if (verifyTeamDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.add(value);
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder addVerifyTeamData(
+          int index, com.rwproto.BattleVerifyProto.TeamVerifyData value) {
+        if (verifyTeamDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.add(index, value);
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder addVerifyTeamData(
+          com.rwproto.BattleVerifyProto.TeamVerifyData.Builder builderForValue) {
+        if (verifyTeamDataBuilder_ == null) {
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder addVerifyTeamData(
+          int index, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder builderForValue) {
+        if (verifyTeamDataBuilder_ == null) {
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder addAllVerifyTeamData(
+          java.lang.Iterable<? extends com.rwproto.BattleVerifyProto.TeamVerifyData> values) {
+        if (verifyTeamDataBuilder_ == null) {
+          ensureVerifyTeamDataIsMutable();
+          super.addAll(values, verifyTeamData_);
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder clearVerifyTeamData() {
+        if (verifyTeamDataBuilder_ == null) {
+          verifyTeamData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public Builder removeVerifyTeamData(int index) {
+        if (verifyTeamDataBuilder_ == null) {
+          ensureVerifyTeamDataIsMutable();
+          verifyTeamData_.remove(index);
+          onChanged();
+        } else {
+          verifyTeamDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.TeamVerifyData.Builder getVerifyTeamDataBuilder(
+          int index) {
+        return getVerifyTeamDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder getVerifyTeamDataOrBuilder(
+          int index) {
+        if (verifyTeamDataBuilder_ == null) {
+          return verifyTeamData_.get(index);  } else {
+          return verifyTeamDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder> 
+           getVerifyTeamDataOrBuilderList() {
+        if (verifyTeamDataBuilder_ != null) {
+          return verifyTeamDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(verifyTeamData_);
+        }
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.TeamVerifyData.Builder addVerifyTeamDataBuilder() {
+        return getVerifyTeamDataFieldBuilder().addBuilder(
+            com.rwproto.BattleVerifyProto.TeamVerifyData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public com.rwproto.BattleVerifyProto.TeamVerifyData.Builder addVerifyTeamDataBuilder(
+          int index) {
+        return getVerifyTeamDataFieldBuilder().addBuilder(
+            index, com.rwproto.BattleVerifyProto.TeamVerifyData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .BattleVerifyProto.TeamVerifyData verifyTeamData = 3;</code>
+       *
+       * <pre>
+       * 队伍校验数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.BattleVerifyProto.TeamVerifyData.Builder> 
+           getVerifyTeamDataBuilderList() {
+        return getVerifyTeamDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.BattleVerifyProto.TeamVerifyData, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder, com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder> 
+          getVerifyTeamDataFieldBuilder() {
+        if (verifyTeamDataBuilder_ == null) {
+          verifyTeamDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.BattleVerifyProto.TeamVerifyData, com.rwproto.BattleVerifyProto.TeamVerifyData.Builder, com.rwproto.BattleVerifyProto.TeamVerifyDataOrBuilder>(
+                  verifyTeamData_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          verifyTeamData_ = null;
+        }
+        return verifyTeamDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleVerifyProto.BattleVerifyMsg)
+    }
+
+    static {
+      defaultInstance = new BattleVerifyMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleVerifyProto.BattleVerifyMsg)
+  }
+
+  public interface BattleVerifyResponseOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required bool success = 1;
+    /**
+     * <code>required bool success = 1;</code>
+     */
+    boolean hasSuccess();
+    /**
+     * <code>required bool success = 1;</code>
+     */
+    boolean getSuccess();
+  }
+  /**
+   * Protobuf type {@code BattleVerifyProto.BattleVerifyResponse}
+   *
+   * <pre>
+   * 阵容检验反馈
+   * </pre>
+   */
+  public static final class BattleVerifyResponse extends
+      com.google.protobuf.GeneratedMessage
+      implements BattleVerifyResponseOrBuilder {
+    // Use BattleVerifyResponse.newBuilder() to construct.
+    private BattleVerifyResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private BattleVerifyResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final BattleVerifyResponse defaultInstance;
+    public static BattleVerifyResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public BattleVerifyResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BattleVerifyResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              success_ = input.readBool();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.BattleVerifyProto.BattleVerifyResponse.class, com.rwproto.BattleVerifyProto.BattleVerifyResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<BattleVerifyResponse> PARSER =
+        new com.google.protobuf.AbstractParser<BattleVerifyResponse>() {
+      public BattleVerifyResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BattleVerifyResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BattleVerifyResponse> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required bool success = 1;
+    public static final int SUCCESS_FIELD_NUMBER = 1;
+    private boolean success_;
+    /**
+     * <code>required bool success = 1;</code>
+     */
+    public boolean hasSuccess() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bool success = 1;</code>
+     */
+    public boolean getSuccess() {
+      return success_;
+    }
+
+    private void initFields() {
+      success_ = false;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasSuccess()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBool(1, success_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, success_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.BattleVerifyProto.BattleVerifyResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.BattleVerifyProto.BattleVerifyResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code BattleVerifyProto.BattleVerifyResponse}
+     *
+     * <pre>
+     * 阵容检验反馈
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.BattleVerifyProto.BattleVerifyResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.BattleVerifyProto.BattleVerifyResponse.class, com.rwproto.BattleVerifyProto.BattleVerifyResponse.Builder.class);
+      }
+
+      // Construct using com.rwproto.BattleVerifyProto.BattleVerifyResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        success_ = false;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.BattleVerifyProto.internal_static_BattleVerifyProto_BattleVerifyResponse_descriptor;
+      }
+
+      public com.rwproto.BattleVerifyProto.BattleVerifyResponse getDefaultInstanceForType() {
+        return com.rwproto.BattleVerifyProto.BattleVerifyResponse.getDefaultInstance();
+      }
+
+      public com.rwproto.BattleVerifyProto.BattleVerifyResponse build() {
+        com.rwproto.BattleVerifyProto.BattleVerifyResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.BattleVerifyProto.BattleVerifyResponse buildPartial() {
+        com.rwproto.BattleVerifyProto.BattleVerifyResponse result = new com.rwproto.BattleVerifyProto.BattleVerifyResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.success_ = success_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.BattleVerifyProto.BattleVerifyResponse) {
+          return mergeFrom((com.rwproto.BattleVerifyProto.BattleVerifyResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.BattleVerifyProto.BattleVerifyResponse other) {
+        if (other == com.rwproto.BattleVerifyProto.BattleVerifyResponse.getDefaultInstance()) return this;
+        if (other.hasSuccess()) {
+          setSuccess(other.getSuccess());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasSuccess()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.BattleVerifyProto.BattleVerifyResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.BattleVerifyProto.BattleVerifyResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required bool success = 1;
+      private boolean success_ ;
+      /**
+       * <code>required bool success = 1;</code>
+       */
+      public boolean hasSuccess() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bool success = 1;</code>
+       */
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>required bool success = 1;</code>
+       */
+      public Builder setSuccess(boolean value) {
+        bitField0_ |= 0x00000001;
+        success_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool success = 1;</code>
+       */
+      public Builder clearSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        success_ = false;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:BattleVerifyProto.BattleVerifyResponse)
+    }
+
+    static {
+      defaultInstance = new BattleVerifyResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:BattleVerifyProto.BattleVerifyResponse)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_BattleVerifyProto_CopyReqMsg_descriptor;
   private static
@@ -2179,6 +5531,26 @@ public final class BattleVerifyProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_BattleVerifyProto_BattleVerifyComRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleVerifyProto_HeroVerifyData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleVerifyProto_HeroVerifyData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleVerifyProto_TeamVerifyData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleVerifyProto_TeamVerifyData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleVerifyProto_BattleVerifyMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleVerifyProto_BattleVerifyMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_BattleVerifyProto_BattleVerifyResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_BattleVerifyProto_BattleVerifyResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2195,9 +5567,16 @@ public final class BattleVerifyProto {
       "\ncopyReqMsg\030\002 \001(\0132\035.BattleVerifyProto.Co" +
       "pyReqMsg\"k\n\025BattleVerifyComRspMsg\022/\n\007req" +
       "Type\030\001 \002(\0162\036.BattleVerifyProto.RequestTy" +
-      "pe\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*\027\n" +
-      "\013RequestType\022\010\n\004Copy\020\001B \n\013com.rwprotoB\021B" +
-      "attleVerifyProto"
+      "pe\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\"+\n" +
+      "\016HeroVerifyData\022\014\n\004uuid\030\001 \002(\t\022\013\n\003md5\030\002 \002" +
+      "(\t\"f\n\016TeamVerifyData\022\r\n\005index\030\001 \002(\005\022\016\n\006u",
+      "serId\030\002 \002(\t\0225\n\nverifyData\030\003 \003(\0132!.Battle" +
+      "VerifyProto.HeroVerifyData\"o\n\017BattleVeri" +
+      "fyMsg\022\020\n\010copyType\030\001 \002(\005\022\017\n\007levelId\030\002 \002(\005" +
+      "\0229\n\016verifyTeamData\030\003 \003(\0132!.BattleVerifyP" +
+      "roto.TeamVerifyData\"\'\n\024BattleVerifyRespo" +
+      "nse\022\017\n\007success\030\001 \002(\010*\027\n\013RequestType\022\010\n\004C" +
+      "opy\020\001B \n\013com.rwprotoB\021BattleVerifyProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2222,6 +5601,30 @@ public final class BattleVerifyProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_BattleVerifyProto_BattleVerifyComRspMsg_descriptor,
               new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
+          internal_static_BattleVerifyProto_HeroVerifyData_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_BattleVerifyProto_HeroVerifyData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleVerifyProto_HeroVerifyData_descriptor,
+              new java.lang.String[] { "Uuid", "Md5", });
+          internal_static_BattleVerifyProto_TeamVerifyData_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_BattleVerifyProto_TeamVerifyData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleVerifyProto_TeamVerifyData_descriptor,
+              new java.lang.String[] { "Index", "UserId", "VerifyData", });
+          internal_static_BattleVerifyProto_BattleVerifyMsg_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_BattleVerifyProto_BattleVerifyMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleVerifyProto_BattleVerifyMsg_descriptor,
+              new java.lang.String[] { "CopyType", "LevelId", "VerifyTeamData", });
+          internal_static_BattleVerifyProto_BattleVerifyResponse_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_BattleVerifyProto_BattleVerifyResponse_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_BattleVerifyProto_BattleVerifyResponse_descriptor,
+              new java.lang.String[] { "Success", });
           return null;
         }
       };

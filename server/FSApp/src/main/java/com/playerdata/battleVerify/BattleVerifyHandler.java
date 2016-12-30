@@ -1,14 +1,23 @@
 package com.playerdata.battleVerify;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.google.protobuf.ByteString;
+import com.playerdata.Hero;
 //import com.monster.cfg.CopyMonsterCfg;
 //import com.monster.cfg.CopyMonsterCfgDao;
 import com.playerdata.Player;
-import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataEncode.DataEncoder;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwproto.BattleVerifyProto.BattleVerifyComReqMsg;
 import com.rwproto.BattleVerifyProto.BattleVerifyComRspMsg;
+import com.rwproto.BattleVerifyProto.BattleVerifyMsg;
 import com.rwproto.BattleVerifyProto.CopyReqMsg;
+import com.rwproto.BattleVerifyProto.HeroVerifyData;
+import com.rwproto.BattleVerifyProto.TeamVerifyData;
 
 
 public class BattleVerifyHandler {
@@ -38,11 +47,34 @@ public class BattleVerifyHandler {
 	}
 
 //	private ArmyInfo getArmyInfo(CopyMonsterCfg config) {
-//		// TODO Auto-generated method stub
 //		return null;
 //	}
 	
+	private void verifyTeamData(TeamVerifyData teamData) {
+		List<HeroVerifyData> dataList = teamData.getVerifyDataList();
+		List<String> allHeroIds = new ArrayList<String>();
+		Map<String, String> md5Map = new HashMap<String, String>();
+		String userId = teamData.getUserId(); // 第一个是userId
+		for (HeroVerifyData data : dataList) {
+			allHeroIds.add(data.getUuid());
+			md5Map.put(data.getUuid(), data.getMd5());
+		}
+		List<Hero> heros = FSHeroMgr.getInstance().getHeros(userId, allHeroIds);
+		for (Hero hero : heros) {
+			String attrMd5 = DataEncoder.encodeAttrData(hero.getAttrMgr().getTotalAttrData());
+			String clientMd5 = md5Map.get(hero.getUUId());
+			if (!attrMd5.endsWith(clientMd5)) {
+				System.out.println("==========校验不通过，heroId=" + hero.getId() + "，服务器的md5：" + attrMd5 + "，客户端md5：" + clientMd5 + "=========");
+			}
+		}
+	}
 	
-
+	public ByteString verifyArmyInfo(Player player, BattleVerifyMsg msg) {
+		List<TeamVerifyData> teamDataList = msg.getVerifyTeamDataList();
+		for (TeamVerifyData teamData : teamDataList) {
+			verifyTeamData(teamData);
+		}
+		return ByteString.EMPTY;
+	}
 
 }

@@ -11,6 +11,7 @@ import com.playerdata.army.ArmyInfo;
 import com.playerdata.dataEncode.Node.NodeMaper;
 import com.playerdata.dataEncode.Node.NodeMaperMgr;
 import com.rwbase.common.MD5;
+import com.rwbase.common.attrdata.AttrData;
 
 public class DataEncoder {
 	
@@ -26,6 +27,10 @@ public class DataEncoder {
 		return encode(armyInfo, NodeMaperMgr.getInstance().getArmyInfo());
 	}
 	
+	public static String encodeAttrData(AttrData attrData) {
+		return encode(attrData, NodeMaperMgr.getInstance().getAttrDataMaper());
+	}
+	
 	private static String encode(Object target,NodeMaper nodeMaper){
 		
 		Class<? extends Object> tagetClass = target.getClass();
@@ -33,6 +38,7 @@ public class DataEncoder {
 		String md5ofStr=null;
 		try {
 			String strToEncode = classInfo.toStr(target).toLowerCase();
+			System.out.println(strToEncode);
 			
 //			System.out.println(strToEncode);
 			md5ofStr = MD5.getMD5ofStr(strToEncode).toLowerCase();

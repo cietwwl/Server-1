@@ -443,7 +443,7 @@ public class AttrData implements AttrDataIF {
 		return lifeGrowUp;
 	}
 
-	public int getpAttackGrowUp() {
+	public int getPAttackGrowUp() {
 		return pAttackGrowUp;
 	}
 
@@ -797,11 +797,11 @@ public class AttrData implements AttrDataIF {
 			this.lifeGrowUp = lifeGrowUp;
 		}
 
-		public void setpAttackGrowUp(int pAttackGrowUp) {
+		public void setPAttackGrowUp(int pAttackGrowUp) {
 			this.pAttackGrowUp = pAttackGrowUp;
 		}
 
-		public void setsAttackGrowUp(int sAttackGrowUp) {
+		public void setSAttackGrowUp(int sAttackGrowUp) {
 			this.sAttackGrowUp = sAttackGrowUp;
 		}
 
