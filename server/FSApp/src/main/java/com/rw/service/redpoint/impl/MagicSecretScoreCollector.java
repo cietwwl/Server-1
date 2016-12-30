@@ -45,6 +45,6 @@ public class MagicSecretScoreCollector implements RedPointCollector {
 
 	@Override
 	public eOpenLevelType getOpenType() {
-		return null;
+		return eOpenLevelType.Magic_Secret;
 	}
 }
