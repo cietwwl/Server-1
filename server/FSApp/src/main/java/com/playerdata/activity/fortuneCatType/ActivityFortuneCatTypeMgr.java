@@ -23,8 +23,8 @@ import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
 
 public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortuneCatTypeItem>{
 	
-	private static final int ACTIVITY_INDEX_BEGIN = 110000;
-	private static final int ACTIVITY_INDEX_END = 120000;
+	private static final int ACTIVITY_INDEX_BEGIN = 90000;
+	private static final int ACTIVITY_INDEX_END = 100000;
 	
 	private final static int recordLength = 3;
 
