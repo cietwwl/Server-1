@@ -2,7 +2,6 @@ package com.playerdata.activity.fortuneCatType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,6 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
-import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
 import com.rw.fsutil.util.RandomUtil;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
