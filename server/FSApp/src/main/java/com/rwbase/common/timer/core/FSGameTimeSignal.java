@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
+import com.log.GameLog;
+import com.rw.fsutil.log.GmLog;
 import com.rwbase.common.timer.FSDailyTaskType;
 import com.rwbase.common.timer.IGameTimerDelegate;
 import com.rwbase.common.timer.IGameTimerTask;
@@ -175,6 +177,18 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 
 	@Override
 	public void run() {
+		if (_isDailyTask && this.deadline > System.currentTimeMillis()) {
+			long sub = this.deadline - System.currentTimeMillis();
+			GmLog.info("FSGameTimeSignal#run()，时效任务提早了：" + sub + "毫秒！");
+			if (sub > 0 && sub < 10000) {
+				try {
+					TimeUnit.MILLISECONDS.sleep(sub);
+				} catch (Exception e) {
+					GameLog.error("FSGameTimeSignal", "run", "sleep异常，时长：" + sub + "毫秒！", e);
+					GmLog.error("sleep异常，时长：" + sub + "毫秒！", e);
+				}
+			}
+		}
 		this._sync.innerRun();
 		if (this._isDailyTask) {
 			int type = FSDailyTaskType.getTypeByClass(_task.getClass());
