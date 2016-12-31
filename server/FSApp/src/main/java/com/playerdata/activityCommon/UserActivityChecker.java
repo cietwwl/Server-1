@@ -84,8 +84,13 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		List<T> newAddItems = new ArrayList<T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
 		Player player = PlayerMgr.getInstance().find(userId);
+		if(null == player){
+			return newAddItems;
+		}
+		int playerLevel = player.getLevel();
+		int playerVip = player.getVip();
 		for(ActivityCfgIF cfg : activeDailyList){
-			if(null != player && player.getLevel() < cfg.getLevelLimit() && player.getVip() < cfg.getVipLimit()){
+			if(playerLevel < cfg.getLevelLimit() && playerVip < cfg.getVipLimit()){
 				continue;
 			}
 			T item = itemStore.get(cfg.getId());
