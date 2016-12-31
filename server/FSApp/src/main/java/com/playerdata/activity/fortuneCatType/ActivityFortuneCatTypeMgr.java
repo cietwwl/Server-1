@@ -1,6 +1,8 @@
 package com.playerdata.activity.fortuneCatType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +19,8 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHol
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
 import com.rw.fsutil.util.RandomUtil;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
 import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
@@ -169,6 +173,14 @@ public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortu
 		return iscan;
 	}
 	
+	@Override
+	public void activityEndHandler(ActivityCfgIF cfg){
+		//重置招财猫的记录
+		ServerCommonData commonData = ServerCommonDataHolder.getInstance().get();
+		commonData.setActivityFortuneCatRecord(new HashMap<Integer, ActivityFortuneCatRecord>());
+		ServerCommonDataHolder.getInstance().update(commonData);
+	}
+
 	/**
 	 * 此红点不和活动红点统一判断，所以没有实现父类的红点方法
 	 * @param player
