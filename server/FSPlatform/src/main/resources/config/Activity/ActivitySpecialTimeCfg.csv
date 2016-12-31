@@ -1,5 +1,1 @@
 id,Remarks,zoneId,cfgId,startTime,endTime,startViceTime,endViceTime,rangeTime,actDesc
-1,,29,20001,0,10,3,4,190000:235959,每日晚上19:00至22:00
-2,,29,20002,0,10,3,4,190000:235959,每日晚上19:00至22:00
-6,,29,40001,3,10,3,2,,
-7,,29,60003,0,10,4,2,,
