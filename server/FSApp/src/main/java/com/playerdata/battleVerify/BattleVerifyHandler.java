@@ -16,7 +16,6 @@ import com.playerdata.hero.core.FSHeroMgr;
 import com.rwproto.BattleVerifyProto.BattleVerifyComReqMsg;
 import com.rwproto.BattleVerifyProto.BattleVerifyComRspMsg;
 import com.rwproto.BattleVerifyProto.BattleVerifyMsg;
-import com.rwproto.BattleVerifyProto.CopyReqMsg;
 import com.rwproto.BattleVerifyProto.HeroVerifyData;
 import com.rwproto.BattleVerifyProto.TeamVerifyData;
 
@@ -33,9 +32,9 @@ public class BattleVerifyHandler {
 		BattleVerifyComRspMsg.Builder response = BattleVerifyComRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		CopyReqMsg copyReqMsg = commonReq.getCopyReqMsg();
-		String copyId = copyReqMsg.getCopyId();
-		String md5 = copyReqMsg.getCode();
+//		CopyReqMsg copyReqMsg = commonReq.getCopyReqMsg();
+//		String copyId = copyReqMsg.getCopyId();
+//		String md5 = copyReqMsg.getCode();
 		
 //		CopyMonsterCfg config = CopyMonsterCfgDao.getInstance().getConfig(copyId);
 //		ArmyInfo armyInfo = getArmyInfo(config);
@@ -64,9 +63,8 @@ public class BattleVerifyHandler {
 		for (Hero hero : heros) {
 			String attrMd5 = DataEncoder.encodeAttrData(hero.getAttrMgr().getTotalAttrData());
 			String clientMd5 = md5Map.get(hero.getUUId());
-			if (!attrMd5.endsWith(clientMd5)) {
-				GameLog.error("BattleVerifyHandler", player.getUserId(),
-						"==========校验不通过，heroId=" + hero.getId() + "，服务器的md5：" + attrMd5 + "，客户端md5：" + clientMd5 + "，队伍所属的user：" + userId + "=========");
+			if (!attrMd5.equals(clientMd5)) {
+				GameLog.error("BattleVerifyHandler", player.getUserId(), "==========校验不通过，heroId=" + hero.getId() + "，服务器的md5：" + attrMd5 + "，客户端md5：" + clientMd5 + "，队伍所属的user：" + userId + "=========");
 			}
 		}
 	}

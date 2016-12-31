@@ -62,6 +62,10 @@ public class FSHeroHolder {
 		ClientDataSynMgr.synData(player, hero.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, version);
 	}
 	
+	public void synAttributes(Player player, Hero hero, int version) {
+		ClientDataSynMgr.synData(player, hero.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, version);
+	}
+	
 	public void synBaseInfo(Player player, Hero hero) {
 		this.synBaseInfoInternal(player, hero, true);
 	}

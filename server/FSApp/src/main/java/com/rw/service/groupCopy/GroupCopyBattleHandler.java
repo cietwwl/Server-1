@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bm.groupCopy.GroupCopyResult;
+import com.common.IHeroSynHandler;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.GroupCopyBattleProto;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
@@ -33,7 +36,10 @@ public class GroupCopyBattleHandler {
 		return instance;
 	}
 
-	protected GroupCopyBattleHandler() {}
+	private IHeroSynHandler _synHandler;
+	protected GroupCopyBattleHandler() {
+		_synHandler = new CommonHeroSynHandler();
+	}
 
 	
 	/**
@@ -67,6 +73,7 @@ public class GroupCopyBattleHandler {
 		}	
 
 		commonRsp.setIsSuccess(success);
+		_synHandler.synHeroData(player, eBattlePositionType.GroupCopy, null);
 		return commonRsp.build().toByteString();
 	}
 	

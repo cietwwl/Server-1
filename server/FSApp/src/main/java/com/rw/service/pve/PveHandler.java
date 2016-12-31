@@ -121,12 +121,12 @@ public class PveHandler {
 		player.SendMsg(Command.MSG_PVE_INFO, reponse.build().toByteString());
 	}
 
-	private PveActivity.Builder fill(int type, Player player, long currentTime) {
+	public PveActivity.Builder fill(int type, Player player, long currentTime) {
 		PveActivity.Builder activity = PveActivity.newBuilder();
 		CopyDataMgr copyDataMgr = player.getCopyDataMgr();
 		List<CopyInfoCfgIF> infoCfgList = copyDataMgr.getTodayInfoCfg(type);
 
-//		int minCount = -1;// 最小次数
+		// int minCount = -1;// 最小次数
 		int totalCount = 0;
 		int maxTime = 0;// 需要的时间
 		for (int i = infoCfgList.size(); --i >= 0;) {
@@ -148,10 +148,10 @@ public class PveHandler {
 			int copyCount = data.getCopyCount();// 剩余次数
 
 			// 如果还没被赋值，上次数量是0，当前次数<上次次数
-//			if (minCount <= 0 || (copyCount > 0 && copyCount < minCount)) {
-//				minCount = copyCount;
-//			}
-			if(copyCount > 0){
+			// if (minCount <= 0 || (copyCount > 0 && copyCount < minCount)) {
+			// minCount = copyCount;
+			// }
+			if (copyCount > 0) {
 				totalCount += copyCount;
 			}
 			int time = getRemainSeconds(player, data.getLastChallengeTime(), currentTime, type);
