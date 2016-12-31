@@ -1,3 +1,3 @@
 Key,Remarks,id,bg,icon,icon2,emailTitle,title,bgTitle,titleBG,startTimeStr,endTimeStr,getRewardsTimeStr,levelLimit,version
 40001,,40001,SmallTex/Activity/ActivityTitleText,huodong_002,,开服红包,开服红包,开服红包,10月05日~10月12日期间，每天消费钻石的10%会转存入红包内，活动结束后可以领取所有存入的钻石。,201610050500,201610120500,201610130500,1,12
-40002,,40002,SmallTex/Activity/ActivityTitleText,huodong_002,,元旦红包,元旦红包,元旦红包,活动期间，每天消费钻石的10%会转存入红包内，活动结束后可以领取所有存入的钻石。,201612280500,201701030500,201701040500,1,1
+40002,,40002,SmallTex/Activity/ActivityTitleText,huodong_002,,元旦红包,元旦红包,元旦红包,活动期间，每天消费钻石的10%会转存入红包内，活动结束后可以领取所有存入的钻石。,201612280500,201701040500,201701050500,1,1

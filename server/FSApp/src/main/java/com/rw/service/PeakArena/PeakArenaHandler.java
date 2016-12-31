@@ -99,6 +99,7 @@ public class PeakArenaHandler {
 	private static PeakArenaHandler instance = new PeakArenaHandler();
 
 	private IHeroSynHandler _synHandler;
+
 	protected PeakArenaHandler() {
 		_synHandler = new PeakArenaHeroSynHandler();
 	}
@@ -258,10 +259,10 @@ public class PeakArenaHandler {
 			} else {
 				// otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(enemy);
 				// 2016-10-24 上面那个方法会检查openLevel，但是这里能获取到的数据，不应该再得到一个null，所以先暂时这样处理
-				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player, null);
+				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(enemy, null);
 			}
 			info.setUserId(key);
-			info.setWinCount(otherArenaData.getWinCount());
+			info.setWinCount(otherArenaData != null ? otherArenaData.getWinCount() : 0);
 			info.setFighting(enemy.getMainRoleHero().getFighting());
 			info.setHeadImage(enemy.getHeadImage());
 			info.setLevel(enemy.getLevel());
