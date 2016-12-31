@@ -19,6 +19,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.common.refOpt.RefOptClassGener;
+import com.gm.GmHotFixManager;
 import com.log.GameLog;
 import com.playerdata.GambleMgr;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
@@ -71,6 +72,7 @@ public class Server {
 			//每次启服的时候，检查是否有GM修改过的活动配置（启服最后检查）
 			ActivityModifyMgr.getInstance().checkModifiedActivity();
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
+			GmHotFixManager.serverStartComplete(); // 自动执行hot fix
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
