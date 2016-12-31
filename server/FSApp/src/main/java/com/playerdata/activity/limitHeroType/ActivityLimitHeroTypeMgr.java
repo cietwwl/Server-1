@@ -556,7 +556,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 	/** 保存积分榜前xx名的玩家抽卡信息 */
 	private void reFreshIntegralRank(Player player, ActivityLimitHeroTypeItem dataItem, ActivityLimitHeroCfg cfg) {
 		ServerCommonDataHolder serverCommonDataHolder = ServerCommonDataHolder.getInstance();
-		ServerCommonData scdData = serverCommonDataHolder.get("2");
+		ServerCommonData scdData = serverCommonDataHolder.get();
 		if (scdData == null) {
 			return;
 		}
