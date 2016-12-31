@@ -1,9 +1,8 @@
 package com.playerdata.activity.fortuneCatType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
@@ -109,17 +108,17 @@ public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortu
 			result.setSuccess(false);
 			return result;
 		}
-		Map<Integer, ActivityFortuneCatRecord> map = scdData.getActivityFortuneCatRecord();
-		for (Map.Entry<Integer, ActivityFortuneCatRecord> Entry : map.entrySet()) {
-			ActivityFortuneCatRecord entry = Entry.getValue();
-			getRecord.Builder record = getRecord.newBuilder();
-			record.setId(entry.getId());
-			record.setUid(entry.getUid());
-			record.setName(entry.getPlayerName());
-			record.setGetGold(entry.getGetGold());
-			response.addGetRecord(record);
+		LinkedList<ActivityFortuneCatRecord> list = scdData.getActivityFortuneCatRecord();
+		synchronized(list) {
+			for (ActivityFortuneCatRecord record : list) {
+				getRecord.Builder recordBuilder = getRecord.newBuilder();
+				recordBuilder.setId(record.getId());
+				recordBuilder.setUid(record.getUid());
+				recordBuilder.setName(record.getPlayerName());
+				recordBuilder.setGetGold(record.getGetGold());
+				response.addGetRecord(recordBuilder.build());
+			}
 		}
-
 		return result;
 	}
 
@@ -133,35 +132,25 @@ public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortu
 		if (scdData == null) {
 			return;
 		}
-		Map<Integer, ActivityFortuneCatRecord> map = scdData.getActivityFortuneCatRecord();
+		
 		ActivityFortuneCatRecord record = new ActivityFortuneCatRecord();
-
 		record.setPlayerName(player.getUserName());
 		record.setUid(player.getUserId());
 		record.setGetGold(getGold);
-
-		if (map.size() < recordLength) {
-			record.setId(map.size());
-			map.put(map.size(), record);
-			ServerCommonDataHolder.getInstance().update(scdData);
-			return;
+		
+		LinkedList<ActivityFortuneCatRecord> list = scdData.getActivityFortuneCatRecord();
+		if(null == list){
+			list = new LinkedList<ActivityFortuneCatRecord>();
+			scdData.setActivityFortuneCatRecord(list);
 		}
-		int num = 0;
-		int i = 0;
-		for (Map.Entry<Integer, ActivityFortuneCatRecord> entry : map.entrySet()) {
-			if (i == 0) {
-				num = entry.getKey();
-				i++;
-				continue;
+		synchronized(list) {
+			int listSize = list.size();
+			while(listSize >= recordLength){
+				list.remove();
+				listSize--;
 			}
-			if (entry.getKey() < num) {
-				num = entry.getKey();
-			}
-			i++;
+			list.add(record);
 		}
-		map.remove(num);
-		record.setId(num + recordLength);
-		map.put(num + recordLength, record);
 		ServerCommonDataHolder.getInstance().update(scdData);
 	}
 
@@ -175,7 +164,7 @@ public class ActivityFortuneCatTypeMgr extends AbstractActivityMgr<ActivityFortu
 	public void activityEndHandler(ActivityCfgIF cfg){
 		//重置招财猫的记录
 		ServerCommonData commonData = ServerCommonDataHolder.getInstance().get();
-		commonData.setActivityFortuneCatRecord(new HashMap<Integer, ActivityFortuneCatRecord>());
+		commonData.setActivityFortuneCatRecord(new LinkedList<ActivityFortuneCatRecord>());
 		ServerCommonDataHolder.getInstance().update(commonData);
 	}
 
