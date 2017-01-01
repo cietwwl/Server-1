@@ -10,15 +10,18 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.fy.constant.Constant;
 import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
+import com.fy.json.JSONUtil;
 import com.fy.lua.LuaInfo;
 import com.fy.lua.LuaMgr;
 import com.fy.utils.DateTimeUtils;
+import com.fy.utils.DeviceUtil;
 import com.fy.version.Version;
 import com.fy.version.VersionMgr;
 import com.fy.version.activity.ChannelAddressCfg;
@@ -54,7 +57,18 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				return;
 			}
 			Version clientVersion = getClientVersion(jsonString);
-			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(clientVersion.getChannel());			
+			String cpuType = clientVersion.getCpuType();
+			String deviceModel = clientVersion.getDeviceModel();
+			System.out.println("------------cpuType:" + cpuType + "deviceModel:" + deviceModel);
+			String luaChannel = clientVersion.getChannel();
+			if (!StringUtils.isBlank(clientVersion.getCpuType()) && !StringUtils.isBlank(clientVersion.getDeviceModel())) {
+				boolean bln64 = DeviceUtil.checkIos32Or64(deviceModel, cpuType);
+				if (!bln64) {
+					luaChannel += "32";
+				}
+			}
+			System.out.println("-----------------------luaChannel"+luaChannel);
+			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(luaChannel);			
 			List<Version> updateVersionList = versionMgr.getUpdateVersion(clientVersion);
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
 			if(updateVersionList.isEmpty()){
@@ -70,6 +84,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				}
 				updateVersion.setLuaAction("lua");
 			}
+			System.out.println("---------------channelLuaInfo.getFilesmd5()" + channelLuaInfo.getFilesmd5());
 			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList);
 			ServletOutputStream out = response.getOutputStream();
 			out.write(verifyUpdateResult.getBytes("UTF-8"));
@@ -87,21 +102,22 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		}
 		Version version = null;
 		try {
-			version = new Version();
-			JSONObject json = new JSONObject(jsonVersion);
-			String channel = json.get("channel").toString();
-			int main = Integer.parseInt(json.get("main").toString());
-			int sub = Integer.parseInt(json.get("sub").toString());
-			int third = Integer.parseInt(json.get("third").toString());
-			int patch = Integer.parseInt(json.get("patch").toString());
-			version = new Version();
-			version.setChannel(channel);
-			version.setMain(main);
-			version.setSub(sub);
-			version.setThird(third);
-			version.setPatch(patch);
-			String packageName = getJsonValue("package", json);
-			version.setPackageName(packageName);
+			version = JSONUtil.readValue(jsonVersion, Version.class);
+//			version = new Version();
+//			JSONObject json = new JSONObject(jsonVersion);
+//			String channel = json.get("channel").toString();
+//			int main = Integer.parseInt(json.get("main").toString());
+//			int sub = Integer.parseInt(json.get("sub").toString());
+//			int third = Integer.parseInt(json.get("third").toString());
+//			int patch = Integer.parseInt(json.get("patch").toString());
+//			version = new Version();
+//			version.setChannel(channel);
+//			version.setMain(main);
+//			version.setSub(sub);
+//			version.setThird(third);
+//			version.setPatch(patch);
+//			String packageName = getJsonValue("package", json);
+//			version.setPackageName(packageName);
 			return version;
 		} catch (Exception ex) {
 			ex.printStackTrace();

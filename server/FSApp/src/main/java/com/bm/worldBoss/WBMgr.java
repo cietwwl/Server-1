@@ -5,8 +5,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.cfg.WBHPCfg;
@@ -18,10 +16,9 @@ import com.bm.worldBoss.data.WBBroatCastDataHolder;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
-import com.bm.worldBoss.data.WBUserData;
-import com.bm.worldBoss.data.WBUserDataDao;
-import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
+import com.bm.worldBoss.service.WBService;
+import com.bm.worldBoss.state.IwbState;
 import com.bm.worldBoss.state.WBFightEndState;
 import com.bm.worldBoss.state.WBFinishState;
 import com.bm.worldBoss.state.WBNewBossState;
@@ -259,11 +256,14 @@ public class WBMgr {
 	
 	/**
 	 * 广播boss改变
+	 * @param cleanBuff TODO 切换到新boss此参数才为true
 	 */
-	public void broatBossChange() {
+	public void broatBossChange(boolean cleanBuff) {
 		List<Player> list = PlayerMgr.getInstance().getOnlinePlayers();
 		for (Player player : list) {
-			WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			if(cleanBuff){
+				WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			}
 			synWBData(player, -1);	
 		}
 	}
@@ -282,7 +282,7 @@ public class WBMgr {
 		int hour = DateUtils.getCurrentHour();
 		int min = DateUtils.getCurMinuteOfHour();
 		copyCfg.setPreStartTimeStr(hour +":" + min);
-		int afterTime = min + 10;
+		int afterTime = min + 2;
 		if(afterTime >= 60){
 			hour ++;
 			afterTime = afterTime % 60;
@@ -303,28 +303,31 @@ public class WBMgr {
 		}
 		copyCfg.setFinishTimeStr(hour + ":" + afterTime);
 		WBDataHolder.getInstance().newBoss(copyCfg);
-				
-		WBStateFSM.getInstance().setState(new WBNewBossState());
+		WBNewBossState state = new WBNewBossState();
+		WBStateFSM.getInstance().setState(state);
+		state.doEnter();
 	}
 	
 	public void change2NextState(){
 		WBStateFSM fsm = WBStateFSM.getInstance();
 		WBState state = fsm.getState();
+		IwbState wb = null;
 		switch (state) {
 		case NewBoss:
-			fsm.setState(new WBPreStartState());
+			wb = new WBPreStartState();
 			break;
 		case PreStart:
-			fsm.setState(new WBFinishState());
+			wb = new WBFinishState();
 			break;
 		case FightStart:
-			fsm.setState(new WBFightEndState());
+			wb = new WBFightEndState();
 			break;
 		case FightEnd:
-			fsm.setState(new WBSendAwardState());
+			wb = new WBSendAwardState();
 			break;
 		case SendAward:
-			fsm.setState(new WBFinishState());
+			wb = new WBFinishState();
+			break;
 		case Finish:
 			reCallNewBoss();
 			break;
@@ -332,7 +335,10 @@ public class WBMgr {
 		default:
 			break;
 		}
-		broatBossChange();
+		if(wb != null){
+			fsm.setState(wb);
+			wb.doEnter();
+		}
 		GameLog.info(LogModule.GM.getName(), "GM", "world boss state transform to :" + fsm.getState());
 	}
 
@@ -344,12 +350,12 @@ public class WBMgr {
 		}
 		
 		WBData data = WBDataHolder.getInstance().get();
-		if(data == null || data.getState() != WBState.NewBoss){
+		if(data == null){
 			return;
 		}
 		data.setOpen(ServerSwitch.isOpenWorldBoss());
 		WBDataHolder.getInstance().update();
-		broatBossChange();
+		broatBossChange(false);
 		GameLog.info(LogModule.GM.getName(), "GM", "world boss is open:" + ServerSwitch.isOpenWorldBoss());
 	}
 	
