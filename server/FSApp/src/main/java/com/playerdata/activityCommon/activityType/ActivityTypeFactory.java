@@ -101,6 +101,7 @@ public class ActivityTypeFactory {
 				ActivityFortuneCatTypeSubCfgDAO.class, ActivityFortuneCatTypeSubItem.class, ActivityFortuneCatTypeMgr.getInstance());
 		DailyCount = new ActivityType(1010, ActivityDailyTypeCfgDAO.class, ActivityDailyTypeItem.class,
 				ActivityDailyTypeSubCfgDAO.class, ActivityDailyTypeSubItem.class, ActivityDailyTypeMgr.getInstance());
+		
 		ExChangeType = new ActivityType(1011, ActivityExchangeTypeCfgDAO.class, ActivityExchangeTypeMgr.getInstance());
 		LimitHeroType = new ActivityType(1012, ActivityLimitHeroCfgDAO.class, ActivityLimitHeroTypeMgr.getInstance());
 		RateType = new ActivityType(1013, ActivityRateTypeCfgDAO.class, ActivityRateTypeMgr.getInstance());
@@ -144,6 +145,20 @@ public class ActivityTypeFactory {
 		for(ActivityType at : typeList){
 			if(at.getTypeId() == typeId){
 				return at;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * 通过配置id找到属于的类型
+	 * @param cfgId
+	 * @return
+	 */
+	public static ActivityType getByCfgId(int cfgId){
+		for(ActivityType actType : typeList){
+			if(actType.getActivityJudgeMgr().isThisActivityIndex(cfgId)){
+				return actType;
 			}
 		}
 		return null;

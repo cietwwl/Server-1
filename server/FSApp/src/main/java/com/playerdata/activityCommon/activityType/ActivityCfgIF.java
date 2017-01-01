@@ -10,8 +10,6 @@ public interface ActivityCfgIF extends ActivityTimeInitIF{
 	
 	public long getEndTime();
 	
-	public int getVersion();
-	
 	public int getLevelLimit();
 	
 	public int getVipLimit();
@@ -26,7 +24,11 @@ public interface ActivityCfgIF extends ActivityTimeInitIF{
 	
 	public String getEndTimeStr();
 	
+	public int getVersion();
+	
 	public void setVersion(int version);
 	
 	public String getActDesc();
+	
+	public void setActDesc(String actDesc);
 }

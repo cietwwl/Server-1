@@ -145,4 +145,9 @@ public class ActivityDailyDiscountTypeCfg implements ActivityCfgIF{
 		}
 		return null;
 	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }

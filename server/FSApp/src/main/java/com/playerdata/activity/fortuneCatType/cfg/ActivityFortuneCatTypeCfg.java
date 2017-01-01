@@ -123,4 +123,9 @@ public class ActivityFortuneCatTypeCfg implements ActivityCfgIF{
 		}
 		return null;
 	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }
