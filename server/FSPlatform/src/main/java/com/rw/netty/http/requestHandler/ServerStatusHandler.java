@@ -61,6 +61,9 @@ public class ServerStatusHandler {
 	public static void sendActivityTimeData(int zoneId) {
 		ActivityTimeInfo.Builder actBuilder = ActivityTimeInfo.newBuilder();
 		List<ActCfgInfo> cfgs = ActivitySpecialTimeCfgDAO.getInstance().getZoneAct(zoneId);
+		if(cfgs == null) {
+			return;
+		}
 		actBuilder.addAllActInfos(cfgs);
 		ZoneInfoCache zone = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
 		try{
