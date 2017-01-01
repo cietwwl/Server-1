@@ -167,6 +167,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
  	
  	public void ExtraInitAfterLoad() {
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(changeStartTimeStr, changeEndTimeStr);
+		if(null == timePair) return;
 		changeStartTime = timePair.getStartMil();
 		changeEndTime = timePair.getEndMil();
 		changeStartTimeStr = timePair.getStartTime();
@@ -176,6 +177,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	
 	public void ExtraInitViceAfterLoad() {
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(dropStartTimeStr, dropEndTimeStr);
+		if(null == timePair) return;
 		dropStartTime = timePair.getStartMil();
 		dropEndTime = timePair.getEndMil();
 		dropStartTimeStr = timePair.getStartTime();

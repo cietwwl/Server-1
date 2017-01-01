@@ -83,6 +83,7 @@ public class EvilBaoArriveCfg implements ActivityCfgIF{
 	
 	public void ExtraInitAfterLoad() {
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
 		startTime = timePair.getStartMil();
 		endTime = timePair.getEndMil();
 		startTimeStr = timePair.getStartTime();
