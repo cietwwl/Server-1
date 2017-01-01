@@ -1,8 +1,7 @@
 package com.playerdata.charge.cfg;
 
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
-
 
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -18,7 +17,10 @@ public class ChargeCfgDao extends CfgCsvDao<ChargeCfg> {
 	public Map<String, ChargeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Charge/ChargeCfg.csv", ChargeCfg.class);
 
-		
+		for (Iterator<String> keyItr = cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
+			ChargeCfg cfg = cfgCacheMap.get(keyItr.next());
+			cfg.setMoneyYuan(cfg.getMoneyCount() / 100);
+		}
 		return cfgCacheMap;
 	}
 	

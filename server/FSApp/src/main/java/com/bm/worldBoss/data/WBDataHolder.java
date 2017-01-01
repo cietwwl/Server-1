@@ -167,6 +167,7 @@ public class WBDataHolder {
 							.setUserName(player.getUserName());;							
 			
 			wbData.setLastFightInfo(lastFightInfo );
+			wbData.setEndTime(System.currentTimeMillis());
 		}
 		
 		

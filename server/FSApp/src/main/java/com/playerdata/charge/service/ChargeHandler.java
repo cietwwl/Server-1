@@ -6,6 +6,7 @@ import com.playerdata.activity.chargeRank.ActivityChargeRankMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.activity.timeCardType.data.FriendMonthCardInfoHolder;
+import com.playerdata.charge.ChargeGiftMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.ChargeResult;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsg;
@@ -28,7 +29,7 @@ public class ChargeHandler {
 		ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, 60);
 		ActivityChargeRankMgr.getInstance().addFinishCount(player, 60);
 		EvilBaoArriveMgr.getInstance().addFinishCount(player, 60);
-		ChargeResult chargeResult = ChargeMgr.getInstance().charge(player, chargeItemId);
+		ChargeResult chargeResult = ChargeMgr.getInstance().testCharge(player, chargeItemId);
 		response.setIsSuccess(chargeResult.isSuccess());
 		response.setTipMsg(chargeResult.getTips());		
 		
@@ -40,7 +41,7 @@ public class ChargeHandler {
 		response.setReqType(request.getReqType());
 		
 		
-		ChargeResult chargeResult   = ChargeMgr.getInstance().gerRewardForFirstPay(player);
+		ChargeResult chargeResult   = ChargeGiftMgr.getInstance().gerRewardForFirstPay(player);
 		response.setIsSuccess(chargeResult.isSuccess());
 		chargeResult.setTips(chargeResult.getTips());	
 		
@@ -51,7 +52,7 @@ public class ChargeHandler {
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
 		response.setReqType(request.getReqType());
 		String vipGiftId = request.getChargeItemId();				
-		ChargeResult chargeResult = ChargeMgr.getInstance().buyAndTakeVipGift(player, vipGiftId);
+		ChargeResult chargeResult = ChargeGiftMgr.getInstance().buyAndTakeVipGift(player, vipGiftId);
 		response.setIsSuccess(chargeResult.isSuccess());
 		response.setTipMsg(chargeResult.getTips());		
 
@@ -60,14 +61,11 @@ public class ChargeHandler {
 	
 	public ByteString buyMonthCard(Player player, ChargeServiceCommonReqMsg request){
 		ChargeServiceCommonRspMsg.Builder response = ChargeServiceCommonRspMsg.newBuilder();
-		
 		response.setReqType(request.getReqType());
-		String chargeItemId = request.getChargeItemId();//月卡类型
-		
-		ChargeResult chargeResult = ChargeMgr.getInstance().buyMonthCardByGm(player, chargeItemId);
+		String chargeItemId = request.getChargeItemId();// 月卡类型
+		ChargeResult chargeResult = ChargeMgr.getInstance().testCharge(player, chargeItemId);
 		response.setIsSuccess(chargeResult.isSuccess());
-		response.setTipMsg(chargeResult.getTips());		
-			
+		response.setTipMsg(chargeResult.getTips());
 		return response.build().toByteString();
 	}
 	
