@@ -68,8 +68,8 @@ import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
 import com.rwbase.dao.skill.pojo.SkillIF;
-import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwbase.dao.skill.pojo.SkillItem;
+import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
@@ -805,7 +805,7 @@ public class AngelArrayTeamInfoHelper {
 	/**
 	 * 
 	 * @param heroInfo
-	 * @param magicLevel
+	 * @param teamInfo
 	 * @return
 	 */
 	private static ArmyHero parseHeroInfo2ArmyHero(HeroInfo heroInfo, TeamInfo teamInfo) {
@@ -876,7 +876,7 @@ public class AngelArrayTeamInfoHelper {
 
 			// skillLevel += sLevel;
 		}
-
+		SkillHelper.checkAllSkill(skillList);
 		armyHero.setSkillList(skillList);
 		// 其他属性
 		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, teamInfo);
