@@ -2,11 +2,12 @@ package com.playerdata.activity.dailyCountType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityDailyTypeSubItem {
+public class ActivityDailyTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
@@ -16,6 +17,7 @@ public class ActivityDailyTypeSubItem {
 	private boolean taken = false;
 
 	private String giftId ;
+	
 	public String getGiftId() {
 		return giftId;
 	}
@@ -41,7 +43,6 @@ public class ActivityDailyTypeSubItem {
 		this.count = count;
 	}
 
-
 	public boolean isTaken() {
 		return taken;
 	}
@@ -49,8 +50,4 @@ public class ActivityDailyTypeSubItem {
 	public void setTaken(boolean taken) {
 		this.taken = taken;
 	}
-
-	
-	
-
 }

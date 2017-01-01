@@ -18,9 +18,9 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 /*
- * @author HC
- * @date 2016年1月16日 下午5:42:44
- * @Description 帮派的基础配置表Dao
+ *  每日福利
+ * @author aken
+ * @Description 每日福利的活动
  */
 public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCfg> {
 	
@@ -47,11 +47,6 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem
 				.getEndTimeStr());
 		cfgItem.setEndTime(endTime);
-	}
-
-	public ActivityDailyTypeCfg getConfig(String id) {
-		ActivityDailyTypeCfg cfg = getCfgById(id);
-		return cfg;
 	}
 
 	/**
@@ -123,16 +118,5 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 			return cfgListIsOpen.get(0);
 		}
 		return null;
-	}
-
-	public boolean isOpen(ActivityDailyTypeCfg activityCountTypeCfg) {
-
-		if (activityCountTypeCfg != null) {
-			long startTime = activityCountTypeCfg.getStartTime();
-			long endTime = activityCountTypeCfg.getEndTime();
-			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime >= startTime;
-		}
-		return false;
 	}
 }

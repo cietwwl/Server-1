@@ -1,10 +1,11 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
-public class ActivityDailyTypeCfg {
+public class ActivityDailyTypeCfg implements ActivityCfgIF{
 
-	private String id;
+	private int id;
 	
 	private long startTime;
 	
@@ -14,14 +15,12 @@ public class ActivityDailyTypeCfg {
 	
 	private String endTimeStr;
 	
-	private String version;
+	private int version;
 	
 	private int levelLimit;
 	
 	private String enumId;
 	
-	
-
 	public String getEnumId() {
 		return enumId;
 	}
@@ -38,21 +37,12 @@ public class ActivityDailyTypeCfg {
 		this.levelLimit = levelLimit;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-
 	private int sortNum;
 	
 	private String countLimit;
 
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -60,7 +50,6 @@ public class ActivityDailyTypeCfg {
 		return endTime;
 	}
 
-	
 	public int getSortNum() {
 		return sortNum;
 	}
@@ -92,7 +81,6 @@ public class ActivityDailyTypeCfg {
 		this.endTimeStr = endTimeStr;
 	}
 
-
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -101,14 +89,40 @@ public class ActivityDailyTypeCfg {
 		this.endTime = endTime;
 	}
 
+	@Override
+	public int getCfgId() {
+		return 0;
+	}
 
-
-
-
-
-
-
-
+	@Override
+	public int getVersion() {
+		return version;
+	}
 	
-	
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return true;
+	}
+
+	@Override
+	public void setStartTime(String startTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEndTime(String endTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }

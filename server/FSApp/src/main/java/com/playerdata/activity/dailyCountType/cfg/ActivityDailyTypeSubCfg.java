@@ -1,9 +1,11 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
-public class ActivityDailyTypeSubCfg {
 
-	private String id;
+public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
+
+	private int id;
 	
 	private String parentId;
 	
@@ -22,7 +24,9 @@ public class ActivityDailyTypeSubCfg {
 	
 	private String startTimeStr;
 	
-	private String endTimeStr;	
+	private String endTimeStr;
+	
+	private String version;
 	
 	public String getEnumId() {
 		return enumId;
@@ -96,13 +100,11 @@ public class ActivityDailyTypeSubCfg {
 		this.version = version;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-
-	private String version;
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -114,12 +116,18 @@ public class ActivityDailyTypeSubCfg {
 		this.emailTitle = emailTitle;
 	}
 
-	
+	@Override
+	public String getDay() {
+		return "1";
+	}
 
+	@Override
+	public int getType() {
+		return Integer.parseInt(parentId);
+	}
 
-
-	
-	
-	
-	
+	@Override
+	public void setCfgReward(String reward) {
+		
+	}
 }
