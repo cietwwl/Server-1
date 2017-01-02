@@ -7,12 +7,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.common.HPCUtil;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
@@ -96,7 +96,7 @@ public class ActivityRetrieveTypeMgr {
 			return;
 		}
 		for (RewardBackItem item : itemList) {
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, item.getLastSingleTime())) {
+			if (HPCUtil.isResetTime(item.getLastSingleTime())) {
 				List<RewardBackSubItem> subItemList = UserFeatruesMgr.getInstance().doFresh(player, item.getTodaySubitemList());
 				item.setSubList(subItemList);
 				List<RewardBackTodaySubItem> subTodayItemList = UserFeatruesMgr.getInstance().doCreat();
