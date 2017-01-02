@@ -209,7 +209,7 @@ public class GroupMemberManagerHandler {
 					String groupName = groupData.getGroupName();
 					player.getUserGroupAttributeDataMgr().updateDataWhenHasGroup(player, groupId, groupName);
 					// 发送邮件
-					GroupHelper.sendJoinGroupMail(player.getUserId(), groupName);
+					GroupHelper.getInstance().sendJoinGroupMail(player.getUserId(), groupName);
 				}
 			};
 
@@ -741,8 +741,8 @@ public class GroupMemberManagerHandler {
 		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派已经是解散状态");
 		}
-		
-		if(GroupCompetitionMgr.getInstance().isGroupInCompetition(groupId)) {
+
+		if (GroupCompetitionMgr.getInstance().isGroupInCompetition(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "你的帮派在本届帮派争霸中有赛事，不能踢除成员！");
 		}
 
@@ -797,7 +797,7 @@ public class GroupMemberManagerHandler {
 		// 设置踢出成员的个人数据
 		GameWorldFactory.getGameWorld().asyncExecute(kickMemberId, GroupMemberHelper.quitGroupTask);
 		// 发送邮件
-		GroupHelper.sendQuitGroupMail(kickMemberId, groupData.getGroupName());
+		GroupHelper.getInstance().sendQuitGroupMail(kickMemberId, groupData.getGroupName());
 
 		// 记录一个帮派日志
 		GroupLog log = new GroupLog();

@@ -66,7 +66,7 @@ public class GCompOnlineMemberMgr {
 	}
 	
 	public boolean isMemberOnline(Player player) {
-		Group group = GroupHelper.getGroup(player);
+		Group group = GroupHelper.getInstance().getGroup(player);
 		if (group != null) {
 			return _dataHolder.getOnlineMember(player.getUserId(), group.getGroupBaseDataMgr().getGroupData().getGroupId()) != null;
 		}
@@ -74,21 +74,21 @@ public class GCompOnlineMemberMgr {
 	}
 	
 	public void sendOnlineMembers(Player player) {
-		Group group = GroupHelper.getGroup(player);
+		Group group = GroupHelper.getInstance().getGroup(player);
 		if (group != null) {
 			_dataHolder.syn(player, group.getGroupBaseDataMgr().getGroupData().getGroupId());
 		}
 	}
 	
 	public void addToOnlineMembers(Player player) {
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		if (groupId != null) {
 			_dataHolder.addOnlineMember(player, groupId);
 		}
 	}
 	
 	public void removeOnlineMembers(Player player) {
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		if(groupId != null) {
 			_dataHolder.remove(player.getUserId(), groupId);
 		}
@@ -114,7 +114,7 @@ public class GCompOnlineMemberMgr {
 	}
 	
 	public void changeUserTeamStatus(String userId, boolean inTeam) {
-		String groupId = GroupHelper.getUserGroupId(userId);
+		String groupId = GroupHelper.getInstance().getUserGroupId(userId);
 		GCompOnlineMember member = _dataHolder.getOnlineMember(userId, groupId);
 		if (member != null) {
 			member.setInTeam(inTeam);

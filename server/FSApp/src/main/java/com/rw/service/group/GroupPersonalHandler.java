@@ -428,9 +428,9 @@ public class GroupPersonalHandler {
 		// 要验证后才能加入
 		if (validateType == GroupValidateType.FIRST_VALIDATE_VALUE) {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
-
 			// 帮派扩展属性增加一个申请的帮派Id
 			userGroupAttributeDataMgr.updateApplyGroupData(player, applyGroupId);
+			// 检查一下是否超出了上限
 		} else {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
 
@@ -445,7 +445,7 @@ public class GroupPersonalHandler {
 			String groupName = groupData.getGroupName();
 			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupName);
 			// 发送邮件
-			GroupHelper.sendJoinGroupMail(playerId, groupName);
+			GroupHelper.getInstance().sendJoinGroupMail(playerId, groupName);
 
 			// 更新下排行榜成员
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
@@ -860,7 +860,7 @@ public class GroupPersonalHandler {
 			GameLog.error("退出帮派", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
-		
+
 		if (GroupCompetitionMgr.getInstance().isGroupInCompetition(groupId)) {
 			GameLog.error("退出帮派", playerId, String.format("帮派Id[%s]处于帮派争霸赛事中", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您的帮派在本届赛事还有比赛未完成，不能退出帮派");
@@ -883,7 +883,7 @@ public class GroupPersonalHandler {
 		if (now - receiveTime < gbct.getQuitGroupLimitTime()) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("您加入帮派时间不足%s，无法退出", gbct.getQuitGroupLimitTimeTip()));
 		}
-		
+
 		int post = memberData.getPost();// 成员职位
 		if (post == GroupPost.LEADER_VALUE) {// 是帮主
 			String canTransferLeaderMemberId = memberMgr.getCanTransferLeaderMemberId(GroupMemberHelper.transferLeaderComparator);

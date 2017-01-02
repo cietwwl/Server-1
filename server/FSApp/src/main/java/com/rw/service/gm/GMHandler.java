@@ -305,15 +305,15 @@ public class GMHandler {
 		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
 
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
-		
-		//修改活动配置的时间和奖励
+
+		// 修改活动配置的时间和奖励
 		funcCallBackMap.put("setcfgtime", "setCfgTime");
 		funcCallBackMap.put("setcfgreward", "setCfgReward");
-		
-		//世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
+
+		// 世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
 		funcCallBackMap.put("callwb", "callWorldBoss");
 		funcCallBackMap.put("wbstate", "changeWBState");
-		funcCallBackMap.put("openwb", "openWorldBoss");//开启/关闭世界boss状态   openwb num(0=关闭，1=开启)
+		funcCallBackMap.put("openwb", "openWorldBoss");// 开启/关闭世界boss状态 openwb num(0=关闭，1=开启)
 		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
 		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
 	}
@@ -353,7 +353,7 @@ public class GMHandler {
 
 	public boolean SetGroupSupplier(String[] comd, Player player) {
 		boolean result = true;
-		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getInstance().getGroup(player);
 		if (group == null) {
 			return false;
 		}
@@ -423,7 +423,7 @@ public class GMHandler {
 		GameLog.info("GM", "setAllTaoist ", "finished", null);
 		return result;
 	}
-	
+
 	public boolean resetTaoistLevelByTag(String[] arrCommandContents, Player player) {
 		int tag = Integer.parseInt(arrCommandContents[0]);
 		GameLog.info("GM", "resetTaoistLevel", "start", null);
@@ -438,7 +438,7 @@ public class GMHandler {
 		GameLog.info("GM", "resetTaoistLevel ", "finished", null);
 		return result;
 	}
-	
+
 	public boolean resetTaoistLevelById(String[] arrCommandContents, Player player) {
 		int id = Integer.parseInt(arrCommandContents[0]);
 		GameLog.info("GM", "resetTaoistLevel", "start", null);
@@ -714,6 +714,7 @@ public class GMHandler {
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
 			player.getUserGameDataMgr().addCoin(addNum);
+			// loadSkillData();
 			return true;
 		}
 		// String [] strs = {"901","90001"};
@@ -979,23 +980,22 @@ public class GMHandler {
 		return true;
 	}
 
-	public boolean callWorldBoss(String[] args, Player player){
+	public boolean callWorldBoss(String[] args, Player player) {
 		WBMgr.getInstance().reCallNewBoss();
 		return true;
 	}
-	
-	
-	public boolean openWorldBoss(String[] args,Player player){
+
+	public boolean openWorldBoss(String[] args, Player player) {
 		int state = Integer.parseInt(args[0]);
 		WBMgr.getInstance().changeWorldBossState(state);
 		return true;
 	}
-	
-	public boolean changeWBState(String[] args, Player player){
+
+	public boolean changeWBState(String[] args, Player player) {
 		WBMgr.getInstance().change2NextState();
 		return true;
 	}
-	
+
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
 		player.unendingWarMgr.save();
@@ -1612,7 +1612,7 @@ public class GMHandler {
 			return false;
 		}
 
-		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getInstance().getGroup(player);
 		if (group != null) {
 			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(), count, false);
 		}
@@ -2242,7 +2242,7 @@ public class GMHandler {
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
-	
+
 	public boolean sendWorldChat(String[] arrCommandContents, Player player) {
 		String targetUserId = arrCommandContents[0];
 		Player target = PlayerMgr.getInstance().find(targetUserId);
@@ -2288,63 +2288,65 @@ public class GMHandler {
 
 		return true;
 	}
-	
+
 	/**
 	 * 修改活动配置的时间
+	 * 
 	 * @param arrCommandContents
 	 * @param player
 	 * @return
 	 */
-	public boolean setCfgTime(String[] arrCommandContents, Player player){
-		if(arrCommandContents.length < 4){
+	public boolean setCfgTime(String[] arrCommandContents, Player player) {
+		if (arrCommandContents.length < 4) {
 			return false;
 		}
-		try{
+		try {
 			int cfgId = Integer.parseInt(arrCommandContents[0]);
 			String startTime = arrCommandContents[1];
 			String endTime = arrCommandContents[2];
 			int version = Integer.parseInt(arrCommandContents[3]);
 			ActivityModifyMgr.getInstance().gmSetCfgTime(cfgId, startTime, endTime, version);
 			return true;
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 修改活动配置的奖励
+	 * 
 	 * @param arrCommandContents
 	 * @param player
 	 * @return
 	 */
-	public boolean setCfgReward(String[] arrCommandContents, Player player){
-		if(arrCommandContents.length < 4){
+	public boolean setCfgReward(String[] arrCommandContents, Player player) {
+		if (arrCommandContents.length < 4) {
 			return false;
 		}
-		try{
+		try {
 			int cfgId = Integer.parseInt(arrCommandContents[0]);
 			int subCfgId = Integer.parseInt(arrCommandContents[1]);
 			String reward = arrCommandContents[2];
 			int version = Integer.parseInt(arrCommandContents[3]);
 			ActivityModifyMgr.getInstance().gmSetSubCfgReward(cfgId, subCfgId, reward, version);
 			return true;
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			return false;
 		}
 	}
-	
+
 	public boolean addGroupDonateAndExp(String[] arrCommandContents, Player player) {
 		int groupSupply = Integer.parseInt(arrCommandContents[0]);
 		int groupExp = 0;
 		if (arrCommandContents.length > 1) {
 			groupExp = Integer.parseInt(arrCommandContents[1]);
 		}
-		Group group = GroupBM.get(GroupHelper.getGroupId(player));
+		Group group = GroupBM.get(GroupHelper.getInstance().getGroupId(player));
 		if (group != null) {
-			GroupBaseData groupBaseData = (GroupBaseData)group.getGroupBaseDataMgr().getGroupData();
+			GroupBaseData groupBaseData = (GroupBaseData) group.getGroupBaseDataMgr().getGroupData();
 			groupBaseData.setSupplies(groupBaseData.getSupplies() + groupSupply);
 			groupBaseData.setDaySupplies(groupBaseData.getDaySupplies() + groupSupply);
-			if(groupExp > 0) {
+			if (groupExp > 0) {
 				groupBaseData.setGroupExp(groupBaseData.getGroupExp() + groupExp);
 				groupBaseData.setDayExp(groupBaseData.getDayExp() + groupExp);
 			}
@@ -2356,9 +2358,9 @@ public class GMHandler {
 			return false;
 		}
 	}
-	
+
 	public boolean addPersonalContribute(String[] arrCommandContents, Player player) {
-		Group group = GroupBM.get(GroupHelper.getGroupId(player));
+		Group group = GroupBM.get(GroupHelper.getInstance().getGroupId(player));
 		if (group != null) {
 			int contribute = Integer.parseInt(arrCommandContents[0]);
 			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -2366,4 +2368,25 @@ public class GMHandler {
 		}
 		return true;
 	}
+
+	// /**
+	// * 加载人数据的测试
+	// */
+	// private void loadSkillData() {
+	// // 要加载测试人的数据,多加载几个人,把某些需要的数据提出内存
+	// String[] heroIdArr = { "01696467-34a9-4ca3-b871-60dbcec9b1cb", "0a45b192-c426-4850-b178-26ae4c0ee2a7", "0fec1a57-4553-4ee7-8cbc-03f7a9e74e0a", "162f744d-e61f-4846-9108-1005f06d2fe7",
+	// "17630f4e-23f2-4328-9de6-f30a0d2bbfac", "1caf2b1a-7644-4610-aad8-64070e48a200",
+	// "2c3a7613-e670-4393-b802-8b61cef7e655", "2fd29b7a-a029-4e54-bbf3-3ea688114e22", "3a73bca4-4f9f-41dc-bd4b-dfd5b5ca0591", "3d902135-1c4e-4978-8435-275e014fc838" };
+	//
+	// RoleExtPropertyStoreCache<SkillItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SKILL_ITEM, SkillItem.class);
+	// for (int i = 0, len = heroIdArr.length; i < len; i++) {
+	// try {
+	// heroExtCache.getStore(heroIdArr[i]);
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// } catch (Throwable e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
 }

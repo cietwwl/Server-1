@@ -350,7 +350,7 @@ public class GroupMemberMgr {
 	public void kickMember(String kickUserId) {
 		String groupID;
 		synchronized (this) {
-			groupID = GroupHelper.getUserGroupId(kickUserId);
+			groupID = GroupHelper.getInstance().getUserGroupId(kickUserId);
 			holder.removeMemberData(kickUserId, false);
 			GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
 		}
@@ -534,51 +534,6 @@ public class GroupMemberMgr {
 		item.setTemplateId(templateId);
 		holder.updateMemberData(item.getId());
 	}
-
-	// /**
-	// * 更新帮派成员的捐献时间
-	// *
-	// * @param userId
-	// * @param donateTimes
-	// * @param lastDonateTime
-	// */
-	// public void resetMemberDataDonateTimes(String userId, long lastDonateTime) {
-	// GroupMemberData item = holder.getMemberData(userId, false);
-	// if (item == null) {
-	// return;
-	// }
-	//
-	// item.setDonateTimes(0);
-	// item.setLastDonateTime(lastDonateTime);
-	// item.setDayContribution(0);
-	// holder.updateMemberData(item.getId());
-	//
-	// Player memberPlayer = PlayerMgr.getInstance().find(userId);
-	// // 通知修改了个人贡献值
-	// memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
-	// }
-	//
-	// /**
-	// * 更新帮派成员的捐献时间
-	// *
-	// * @param userId
-	// * @param donateTimes
-	// * @param lastDonateTime
-	// */
-	// public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
-	// GroupMemberData item = holder.getMemberData(userId, false);
-	// if (item == null) {
-	// return;
-	// }
-	//
-	// item.setDonateTimes(0);
-	// item.setLastDonateTime(lastDonateTime);
-	// holder.updateMemberData(item.getId());
-	//
-	// Player memberPlayer = PlayerMgr.getInstance().find(userId);
-	// // 通知修改了个人贡献值
-	// memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
-	// }
 
 	/**
 	 * 捐献之后更新成员的数据

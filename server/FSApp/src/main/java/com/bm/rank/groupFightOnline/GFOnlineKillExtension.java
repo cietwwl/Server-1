@@ -6,7 +6,7 @@ import com.playerdata.groupFightOnline.dataForRank.GFOnlineKillItem;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GFOnlineKillExtension extends RankingJacksonExtension<GFOnlineKillComparable, GFOnlineKillItem>{
+public class GFOnlineKillExtension extends RankingJacksonExtension<GFOnlineKillComparable, GFOnlineKillItem> {
 
 	public GFOnlineKillExtension() {
 		super(GFOnlineKillComparable.class, GFOnlineKillItem.class);
@@ -18,14 +18,14 @@ public class GFOnlineKillExtension extends RankingJacksonExtension<GFOnlineKillC
 
 	@Override
 	public <P> GFOnlineKillItem newEntryExtension(String key, P param) {
-		if(param instanceof GFOnlineKillItem){
-			return (GFOnlineKillItem)param;
+		if (param instanceof GFOnlineKillItem) {
+			return (GFOnlineKillItem) param;
 		}
-		Player player = (Player)param;
+		Player player = (Player) param;
 		GFOnlineKillItem toData = new GFOnlineKillItem();
 		toData.setUserId(player.getUserId());
 		toData.setUserName(player.getUserName());
-		toData.setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+		toData.setGroupID(GroupHelper.getInstance().getUserGroupId(player.getUserId()));
 		return toData;
 	}
 }
