@@ -15,6 +15,7 @@ import com.bm.arena.ArenaRankEntity;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.IHeroSynHandler;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -46,6 +47,7 @@ import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
@@ -90,7 +92,9 @@ public class ArenaHandler {
 	private static ArenaHandler instance = new ArenaHandler();
 	private static int addScore = 2;
 	
+	private IHeroSynHandler _synHandler;
 	protected ArenaHandler() {
+		_synHandler = new CommonHeroSynHandler();
 	}
 
 	public static ArenaHandler getInstance() {
@@ -409,6 +413,7 @@ public class ArenaHandler {
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE), EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
 
 		arenaBM.updateAtkHeroList(heroIds, player);
+		_synHandler.synHeroData(player, eBattlePositionType.ArenaPos, null);
 		return response.build().toByteString();
 	}
 

@@ -1,6 +1,7 @@
 package com.playerdata.embattle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -47,6 +48,23 @@ public class EmbattleInfoMgr {
 
 		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
 		return item.getEmbattlePositionInfo(recordKey);
+	}
+	
+	/**
+	 * 
+	 * 获取某个类型的阵容的所有英雄
+	 * 
+	 * @param userId
+	 * @param type
+	 * @return
+	 */
+	public synchronized List<EmbattlePositionInfo> getAllEmbattlePositionInfo(String userId, int type) {
+		MapItemStore<EmbattleInfo> mapItemStore = get(userId);
+		EmbattleInfo item = mapItemStore.getItem(userId + "_" + type);
+		if (item == null) {
+			return Collections.emptyList();
+		}
+		return item.getAll();
 	}
 
 	/**
