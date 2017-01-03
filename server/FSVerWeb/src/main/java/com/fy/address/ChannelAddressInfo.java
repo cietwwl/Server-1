@@ -16,7 +16,7 @@ public class ChannelAddressInfo {
 	
 	private String channel;
 	
-	
+	private String luaVerifySwitch = "true";
 
 	public String getChannel() {
 		return channel;
@@ -80,5 +80,13 @@ public class ChannelAddressInfo {
 
 	public void setBackUrl(String backUrl) {
 		this.backUrl = backUrl;
+	}
+
+	public String getLuaVerifySwitch() {
+		return luaVerifySwitch;
+	}
+
+	public void setLuaVerifySwitch(String luaVerifySwitch) {
+		this.luaVerifySwitch = luaVerifySwitch;
 	}
 }

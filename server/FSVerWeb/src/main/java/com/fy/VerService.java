@@ -96,7 +96,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 					updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
 				}
 				updateVersion.setLuaAction("lua");
-				updateVersion.setLuaVerifySwitch(true);
+				updateVersion.setLuaVerifySwitch(Boolean.valueOf(channelAddressInfo.getLuaVerifySwitch()));
 			}
 			System.out.println("---------------channelLuaInfo.getFilesmd5()" + channelLuaInfo.getFilesmd5());
 			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList, clientVersion, channelAddressInfo);
