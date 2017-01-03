@@ -1,6 +1,7 @@
 package com.rw.controler;
 
 import com.playerdata.Player;
+import com.playerdata.activity.shakeEnvelope.ActivityShakeEnvelopeMgr;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rwbase.gameworld.PlayerTask;
@@ -26,6 +27,8 @@ public class HeartBeatTask implements PlayerTask {
 			return;
 		}
 		player.heartBeatCheck();
+		//检查摇一摇红包是否有奖励
+		ActivityShakeEnvelopeMgr.getInstance().haveRedPoint(player);
 		UserChannelMgr.sendSyncResponse(request.getHeader(), null, null, sessionId);
 	}
 

@@ -63,7 +63,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param player
 	 * @return
 	 */
-	protected List<String> haveRedPoint(Player player) {
+	public List<String> haveRedPoint(Player player) {
 		List<String> redPointList = new ArrayList<String>();
 		List<T> items = getHolder().getItemList(player.getUserId());
 		if (null == items || items.isEmpty()){

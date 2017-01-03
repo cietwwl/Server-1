@@ -17,10 +17,6 @@ public class ActivityShakeEnvelopeItemHolder extends UserActivityChecker<Activit
 	public static ActivityShakeEnvelopeItemHolder getInstance(){
 		return instance;
 	}
-	
-	public List<ActivityShakeEnvelopeItem> getItemList(String userId){
-		return refreshActivity(userId);
-	}
 
 	@Override
 	public List<ActivityShakeEnvelopeSubItem> newSubItemList(String cfgId) {
@@ -41,6 +37,5 @@ public class ActivityShakeEnvelopeItemHolder extends UserActivityChecker<Activit
 	@Override
 	protected eSynType getSynType() {
 		return eSynType.ActivityShakeEnvelope;
-		//return null;
 	}
 }
