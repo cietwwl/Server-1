@@ -15,6 +15,7 @@ import com.bm.arena.ArenaRankEntity;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
+import com.common.IHeroSynHandler;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -46,6 +47,7 @@ import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eActivityType;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.arena.ArenaCostCfgDAO;
@@ -90,7 +92,9 @@ public class ArenaHandler {
 	private static ArenaHandler instance = new ArenaHandler();
 	private static int addScore = 2;
 	
+	private IHeroSynHandler _synHandler;
 	protected ArenaHandler() {
+		_synHandler = new CommonHeroSynHandler();
 	}
 
 	public static ArenaHandler getInstance() {
@@ -409,6 +413,7 @@ public class ArenaHandler {
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE), EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
 
 		arenaBM.updateAtkHeroList(heroIds, player);
+		_synHandler.synHeroData(player, eBattlePositionType.ArenaPos, null);
 		return response.build().toByteString();
 	}
 
@@ -1019,6 +1024,7 @@ public class ArenaHandler {
 			return OneKeyResultType.NO_REWARD;
 		}
 		boolean isGet = false;
+		Map<Integer, Integer> totalRewards = new HashMap<Integer, Integer>();
 		for (Integer id : scoreRewardKeys) {
 			List<Integer> rewardList = arenaData.getRewardList();
 			if (rewardList.contains(id)) {
@@ -1034,20 +1040,37 @@ public class ArenaHandler {
 			rewardList.add(id);
 			Map<Integer, Integer> rewards = template.getRewards();
 			for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
-				Integer haveCount = rewardMap.get(entry.getKey());
+				Integer key = entry.getKey();
+				Integer value = entry.getValue();
+				Integer haveCount = rewardMap.get(key);
 				if (null == haveCount)
-					haveCount = entry.getValue();
+					haveCount = value;
 				else
-					haveCount += entry.getValue();
-				rewardMap.put(entry.getKey(), haveCount);
+					haveCount += value;
+				rewardMap.put(key, haveCount);
+				
+				if (totalRewards.containsKey(key)) {
+					Integer tempCount = totalRewards.get(key);
+					totalRewards.put(key, value + tempCount);
+				} else {
+					totalRewards.put(key, value);
+				}
+				
 			}
 			isGet = true;
+			
+		}
+
+		try {
 			// 日志
-			List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
+			List<BilogItemInfo> list = BilogItemInfo.fromMap(totalRewards);
 			String rewardInfoActivity = BILogTemplateHelper.getString(list);
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+		} catch (Exception ex) {
+			GameLog.info("GetAllScoreReward", player.getUserId(), "get log exception:" + ex.getMessage());
 		}
+
 		if (isGet)
 			return OneKeyResultType.OneKey_SUCCESS;
 		else

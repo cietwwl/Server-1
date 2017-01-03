@@ -245,6 +245,7 @@ public class MagicSecretMgr {
 			msItem.setItemCount(item.getItemNum());
 			msRsp.addRewardData(msItem.build());
 		}
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.magicSecert);
 		msRsp.setRstType(msResultType.SUCCESS);
 		UserMagicSecretHolder.getInstance().update(player);
 		MagicChapterInfoHolder.getInstance().updateItem(player, chapterID);
@@ -591,6 +592,25 @@ public class MagicSecretMgr {
 		return false;
 	}
 	
+	/**
+	 * 检查是否某章可以扫荡
+	 * 
+	 * @param player
+	 * @param chapterID
+	 * @return
+	 */
+	public boolean canSweep(Player player, String chapterID) {
+		if (!MSConditionJudger.judgeSweepCount(player, chapterID)) {
+			return false;
+		}
+
+		if (!MSConditionJudger.judgeSweepAble(player, chapterID)) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * 获取副本星级对应的得分系数
 	 * @param finishStar

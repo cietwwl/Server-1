@@ -25,6 +25,7 @@ public class PlayerTempAttribute {
 	private final PlayerMemoryMark arenaChanged;
 	private volatile NewGuideClosure lastClosure;
 	private ChatTempAttribute chatTempAttribute;// 聊天临时存储数据
+	private volatile String ip;// 用户的IP
 
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
@@ -125,5 +126,14 @@ public class PlayerTempAttribute {
 	 */
 	public ChatTempAttribute getChatTempAttribute() {
 		return chatTempAttribute;
+	}
+
+	// ===================获取IP
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 }

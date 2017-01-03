@@ -113,7 +113,7 @@ public class GroupCopyMgr {
 		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
 		rewardRecordHolder = new GroupCopyRewardDistRecordHolder(groupIdP);
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
-		checkAllChapterProgress();
+		// checkAllChapterProgress();
 	}
 
 	// 检查所有副本地图进度，因为副本怪物策划可能会重新配置
@@ -135,11 +135,14 @@ public class GroupCopyMgr {
 
 		// 找到章节内第一个进度不为1的关卡id
 		levelRecord = lvRecordHolder.getByLevel(id);
-		while (levelRecord.getProgress().getProgress() == 1) {
+		int checkCount = 0;// 控制检查次数
+		while (levelRecord.getProgress().getProgress() == 1 && checkCount <= 50) {
 			if (lvList.contains(cfg.getNextLevelID())) {
 				id = cfg.getNextLevelID();
 				cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(id);
 				levelRecord = lvRecordHolder.getByLevel(id);
+			} else {
+				break;
 			}
 		}
 

@@ -120,9 +120,11 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		Player targetPlayer = PlayerMgr.getInstance().find(targetUserId);
 		UserDataMgr userDataMgr = targetPlayer.getUserDataMgr();
 		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		channel = zoneRegInfo.getRegChannelId();
 		Map<String, Object> contentMap = new HashMap<String, Object>();
 		contentMap.put("channel", channel);
 		contentMap.put("type", type);
+		contentMap.put("serverId", GameManager.getZoneId());
 		contentMap.put("reportChannel", reportChannel);
 		contentMap.put("byReportAccount", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
 		contentMap.put("byReportId", targetUserId);

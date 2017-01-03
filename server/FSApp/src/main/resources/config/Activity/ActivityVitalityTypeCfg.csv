@@ -2,4 +2,5 @@ Key,Remarks,id,enumID,bg,icon,icon2,title,bgTitle,titleBG,levelLimit,startTimeSt
 50001,,50001,59999,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201508080500,201508150500,10,true
 50002,,50002,59998,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201610070500,201610140500,10,true
 50003,,50003,59999,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201508150500,201508220500,11,true
-50004,,50004,59998,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,0,7,1,true
+50004,,50004,59998,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,201508150500,7,1,true
+50005,,50005,59998,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,201612280500,201701040500,12,true

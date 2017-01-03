@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.IHeroSynHandler;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
@@ -28,10 +29,12 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
 import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.GodGiftRequest;
@@ -43,6 +46,11 @@ import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 public class CopyHandler {
 	private static CopyHandler instance = new CopyHandler();
 
+	private IHeroSynHandler _synHandler;
+	
+	protected CopyHandler() {
+		_synHandler = new CommonHeroSynHandler();
+	}
 	public static CopyHandler getInstance() {
 		return instance;
 	}
@@ -139,7 +147,7 @@ public class CopyHandler {
 			// 设置最后一次掉落id
 			// copyRecordMgr.setCalculateState(levelId);
 		} catch (DataAccessTimeoutException e) {
-			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
+			GameLog.error("copyHandler", "battleItemsBack", "生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
 		if (dropItems != null) {
 			// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改;经验和物品反馈信息拼接在一起
@@ -167,18 +175,24 @@ public class CopyHandler {
 
 		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(), copyCfg.getLevelType(), copyRecord.isFirst(), eBILogCopyEntrance.Empty);
 
+		eBattlePositionType targetType = eBattlePositionType.Normal;
 		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD) {
+			targetType = eBattlePositionType.Jbzd;
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), 0);
 		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG) {
+			targetType = eBattlePositionType.Lxsg;
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(), 0);
 		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL) {
+			targetType = eBattlePositionType.Schj;
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), 0);
 		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE) {
+//			targetType = eBattlePositionType.MagicSecret;
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), 0);
 		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER) {
 			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), 0);
 		}
 
+		_synHandler.synHeroData(player, targetType, "");
 		return copyResponse.build().toByteString();
 
 	}

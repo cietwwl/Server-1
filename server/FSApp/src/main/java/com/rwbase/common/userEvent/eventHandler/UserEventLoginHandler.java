@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.serverStatus.ServerStatusMgr;
+import com.common.HPCUtil;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -13,7 +14,6 @@ import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
-import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
 public class UserEventLoginHandler implements IUserEventHandler {
@@ -40,12 +40,10 @@ public class UserEventLoginHandler implements IUserEventHandler {
 				if (StringUtils.equals(params + "", "0")) {// 没有活动的登陆数据，首次登陆
 					isnewday = true;
 				} else {
-					isnewday = DateUtils.dayChanged(Long.parseLong(params
-							.toString()));
+					isnewday = HPCUtil.isResetTime(Long.parseLong(params.toString()));
 				}
 				if (isnewday) {
-					ActivityCountTypeMgr.getInstance().addCount(player,
-							ActivityCountTypeEnum.Login, 1);
+					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login, 1);
 				}
 			}
 

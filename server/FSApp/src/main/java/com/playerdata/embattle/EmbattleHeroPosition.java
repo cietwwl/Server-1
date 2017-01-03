@@ -27,4 +27,11 @@ public class EmbattleHeroPosition {
 	public void setPos(int pos) {
 		this.pos = pos;
 	}
+
+	@Override
+	public String toString() {
+		return "EmbattleHeroPosition [id=" + id + ", pos=" + pos + "]";
+	}
+	
+	
 }

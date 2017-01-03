@@ -1,5 +1,6 @@
 package com.playerdata;
 
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import org.springframework.util.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bm.arena.ArenaBM;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
@@ -45,6 +47,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
@@ -131,7 +134,77 @@ public class RankingMgr {
 		initAngelArrayTeamInfo();
 		checkRobotLevel();// 此处机器人生成要比玩家生成优先；如果玩家榜没人说明是新区；可以用方法拷贝；如果玩家榜有人说明是老区；从数据库拷贝
 		checkPlayerLevel();
+		checkPeakArena();
+	}
 
+	public void checkPeakArena() {
+		try {
+			ListRanking<String, PeakArenaExtAttribute> peakArena = RankingFactory.getSRanking(ListRankingType.PEAK_ARENA);
+			if (peakArena != null) {
+				int peakArenaOpenLevel = CfgOpenLevelLimitDAO.getInstance().getOpenLevel(eOpenLevelType.PEAK_ARENA);
+
+				String sql = "SELECT u.userId ,u.level, u.sex,u.userName,u.vip, hero.attribute FROM user as u LEFT JOIN hero ON hero.id = u.userId  where u.level >= " + peakArenaOpenLevel + " and u.isRobot = 0 ";
+
+				// String sql = "SELECT userId,level,vip,sex,userName FROM user where level >= " + peakArenaOpenLevel + " and isRobot = 0";
+				List<Map<String, Object>> list = DataAccessFactory.getSimpleSupport().getMainTemplate().queryForList(sql);
+				for (int i = list.size(); --i >= 0;) {
+					Map<String, Object> attributes = list.get(i);
+					String userId = (String) attributes.get("userId");
+					if (userId == null) {
+						GameLog.error("query peak arena entry fail by uerId is null:" + attributes, "", "");
+						continue;
+					}
+					Integer level = (Integer) attributes.get("level");
+					if (level == null) {
+						GameLog.error("query peak arena entry fail by level is null:" + userId, "", "");
+						continue;
+					}
+					Integer vip = (Integer) attributes.get("vip");
+					if (vip == null) {
+						GameLog.error("query peak arena entry fail by vip is null:" + userId, "", "");
+						continue;
+					}
+					Integer sex = (Integer) attributes.get("sex");
+					if (sex == null) {
+						GameLog.error("query peak arena entry fail by sex is null:" + userId, "", "");
+						continue;
+					}
+					ListRankingEntry<String, PeakArenaExtAttribute> entry = peakArena.getRankingEntry(userId);
+					if (entry == null) {
+						continue;
+					}
+					PeakArenaExtAttribute peakArenaExt = entry.getExtension();
+					if (peakArenaExt.getLevel() < level) {
+						peakArenaExt.setLevel(level);
+					}
+					if (peakArenaExt.getVip() < vip) {
+						peakArenaExt.setVip(vip);
+					}
+					if (peakArenaExt.getSex() != sex) {
+						peakArenaExt.setSex(sex);
+						GameLog.error("RankingMgr", userId, "修改巅峰竞技场性别不同步,oldSex=" + peakArenaExt.getSex() + ",newSex=" + sex);
+					}
+					String userName = (String) attributes.get("userName");
+					if (userName != null && !userName.equals(peakArenaExt.getName())) {
+						peakArenaExt.setName(userName);
+						GameLog.error("RankingMgr", userId, "修改巅峰竞技场名字不同步,oldName=" + peakArenaExt.getName() + ",newName=" + userName);
+					}
+					String attribute = (String) attributes.get("attribute");
+					if (attribute == null) {
+						GameLog.error("RankingMgr", userId, "获取英雄信息失败");
+						continue;
+					}
+					JSONObject json = JSONObject.parseObject(attribute);
+					int careerLevel = json.getIntValue("careerType");
+					if (peakArenaExt.getCareer() != careerLevel) {
+						GameLog.error("RankingMgr", userId, "修改巅峰竞技场职业不同步,oldCareer=" + peakArenaExt.getCareer() + ",newCareer=" +careerLevel);
+						peakArenaExt.setCareer(careerLevel);
+					}
+				}
+			}
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 	}
 
 	public List<String> getWorshipList() {

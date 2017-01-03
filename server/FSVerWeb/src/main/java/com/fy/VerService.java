@@ -118,12 +118,16 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			int sub = Integer.parseInt(json.get("sub").toString());
 			int third = Integer.parseInt(json.get("third").toString());
 			int patch = Integer.parseInt(json.get("patch").toString());
+			String cpuType = json.get("cpuType").toString();
+			String deviceModel = json.get("deviceModel").toString();
 			version = new Version();
 			version.setChannel(channel);
 			version.setMain(main);
 			version.setSub(sub);
 			version.setThird(third);
 			version.setPatch(patch);
+			version.setCpuType(cpuType);
+			version.setDeviceModel(deviceModel);
 			String packageName = getJsonValue("package", json);
 			version.setPackageName(packageName);
 			return version;
