@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.rw.account.ZoneInfoCache;
 import com.rw.platform.PlatformFactory;
 import com.rw.service.http.platformResponse.ServerBaseDataResponse;
+import com.rw.service.http.platformResponse.ServerType;
 import com.rw.service.http.request.ResponseObject;
 import com.rwbase.dao.activityTime.ActivitySpecialTimeCfgDAO;
 
@@ -18,6 +19,7 @@ public class ServerStatusHandler {
 		int onlineNum = serverBaseDataResponse.getOnlineNum();
 		int status = serverBaseDataResponse.getStatus();
 		int actTimeVersion = serverBaseDataResponse.getActivityTimeVersion();
+		ServerType serType = serverBaseDataResponse.getServerType();
 		
 		ResponseObject result = new ResponseObject();
 		
@@ -28,7 +30,7 @@ public class ServerStatusHandler {
 			return result;
 		}
 		//检查活动时间的变化
-		result.setActTimeInfo(ActivitySpecialTimeCfgDAO.getInstance().getZoneAct(zoneId, actTimeVersion));
+		result.setActTimeInfo(ActivitySpecialTimeCfgDAO.getInstance().getZoneAct(zoneId, actTimeVersion, serType));
 		for (Iterator<Entry<Integer, ZoneInfoCache>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, ZoneInfoCache> entry = iterator.next();
 			ZoneInfoCache zoneInfo = entry.getValue();
