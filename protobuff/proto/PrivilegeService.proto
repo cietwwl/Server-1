@@ -4,26 +4,15 @@ option java_package = "com.rwproto";
 option java_outer_classname = "PrivilegeProtos";
 package Privilege;
 
-message AllPrivilege {
-	optional PrivilegeProperty arena = 1; //竞技场特权点
-	optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
-	optional PrivilegeProperty pve = 3;//PVE特权点
-	optional PrivilegeProperty group = 4;//帮派特权点
-	optional PrivilegeProperty store = 5;//商店特权点
-	optional PrivilegeProperty copy = 6;//副本特权点
-	optional PrivilegeProperty hero = 7;//英雄特权点
-	optional PrivilegeProperty login = 8;//登陆特权点
-	optional PrivilegeProperty general = 9;//其他特权点 (各种杂七杂八模块)
-}
-
-message PrivilegeProperty {
-	repeated PrivilegeValue kv = 1;//按照名字的顺序进行存放
-}
 
 message PrivilegeValue{
 	required string name = 1;//特权名对应的枚举值
 	required string value = 2;//当前充值等级对应的数值或者布尔值
 	optional string chargeType = 3;//超出当前充值等级的值时可用于提高这个值的充值类型
+}
+
+message PrivilegeProperty {
+     repeated PrivilegeValue kv = 1;//按照名字的顺序进行存放
 }
 
 enum ArenaPrivilegeNames {
@@ -94,4 +83,16 @@ enum GeneralPrivilegeNames {
      isAllowSoulBox = 3; //开启第三宝箱（魂匣）开启
      isAllowReplenish = 4;  //开启补签开启
 	 isAllowVipHeadIcon = 5; //VIP头像框
+}
+
+message AllPrivilege {
+     optional PrivilegeProperty arena = 1; //竞技场特权点
+     optional PrivilegeProperty peakArena = 2;//巅峰竞技场特权点
+     optional PrivilegeProperty pve = 3;//PVE特权点
+     optional PrivilegeProperty group = 4;//帮派特权点
+     optional PrivilegeProperty store = 5;//商店特权点
+     optional PrivilegeProperty copy = 6;//副本特权点
+     optional PrivilegeProperty hero = 7;//英雄特权点
+     optional PrivilegeProperty login = 8;//登陆特权点
+     optional PrivilegeProperty general = 9;//其他特权点 (各种杂七杂八模块)
 }
