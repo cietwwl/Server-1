@@ -245,6 +245,7 @@ public class MagicSecretMgr {
 			msItem.setItemCount(item.getItemNum());
 			msRsp.addRewardData(msItem.build());
 		}
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.magicSecert);
 		msRsp.setRstType(msResultType.SUCCESS);
 		UserMagicSecretHolder.getInstance().update(player);
 		MagicChapterInfoHolder.getInstance().updateItem(player, chapterID);
