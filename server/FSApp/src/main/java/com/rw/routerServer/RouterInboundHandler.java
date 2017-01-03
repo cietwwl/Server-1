@@ -18,11 +18,10 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		//long startTime = System.currentTimeMillis();
-		//System.out.println("channelRead:" + msg);
-		RouterReqestObject reqParam = JsonUtil.readValue((String)msg, RouterReqestObject.class);
+		RouterReqestObject reqParam = null;
 		String result = null;
 		try{
+			reqParam = JsonUtil.readValue((String)msg, RouterReqestObject.class);
 			switch (reqParam.getType()) {
 			case GetGift:
 				result = RouterServiceHandler.getInstance().getGift(reqParam.getContent());
@@ -42,11 +41,12 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 				break;
 			}
 		}catch(Exception ex){
+			logger.info("Rounter server recv except msg:" + msg);
 			RouterRespObject obj = new RouterRespObject();
 			obj.setResult(ResultState.EXCEPTION);
 			result = JsonUtil.writeValue(obj);
 		}
-		if(reqParam.getType() != ReqType.HeartBit){
+		if(reqParam != null && reqParam.getType() != ReqType.HeartBit){
 			logger.info("Rounter server recv:" + msg + ", response:" + result);
 		}
 		ByteBuf buf = Unpooled.copiedBuffer(((String)result + System.getProperty("line.separator")).getBytes("UTF-8"));
@@ -55,14 +55,12 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-//		System.out.println("channelReadComplete");
 		ctx.flush();
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
-//		System.out.println("exceptionCaught");
 		super.exceptionCaught(ctx, cause);
 		ctx.close();
 	}
