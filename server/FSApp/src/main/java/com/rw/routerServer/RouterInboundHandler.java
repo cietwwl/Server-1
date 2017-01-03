@@ -1,5 +1,7 @@
 package com.rw.routerServer;
 
+import org.apache.log4j.Logger;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -12,6 +14,7 @@ import com.rw.routerServer.data.RouterReqestObject;
 import com.rw.routerServer.data.RouterRespObject;
 
 public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
+	private static Logger logger = Logger.getLogger("rounterMsgLogger");
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -27,6 +30,11 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			case GetRoleDataFromGS:
 				result = RouterServiceHandler.getInstance().getRoleInfo(reqParam.getContent());
 				break;
+			case HeartBit:
+				RouterRespObject obj1 = new RouterRespObject();
+				obj1.setResult(ResultState.SUCCESS);
+				result = JsonUtil.writeValue(obj1);
+				break;
 			default:
 				RouterRespObject obj = new RouterRespObject();
 				obj.setResult(ResultState.PARAM_ERROR);
@@ -38,10 +46,9 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			obj.setResult(ResultState.EXCEPTION);
 			result = JsonUtil.writeValue(obj);
 		}
-		//if(reqParam.getType() != ReqType.HeartBit){
-			
-			//System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@result:" + result + ", time:" + (System.currentTimeMillis() - startTime));
-		//}
+		if(reqParam.getType() != ReqType.HeartBit){
+			logger.info("Rounter server recv:" + msg + ", response:" + result);
+		}
 		ByteBuf buf = Unpooled.copiedBuffer(((String)result + System.getProperty("line.separator")).getBytes("UTF-8"));
         ctx.writeAndFlush(buf);
 	}

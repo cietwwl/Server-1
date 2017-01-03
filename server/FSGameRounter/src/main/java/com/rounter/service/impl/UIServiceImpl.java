@@ -220,7 +220,7 @@ public class UIServiceImpl implements IUCService{
 	private IResponseData getRoleDataFromGS(String areaId, String userId, String platformID) {
 		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(platformID, areaId);
 		IResponseData response = new ResDataFromServer(UCStateCode.STATE_SERVER_ERROR.getId());
-		logger.info("try to request data from game server:{}, connect usefull:{}", areaId, (null != nodeMgr && nodeMgr.isActive()));
+		logger.info("try to request data from game server:{}, userid:{}, connect usefull:{}", areaId, userId, (null != nodeMgr && nodeMgr.isActive()));
 		if(null != nodeMgr && nodeMgr.isActive()){
 			RouterReqestObject reqObject = new RouterReqestObject();
 			reqObject.setType(ReqType.GetRoleDataFromGS);
