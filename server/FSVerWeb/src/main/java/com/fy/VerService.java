@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.fy.address.ChannelAddressInfo;
 import com.fy.constant.Constant;
 import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
@@ -23,6 +24,7 @@ import com.fy.lua.LuaMgr;
 import com.fy.utils.DateTimeUtils;
 import com.fy.utils.DeviceUtil;
 import com.fy.version.Version;
+import com.fy.version.VersionDao;
 import com.fy.version.VersionMgr;
 import com.fy.version.activity.ChannelAddressCfg;
 import com.fy.version.activity.ChannelAddressCfgDao;
@@ -75,14 +77,17 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			}
 			List<Version> updateVersionList = versionMgr.getUpdateVersion(clientVersion);
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
+			
+			ChannelAddressInfo channelAddressInfo = VersionDao.getInstance().getChannelAddressInfoByPackageName(clientVersion.getChannel(), clientVersion.getPackageName());
+			
 			if(updateVersionList.isEmpty()){
 				Version maxVersion = versionMgr.getMaxVersion(clientVersion);
 				Version updateVersion = new Version();
-				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
-				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
-				updateVersion.setCheckServerURL(maxVersion.getCheckServerURL());
-				updateVersion.setCheckServerPayURL(maxVersion.getCheckServerPayURL());
-				updateVersion.setBackUrl(maxVersion.getBackUrl());
+				updateVersion.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
+				updateVersion.setLogServerAddress(channelAddressInfo.getLogServerAddress());
+				updateVersion.setCheckServerURL(channelAddressInfo.getCheckServerURL());
+				updateVersion.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
+				updateVersion.setBackUrl(channelAddressInfo.getBackUrl());
 				updateVersion.setPackageName(clientVersion.getPackageName());
 				updateVersionList.add(updateVersion);
 			}
@@ -91,10 +96,10 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 					updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
 				}
 				updateVersion.setLuaAction("lua");
-				updateVersion.setLuaVerifySwitch(true);
+				updateVersion.setLuaVerifySwitch(Boolean.valueOf(channelAddressInfo.getLuaVerifySwitch()));
 			}
 			System.out.println("---------------channelLuaInfo.getFilesmd5()" + channelLuaInfo.getFilesmd5());
-			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList, clientVersion);
+			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList, clientVersion, channelAddressInfo);
 			ServletOutputStream out = response.getOutputStream();
 			out.write(verifyUpdateResult.getBytes("UTF-8"));
 			out.flush();
@@ -147,7 +152,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		return result;
 	}
 
-	private String packVerifyVersionResult(Version updateVersion, Version currentVersion) {
+	private String packVerifyVersionResult(Version updateVersion, Version currentVersion, ChannelAddressInfo channelAddressInfo) {
 		JSONObject json = new JSONObject();
 		try {
 			if (!(updateVersion.getChannel() == null ||  updateVersion.getChannel().equals(""))) {
@@ -160,24 +165,26 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			} else {
 				json.put("update", 0);
 			}
-			json.put("loginServerDomain", updateVersion.getLoginServerDomain());
-			json.put("logServerAddress", updateVersion.getLogServerAddress());
 			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
 			json.put("luaAction", updateVersion.getLuaAction());
-			json.put("checkServerURL", updateVersion.getCheckServerURL());
-			json.put("checkServerPayURL", updateVersion.getCheckServerPayURL());
-			json.put("backUrl", updateVersion.getBackUrl());
 			json.put("luaVerifySwitch", updateVersion.isLuaVerifySwitch());
+			json.put("loginServerDomain", channelAddressInfo.getLoginServerDomain());
+			json.put("logServerAddress", channelAddressInfo.getLogServerAddress());
+			json.put("checkServerURL", channelAddressInfo.getCheckServerURL());
+			json.put("checkServerPayURL", channelAddressInfo.getCheckServerPayURL());
+			json.put("backUrl", channelAddressInfo.getBackUrl());
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return json.toString();
 	}
 	
-	private String packVerifyVersionResult2(List<Version> updateVersions, Version currentVersion) {
+	private String packVerifyVersionResult2(List<Version> updateVersions, Version currentVersion, ChannelAddressInfo channelAddressInfo) {
+		
 		StringBuffer buff = new StringBuffer();
 		for(int i = 0; i < updateVersions.size(); i++){
-			buff.append(packVerifyVersionResult(updateVersions.get(i), currentVersion));
+			buff.append(packVerifyVersionResult(updateVersions.get(i), currentVersion, channelAddressInfo));
 			if(i != updateVersions.size() -1) buff.append("@");
 		}
 		return buff.toString();

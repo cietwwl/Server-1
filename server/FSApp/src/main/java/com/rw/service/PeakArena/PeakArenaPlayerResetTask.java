@@ -24,7 +24,7 @@ public class PeakArenaPlayerResetTask implements IPlayerOperable {
 	public void operate(Player player) {
 		TablePeakArenaData data = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
 		int dayOfYear = DateUtils.getCurrentDayOfYear();
-		if (data != null && data.getLastResetDayOfYear() < dayOfYear) {
+		if (data != null && data.getLastResetDayOfYear() != dayOfYear) {
 			data.setScore(0);
 			data.resetRewardList();
 			// 2016-11-15 BUG fixed，没有记录最后一次执行的时间
