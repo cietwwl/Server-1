@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import com.log.GameLog;
 import com.playerdata.charge.IChargeCallbackChecker;
+import com.playerdata.charge.cfg.ChargeCfg;
+import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.dao.ChargeRecord;
 import com.playerdata.charge.util.MD5Encrypt;
 import com.rw.chargeServer.ChargeContentPojo;
@@ -67,7 +69,15 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		if (money != -1) { // IOS版本的money会是-1
 			record.setMoney(money);
 		} else {
-			record.setMoney(content.getItemAmount());
+			money = content.getItemAmount();
+			if (money > 0) {
+				record.setMoney(content.getItemAmount() * 10); // itemAmount是钻石，记录是分，所以需要乘以10
+			} else {
+				ChargeCfg cfg = ChargeCfgDao.getInstance().getCfgById(content.getItemId());
+				if (cfg != null) {
+					record.setMoney(cfg.getMoneyCount());
+				}
+			}
 		}
 		record.setCurrencyType(content.getCurrencyType());
 		record.setChannelId(content.getChannelId());

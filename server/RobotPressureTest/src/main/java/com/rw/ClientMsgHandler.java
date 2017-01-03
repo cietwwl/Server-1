@@ -254,6 +254,9 @@ public abstract class ClientMsgHandler {
 						Client client = getClient();
 						client.getgCompMatchBattleSynDataHolder().sendGCOmpMatchBattleReq(client);
 						break;
+					case WB_DATA:
+						getClient().getWbDataHolder().syn(msgDataSyn);
+						break;
 					default:
 						break;
 					}

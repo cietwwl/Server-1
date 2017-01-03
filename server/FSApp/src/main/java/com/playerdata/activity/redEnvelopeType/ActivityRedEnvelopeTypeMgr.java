@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.HPCUtil;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
@@ -190,7 +191,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate, Index
 			if (freshItem == null) {
 				continue;
 			}
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLastTime())) {
+			if (HPCUtil.isResetTime(freshItem.getLastTime())) {
 				int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
 				freshItem.resetByOtherday(cfg, day);
 				dataHolder.updateItem(player, freshItem);

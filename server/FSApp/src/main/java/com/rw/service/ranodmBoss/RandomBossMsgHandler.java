@@ -2,21 +2,22 @@ package com.rw.service.ranodmBoss;
 
 import java.util.List;
 
-import javax.crypto.spec.IvParameterSpec;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInteractiveType;
 import com.bm.randomBoss.RandomBossMgr;
+import com.common.IHeroSynHandler;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.shareCfg.ChineseStringHelper;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.dao.randomBoss.db.BattleNewsData;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.RandomBossProto.BattleRewardInfo;
 import com.rwproto.RandomBossProto.InvitedFriends;
 import com.rwproto.RandomBossProto.MsgType;
@@ -26,7 +27,10 @@ import com.rwproto.RandomBossProto.RandomMsgRequest;
 public class RandomBossMsgHandler {
 	
 	private static RandomBossMsgHandler handler = new RandomBossMsgHandler();
+	
+	private IHeroSynHandler _synHandler;
 	protected RandomBossMsgHandler(){
+		_synHandler = new CommonHeroSynHandler();
 	}
 	
 	
@@ -223,7 +227,7 @@ public class RandomBossMsgHandler {
 			response.setTips("服务器繁忙");
 		}
 		
-		
+		_synHandler.synHeroData(player, eBattlePositionType.Normal, null);
 		return response.build().toByteString();
 	}
 
@@ -261,7 +265,6 @@ public class RandomBossMsgHandler {
 			response.setIsSuccess(false);
 			response.setTips("服务器繁忙");
 		}
-		
 		return response.build().toByteString();
 	}
 	

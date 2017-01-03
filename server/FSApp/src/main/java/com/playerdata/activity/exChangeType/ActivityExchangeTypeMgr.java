@@ -8,11 +8,11 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.HPCUtil;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -218,7 +218,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate, IndexRan
 			if (freshItem == null) {
 				continue;
 			}
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLasttime())) {
+			if (HPCUtil.isResetTime(freshItem.getLasttime())) {
 				freshItem.setLasttime(currentTime);
 				List<ActivityExchangeTypeSubItem> subitemlist = freshItem.getSubItemList();
 				for (ActivityExchangeTypeSubItem subitem : subitemlist) {

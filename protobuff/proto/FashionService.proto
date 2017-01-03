@@ -19,17 +19,17 @@ message FashionRequest {
 	optional bool wearNow = 4;//购买的时候允许马上穿上
 }
 
+message FashionCommon{
+	optional FashionUsed usedFashion = 1;
+	optional FashionBuyRenewCfg buyRenewCfg = 2;
+}
+
 message FashionResponse {
 	optional FashionEventType eventType = 1;
 	optional int32 fashionId = 2;
 	required ErrorService.ErrorType error = 3;
 	optional string tips = 4;//成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
 	optional FashionCommon fashionCommon = 5;//
-}
-
-message FashionCommon{
-	optional FashionUsed usedFashion = 1;
-	optional FashionBuyRenewCfg buyRenewCfg = 2;
 }
 
 message FashionUsed{//穿在身上的时装，当不传送某个值的时候表示不存在！
@@ -39,8 +39,11 @@ message FashionUsed{//穿在身上的时装，当不传送某个值的时候表�
 	optional int32 SpecialEffectId = 4;//特殊增益效果Id
 }
 
-message FashionBuyRenewCfg{
-	repeated FashionBuyRenew buyRenewList=1;//购买和续费的配置
+message PayCfg{
+	required int32 day = 1;//天数
+	required int32 payment = 2;//费用
+	required int32 coinType = 3;//货币类型eSpecialItemId
+	required string planId = 4;//方案ID
 }
 
 message FashionBuyRenew{
@@ -49,11 +52,8 @@ message FashionBuyRenew{
 	repeated PayCfg renewPlan = 3;//续费方案
 }
 
-message PayCfg{
-	required int32 day = 1;//天数
-	required int32 payment = 2;//费用
-	required int32 coinType = 3;//货币类型eSpecialItemId
-	required string planId = 4;//方案ID
+message FashionBuyRenewCfg{
+	repeated FashionBuyRenew buyRenewList=1;//购买和续费的配置
 }
 
 enum FashionType{

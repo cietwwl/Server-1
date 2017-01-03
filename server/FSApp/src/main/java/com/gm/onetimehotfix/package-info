@@ -1,0 +1,2 @@
+package com.gm.multipletimeshotfix;
+// 可以被反复执行的hot fix
