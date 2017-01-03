@@ -35,7 +35,7 @@ public class FsNettyControler {
 	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
 		long current = System.currentTimeMillis();
 		RequestHeader header = exRequest.getHeader();
-		final Command command = header.getCommand();
+		Command command = header.getCommand();
 		// 更新消息接收时间
 		ServerHandler.updateSessionInfo(ctx, current, command);
 		// GameLog.debug("msg:" + command);
@@ -71,6 +71,8 @@ public class FsNettyControler {
 					requestHeader.mergeFrom(header);
 					newBuilder.setHeader(requestHeader);
 					exRequest = newBuilder.build();
+
+					command = msgExtReq.getCommandId();
 				} catch (Exception e) {
 					e.printStackTrace();
 					UserChannelMgr.sendErrorResponse(userId, header, "", 500);
