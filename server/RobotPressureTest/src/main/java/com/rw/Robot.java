@@ -61,6 +61,7 @@ import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.WorShipHandler;
+import com.rw.handler.worldboss.WorldBossHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
@@ -1296,4 +1297,42 @@ public class Robot {
 	public boolean useGiftCode(String code) {
 		return GiftCodeHandler.getHandler().useGiftCodeHandler(client, code);
 	}
+	
+	/**
+	 * 请求进入世界boss备战区
+	 * @return
+	 */
+	public boolean applyEnterWorldBossReadyZone(){
+		return WorldBossHandler.getInstance().applyBeginBattle(client);
+				
+	}
+	
+	/**
+	 * 请求购买世界boss鼓舞buff
+	 * @return
+	 */
+	public boolean applyBuyWorldBossBuff(){
+		return WorldBossHandler.getInstance().applyBuyBuff(client);
+	}
+	
+	/**
+	 * 世界boss请求复活
+	 * @return
+	 */
+	public boolean applyBuyReborn(){
+		return WorldBossHandler.getInstance().applyBuyCD(client);
+	}
+	
+	/**
+	 * 请求进行boss战
+	 * @return
+	 */
+	public boolean applyBeginBossFight(){
+		return WorldBossHandler.getInstance().applyBeginBattle(client);
+	}
+	
+	
+	
+	
+	
 }

@@ -35,11 +35,17 @@ public class FriendOperationFactory {
 		}
 	};
 
+	private static RequestOperation requestOperation = new RequestOperation();
+
 	public static FriendGetOperation getFriendOperation() {
 		return friendOperation;
 	}
 
 	public static FriendGetOperation getBlackListOperation() {
 		return blackListOperation;
+	}
+
+	public static RequestOperation getRequestOperation() {
+		return requestOperation;
 	}
 }

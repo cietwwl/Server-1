@@ -16,11 +16,11 @@ import com.bm.rank.RankType;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
-import com.playerdata.readonly.PlayerIF;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.friend.FriendGetOperation;
-import com.rw.service.friend.FriendOperationFactory;
 import com.rw.service.friend.FriendHandler;
+import com.rw.service.friend.FriendOperationFactory;
+import com.rw.service.friend.RequestOperation;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -136,7 +136,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	}
 
 	public boolean hasRequest() {
-		return getTableFriend().getRequestList().size() > 0;
+		return !getTableFriend().getRequestList().isEmpty();
 	}
 
 	/** 获取黑名单列表 */
@@ -172,16 +172,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if (resultVo != null) {
 			resultVo.resultType = type;
 			resultVo.resultMsg = tips;
-		}
-	}
-
-	private void addToUpdateList(FriendResultVo resultVo, String otherUserId) {
-		FriendItem friendItem = FriendHandler.getInstance().newFriendItem(otherUserId);
-		if (friendItem != null) {
-			FriendInfo friendInfo = FriendHandler.getInstance().friendItemToInfo(otherUserId, friendItem, true);
-			if (friendInfo != null) {
-				resultVo.updateList.add(friendInfo);
-			}
 		}
 	}
 
@@ -271,44 +261,57 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	}
 
 	/** 请求添加好友 */
-	public FriendResultVo requestAddFriend(String otherUserId) {
+	public FriendResultVo requestAddFriend(String guestUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
-		TableFriend tableFriend = getTableFriend();
-		if (isSelfUser(otherUserId)) {
+		TableFriend host = getTableFriend();
+		if (isSelfUser(guestUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "该玩家是自己";
-		} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
+		} else if (host.getFriendList().containsKey(guestUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方已经是你的好友";
-		} else if (PlayerMgr.getInstance().isPersistantRobot(otherUserId)) {
-			resultVo = requestAddOneRobotToFriend(otherUserId);
+		} else if (PlayerMgr.getInstance().isPersistantRobot(guestUserId)) {
+			resultVo = requestAddOneRobotToFriend(guestUserId);
 		} else {
-			resultVo = requestToAddFriend(otherUserId, tableFriend);
+			TableFriend guest = getOtherTableFriend(guestUserId);
+			if (guest == null) {
+				resultVo.resultType = EFriendResultType.FAIL;
+				resultVo.resultMsg = "暂时不能添加好友";
+			} else {
+				FriendOperationFactory.getRequestOperation().addFriendItem(guest, host, resultVo);
+			}
 		}
 		return resultVo;
 	}
 
-	/** 请求添加好友 */
-	private FriendResultVo requestToAddFriend(String otherUserId, TableFriend tableFriend) {
-		FriendResultVo resultVo = new FriendResultVo();
-		TableFriend otherTable = getOtherTableFriend(otherUserId);
-		if (otherTable.getBlackList().containsKey(userId)) {
-			// 如果在对方的黑名单列表中，不做操作
-		} else {
-			FriendItem friendItem = FriendHandler.getInstance().newFriendItem(userId);
-			if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
-				otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
-				FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
-				tableFriend.removeFromBlackList(otherUserId);
-			}
-			friendDAO.update(otherTable);
-		}
-		resultVo.resultType = EFriendResultType.SUCCESS;
-		resultVo.resultMsg = "已向对方发送添加好友请求";
-		// 增加红点检查
-		PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
-		return resultVo;
-	}
+	// /**
+	// * <pre>
+	// * 向guestUserId申请添加好友
+	// * 即加到guestUserId的TableFriend的请求列表中
+	// * </pre>
+	// * @param guestUserId
+	// * @param hostTableFriend
+	// * @return
+	// */
+	// private FriendResultVo requestToAddFriend(String guestUserId, TableFriend hostTableFriend) {
+	// FriendResultVo resultVo = new FriendResultVo();
+	// TableFriend otherTable = getOtherTableFriend(guestUserId);
+	// if (otherTable.getBlackList().containsKey(userId)) {
+	// // 如果在对方的黑名单列表中，不做操作
+	// } else {
+	// FriendItem friendItem = FriendHandler.getInstance().newFriendItem(userId);
+	// if (otherTable.getRequestList().putIfAbsent(friendItem.getUserId(), friendItem) == null) {
+	// FriendHandler.getInstance().pushRequestAddFriend(guestUserId, friendItem);
+	// hostTableFriend.removeFromBlackList(guestUserId);
+	// }
+	// friendDAO.update(otherTable);
+	// }
+	// resultVo.resultType = EFriendResultType.SUCCESS;
+	// resultVo.resultMsg = "已向对方发送添加好友请求";
+	// // 增加红点检查
+	// PlayerMgr.getInstance().setRedPointForHeartBeat(guestUserId);
+	// return resultVo;
+	// }
 
 	/**
 	 * 
@@ -353,9 +356,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			return false;
 		}
 		String robotUserId = robot.getUserId();
-		TableFriend otherTable = getOtherTableFriend(robotUserId);
-		Player robotPlayer = PlayerMgr.getInstance().find(robotUserId);
-		robotPlayer.getFriendMgr().requestToAddFriend(m_pPlayer.getUserId(), otherTable);
+		TableFriend robotTable = getOtherTableFriend(robotUserId);
+		FriendOperationFactory.getRequestOperation().addFriendItem(getOtherTableFriend(m_pPlayer.getUserId()), robotTable, null);
 		subItem.setUserId(robotUserId);
 		return true;
 	}
@@ -363,10 +365,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 请求添加一群人好友 */
 	public FriendResultVo requestAddFriendList(List<String> friendList) {
 		FriendResultVo resultVo = new FriendResultVo();
-		TableFriend tableFriend = getTableFriend();
-		String userId = m_pPlayer.getUserId();
+		TableFriend host = getTableFriend();
 		resultVo.resultType = EFriendResultType.FAIL;
 		resultVo.resultMsg = "没有向人申请好友";
+		RequestOperation request = FriendOperationFactory.getRequestOperation();
 		for (int i = 0; i < friendList.size(); i++) {
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "申请成功";
@@ -375,7 +377,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			if (isSelfUser(otherUserId)) {
 				continue;
 			}
-			if (tableFriend.getFriendList().containsKey(otherUserId)) {
+			if (host.getFriendList().containsKey(otherUserId)) {
 				continue;
 			}
 			if (other != null && other.isRobot()) {
@@ -384,18 +386,20 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 					resultVo.updateList.addAll(vo.updateList);
 				}
 			} else {
-				TableFriend otherTable = getOtherTableFriend(otherUserId);
-				if (!otherTable.getBlackList().containsKey(userId)) {
-					FriendItem friendItem = FriendHandler.getInstance().newFriendItem(userId);
-					if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
-						otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
-						FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
-						tableFriend.removeFromBlackList(otherUserId);
-					}
-					friendDAO.update(otherTable);
+				TableFriend guest = getOtherTableFriend(otherUserId);
+				if (guest != null) {
+					request.addFriendItem(guest, host, null);
 				}
-				// 增加红点检查
-				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+//				if (!guest.getBlackList().containsKey(userId)) {
+//					FriendItem friendItem = friendHandler.newFriendItem(userId);
+//					if (guest.getRequestList().putIfAbsent(friendItem.getUserId(), friendItem) == null) {
+//						friendHandler.pushRequestAddFriend(otherUserId, friendItem);
+//						host.removeFromBlackList(otherUserId);
+//					}
+//					friendDAO.update(guest);
+//				}
+//				// 增加红点检查
+//				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
 			}
 		}
 		return resultVo;
@@ -406,9 +410,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		FriendResultVo resultVo = new FriendResultVo();
 		addFriend(otherUserId, resultVo);
 		TableFriend tableFriend = getTableFriend();
-		if (tableFriend.getRequestList().containsKey(otherUserId)) {// 从请求列表中移除
-			tableFriend.getRequestList().remove(otherUserId);
-		}
+		tableFriend.getRequestList().remove(otherUserId);
 		return resultVo;
 	}
 
@@ -416,8 +418,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public FriendResultVo refusedAddFriend(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
 		TableFriend tableFriend = getTableFriend();
-		if (tableFriend.getRequestList().containsKey(otherUserId)) {
-			tableFriend.getRequestList().remove(otherUserId);
+		if (tableFriend.getRequestList().remove(otherUserId) != null) {
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "";
 		} else {
@@ -447,7 +448,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.updateList = friendItemToInfoList(list, null);
 			resultVo.resultType = EFriendResultType.SUCCESS_MSG;
 			resultVo.resultMsg = "成功添加 " + count + " 位好友";
-		} else if (tableFriend.getRequestList().size() > 0) {
+		} else if (!tableFriend.getRequestList().isEmpty()) {
 			// 使用addFriend好友返回结果
 		} else {
 			resultVo.resultType = EFriendResultType.FAIL;
@@ -460,8 +461,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public FriendResultVo refusedAddFriendAll() {
 		FriendResultVo resultVo = new FriendResultVo();
 		TableFriend tableFriend = getTableFriend();
-		if (tableFriend.getRequestList().size() > 0) {
-			tableFriend.setRequestList(new ConcurrentHashMap<String, FriendItem>());
+		if (!tableFriend.getRequestList().isEmpty()) {
+			tableFriend.setRequestList(new ConcurrentHashMap<String, FriendItem>(16, 0.75f, 1));
 			resultVo.resultMsg = "";
 			resultVo.resultType = EFriendResultType.SUCCESS;
 		} else {
@@ -750,7 +751,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				giveState.setReceiveState(true);
 			}
 
-			FriendHandler.getInstance().pushConsentAddFriend(PlayerMgr.getInstance().find(selfUserId), friendItem);
+			FriendHandler.getInstance().pushConsentAddFriend(selfUserId, friendItem);
 
 			// if(otherFriend.getRequestList().containsKey(otherUserId)){//从请求列表中移除
 			// otherFriend.getRequestList().remove(otherUserId);
@@ -767,9 +768,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	}
 
 	public List<FriendInfo> friendItemToInfoList(FriendItem friendItem) {
-		// Map<String, FriendItem> map = new HashMap<String, FriendItem>();
-		// map.put(friendItem.getUserId(), friendItem);
-		// return friendItemToInfoList(map);
 		List<FriendInfo> list = new ArrayList<FriendInfo>();
 		list.add(FriendHandler.getInstance().friendItemToInfo(userId, friendItem, false));
 		return list;
@@ -815,16 +813,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 
 	/** 获取其它玩家的数据列表 */
 	private TableFriend getOtherTableFriend(String otherUserId) {
-		TableFriend otherTable;
-		PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(otherUserId);
-		if (player == null) {
-			otherTable = friendDAO.get(otherUserId);
-			if (otherTable == null) {
-				otherTable = new TableFriend();
-				otherTable.setUserId(otherUserId);
-			}
-		} else {
-			otherTable = player.getFriendMgr().getTableFriend();
+		TableFriend otherTable = friendDAO.get(otherUserId);
+		if (otherTable == null) {
+			otherTable = new TableFriend();
+			otherTable.setUserId(otherUserId);
 		}
 		return otherTable;
 	}

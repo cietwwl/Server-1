@@ -51,13 +51,6 @@ message FriendResponse{
 	optional bool isSearchValue = 8;//是否搜索到玩家
 }
 
-message AllList{
-	repeated FriendInfo friendList = 1;//好友列表
-	repeated FriendInfo requestList = 2;//请求列表
-	repeated FriendInfo blackList = 3;//黑名单列表
-	repeated FriendInfo recommandList = 4;//推荐列表
-}
-
 message FriendInfo{
 	required string userId = 1;//玩家ID
 	required string userName = 2;//玩家名字
@@ -76,4 +69,11 @@ message FriendInfo{
 	optional FashionService.FashionUsed fashionUsed = 15; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 	optional int32 vip = 16;	//vip等级
 	optional int32 sex = 17;
+}
+
+message AllList{
+	repeated FriendInfo friendList = 1;//好友列表
+	repeated FriendInfo requestList = 2;//请求列表
+	repeated FriendInfo blackList = 3;//黑名单列表
+	repeated FriendInfo recommandList = 4;//推荐列表
 }

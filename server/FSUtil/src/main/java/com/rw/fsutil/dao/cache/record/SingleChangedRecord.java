@@ -10,15 +10,17 @@ public class SingleChangedRecord implements DataLoggerRecord {
 	private static JsonComparator jsonComparator;
 	private final Object key;
 	private final JSONObject json;
+	private final boolean updated;
 
 	static {
 		LINE_SEPARATOR = CacheFactory.LINE_SEPARATOR;
 		jsonComparator = new JsonComparator();
 	}
 
-	public SingleChangedRecord(Object key, JSONObject json) {
+	public SingleChangedRecord(Object key, JSONObject json, boolean updated) {
 		this.key = key;
 		this.json = json;
+		this.updated = updated;
 	}
 
 	@Override
@@ -26,7 +28,12 @@ public class SingleChangedRecord implements DataLoggerRecord {
 		if (json != null) {
 			String keyString = (key == null) ? "null" : key.toString();
 			// 删除空列表，可以抽取公共方法
-			JSONObject json = jsonComparator.filter(this.json, keyString);
+			JSONObject json;
+			if (updated) {
+				json = this.json;
+			} else {
+				json = jsonComparator.filter(this.json, keyString);
+			}
 			sb.append(LINE_SEPARATOR);
 			sb.append(json.toJSONString());
 		} else {

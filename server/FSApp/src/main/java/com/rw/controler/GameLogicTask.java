@@ -7,6 +7,8 @@ import io.netty.util.concurrent.GenericFutureListener;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import com.bm.login.ZoneBM;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.GeneratedMessage;
@@ -25,6 +27,7 @@ import com.rw.service.FsService;
 import com.rw.service.common.FunctionOpenLogic;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.redpoint.RedPointManager;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserGuideProgress;
@@ -69,9 +72,15 @@ public class GameLogicTask implements PlayerTask {
 			FSTraceLogger.logger("run", executeTime - submitTime, command, null, seqID, player != null ? player.getUserId() : null);
 			// plyaer为null不敢做过滤
 			if (player != null) {
+				// 设置一下客户端的IP
+				userId = player.getUserId();
+				String ip = player.getTempAttribute().getIp();
+				if (StringUtils.isEmpty(ip)) {
+					player.getTempAttribute().setIp(YaoWanLogHandler.getHandler().getClientIp(userId));
+				}
+
 				UserDataMgr userDataMgr = player.getUserDataMgr();
 				userDataMgr.setEntranceId(request.getHeader().getEntranceId());
-				userId = player.getUserId();
 				int zoneId = player.getUserDataMgr().getZoneId();
 				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(zoneId);
 				if (zone == null) {
@@ -107,8 +116,7 @@ public class GameLogicTask implements PlayerTask {
 				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
 					resultContent = serivice.doTask(msg, player);
 					player.getAssistantMgr().doCheck();
-					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime) + "," + command + ","
-							+ seqID + ")[" + player.getUserId() + "]");
+					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime) + "," + command + "," + seqID + ")[" + player.getUserId() + "]");
 				} else {
 					nettyControler.functionNotOpen(userId, request.getHeader());
 					return;
@@ -161,12 +169,12 @@ public class GameLogicTask implements PlayerTask {
 	}
 
 	private void registerBehavior(String userId, FsService serivice, Command command, ProtocolMessageEnum msgType, GeneratedMessage msg, int viewId) {
-//		if (msgType != null) {
-//			String value = String.valueOf(msgType.getNumber());
-//			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
-//		} else {
-//			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
-//		}
+		// if (msgType != null) {
+		// String value = String.valueOf(msgType.getNumber());
+		// GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+		// } else {
+		// GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
+		// }
 		GameBehaviorMgr.getInstance().registerBehavior(userId, command, msgType, viewId);
 	}
 
