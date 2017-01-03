@@ -32,10 +32,11 @@ public class FsNettyControler {
 	private GameLoginHandler gameLoginHandler = new GameLoginHandler();
 	private Map<Command, FsService<GeneratedMessage, ProtocolMessageEnum>> commandMap;
 
-	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
 		long current = System.currentTimeMillis();
+		public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
 		RequestHeader header = exRequest.getHeader();
 		final Command command = header.getCommand();
+		Command extCommand = command;// 需要處理的協議類型
 		// 更新消息接收时间
 		ServerHandler.updateSessionInfo(ctx, current, command);
 		// GameLog.debug("msg:" + command);
@@ -71,6 +72,8 @@ public class FsNettyControler {
 					requestHeader.mergeFrom(header);
 					newBuilder.setHeader(requestHeader);
 					exRequest = newBuilder.build();
+
+					extCommand = msgExtReq.getCommandId();
 				} catch (Exception e) {
 					e.printStackTrace();
 					UserChannelMgr.sendErrorResponse(userId, header, "", 500);
@@ -82,7 +85,7 @@ public class FsNettyControler {
 			if (command == Command.MSG_HeartBeat) {
 				GameWorldFactory.getGameWorld().asyncExecute(userId, new HeartBeatTask(sessionId, exRequest));
 			} else {
-				GameWorldFactory.getGameWorld().asyncExecute(userId, new GameLogicTask(sessionId, exRequest, command));
+				GameWorldFactory.getGameWorld().asyncExecute(userId, new GameLogicTask(sessionId, exRequest, extCommand));
 			}
 		}
 	}
