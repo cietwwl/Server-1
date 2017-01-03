@@ -3,9 +3,9 @@ option java_package = "com.rwproto";
 option java_outer_classname = "PlatformGSMsg";
 
 enum ePlatformGSMsgType{
-	USER_INFO = 1;         //Íæ¼ÒĞÅÏ¢
-	USER_STATUS = 2;       //Íæ¼Ò×´Ì¬
-	GAME_SERVER_STATUS = 3;//ÓÎÏ··şÎñÆ÷×´Ì¬
+	USER_INFO = 1;         //ç©å®¶ä¿¡æ¯
+	USER_STATUS = 2;       //ç©å®¶çŠ¶æ€
+	GAME_SERVER_STATUS = 3;//æ¸¸æˆæœåŠ¡å™¨çŠ¶æ€
 }
 
 enum eServerStatusType{
@@ -44,7 +44,7 @@ message ActivityTimeInfo{
 }
 
 message ActCfgInfo{
-	required int32 cfgId = 1; 	//»î¶¯id
+	required int32 cfgId = 1; 	//æ´»åŠ¨id
 	required string startTime = 2;
 	required string endTime = 3;
 	optional string startViceTime = 4;

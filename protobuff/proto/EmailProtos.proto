@@ -3,9 +3,9 @@ option java_package = "com.rwproto";
 option java_outer_classname = "EmailProtos";
 
 enum EmailRequestType {
-	Email_List = 1;//ÓÊ¼şÁĞ±íÇëÇó
-	Email_Check = 2;//²é¿´ÓÊ¼ş
-	Email_GetAttachment = 3;//ÌáÈ¡¸½¼ş
+	Email_List = 1;//é‚®ä»¶åˆ—è¡¨è¯·æ±‚
+	Email_Check = 2;//æŸ¥çœ‹é‚®ä»¶
+	Email_GetAttachment = 3;//æå–é™„ä»¶
 }
 
 enum EmailResultType{
@@ -15,27 +15,27 @@ enum EmailResultType{
 
 message EmailRequest {
 	required EmailRequestType requestType = 1;
-	optional string emailId = 2;//ÓÊ¼şID
+	optional string emailId = 2;//é‚®ä»¶ID
 }
 
 message EmailResponse{
-	required EmailRequestType requestType = 1;//ÇëÇóÀàĞÍ
-	required EmailResultType resultType = 2;//½á¹ûÀàĞÍ
-	repeated EmailInfo emailList = 3;//ÓÊ¼şÁĞ±í
-	optional EmailInfo emailInfo = 4;//µ¥¸öÓÊ¼şĞÅÏ¢
-	optional string failResult = 5;//½á¹û
+	required EmailRequestType requestType = 1;//è¯·æ±‚ç±»å‹
+	required EmailResultType resultType = 2;//ç»“æœç±»å‹
+	repeated EmailInfo emailList = 3;//é‚®ä»¶åˆ—è¡¨
+	optional EmailInfo emailInfo = 4;//å•ä¸ªé‚®ä»¶ä¿¡æ¯
+	optional string failResult = 5;//ç»“æœ
 }
 
-message EmailInfo{//ÓÊ¼şÊı¾İ
+message EmailInfo{//é‚®ä»¶æ•°æ®
 	required string emailId = 1;//id
-	required bool isReceive = 3;//ÊÇ·ñÒÑÁìÈ¡¹ı¸½¼ş
-	required bool isChecked = 4;//ÊÇ·ñÎªÒÑ¶Á
-	required int64 sendTime = 5;//·¢ËÍÈÕÆÚ
-	required string title = 6;//±êÌâ
-	required string content = 7;//ÄÚÈİ
-	required string sender = 8;//·¢ËÍÕß
-	required string checkIcon = 9;//ÒÑ¶ÁÍ¼±ê
-	required string subjectIcon = 10;//Î´¶ÁÍ¼±ê
-	optional string emailAttachment = 11;//ÓÊ¼ş¸½¼ş
-	optional string expirationTime = 12;//¹ıÆÚÊ±¼ä
+	required bool isReceive = 3;//æ˜¯å¦å·²é¢†å–è¿‡é™„ä»¶
+	required bool isChecked = 4;//æ˜¯å¦ä¸ºå·²è¯»
+	required int64 sendTime = 5;//å‘é€æ—¥æœŸ
+	required string title = 6;//æ ‡é¢˜
+	required string content = 7;//å†…å®¹
+	required string sender = 8;//å‘é€è€…
+	required string checkIcon = 9;//å·²è¯»å›¾æ ‡
+	required string subjectIcon = 10;//æœªè¯»å›¾æ ‡
+	optional string emailAttachment = 11;//é‚®ä»¶é™„ä»¶
+	optional string expirationTime = 12;//è¿‡æœŸæ—¶é—´
 }
