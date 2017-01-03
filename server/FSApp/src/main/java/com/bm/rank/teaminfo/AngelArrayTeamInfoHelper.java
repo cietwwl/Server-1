@@ -125,16 +125,22 @@ public class AngelArrayTeamInfoHelper {
 		}
 
 		int hasHeroIndex = -1;
-		for (int i = 0, size = heros.size(); i < size; i++) {
+		int size = heros.size();
+
+		List<Integer> teamHeroList = new ArrayList<Integer>(size);
+
+		for (int i = 0; i < size; i++) {
 			HeroInfo heroInfo = heros.get(i);
 			if (heroInfo == null) {
 				continue;
 			}
 
-			if (heroInfo.getBaseInfo().getTmpId().startsWith(String.valueOf(heroModelId))) {
+			String tmpId = heroInfo.getBaseInfo().getTmpId();
+			if (hasHeroIndex == -1 && tmpId.startsWith(String.valueOf(heroModelId))) {
 				hasHeroIndex = i;
-				break;
 			}
+
+			teamHeroList.add(Integer.valueOf(tmpId.split("_")[0]));// 增加成员Id
 		}
 
 		if (hasHeroIndex == -1) {
@@ -146,21 +152,13 @@ public class AngelArrayTeamInfoHelper {
 			return;
 		}
 
-		FSHero hero = FSHeroMgr.getInstance().getHeroByModerId(player, heroModelId);
-		if (hero == null) {
-			return;
-		}
-
-		int offFighting = nowFighting - preFighting;
-		int level = player.getLevel();
-
-		teamInfo.updateHeroInfo(hasHeroIndex, buildHeroInfo(player, hero));
-		teamInfo.setTeamFighting(teamInfo.getTeamFighting() + offFighting);
-		teamInfo.setLevel(level);
+		TeamInfo newTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(player, teamHeroList);// 生成新的TeamInfo
 
 		AngelArrayComparable comparable = new AngelArrayComparable();
-		comparable.setFighting(rankingEntry.getComparable().getFighting() + offFighting);
-		comparable.setLevel(level);
+		comparable.setFighting(newTeamInfo.getTeamFighting());
+		comparable.setLevel(player.getLevel());
+
+		attr.setTeamInfo(newTeamInfo);// 设置战力变化
 
 		ranking.updateRankingEntry(rankingEntry, comparable);
 	}

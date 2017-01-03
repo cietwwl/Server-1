@@ -237,26 +237,24 @@ public class AngelArrayMatchHelper {
 			// sb.append("数据完全没有。只能用纯机器人：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 		}
 
-		int matchFighting = finalTeamInfo.getTeamFighting();
-		if (matchRankingEntry != null) {
-			matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
-			ranking.subimitUpdatedTask(matchRankingEntry);
-		} else {// 如果没有就添加到排行榜
+		if (matchRankingEntry == null) {
+			// matchRankingEntry.getExtendedAttribute().setTeamInfo(finalTeamInfo);
+			// ranking.subimitUpdatedTask(matchRankingEntry);
+			// } else {// 如果没有就添加到排行榜
 			AngelArrayComparable comparable = new AngelArrayComparable();
-			comparable.setFighting(matchFighting);
+			comparable.setFighting(finalTeamInfo.getTeamFighting());
 			comparable.setLevel(finalTeamInfo.getLevel());
 
 			AngelArrayTeamInfoAttribute attribute = new AngelArrayTeamInfoAttribute();
-			attribute.setTime(System.currentTimeMillis());
+			attribute.setTime(DateUtils.getSecondLevelMillis());
 			attribute.setUserId(ranResult);
 			attribute.setTeamInfo(finalTeamInfo);
 
 			ranking.addOrUpdateRankingEntry(ranResult, comparable, attribute);
 		}
 
-		// GameLog.info("万仙阵匹配的数据", userId,
-		// String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting, (finalTeamInfo != null ? matchFighting :
-		// 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
+		GameLog.info("万仙阵匹配的数据", userId,
+				String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting, (finalTeamInfo != null ? finalTeamInfo.getTeamFighting() : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
 
 		// System.err.println(sb.toString());
 
