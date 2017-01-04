@@ -66,6 +66,11 @@ public class BILogTemplateHelper {
 		addTemplateToken("0=失败/1=成功", "$result$");		
 		addTemplateToken("场景id/地图id", "$scenceId$");
 		addTemplateToken("当前游戏客户端版本", "$clientVersion$");
+		addTemplateToken("行为起因/最初触发点", "$guideEntrance$");
+		addTemplateToken("1=新手指引/2=其他指引", "$guideType$");
+		addTemplateToken("对象的唯一识别符", "");
+		addTemplateToken("指引code", "$guideCode$");
+		addTemplateToken("备用字段补充多类别对象", "");
 		addTemplateToken("操作系统版本号", "$loginsystemVersion$");
 		addTemplateToken("注册渠道ID_UID", "$regChannelId_uid$");
 		addTemplateToken("增加物品及数量", "$itemList_incr$");
