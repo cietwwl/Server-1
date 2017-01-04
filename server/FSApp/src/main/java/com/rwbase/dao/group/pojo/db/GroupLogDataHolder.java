@@ -1,4 +1,4 @@
-package com.rwbase.dao.group.pojo.db.dao;
+package com.rwbase.dao.group.pojo.db;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -6,8 +6,7 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rwbase.dao.group.pojo.db.GroupLog;
-import com.rwbase.dao.group.pojo.db.GroupLogData;
+import com.rwbase.dao.group.pojo.db.dao.GroupLogDataDAO;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 

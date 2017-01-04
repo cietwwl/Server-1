@@ -3,7 +3,6 @@ option java_package = "com.rwproto";
 option java_outer_classname = "TowerServiceProtos";
 import "SkillService.proto";
 import "SyncAttri.proto";
-import "DataSyn.proto";
 
 package TowerService;
 

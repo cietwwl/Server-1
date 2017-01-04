@@ -4,8 +4,8 @@ option java_outer_classname = "SDKVerifyProtos";
 
 
 enum eSDKVerifyResultType {
-	SUCCESS = 1;//�ɹ�
-	FAIL = 2;//ʧ��
+	SUCCESS = 1;//³É¹¦
+	FAIL = 2;//Ê§°Ü
 }
 
 message SDKVerifyRequest{

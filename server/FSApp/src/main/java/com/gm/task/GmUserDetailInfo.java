@@ -14,6 +14,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.UserGameDataMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -40,7 +41,7 @@ public class GmUserDetailInfo implements IGmTask {
 			if (player == null) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
 			}
-			
+
 			getUserDetailInfo(resultMap, player);
 			response.addResult(resultMap);
 
@@ -52,15 +53,15 @@ public class GmUserDetailInfo implements IGmTask {
 		return response;
 	}
 
-	
-	public void getUserDetailInfo(Map<String, Object> map, Player player){
-		
-		String account = player.getUserDataMgr().getAccount();
-		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
+	public void getUserDetailInfo(Map<String, Object> map, Player player) {
+
+		// String account = player.getUserDataMgr().getAccount();
+		String userId = player.getUserId();
+		User user = UserDataDao.getInstance().getByUserId(userId);
 		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
 		UserDataMgr userDataMgr = player.getUserDataMgr();
 		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
-		
+
 		map.put("account", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
 		map.put("roleId", user.getUserId());
 		map.put("roleName", user.getUserName());
@@ -68,17 +69,17 @@ public class GmUserDetailInfo implements IGmTask {
 		map.put("exp", player.getExp());
 		map.put("coin", userGameDataMgr.getGold());
 		map.put("money", userGameDataMgr.getCoin());
-		
-		if(zoneRegInfo!=null){
+
+		if (zoneRegInfo != null) {
 			map.put("channel", zoneRegInfo.getRegChannelId());
 		}
 		map.put("vipLevel", player.getVip());
 		map.put("fight", player.getHeroMgr().getFightingAll(player));
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String faction_id = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupId();
 		map.put("faction_id", faction_id);
 		String carrer = ECareer.getCarrer(player.getCareer());
 		map.put("job", carrer);
-		
+
 	}
 }

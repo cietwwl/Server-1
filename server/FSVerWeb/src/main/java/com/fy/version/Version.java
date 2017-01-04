@@ -70,6 +70,8 @@ public class Version {
 	private String deviceModel;
 	
 	private boolean luaVerifySwitch = true;     //lua校验开关
+	
+	private boolean updateResSwitch = true;     //资源开关
 
 	public String getLuaAction() {
 		return luaAction;
@@ -238,6 +240,14 @@ public class Version {
 
 	public void setLuaVerifySwitch(boolean luaVerifySwitch) {
 		this.luaVerifySwitch = luaVerifySwitch;
+	}
+
+	public boolean isUpdateResSwitch() {
+		return updateResSwitch;
+	}
+
+	public void setUpdateResSwitch(boolean updateResSwitch) {
+		this.updateResSwitch = updateResSwitch;
 	}
 
 	public String getCheckServerURL() {

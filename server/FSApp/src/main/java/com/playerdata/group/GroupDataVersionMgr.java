@@ -9,7 +9,7 @@ public class GroupDataVersionMgr {
 
 	public static void synByVersion(Player player, String versionJson) {
 		// 基础数据版本号
-		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+		String groupId = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(player.getUserId()).getGroupId();
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return;

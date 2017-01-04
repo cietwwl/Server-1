@@ -21,8 +21,8 @@ import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
+import com.rwbase.dao.group.pojo.db.GroupBaseDataHolder;
 import com.rwbase.dao.group.pojo.db.GroupLog;
-import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 
 /**

@@ -1,4 +1,4 @@
-//syntax = "proto2";
+syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "MsgDef";
 package MsgDef;
@@ -154,6 +154,8 @@ enum Command {
 	MSG_BATTLE_VERIFY = 239; // 战斗信息校对
 	
 	MSG_RANDOM_NAME = 240; // 请求随机名字
+	
+	MSG_GROUP_PRAY = 241;//帮派祈福
 	
 	
 	

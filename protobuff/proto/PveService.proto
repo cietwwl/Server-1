@@ -4,11 +4,11 @@ option java_package = "com.rwproto";
 option java_outer_classname = "PveServiceProtos";
 
 message PveActivity{
-	required int32 copyTpe = 1;//pve副本类型
-	required int32 remainSeconds = 2;//剩余挑战时间
-	required int32 remainTimes = 3;//剩余挑战次数
+	required int32 copyTpe = 1;//pve鍓湰绫诲瀷
+	required int32 remainSeconds = 2;//鍓╀綑鎸戞垬鏃堕棿
+	required int32 remainTimes = 3;//鍓╀綑鎸戞垬娆℃暟
 }
 
 message PveServiceResponse{
-	repeated PveActivity pveActivityList = 1;//pve活动列表
+	repeated PveActivity pveActivityList = 1;//pve娲诲姩鍒楄〃
 }
