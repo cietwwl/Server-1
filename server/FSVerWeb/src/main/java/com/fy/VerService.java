@@ -79,17 +79,18 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
 			
 			ChannelAddressInfo channelAddressInfo = VersionDao.getInstance().getChannelAddressInfoByPackageName(clientVersion.getChannel(), clientVersion.getPackageName());
-			
-			if(updateVersionList.isEmpty()){
-				Version maxVersion = versionMgr.getMaxVersion(clientVersion);
+
+			if (!Boolean.valueOf(channelAddressInfo.getUpdateResSwitch())) {
+				updateVersionList.clear();
 				Version updateVersion = new Version();
-				updateVersion.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
-				updateVersion.setLogServerAddress(channelAddressInfo.getLogServerAddress());
-				updateVersion.setCheckServerURL(channelAddressInfo.getCheckServerURL());
-				updateVersion.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
-				updateVersion.setBackUrl(channelAddressInfo.getBackUrl());
 				updateVersion.setPackageName(clientVersion.getPackageName());
 				updateVersionList.add(updateVersion);
+			} else {
+				if (updateVersionList.isEmpty()) {
+					Version updateVersion = new Version();
+					updateVersion.setPackageName(clientVersion.getPackageName());
+					updateVersionList.add(updateVersion);
+				}
 			}
 			for(Version updateVersion : updateVersionList){
 				if(channelLuaInfo != null){
@@ -159,7 +160,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				if (updateVersion.getPatchInstall().equals(Constant.PATCH_LINK)) {
 					packageBrowserLink(updateVersion, json, currentVersion);
 				} else {
-					packageDownloadInfo(updateVersion, json);
+					packageDownloadInfo(updateVersion, json, channelAddressInfo);
 				}
 				json.put("patchInstall", updateVersion.getPatchInstall());
 			} else {
@@ -219,7 +220,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		}
 	}
 
-	private void packageDownloadInfo(Version updateVersion, JSONObject json)
+	private void packageDownloadInfo(Version updateVersion, JSONObject json, ChannelAddressInfo channelAddressInfo)
 			throws JSONException {
 		json.put("update", 1);
 		json.put("name", updateVersion.getName() + ".zip");
@@ -228,10 +229,10 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		json.put("sub", updateVersion.getSub());
 		json.put("third", updateVersion.getThird());
 		json.put("patch", updateVersion.getPatch());
-		json.put("cdnDownloadUrl", updateVersion.getCdnDomain()
+		json.put("cdnDownloadUrl", channelAddressInfo.getCdnDomain()
 				+ File.separator + updateVersion.getLocation());
 		json.put("cdnBackupDownloadUrl",
-				updateVersion.getCdnBackUpDomain() + File.separator
+				channelAddressInfo.getCdnBackUpDomain() + File.separator
 						+ updateVersion.getLocation());
 		json.put("md5", updateVersion.getMd5());
 		json.put("size", updateVersion.getSize());
