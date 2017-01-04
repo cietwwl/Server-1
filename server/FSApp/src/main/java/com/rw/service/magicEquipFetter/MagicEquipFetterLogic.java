@@ -104,11 +104,15 @@ public class MagicEquipFetterLogic {
 			//找到法宝子类型的配置列表
 			List<MagicEquipConditionCfg> subType = FetterMagicEquipCfgDao.getInstance().getCfgListByMagicSubType(config.getSubType());
 			for (MagicEquipConditionCfg subTypeCfg : subType) {
-				//过滤出低阶法宝并且设置保底等级
-				if(subTypeCfg.getConditionLevel() >= config.getConditionLevel() || magicMaxLevelMap.containsKey(subTypeCfg.getModelIDList().get(0))){
+				//过滤出低阶法宝并且比较设置保底等级
+				if(subTypeCfg.getConditionLevel() >= config.getConditionLevel()){
 					continue;
 				}
-				magicMaxLevelMap.put(subTypeCfg.getModelIDList().get(0), magicLevel);
+				int subModelID = subTypeCfg.getModelIDList().get(0);
+				Integer curLv = magicMaxLevelMap.get(subModelID);
+				if(curLv == null || curLv < magicLevel){
+					magicMaxLevelMap.put(subTypeCfg.getModelIDList().get(0), magicLevel);
+				}
 			}
 			
 			
