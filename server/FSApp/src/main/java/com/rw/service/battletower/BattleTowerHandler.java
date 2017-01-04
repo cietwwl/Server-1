@@ -94,9 +94,9 @@ import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
  */
 public class BattleTowerHandler {
 	private static final int BOSS_RANDOM_RATE = 10000;
-	
+
 	private static IHeroSynHandler _synHandler = new CommonHeroSynHandler();
-	
+
 	/**
 	 * 打开角色的试练塔主界面
 	 * 
@@ -160,6 +160,14 @@ public class BattleTowerHandler {
 				rsp.setSweepFloor(highestFloor);// 扫荡结束了，必须设置当前扫荡层数为最高层
 
 				rsp.addAllRewardInfoMsg(reward);
+
+				int dis = highestFloor - sweepStartFloor;
+				// 封神台通知日常，这里假设可扫荡层数大于1层，开始扫荡马上通知一次，扫荡完成的时候可造成通知日常总次数-1(结果保证>0)
+				if (dis > 0) {
+					player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, dis);
+				}
+
+				UserEventMgr.getInstance().BattleTower(player, highestFloor);
 			} else {
 				int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(now - sweepStartTime);// 经历的时间
 				int addFloor = seconds / theSweepTime4PerFloor;// 要增加的层数
@@ -750,7 +758,7 @@ public class BattleTowerHandler {
 
 		// 没有在扫荡，就不用领取奖励
 		if (!tableBattleTower.getSweepState()) {
-			SetFail(commonRsp, "试练塔扫荡结束", userId, "当前不是扫荡状态", "当前不是扫荡状态");
+			SetFail(commonRsp, "试练塔扫荡结束", userId, "当前不是扫荡状态", "扫荡已结束");
 			return;
 		}
 
@@ -1387,7 +1395,7 @@ public class BattleTowerHandler {
 		}
 
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
-		
+
 		_synHandler.synHeroData(player, eBattlePositionType.TowerBattle, null);
 	}
 
