@@ -111,7 +111,7 @@ public class MagicEquipFetterLogic {
 				int subModelID = subTypeCfg.getModelIDList().get(0);
 				Integer curLv = magicMaxLevelMap.get(subModelID);
 				if(curLv == null || curLv < magicLevel){
-					magicMaxLevelMap.put(subTypeCfg.getModelIDList().get(0), magicLevel);
+					magicMaxLevelMap.put(subModelID, magicLevel);
 				}
 			}
 			
