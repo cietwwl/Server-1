@@ -4,21 +4,21 @@ option java_outer_classname = "UnendingWarProtos";
 
 
 enum EUnendingWarType {
-	BaseMsg = 0;//»ù±¾ĞÅÏ¢
-	OtherMsg = 1;//ÆäËüĞÅÏ¢
-	AddMsg= 2;//Ìí¼Ó²¨Êı
-	EndMsg= 3;//½áËÙ
-    ResetMsg= 4;//ÖØÖÃ
+	BaseMsg = 0;//åŸºæœ¬ä¿¡æ¯
+	OtherMsg = 1;//å…¶å®ƒä¿¡æ¯
+	AddMsg= 2;//æ·»åŠ æ³¢æ•°
+	EndMsg= 3;//ç»“é€Ÿ
+    ResetMsg= 4;//é‡ç½®
 
 }
 
 message UnendingWarResponse {
 optional EUnendingWarType type = 1;
-optional int32 num = 2;// ½øÈë´ÎÊı
-optional int32 zhCj=3;//×îºÃ³É¼¨
-optional int32 dqCj=4;//µ±Ç°³É¼¨
-optional int32 resetNum=5;//ÖØÖÃ´ÎÊı
-optional string cj=6;//³É¼¨
+optional int32 num = 2;// è¿›å…¥æ¬¡æ•°
+optional int32 zhCj=3;//æœ€å¥½æˆç»©
+optional int32 dqCj=4;//å½“å‰æˆç»©
+optional int32 resetNum=5;//é‡ç½®æ¬¡æ•°
+optional string cj=6;//æˆç»©
 
 
  

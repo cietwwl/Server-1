@@ -1,0 +1,15 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "MsgExtensionProtos";
+package MsgExtension;
+import "MsgDef.proto";
+
+message MsgExtensionRequest {
+	required MsgDef.Command commandId = 1;	//消息ID
+	required bytes body = 2;	//消息体
+}
+
+message MsgExtensionResponse {
+	required MsgDef.Command commandId = 1;	//消息ID
+	required bytes body = 2;	//消息体
+}

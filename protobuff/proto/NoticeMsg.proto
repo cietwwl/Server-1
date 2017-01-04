@@ -4,20 +4,20 @@ option java_outer_classname = "NoticeProtos";
 
 
 message tagNoticeInfo{
-	required int32 noticeId = 1;		//¹«¸æid
-	required int32 sort = 2;			//ÅÅĞòid
-	optional string tagTitle = 3;		//Ò³Ç©±êÌâ
-	optional string tagIcon = 4;		//Ò³Ç©Í¼±ê
-	optional string title = 5;          //Ò³Ç©±êÇ©
-	optional int32 annonceType = 6;		//¹«¸æÀàĞÍ
-	optional string bg = 7;				//Í¼±ê¹«¸æ
-	optional string announceTitle = 8;	//¹«¸æ±êÌâ
-	optional string announceContent = 9;//¹«¸æÄÚÈİ
-	optional int32 isShowButton = 10;	//ÊÇ·ñÏÔÊ¾button
-	optional string buttonText = 11;	//°´Å¥ÄÚÈİ
-	optional int32 gotoType = 12;		//Ìø×ªÀàĞÍ
-	optional int32 gotoTypeId = 13;		//Ìø×ªid
-	optional int32 isConfig = 14;       //ÊÇ·ñÅäÖÃ¹«¸æ£¨ÊÇ ¶ÁÅäÖÃ±íµÄ¹«¸æ ·ñ£©
+	required int32 noticeId = 1;		//å…¬å‘Šid
+	required int32 sort = 2;			//æ’åºid
+	optional string tagTitle = 3;		//é¡µç­¾æ ‡é¢˜
+	optional string tagIcon = 4;		//é¡µç­¾å›¾æ ‡
+	optional string title = 5;          //é¡µç­¾æ ‡ç­¾
+	optional int32 annonceType = 6;		//å…¬å‘Šç±»å‹
+	optional string bg = 7;				//å›¾æ ‡å…¬å‘Š
+	optional string announceTitle = 8;	//å…¬å‘Šæ ‡é¢˜
+	optional string announceContent = 9;//å…¬å‘Šå†…å®¹
+	optional int32 isShowButton = 10;	//æ˜¯å¦æ˜¾ç¤ºbutton
+	optional string buttonText = 11;	//æŒ‰é’®å†…å®¹
+	optional int32 gotoType = 12;		//è·³è½¬ç±»å‹
+	optional int32 gotoTypeId = 13;		//è·³è½¬id
+	optional int32 isConfig = 14;       //æ˜¯å¦é…ç½®å…¬å‘Šï¼ˆæ˜¯ è¯»é…ç½®è¡¨çš„å…¬å‘Š å¦ï¼‰
 }
 
 message NoticeResponse{

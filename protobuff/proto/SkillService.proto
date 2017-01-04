@@ -2,7 +2,6 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "SkillServiceProtos";
 package SkillService;
-import "ErrorService.proto";
 
 enum SkillEventType {
 	Skill_Upgrade = 1;	//升级技能
