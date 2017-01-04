@@ -4,28 +4,28 @@ option java_outer_classname = "GuildProtos";
 
 
 enum EGuildType {
-	SelectMsg = 0;//²éÕÒ¹«»áĞÅÏ¢
-    CreateMsg = 1;//´´½¨¹«»á
-	MyMsg = 2;//×ÔÒÑ¹«»áÏêÏ¸ĞÅÏ¢
-	Join=3;//¼ÓÈë¹«»á
-	exit=4;//ÍË³ö
+	SelectMsg = 0;//æŸ¥æ‰¾å…¬ä¼šä¿¡æ¯
+    CreateMsg = 1;//åˆ›å»ºå…¬ä¼š
+	MyMsg = 2;//è‡ªå·²å…¬ä¼šè¯¦ç»†ä¿¡æ¯
+	Join=3;//åŠ å…¥å…¬ä¼š
+	exit=4;//é€€å‡º
 	kick=5;
-	promote=6;//ÉıÖ°
-	demotion=7;//½«Ö°
-	updataNotice=8;//¸Ä¹«¸æ
-	updataName=9;//¸ÄÃû×Ö
-	updataIcon=10;//¸ÄÍ¼±ê
-	setEmail=11;//ÓÊ¼ş
-	donate=12;//¾èÏ×
-	dismiss=13;//½âÉ¢
-	assignment=14;//×ªÈÃ
-	apply=15;//ÉêÇë
-	ignore=16;//ºöÂÔ
-	pass=17;//Í¨¹ı
-	updataType=18;//¸ÄÀàĞÍ
-	updataUnlevel=19;//¸Ä¼ÓÈëµÈ¼¶
-	uplevel=20;//ÉıµÈ¼¶
-	log=21;//ÄÃÈÕÖ¾
+	promote=6;//å‡èŒ
+	demotion=7;//å°†èŒ
+	updataNotice=8;//æ”¹å…¬å‘Š
+	updataName=9;//æ”¹åå­—
+	updataIcon=10;//æ”¹å›¾æ ‡
+	setEmail=11;//é‚®ä»¶
+	donate=12;//æçŒ®
+	dismiss=13;//è§£æ•£
+	assignment=14;//è½¬è®©
+	apply=15;//ç”³è¯·
+	ignore=16;//å¿½ç•¥
+	pass=17;//é€šè¿‡
+	updataType=18;//æ”¹ç±»å‹
+	updataUnlevel=19;//æ”¹åŠ å…¥ç­‰çº§
+	uplevel=20;//å‡ç­‰çº§
+	log=21;//æ‹¿æ—¥å¿—
 	
 
 	
@@ -35,21 +35,21 @@ enum EGuildType {
 
 message GuildResponse {
 optional EGuildType type = 1;
-repeated GuildBaseInfo guildList = 2;//¹«»áÁĞ±íĞÅÏ¢ 0
-optional GuildBaseInfo guildInfo = 3;//µ¥¸ö¹«»áÁĞ±íĞÅÏ¢
-optional string nameList=4;//¹«»áÃû×ÖÁĞ±í
+repeated GuildBaseInfo guildList = 2;//å…¬ä¼šåˆ—è¡¨ä¿¡æ¯ 0
+optional GuildBaseInfo guildInfo = 3;//å•ä¸ªå…¬ä¼šåˆ—è¡¨ä¿¡æ¯
+optional string nameList=4;//å…¬ä¼šåå­—åˆ—è¡¨
  
 }
 
 message GuildRequest {
   optional EGuildType type = 1;
-  optional string guildName=2;//¹«»áÃû×Ö
-  optional int32 icon=3;//´´½¨ÓÃ
-  optional string uid=4;//¹«»áid¼ÓÈë»ò²éµÄÊ±ºòÓÃ
-  optional string title=5;//ÓÊ¼ş
-  optional string content=6;//ÓÊ¼ş
-  optional int32 num=7;//¾èÏ×
-  optional int32 upType=8;//ÉıµÈ¼¶ÀàĞÍ
+  optional string guildName=2;//å…¬ä¼šåå­—
+  optional int32 icon=3;//åˆ›å»ºç”¨
+  optional string uid=4;//å…¬ä¼šidåŠ å…¥æˆ–æŸ¥çš„æ—¶å€™ç”¨
+  optional string title=5;//é‚®ä»¶
+  optional string content=6;//é‚®ä»¶
+  optional int32 num=7;//æçŒ®
+  optional int32 upType=8;//å‡ç­‰çº§ç±»å‹
   
  
    
@@ -62,23 +62,23 @@ message GuildRequest {
 message GuildBaseInfo
 {
 optional string uid=1;//
-optional string guildName=2;//¹«»áÃû×Ö
-optional int32  guildId=3;//¹«»áid
-optional string des=4;//¹«»áËµÃ÷
-optional int32 size=5;//¹«»áÈËÊı
-optional int32 level=6;//¹«»áµÈ¼¶
-optional int32 unLevel=7;//¹«»áÏŞÖÆµÈ¼¶
-repeated GuildMemberInfo MemberList = 8;//¹«»á³ÉÔ±ÁĞ±íĞÅÏ¢
-optional int32 contribute=9;//×ÊÔ´
-optional int32 totalContribute=10;//×ÊÔ´
-repeated GuildApply applyList = 11;//ÉêÇëÁĞ±íĞÅÏ¢
-repeated GuildLog logList = 12;//ÈÕÖ¾
-optional int64 dismissTimer = 13;//½â³ıµ¹¼ÆÊ±
-optional int32 changeName=14;//ÊÇ·ñ¸Ä¹ıÃû
-optional int32 unType=15;//ÏŞÀàĞÎ
-optional int32 icon=16;//Í¼±ê
-optional int32 iconBox=17;//Í¼±ê2
-optional int32 activeValue=18;//»îÔ¾Öµ
+optional string guildName=2;//å…¬ä¼šåå­—
+optional int32  guildId=3;//å…¬ä¼šid
+optional string des=4;//å…¬ä¼šè¯´æ˜
+optional int32 size=5;//å…¬ä¼šäººæ•°
+optional int32 level=6;//å…¬ä¼šç­‰çº§
+optional int32 unLevel=7;//å…¬ä¼šé™åˆ¶ç­‰çº§
+repeated GuildMemberInfo MemberList = 8;//å…¬ä¼šæˆå‘˜åˆ—è¡¨ä¿¡æ¯
+optional int32 contribute=9;//èµ„æº
+optional int32 totalContribute=10;//èµ„æº
+repeated GuildApply applyList = 11;//ç”³è¯·åˆ—è¡¨ä¿¡æ¯
+repeated GuildLog logList = 12;//æ—¥å¿—
+optional int64 dismissTimer = 13;//è§£é™¤å€’è®¡æ—¶
+optional int32 changeName=14;//æ˜¯å¦æ”¹è¿‡å
+optional int32 unType=15;//é™ç±»å½¢
+optional int32 icon=16;//å›¾æ ‡
+optional int32 iconBox=17;//å›¾æ ‡2
+optional int32 activeValue=18;//æ´»è·ƒå€¼
 
 
 
@@ -111,13 +111,13 @@ message GuildMemberInfo
 optional string playerId=1;
 optional string playerName=2;
 optional int32 position=3;
-optional int32 contribute=4;//×ÊÔ´
-optional int32 totalContribute=5;//×Ü×ÊÔ´
+optional int32 contribute=4;//èµ„æº
+optional int32 totalContribute=5;//æ€»èµ„æº
 optional bool onLine=6;
 optional int64 joinTimer=7;
 optional int64 loginTimer=8;
-optional int32 tempContribute=9;//ÒÑ»»×ÊÔ´
-optional bool isDonate=10;//ÊÇ·ñÒÑ¹±Ï×
+optional int32 tempContribute=9;//å·²æ¢èµ„æº
+optional bool isDonate=10;//æ˜¯å¦å·²è´¡çŒ®
 optional int32 level=11;
 optional string iconId=12;
 optional int64 sendEmailTimer=13;

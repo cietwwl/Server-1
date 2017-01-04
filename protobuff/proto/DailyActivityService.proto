@@ -4,14 +4,14 @@ option java_outer_classname = "DailyActivityProtos";
 
 enum EDailyActivityRequestType
 {
-	Task_List = 0; //ÈÎÎñÁĞ±í
-	Task_Finish = 1; //ÇëÇóÍê³ÉÈÎÎñ
+	Task_List = 0; //ä»»åŠ¡åˆ—è¡¨
+	Task_Finish = 1; //è¯·æ±‚å®Œæˆä»»åŠ¡
 }
 
 message MsgDailyActivityRequest
 {
-	required EDailyActivityRequestType requestType = 1; //ÇëÇóÀàĞÍ
-	optional int32 TaskId = 2; //ÈÎÎñid
+	required EDailyActivityRequestType requestType = 1; //è¯·æ±‚ç±»å‹
+	optional int32 TaskId = 2; //ä»»åŠ¡id
 }
 
 enum eDailyActivityResultType{
@@ -21,16 +21,16 @@ enum eDailyActivityResultType{
 
 message MsgDailyActivityResponse
 {
-	required EDailyActivityRequestType responseType = 1; //·µ»ØÀàĞÍ
-	repeated DailyActivityInfo taskList = 2; //ÈÎÎñÁĞ±í
-	optional eDailyActivityResultType resultType = 3; //·µ»ØµÄ½á¹ûÀàĞÍ
-	optional int32 TaskId = 4; //ÈÎÎñid
+	required EDailyActivityRequestType responseType = 1; //è¿”å›ç±»å‹
+	repeated DailyActivityInfo taskList = 2; //ä»»åŠ¡åˆ—è¡¨
+	optional eDailyActivityResultType resultType = 3; //è¿”å›çš„ç»“æœç±»å‹
+	optional int32 TaskId = 4; //ä»»åŠ¡id
 }
 
 message DailyActivityInfo
 {
-	required int32 taskId = 1; //ÈÎÎñid
-	optional int32 canGetReward = 2; //ÊÇ·ñ¿ÉÒÔÁì½±(1ÊÇ¿ÉÒÔ£¬0ÊÇ²»¿ÉÒÔ)
-	optional int32 currentProgress = 3; //µ±Ç°½ø¶È(ÓÃÊı×Ö±íÊ¾)
+	required int32 taskId = 1; //ä»»åŠ¡id
+	optional int32 canGetReward = 2; //æ˜¯å¦å¯ä»¥é¢†å¥–(1æ˜¯å¯ä»¥ï¼Œ0æ˜¯ä¸å¯ä»¥)
+	optional int32 currentProgress = 3; //å½“å‰è¿›åº¦(ç”¨æ•°å­—è¡¨ç¤º)
 }
 

@@ -46,6 +46,7 @@ public class UIServiceImpl implements IUCService{
 			@Override
 			public void handleServerResponse(Object msgBack, IResponseData response) {
 				RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
+				logger.info("response from login server:{}", msgBack);
 				if(resObject.getResult() == ResultState.SUCCESS){
 					AllRolesInfo roles = JsonUtil.readValue((String)resObject.getContent(), AllRolesInfo.class);
 					JSONObject jsObj = new JSONObject();
@@ -60,6 +61,7 @@ public class UIServiceImpl implements IUCService{
 						
 						for (UserMappingInfo uif : list) {
 							IResponseData rs = getRoleDataFromGS(String.valueOf(uif.getZone_id()), uif.getUser_id(), platformId);
+							logger.info("Get data from game server, result code:{}", rs.getStateCode());
 							if(rs.getStateCode() != UCStateCode.STATE_OK.getId()){
 								stateCode = rs.getStateCode();
 								break;
@@ -218,6 +220,7 @@ public class UIServiceImpl implements IUCService{
 	private IResponseData getRoleDataFromGS(String areaId, String userId, String platformID) {
 		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(platformID, areaId);
 		IResponseData response = new ResDataFromServer(UCStateCode.STATE_SERVER_ERROR.getId());
+		logger.info("try to request data from game server:{}, userid:{}, connect usefull:{}", areaId, userId, (null != nodeMgr && nodeMgr.isActive()));
 		if(null != nodeMgr && nodeMgr.isActive()){
 			RouterReqestObject reqObject = new RouterReqestObject();
 			reqObject.setType(ReqType.GetRoleDataFromGS);

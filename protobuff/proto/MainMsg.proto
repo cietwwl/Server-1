@@ -3,9 +3,9 @@ option java_package = "com.rwproto";
 option java_outer_classname = "MainMsgProtos";
 
 enum EMsgType {
-	PmdMsg = 0;//ÅÜÂëµÆ
+	PmdMsg = 0;//Ã…ÃœÃ‚Ã«ÂµÃ†
 	OtherMsg = 1;//
-	GroupCompetitionMsg = 3; // °ïÕ½µÄ²¥±¨
+	GroupCompetitionMsg = 3; // Â°Ã¯Ã•Â½ÂµÃ„Â²Â¥Â±Â¨
 }
 
 message MainMsgResponse {

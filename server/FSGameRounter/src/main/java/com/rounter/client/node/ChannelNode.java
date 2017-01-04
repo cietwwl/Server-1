@@ -140,7 +140,9 @@ public final class ChannelNode {
 		}
 		final NodeData nodeData = new NodeData(resData, resHandler);
 		final String sendeMsg = JsonUtil.writeValue(reqData) + System.getProperty("line.separator");
-		logger.debug("send msg to other server,ip:{}, port:{}, msg:{}",TARGET_ADDR, TARGET_PORT, sendeMsg);
+		if(reqData.getType() != ReqType.HeartBit){
+			logger.debug("send msg to other server,ip:{}, port:{}, msg:{}",TARGET_ADDR, TARGET_PORT, sendeMsg);
+		}
 		final ByteBuf buf = Unpooled.copiedBuffer(sendeMsg.getBytes("UTF-8"));
 		cf.channel().eventLoop().execute(new Runnable() {
 			public void run() {
@@ -209,7 +211,7 @@ public final class ChannelNode {
 		nodeState = NodeState.Over;
 		try {
 			boolean suc = connectOrReconnectChannel();
-			logger.debug("contect target, ip:{}, port:{},suc:{}",TARGET_ADDR, TARGET_PORT, suc);
+			logger.info("contect target, ip:{}, port:{},suc:{}",TARGET_ADDR, TARGET_PORT, suc);
 		} catch (Exception ex) {
 			logger.error("contect target, ip:{}, port:{},suc:{}", TARGET_ADDR, TARGET_PORT, false, ex);
 			nodeState = NodeState.ConnFail;

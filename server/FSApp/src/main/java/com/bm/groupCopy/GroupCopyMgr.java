@@ -526,6 +526,7 @@ public class GroupCopyMgr {
 
 			if (roleStruct != null) {
 				rspMsg.setBattleRole(roleStruct);
+				rspMsg.setTipMsg(roleStruct.getRoleName() + "正在关卡内战斗");
 			}
 
 			rspMsg.setIsSuccess(enter);
