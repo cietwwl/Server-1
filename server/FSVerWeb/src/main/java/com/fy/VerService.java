@@ -83,21 +83,11 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			if (!Boolean.valueOf(channelAddressInfo.getUpdateResSwitch())) {
 				updateVersionList.clear();
 				Version updateVersion = new Version();
-				updateVersion.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
-				updateVersion.setLogServerAddress(channelAddressInfo.getLogServerAddress());
-				updateVersion.setCheckServerURL(channelAddressInfo.getCheckServerURL());
-				updateVersion.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
-				updateVersion.setBackUrl(channelAddressInfo.getBackUrl());
 				updateVersion.setPackageName(clientVersion.getPackageName());
 				updateVersionList.add(updateVersion);
 			} else {
 				if (updateVersionList.isEmpty()) {
 					Version updateVersion = new Version();
-					updateVersion.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
-					updateVersion.setLogServerAddress(channelAddressInfo.getLogServerAddress());
-					updateVersion.setCheckServerURL(channelAddressInfo.getCheckServerURL());
-					updateVersion.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
-					updateVersion.setBackUrl(channelAddressInfo.getBackUrl());
 					updateVersion.setPackageName(clientVersion.getPackageName());
 					updateVersionList.add(updateVersion);
 				}
