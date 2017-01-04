@@ -9,6 +9,7 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingComparable;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -70,10 +71,10 @@ public class GroupFightingGetOperation implements RankingGetOperation {
 	public RankingLevelData getRankLevelData(RankType rankType, String userId) {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		Player player = PlayerMgr.getInstance().find(userId);
-		if(player == null){
+		if (player == null) {
 			return null;
 		}
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		if (baseData == null) {
 			return null;
 		}
@@ -89,10 +90,10 @@ public class GroupFightingGetOperation implements RankingGetOperation {
 	public int getRanking(RankType rankType, String userId) {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		Player player = PlayerMgr.getInstance().find(userId);
-		if(player == null){
+		if (player == null) {
 			return -1;
 		}
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		if (baseData == null) {
 			return -1;
 		}

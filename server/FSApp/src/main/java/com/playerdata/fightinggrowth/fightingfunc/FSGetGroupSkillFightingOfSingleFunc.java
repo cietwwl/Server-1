@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.playerdata.Hero;
 import com.playerdata.fightinggrowth.calc.FightingCalcComponentType;
-import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.IFunction;
 import com.rwbase.common.attribute.param.GroupSkillParam.GroupSkillBuilder;
@@ -32,7 +32,7 @@ public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Inte
 			return 0;
 		}
 
-		List<GroupSkillItem> groupSkillItemList = FSHeroMgr.getInstance().getOwnerOfHero(hero).getUserGroupAttributeDataMgr().getUserGroupAttributeData().getSkillItemList();
+		List<GroupSkillItem> groupSkillItemList = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(hero.getOwnerUserId()).getSkillItemList();
 		if (groupSkillItemList.isEmpty()) {
 			return 0;
 		}

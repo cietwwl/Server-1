@@ -34,6 +34,7 @@ import com.playerdata.fightinggrowth.calc.param.FixEquipFightingParam;
 import com.playerdata.fightinggrowth.calc.param.HeroBaseFightingParam;
 import com.playerdata.fightinggrowth.calc.param.HeroBaseFightingParam.Builder;
 import com.playerdata.fixEquip.FixEquipHelper;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.hero.core.RoleBaseInfo;
@@ -124,16 +125,22 @@ public class AngelArrayTeamInfoHelper {
 		}
 
 		int hasHeroIndex = -1;
-		for (int i = 0, size = heros.size(); i < size; i++) {
+		int size = heros.size();
+
+		List<Integer> teamHeroList = new ArrayList<Integer>(size);
+
+		for (int i = 0; i < size; i++) {
 			HeroInfo heroInfo = heros.get(i);
 			if (heroInfo == null) {
 				continue;
 			}
 
-			if (heroInfo.getBaseInfo().getTmpId().startsWith(String.valueOf(heroModelId))) {
+			String tmpId = heroInfo.getBaseInfo().getTmpId();
+			if (hasHeroIndex == -1 && tmpId.startsWith(String.valueOf(heroModelId))) {
 				hasHeroIndex = i;
-				break;
 			}
+
+			teamHeroList.add(Integer.valueOf(tmpId.split("_")[0]));// 增加成员Id
 		}
 
 		if (hasHeroIndex == -1) {
@@ -145,21 +152,13 @@ public class AngelArrayTeamInfoHelper {
 			return;
 		}
 
-		FSHero hero = FSHeroMgr.getInstance().getHeroByModerId(player, heroModelId);
-		if (hero == null) {
-			return;
-		}
-
-		int offFighting = nowFighting - preFighting;
-		int level = player.getLevel();
-
-		teamInfo.updateHeroInfo(hasHeroIndex, buildHeroInfo(player, hero));
-		teamInfo.setTeamFighting(teamInfo.getTeamFighting() + offFighting);
-		teamInfo.setLevel(level);
+		TeamInfo newTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(player, teamHeroList);// 生成新的TeamInfo
 
 		AngelArrayComparable comparable = new AngelArrayComparable();
-		comparable.setFighting(rankingEntry.getComparable().getFighting() + offFighting);
-		comparable.setLevel(level);
+		comparable.setFighting(newTeamInfo.getTeamFighting());
+		comparable.setLevel(player.getLevel());
+
+		attr.setTeamInfo(newTeamInfo);// 设置战力变化
 
 		ranking.updateRankingEntry(rankingEntry, comparable);
 	}
@@ -553,7 +552,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param teamInfo
 	 */
 	private static void changeGroupInfo(PlayerIF p, TeamInfo teamInfo) {
-		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(p.getUserId());
 		if (userGroupAttributeData != null) {
 			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
 			// 帮派技能

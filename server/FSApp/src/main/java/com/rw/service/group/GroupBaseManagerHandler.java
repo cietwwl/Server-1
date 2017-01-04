@@ -76,7 +76,7 @@ public class GroupBaseManagerHandler {
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.CREATE_GROUP_TYPE);
 
-		String playerId = player.getUserId();// 角色的Id
+		String userId = player.getUserId();// 角色的Id
 		RefParam<String> outTip = new RefParam<String>();
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
@@ -86,7 +86,7 @@ public class GroupBaseManagerHandler {
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
-			GameLog.error("创建帮派", playerId, "没有找到帮派唯一基础的配置表");
+			GameLog.error("创建帮派", userId, "没有找到帮派唯一基础的配置表");
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "数据异常");
 		}
 
@@ -95,13 +95,13 @@ public class GroupBaseManagerHandler {
 		int type = createGroupPriceArr[0];
 		SpecialItemCfg sicfg = (SpecialItemCfg) SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(type));
 		if (sicfg == null) {
-			GameLog.error("创建帮派", playerId, String.format("找不到对应的货币类型[%s]的配置表", type));
+			GameLog.error("创建帮派", userId, String.format("找不到对应的货币类型[%s]的配置表", type));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "数据异常");
 		}
 
 		// 检查当前角色有没有帮派
-		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
+		UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前拥有帮派,id=" + groupId);
@@ -200,7 +200,7 @@ public class GroupBaseManagerHandler {
 	 * @return
 	 */
 	public ByteString modifyGroupAnnouncement(Player player, ModifyAnnouncementReqMsg req) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
 
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.MODIFY_ANNOUNCEMENT_TYPE);
@@ -208,7 +208,7 @@ public class GroupBaseManagerHandler {
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
-			GameLog.error("帮派改公告", playerId, "没有找到帮派唯一基础的配置表");
+			GameLog.error("帮派改公告", userId, "没有找到帮派唯一基础的配置表");
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "数据异常");
 		}
 
@@ -235,7 +235,7 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查是否有帮派
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前没有帮派");
@@ -248,14 +248,14 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("帮派改公告", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GameLog.error("帮派改公告", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
 		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
-			GameLog.error("帮派改公告", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GameLog.error("帮派改公告", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
@@ -268,9 +268,9 @@ public class GroupBaseManagerHandler {
 		group.checkGroupLeaderLogoutTime();
 
 		// 成员信息
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
 		if (memberData == null) {
-			GameLog.error("帮派改公告", playerId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, playerId));
+			GameLog.error("帮派改公告", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
 		}
 
@@ -296,7 +296,7 @@ public class GroupBaseManagerHandler {
 	 * @return
 	 */
 	public ByteString modifyGroupNameHandler(Player player, ModifyGroupNameReqMsg req) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
 
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.MODIFY_GROUP_NAME_TYPE);
@@ -304,7 +304,7 @@ public class GroupBaseManagerHandler {
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
-			GameLog.error("帮派改名", playerId, "没有找到帮派唯一基础的配置表");
+			GameLog.error("帮派改名", userId, "没有找到帮派唯一基础的配置表");
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "数据异常");
 		}
 
@@ -333,7 +333,8 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查是否有帮派
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		final UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前没有帮派");
@@ -346,14 +347,14 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("帮派改名", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GameLog.error("帮派改名", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
 		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
-			GameLog.error("帮派改名", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GameLog.error("帮派改名", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
@@ -361,9 +362,9 @@ public class GroupBaseManagerHandler {
 		group.checkGroupLeaderLogoutTime();
 
 		// 成员信息
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
 		if (memberData == null) {
-			GameLog.error("帮派改名", playerId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, playerId));
+			GameLog.error("帮派改名", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
 		}
 
@@ -392,7 +393,7 @@ public class GroupBaseManagerHandler {
 		int type = price[0];
 		SpecialItemCfg sicfg = (SpecialItemCfg) SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(type));
 		if (sicfg == null) {
-			GameLog.error("创建帮派", playerId, "找不到对应的货币类型" + type + "的配置表");
+			GameLog.error("创建帮派", userId, "找不到对应的货币类型" + type + "的配置表");
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "数据异常");
 		}
 
@@ -415,7 +416,7 @@ public class GroupBaseManagerHandler {
 
 			@Override
 			public void run(Player player) {
-				player.getUserGroupAttributeDataMgr().updateGroupName(player, finalGroupName);
+				mgr.updateGroupName(player, finalGroupName);
 
 				// 通知好友修改了帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
@@ -426,12 +427,12 @@ public class GroupBaseManagerHandler {
 		List<? extends GroupMemberDataIF> memberSortList = group.getGroupMemberMgr().getMemberSortList(null);
 		for (int i = 0, size = memberSortList.size(); i < size; i++) {
 			GroupMemberDataIF member = memberSortList.get(i);
-			String userId = member.getUserId();
-			if (!PlayerMgr.getInstance().isOnline(userId)) {
+			String id = member.getUserId();
+			if (!PlayerMgr.getInstance().isOnline(id)) {
 				continue;
 			}
 
-			GameWorldFactory.getGameWorld().asyncExecute(userId, task);
+			GameWorldFactory.getGameWorld().asyncExecute(id, task);
 		}
 
 		commonRsp.setIsSuccess(true);
@@ -448,7 +449,7 @@ public class GroupBaseManagerHandler {
 	 * @return
 	 */
 	public ByteString groupSettingHandler(Player player, GroupSettingReqMsg req) {
-		String playerId = player.getUserId();// 角色的Id
+		String userId = player.getUserId();// 角色的Id
 
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.GROUP_SETTING_TYPE);
@@ -456,12 +457,12 @@ public class GroupBaseManagerHandler {
 		// 检查一下唯一的配置表
 		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
 		if (gbct == null) {
-			GameLog.error("帮派设置", playerId, "没有找到帮派唯一基础的配置表");
+			GameLog.error("帮派设置", userId, "没有找到帮派唯一基础的配置表");
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "数据异常");
 		}
 
 		// 检查是否有帮派
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前没有帮派");
@@ -474,14 +475,14 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("帮派设置", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GameLog.error("帮派设置", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
 		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
-			GameLog.error("帮派设置", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GameLog.error("帮派设置", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
@@ -494,9 +495,9 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 成员信息
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
 		if (memberData == null) {
-			GameLog.error("帮派设置", playerId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, playerId));
+			GameLog.error("帮派设置", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "权限不足");
 		}
 
@@ -538,7 +539,7 @@ public class GroupBaseManagerHandler {
 		if (req.hasApplyLevel()) {
 			int applyLevel = req.getApplyLevel();
 			if (!gbct.getGroupApplyLevelLimitList().contains(applyLevel)) {
-				GameLog.error("帮派设置", playerId, String.format("验证的等级[%s]不存在我们的规定数据中", applyLevel));
+				GameLog.error("帮派设置", userId, String.format("验证的等级[%s]不存在我们的规定数据中", applyLevel));
 				return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "验证等级异常");
 			}
 
@@ -573,13 +574,13 @@ public class GroupBaseManagerHandler {
 	 * @return
 	 */
 	public ByteString dismissTheGroupHandler(Player player) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
 
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.DISMISS_THE_GROUP_TYPE);
 
 		// 判断帮派是否存在
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -587,23 +588,23 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("解散帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GameLog.error("解散帮派", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
 		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
-			GameLog.error("解散帮派", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GameLog.error("解散帮派", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
 		// TODO HC 状态判断，某些状态中是不能解散帮派的，比如帮派副本
 
 		// 获取自己的成员信息
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
 		if (memberData == null) {
-			GameLog.error("解散帮派", playerId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, playerId));
+			GameLog.error("解散帮派", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
@@ -637,13 +638,13 @@ public class GroupBaseManagerHandler {
 	 * @return
 	 */
 	public ByteString cancelDismissTheGroupHandler(Player player) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
 
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.CANCEL_DISMISS_THE_GROUP_TYPE);
 
 		// 判断帮派是否存在
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -651,14 +652,14 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("取消解散帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GameLog.error("取消解散帮派", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
 		GroupBaseDataIF groupData = groupBaseDataMgr.getGroupData();
 		if (groupData == null) {
-			GameLog.error("取消解散帮派", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GameLog.error("取消解散帮派", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
@@ -667,9 +668,9 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 获取自己的成员信息
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
 		if (memberData == null) {
-			GameLog.error("取消解散帮派", playerId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, playerId));
+			GameLog.error("取消解散帮派", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
@@ -698,13 +699,13 @@ public class GroupBaseManagerHandler {
 	 * @return
 	 */
 	public ByteString getGroupLogHandler(Player player) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
 
 		GroupBaseMgrCommonRspMsg.Builder commonRsp = GroupBaseMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.THE_LOG_OF_GROUP_TYPE);
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -712,18 +713,18 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.get(groupId);
 		if (group == null) {
-			GameLog.error("获取帮派日志", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+			GameLog.error("获取帮派日志", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
 		if (group.getGroupBaseDataMgr().getGroupData() == null) {
-			GameLog.error("获取帮派日志", playerId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+			GameLog.error("获取帮派日志", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(playerId, false);
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
 		if (memberData == null) {
-			GameLog.error("获取帮派日志", playerId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, playerId));
+			GameLog.error("获取帮派日志", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 

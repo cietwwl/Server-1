@@ -7,6 +7,7 @@ import com.bm.group.GroupMemberMgr;
 import com.bm.player.PlayerChangePopertyObserver;
 import com.bm.player.PlayerChangePopertySubscribe;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -99,9 +100,9 @@ public class GroupListenerPlayerChange extends PlayerChangePopertySubscribe {
 		}
 
 		String userId = p.getUserId();
-		UserGroupAttributeDataIF baseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		//角色如果没有帮派，这里会没有数据,所以要在这里加多个判断  ---------by Alex
-		if(baseData == null){
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
+		// 角色如果没有帮派，这里会没有数据,所以要在这里加多个判断 ---------by Alex
+		if (baseData == null) {
 			return;
 		}
 		String groupId = baseData.getGroupId();

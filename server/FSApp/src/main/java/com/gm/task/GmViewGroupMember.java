@@ -11,8 +11,7 @@ import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
-import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -65,14 +64,14 @@ public class GmViewGroupMember implements IGmTask {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_NOT_FIND_GROUP.getStatus()));
 			}
 			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			PlayerMgr instance = PlayerMgr.getInstance();
+			// PlayerMgr instance = PlayerMgr.getInstance();
 
 			List<? extends GroupMemberDataIF> memberSortList = groupMemberMgr.getMemberSortList(null);
 			for (GroupMemberDataIF groupMemberDataIF : memberSortList) {
 				String roleId = groupMemberDataIF.getUserId();
 
-				Player p = instance.find(roleId);
-				UserGroupAttributeData baseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+				// Player p = instance.find(roleId);
+				UserGroupAttributeData baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(roleId);
 
 				String roleName = groupMemberDataIF.getName();
 				int lv = groupMemberDataIF.getLevel();

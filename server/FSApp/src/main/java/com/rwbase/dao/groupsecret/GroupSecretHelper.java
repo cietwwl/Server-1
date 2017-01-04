@@ -19,6 +19,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -147,15 +148,14 @@ public class GroupSecretHelper {
 				int heroSize = heroList.size();
 
 				// 获取阵容
-				EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(defendUserId, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE,
-					GroupSecretHelper.generateCacheSecretId(defendUserId, secretData.getId()));
+				EmbattlePositionInfo posInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(defendUserId, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, GroupSecretHelper.generateCacheSecretId(defendUserId, secretData.getId()));
 
 				List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
 
 				int mainRoleIndex = -1;
 				for (int j = 0; j < heroSize; j++) {
 					String heroId = heroList.get(j);
-//					HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+					// HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
 					Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(readOnlyPlayer, heroId);
 					if (hero == null) {
 						continue;
@@ -174,14 +174,13 @@ public class GroupSecretHelper {
 						heroPos = posInfo.getHeroPos(heroId);
 					}
 
-//					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(),
-//						hero.getLevel(), isMainRole, false, heroPos, null));
-					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, FSHeroMgr.getInstance().getHeroCfg(hero).getBattleIcon(), hero.getQualityId(), hero.getStarLevel(),
-							hero.getLevel(), isMainRole, false, heroPos, null));
+					// baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(),
+					// hero.getLevel(), isMainRole, false, heroPos, null));
+					baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, FSHeroMgr.getInstance().getHeroCfg(hero).getBattleIcon(), hero.getQualityId(), hero.getStarLevel(), hero.getLevel(), isMainRole, false, heroPos, null));
 				}
 
 				String groupName = "";
-				UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+				UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(defendUserId);
 				Group group = GroupBM.get(userGroupAttributeData.getGroupId());
 				if (group != null) {
 					GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
@@ -190,8 +189,8 @@ public class GroupSecretHelper {
 					}
 				}
 
-				DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-						readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", groupName, readOnlyPlayer.getHeadFrame()));
+				DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(), readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "",
+						groupName, readOnlyPlayer.getHeadFrame()));
 				defendUserInfoMap.put(index, userInfo);
 			}
 		}
@@ -240,7 +239,7 @@ public class GroupSecretHelper {
 			List<DefendHeroBaseInfoSynData> baseInfoList = new ArrayList<DefendHeroBaseInfoSynData>(heroSize);
 			for (Entry<String, HeroInfoData> entry : teamAttrInfoMap.entrySet()) {
 				String heroId = entry.getKey();
-//				HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
+				// HeroIF hero = readOnlyPlayer.getHeroMgr().getHeroById(heroId);
 				Hero hero = readOnlyPlayer.getHeroMgr().getHeroById(readOnlyPlayer, heroId);
 				if (hero == null) {
 					continue;
@@ -252,9 +251,9 @@ public class GroupSecretHelper {
 				HeroInfoData heroInfoData = entry.getValue();
 				HeroLeftInfoSynData heroLeftInfo = heroInfoData.getLeft();
 				if (heroLeftInfo == null) {
-//					AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
+					// AttrData totalData = hero.getAttrMgr().getRoleAttrData().getTotalData();
 					AttrData totalData = hero.getAttrMgr().getTotalAttrData();
-					heroLeftInfo = new HeroLeftInfoSynData((int)totalData.getLife(), 0, (int)totalData.getLife(), totalData.getEnergy());
+					heroLeftInfo = new HeroLeftInfoSynData((int) totalData.getLife(), 0, (int) totalData.getLife(), totalData.getEnergy());
 					isHasLife = true;
 				} else {
 					int leftLife = heroLeftInfo.getLife();
@@ -265,14 +264,13 @@ public class GroupSecretHelper {
 					}
 				}
 
-//				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
-//					.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
-				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, FSHeroMgr.getInstance().getHeroCfg(hero).getBattleIcon(), hero.getQualityId(), hero.getStarLevel(), hero.getLevel(), heroId
-						.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
+				// baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, hero.getHeroCfg().getBattleIcon(), hero.getQualityId(), hero.getHeroData().getStarLevel(), hero.getLevel(), heroId
+				// .equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
+				baseInfoList.add(new DefendHeroBaseInfoSynData(heroId, FSHeroMgr.getInstance().getHeroCfg(hero).getBattleIcon(), hero.getQualityId(), hero.getStarLevel(), hero.getLevel(), heroId.equals(defendUserId), isDie, heroInfoData.getPos(), heroLeftInfo));
 			}
 
 			String groupName = "";
-			UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(defendUserId);
 			Group group = GroupBM.get(userGroupAttributeData.getGroupId());
 			if (group != null) {
 				GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
@@ -284,8 +282,8 @@ public class GroupSecretHelper {
 			int zoneId = enemyData.getZoneId();
 			String zoneName = enemyData.getZoneName();
 
-			DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, !isHasLife, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-				readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName, readOnlyPlayer.getHeadFrame()));
+			DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, !isHasLife, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(), readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId,
+					zoneName, groupName, readOnlyPlayer.getHeadFrame()));
 			defendUserInfoMap.put(index, userInfo);
 		}
 	}
@@ -345,8 +343,7 @@ public class GroupSecretHelper {
 
 		String id = generateCacheSecretId(matchUserId, secretId);
 		boolean beat = enemyData.isBeat();
-		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(),
-			enemyData.getAllRobGSValue(), 0, enemyData.getGroupId());
+		SecretBaseInfoSynData baseInfo = new SecretBaseInfoSynData(id, secretCfgId, beat, enemyData.getAtkTime(), 0, robDiamondNum, enemyData.getAllRobResValue(), enemyData.getAllRobGEValue(), enemyData.getAllRobGSValue(), 0, enemyData.getGroupId());
 
 		// if (beat) {// 如果已经打败了
 		// return new GroupSecretDataSynData(baseInfo, null);
@@ -416,18 +413,18 @@ public class GroupSecretHelper {
 		int defendSize = data.getDefendSize();
 		int displayPct = GroupSecretMemberAdditionCfgDAO.getCfgDAO().getAdditional(defendSize);
 		if (myDefendInfo != null) {
-//			long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
-//			getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
-//			getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
-//			getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
-//			dropDiamond = myDefendInfo.getDropDiamond();
-//			if (changeTeamTime > 0) {
-//				long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
-//				int fighting = myDefendInfo.getFighting();
-//				getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
-//				getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
-//				getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
-//			}
+			// long changeTeamTime = myDefendInfo.getChangeTeamTime();// 修改阵容时间
+			// getRes = myDefendInfo.getProRes() - myDefendInfo.getRobRes();
+			// getGE = myDefendInfo.getProGE() - myDefendInfo.getRobGE();
+			// getGS = myDefendInfo.getProGS() - myDefendInfo.getRobGS();
+			// dropDiamond = myDefendInfo.getDropDiamond();
+			// if (changeTeamTime > 0) {
+			// long minutes = TimeUnit.MILLISECONDS.toMinutes((isFinish ? (createTime + needTimeMillis) : now) - changeTeamTime);
+			// int fighting = myDefendInfo.getFighting();
+			// getRes += (int) (fighting * levelGetResTemplate.getProductRatio() * minutes);
+			// getGE += (int) (levelGetResTemplate.getGroupExpRatio() * minutes);
+			// getGS += (int) (levelGetResTemplate.getGroupSupplyRatio() * minutes);
+			// }
 			// 有防守数据，表示我已经在这里
 			incPct = displayPct;
 			dropDiamond = myDefendInfo.getDropDiamond();
@@ -446,7 +443,7 @@ public class GroupSecretHelper {
 			getGE = levelGetResTemplate.getTotalGroupExp();
 			getGS = levelGetResTemplate.getTotalGroupSupply();
 		}
-		if(incPct > 0) {
+		if (incPct > 0) {
 			getRes += Utils.calculateTenThousandRatio(getRes, incPct);
 			getGE += Utils.calculateTenThousandRatio(getGE, incPct);
 			getGS += Utils.calculateTenThousandRatio(getGS, incPct);

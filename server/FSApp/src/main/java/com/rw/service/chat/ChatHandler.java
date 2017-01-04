@@ -19,6 +19,7 @@ import com.google.protobuf.ByteString;
 import com.playerdata.ChatIllegalMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
@@ -78,7 +79,8 @@ public class ChatHandler {
 	 */
 	public MessageUserInfo.Builder createMessageUserInfoBuilder(PlayerIF player, boolean appendBasic) {
 		MessageUserInfo.Builder messageUserInfoBuilder = MessageUserInfo.newBuilder();
-		messageUserInfoBuilder.setUserId(player.getUserId());
+		String userId = player.getUserId();
+		messageUserInfoBuilder.setUserId(userId);
 		if (appendBasic) {
 			TableUserIF tableUser = player.getTableUser();
 			messageUserInfoBuilder.setLevel(player.getLevel());// 等级
@@ -89,7 +91,7 @@ public class ChatHandler {
 			messageUserInfoBuilder.setGender(player.getSex()); // 性别
 			messageUserInfoBuilder.setFighting(player.getHeroMgr().getFightingTeam(player));
 		}
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupName = userGroupAttributeData.getGroupName();
 		String groupId = userGroupAttributeData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
@@ -100,7 +102,7 @@ public class ChatHandler {
 		}
 		messageUserInfoBuilder.setVipLv(player.getVip());
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
-		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
 		if (null != usingFashion) {
 			messageUserInfoBuilder.setFashionUsed(usingFashion);
 		}
@@ -202,7 +204,8 @@ public class ChatHandler {
 		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
 		msgChatResponse.setChatType(msgChatRequest.getChatType());
 
-		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String pId = player.getUserId();
+		UserGroupAttributeDataIF userGroupData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(pId);
 		String groupId = userGroupData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			msgChatResponse.setChatResultType(eChatResultType.FAIL);
@@ -260,7 +263,6 @@ public class ChatHandler {
 		ByteString result = msgChatResponse.build().toByteString();
 
 		// 发送给其他成员
-		String pId = player.getUserId();
 		List<? extends GroupMemberDataIF> memberSortList = group.getGroupMemberMgr().getMemberSortList(null);
 		for (GroupMemberDataIF guildMember : memberSortList) {
 			String memUserId = guildMember.getUserId();
@@ -577,7 +579,7 @@ public class ChatHandler {
 	}
 
 	private void sendFamilyMsg(Player player) {
-		UserGroupAttributeDataIF userGroupData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(player.getUserId());
 		if (userGroupData == null) {
 			return;
 		}
