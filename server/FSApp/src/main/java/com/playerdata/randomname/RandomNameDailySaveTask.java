@@ -12,7 +12,7 @@ public class RandomNameDailySaveTask implements IGameTimerTask {
 
 	@Override
 	public String getName() {
-		return null;
+		return "随机名字定时保存任务";
 	}
 
 	@Override
