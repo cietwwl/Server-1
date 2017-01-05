@@ -1,10 +1,5 @@
-Key,Remarks,id,enumId,bg,icon,icon2,enevlopePic,effect,sort,goToType,title,bgTitle,titleBG,rewardBG,iconZt,timeDesc,desc,adStartTimeStr,adEndTimeStr,startTimeStr,endTimeStr,timeStr,duration,interval,vipLimit,levelLimit,dropStr,version
-190001,,190001,190001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,ect_xianshi,ect_xianshi,3,,摇一摇红包,摇一摇红包,活动期间，每隔一段时间就有红包掉落哦！,其中一个灯笼隐藏着双倍奖励哦！,icon_X2,"12月24日5:00
-    至
-12月26日5:00",定时红包掉落,201612200500,30,201612200500,30,000000:235959,10,60,,10,10001,1
-190002,,190002,190002,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,ect_xianshi,ect_xianshi,3,,摇一摇红包,摇一摇红包,活动期间，每隔一段时间就有红包掉落哦！,其中一个灯笼隐藏着双倍奖励哦！,icon_X2,"12月24日5:00
-    至
-12月26日5:00",定时红包掉落,201612200500,201612260500,201612240500,201612260500,000000:235959,10,60,,20,10002,1
-190003,,190003,190003,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,ect_xianshi,ect_xianshi,3,,摇一摇红包,摇一摇红包,活动期间，每隔一段时间就有红包掉落哦！,其中一个灯笼隐藏着双倍奖励哦！,icon_X2,"12月24日5:00
-    至
-12月26日5:00",定时红包掉落,201612200500,201612260500,201612240500,201612260500,000000:235959,10,60,,30,10003,1
+Key,Remarks,id,enumId,bg,icon,icon2,enevlopePic,effect,reward,sort,goToType,title,bgTitle,titleBG,rewardBG,iconZt,timeDesc,desc,adStartTimeStr,adEndTimeStr,startTimeStr,endTimeStr,timeStr,duration,interval,vipLimit,levelLimit,dropStr,version
+190001,,190001,190001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,denglong,denglong,SmallTex/Activity/ect_DengLong,3,,春节预热,新年摇一摇,摇一摇手机~奖励等着你！,选择一个灯笼，可以获得钻石、金币或稀有道具唷！,icon_X2,1月11日5:00至1月24日0:00,新的一年,201701110500,201701240000,201701110500,201701240000,080000:235959,240,240,,20,43000,1
+190002,,190002,190002,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,hongbao,hongbao,SmallTex/Activity/ect_HongBao,3,,新春快乐,春节摇一摇,摇一摇手机~新春惊喜等着你！,打开一个红包，可以获得钻石、金币或稀有道具唷！,icon_X2,1月24日5:00至2月8日0:00,春节红包,201701240500,201702080000,201701240500,201702080000,080000:235959,240,240,,20,43000,1
+190003,,190003,190003,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,denglong,denglong,SmallTex/Activity/ect_DengLong,3,,元宵灯会,元宵摇一摇,摇一摇手机~元宵奖励等着你！,选择一个灯笼，可以获得钻石、金币或稀有道具唷！,icon_X2,2月8日5:00至2月13日0:00,元宵灯会,201702080500,201702140000,201702080500,201702140000,080000:235959,240,240,,20,43000,1
+190004,,190004,190004,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,hua,hua,SmallTex/Activity/ect_MeiGui,3,,情人节摇一摇,情人节摇一摇,天降玫瑰！摇一摇有惊喜哦~,选择心仪的玫瑰，可以获得钻石、金币或稀有道具唷！,icon_X2,2月14日5:00至2月15日0:00,情人节,201702140500,201702150000,201702140500,201702150000,080000:235959,240,240,,20,43000,1
