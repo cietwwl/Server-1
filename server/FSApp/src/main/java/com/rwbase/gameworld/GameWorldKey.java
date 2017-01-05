@@ -169,6 +169,10 @@ public enum GameWorldKey {
 	 * 热更记录
 	 */
 	HOTFIX_HISTORY("HOTFIX_HISTORY"),
+	/**
+	 * 最后一次热更的文件夹里面的文件
+	 */
+	HOTFIX_FILES("HOTFIX_FILES"),
 	;
 	
 

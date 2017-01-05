@@ -1,4 +1,5 @@
-Key,Remarks,id,enumId,bg,activityIcon,icon2,sort,goToType,title,bgTitle,subTitle,titleBG,dropStartTimeStr,dropEndTimeStr,changeStartTimeStr,changeEndTimeStr,levelLimit,version
-60003,,60003,60002,SmallTex/Activity/ActivityTitleText_12,huodong_020,,2,2,圣诞超值兑,,,,201612230500,201612280500,201612230500,201612280500,20,1
-60004,,60004,60003,SmallTex/Activity/ActivityTitleText_00,huodong_017,,3,,小熊喵兑换,,,,0,365,0,365,1,1
-60005,,60005,60001,SmallTex/Activity/ActivityTitleText_22,huodong_027,,2,2,兑换魔礼青,,,,201701040500,7,201701040500,7,20,1612291500
+Key,Remarks,id,enumId,bg,activityIcon,icon2,sort,goToType,title,bgTitle,subTitle,titleBG,dropStartTimeStr,dropEndTimeStr,changeStartTimeStr,changeEndTimeStr,isDailyRefresh,levelLimit,version
+60003,,60003,60002,SmallTex/Activity/ActivityTitleText_12,huodong_020,,2,2,圣诞超值兑,,,,201612230500,201612280500,201612230500,201612280500,1,20,1
+60004,,60004,60003,SmallTex/Activity/ActivityTitleText_00,huodong_017,,3,,小熊喵兑换,,,,0,365,0,365,0,1,1
+60005,,60005,60001,SmallTex/Activity/ActivityTitleText_22,huodong_027,,2,2,兑换魔礼青,,,,201701040500,7,201701040500,7,1,20,1612291500
+60006,,60006,60004,SmallTex/Activity/ActivityTitleText_28,huodong_027,,2,2,附灵兑换,,,,201701110500,7,201701110500,8,1,20,1701051100
