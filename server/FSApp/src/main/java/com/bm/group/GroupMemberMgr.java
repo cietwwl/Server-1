@@ -667,6 +667,7 @@ public class GroupMemberMgr {
 	public void resetAllotGroupRewardCount(String userId, int maxAllotCount, boolean b) {
 		GroupMemberData data = holder.getMemberData(userId, b);
 		data.setAllotRewardCount(maxAllotCount);
+		holder.updateMemberData(data.getId());
 	}
 
 	/**
