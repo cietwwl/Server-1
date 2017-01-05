@@ -154,7 +154,6 @@ public class GroupCopyBattleHandler {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIGHT_END);
 		String levelID = req.getLevel();
-		GroupCopyMonsterData mData = req.getMData();
 		
 		
 		

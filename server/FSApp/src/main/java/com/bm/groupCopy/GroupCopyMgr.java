@@ -750,6 +750,7 @@ public class GroupCopyMgr {
 	 */
 	public void checkAndSendGroupPriceMail(Group group) {
 		try {
+			String groupId = group.getGroupBaseDataMgr().getGroupData().getGroupId();
 			String groupName = group.getGroupBaseDataMgr().getGroupData().getGroupName();
 			List<CopyItemDropAndApplyRecord> itemList = dropHolder.getItemList();
 			// 检查每个章节
@@ -779,11 +780,14 @@ public class GroupCopyMgr {
 						apply = applyInfo.get(i);
 						GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(apply.getRoleID(), false);
 						// if(memberData == null || (drop.getTime() < memberData.getReceiveTime())){
-						if (memberData == null) {
-							// GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format(
-							// "Group ID[%s], item drop time [%s], role[%s] join group time [%s], he can't get item",group.getGroupBaseDataMgr().getGroupData().getGroupId(),
-							// DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),apply.getRoleName(),
-							// DateUtils.getDateTimeFormatString(memberData.getReceiveTime(), "yyyy-MM-dd hh:m:ss")));
+						if (memberData == null || !org.apache.commons.lang3.StringUtils.equals(memberData.getGroupId(), groupId)) {
+							//角色不在这个帮派了，把这个记录删除
+							boolean deleteOutGroupData = template.deleteApplyData(apply);
+							GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format("发放帮派奖励道具，道具：[%s],接收角色[%s],时间：[%s],"
+									+ "发现角色已经不在帮派[%s]内，执行移除操作：[%s]", 
+									template.getItemID(), apply.getRoleName(), DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss"),
+									groupName,deleteOutGroupData));
+							
 							continue;
 						}
 						match = true;
@@ -797,7 +801,7 @@ public class GroupCopyMgr {
 					boolean sendMail = sendGroupPriceMailAndRecord(template.getItemID(), apply, groupName, time);
 					if (sendMail) {
 						send = true;
-						GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format("发放道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(), DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
+						GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format("发放帮派奖励道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(), DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 						// System.err.println(String.format("发放道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(),
 						// DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 						template.deleteApply(drop, apply);

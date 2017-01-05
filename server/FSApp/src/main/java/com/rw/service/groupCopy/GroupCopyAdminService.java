@@ -1,14 +1,13 @@
 package com.rw.service.groupCopy;
 
-import com.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
-import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
+import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 /*
