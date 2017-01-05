@@ -862,7 +862,7 @@ public class TeamBattleBM {
 		if (null != costItems) {
 			ItemBagMgr instance = ItemBagMgr.getInstance();
 			for (ItemInfo item : costItems) {
-				if (!instance.addItem(player, item.getItemID(), item.getItemNum())) {
+				if (!instance.addItem(player, item.getItemID(), -item.getItemNum())) {
 					tbRsp.setRstType(TBResultType.DIAMOND_NOT_ENOUGH);
 					tbRsp.setTipMsg("钻石不足");
 					return;
