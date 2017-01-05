@@ -232,7 +232,7 @@ public class ActivityExchangeTypeMgr extends AbstractActivityMgr<ActivityExchang
 					if (targetItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
 						continue;
 					}
-					redPointList.add(String.valueOf(cfg.getId()));
+					redPointList.add(String.valueOf(cfg.getCfgId()));
 					break;
 				}
 			}
