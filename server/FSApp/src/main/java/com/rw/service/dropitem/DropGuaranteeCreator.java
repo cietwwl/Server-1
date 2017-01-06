@@ -7,7 +7,7 @@ public class DropGuaranteeCreator implements DataExtensionCreator<DropGuaranteeD
 	@Override
 	public DropGuaranteeData create(String key) {
 		DropGuaranteeData data = new DropGuaranteeData();
-		data.initStore();
+		data.initStore(key);
 		return data;
 	}
 

@@ -2,7 +2,12 @@ package com.rw.service.dropitem;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.persistence.Id;
+
 public class DropGuaranteeData {
+
+	@Id
+	private String userId;
 
 	private ConcurrentHashMap<Integer, DropGuaranteeRecord> store;
 
@@ -16,7 +21,8 @@ public class DropGuaranteeData {
 		this.store = temp;
 	}
 
-	public void initStore() {
+	public void initStore(String userId) {
+		this.userId = userId;
 		this.store = new ConcurrentHashMap<Integer, DropGuaranteeRecord>(8, 1.0f, 1);
 	}
 
@@ -27,4 +33,13 @@ public class DropGuaranteeData {
 	public void addRecord(Integer guaranteeId, DropGuaranteeRecord record) {
 		this.store.put(guaranteeId, record);
 	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 }

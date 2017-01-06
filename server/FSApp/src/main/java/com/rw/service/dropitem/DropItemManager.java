@@ -1,11 +1,16 @@
 package com.rw.service.dropitem;
 
+import io.netty.util.collection.IntObjectHashMap;
+import io.netty.util.collection.IntObjectMap;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.common.HPCUtil;
+import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
@@ -115,19 +120,13 @@ public class DropItemManager {
 			items = copyCfg.getItems();
 		}
 		List<Integer> list = convertToIntList(items);
-		List<Integer> guaranteeList;
-		String guarantee = copyCfg.getDropGuarantee();
-		if (!firstDrop) {
-			guaranteeList = convertToIntList(guarantee);
-		} else {
-			guaranteeList = Collections.emptyList();
-		}
+		List<Integer> guaranteeList = convertToIntList(copyCfg.getDropGuarantee());
 		return pretreatDrop(player, list, guaranteeList, copyId, firstDrop);
 	}
 
 	private List<Integer> convertToIntList(String str) {
 		if (str == null || str.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		String[] pItemsID = str.split(",");
 		int length = pItemsID.length;
@@ -143,9 +142,9 @@ public class DropItemManager {
 	}
 
 	public List<ItemInfo> pretreatDrop(Player player, List<Integer> dropRuleList, int copyId, boolean firstDrop) throws DataAccessTimeoutException {
-		return pretreatDrop(player, dropRuleList, Collections.<Integer>emptyList(), copyId, firstDrop);
+		return pretreatDrop(player, dropRuleList, Collections.<Integer> emptyList(), copyId, firstDrop);
 	}
-	
+
 	/**
 	 * 预处理掉落
 	 * 
@@ -153,10 +152,10 @@ public class DropItemManager {
 	 * @throws DataAccessTimeoutException
 	 */
 	public List<ItemInfo> pretreatDrop(Player player, List<Integer> dropRuleList, List<Integer> guaranteeList, int copyId, boolean firstDrop) throws DataAccessTimeoutException {
-		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(copyId);
-		ArrayList<ItemInfo> dropItemInfoList = new ArrayList<ItemInfo>();
+		String userId = player.getUserId();
+		IntObjectHashMap<RefInt> dropItemInfoMap = new IntObjectHashMap<RefInt>();
+		ArrayList<ItemInfo> dropItemInfoList;
 		try {
-			String userId = player.getUserId();
 			DropRecordDAO dropRecordDAO = DropRecordDAO.getInstance();
 			DropRecord record = dropRecordDAO.getDropRecord(userId);
 			int dropRuleSize = dropRuleList.size();
@@ -175,13 +174,21 @@ public class DropItemManager {
 					DropCfg dropCfg = dropGroupList.get(i);
 					int rate = dropCfg.getBaseRate();
 					if (random < rate) {
-						addOrMerge(dropItemInfoList, dropCfg);
+						int id = dropCfg.getItemCfgId();
+						int dropCount = dropCfg.getDropCount();
+						RefInt count = dropItemInfoMap.get(id);
+						if (count == null) {
+							dropItemInfoMap.put(id, new RefInt(dropCount));
+						} else {
+							count.value += dropCount;
+						}
 						break;
 					}
 					random -= rate;
 				}
 			}
 
+			// 检查掉落保底与不掉落保底
 			int guaranteeSize = guaranteeList.size();
 			if (guaranteeSize > 0) {
 				DropGuaranteeDAO guaranteeDAO = DropGuaranteeDAO.getInstance();
@@ -201,14 +208,7 @@ public class DropItemManager {
 							continue;
 						}
 						// 检查本次是否掉落
-						boolean drop = false;
-						for (int j = dropItemInfoList.size(); --j >= 0;) {
-							ItemInfo info = dropItemInfoList.get(j);
-							if (info.getItemID() == itemTemplateId) {
-								drop = true;
-								break;
-							}
-						}
+						boolean drop = dropItemInfoMap.containsKey(itemTemplateId);
 						DropGuaranteeRecord guaranteeRecord = guaranteeData.getRecord(guaranteeId);
 						if (guaranteeRecord != null) {
 							int times;
@@ -230,7 +230,7 @@ public class DropItemManager {
 										result = times + 1;
 									} else {
 										result = 0;
-										removeGuarantee(dropItemInfoList, itemId);
+										dropItemInfoMap.remove(itemId);
 									}
 								}
 							} else {
@@ -242,10 +242,7 @@ public class DropItemManager {
 										result = times - 1;
 									} else {
 										result = 1;
-										ItemInfo itemInfo = new ItemInfo();
-										itemInfo.setItemID(itemId);
-										itemInfo.setItemNum(1);
-										dropItemInfoList.add(itemInfo);
+										dropItemInfoMap.put(itemId, new RefInt(1));
 									}
 								}
 							}
@@ -267,7 +264,16 @@ public class DropItemManager {
 				}
 			}
 
+			// 生成掉落列表
+			dropItemInfoList = new ArrayList<ItemInfo>(dropItemInfoMap.size());
+			for (Iterator<IntObjectMap.Entry<RefInt>> it = dropItemInfoMap.iterator(); it.hasNext();) {
+				IntObjectMap.Entry<RefInt> entry = it.next();
+				ItemInfo itemInfo = new ItemInfo(entry.key(), entry.value().value);
+				dropItemInfoList.add(itemInfo);
+			}
+
 			// TODO 下面这段硬编码需要整理
+			CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(copyId);
 			if (!firstDrop && copyCfg != null) {
 				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 				// int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
@@ -302,43 +308,10 @@ public class DropItemManager {
 				recordDrop(record, false, copyId);
 			}
 		} catch (Throwable t) {
-			GameLog.error(t);
+			GameLog.error("DropItemManager", userId, "掉落异常:", t);
+			return Collections.emptyList();
 		}
 		return dropItemInfoList;
-	}
-
-	private void removeGuarantee(ArrayList<ItemInfo> list, int itemId) {
-		for (int i = list.size(); --i >= 0;) {
-			ItemInfo info = list.get(i);
-			if (info.getItemID() == itemId) {
-				list.remove(i);
-			}
-		}
-	}
-
-	private void modifyGuarantee(DropGuaranteeRecord record, boolean drop) {
-		int times = record.getT();
-		if (drop) {
-			if (times > 0) {
-
-			}
-		}
-	}
-
-	private void addOrMerge(List<ItemInfo> list, DropCfg dropCfg) {
-
-		int id = dropCfg.getItemCfgId();
-		for (int i = list.size(); --i >= 0;) {
-			ItemInfo info = list.get(i);
-			if (info.getItemID() == id) {
-				info.setItemNum(info.getItemNum() + dropCfg.getDropCount());
-				return;
-			}
-		}
-		ItemInfo itemInfo = new ItemInfo();
-		itemInfo.setItemID(id);
-		itemInfo.setItemNum(dropCfg.getDropCount());
-		list.add(itemInfo);
 	}
 
 	/**
