@@ -33,6 +33,8 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.loader.DataCreator;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicDataCreator;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicHolder;
+import com.rw.service.dropitem.DropGuaranteeCreator;
+import com.rw.service.dropitem.DropGuaranteeDAO;
 import com.rw.service.gamble.datamodel.GambleCreator;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
@@ -125,7 +127,9 @@ public enum DataKVType {
 	// 个人每日重置记录
 	DAILY_RESET_RECORD(37, DailyResetReccordDao.class, DailyResetReccordCreator.class),
 	// 聊天的违规数据
-	CHAT_ILLEGAL_DATA(38, ChatIllegalDataDAO.class, ChatIllegalDataCreator.class);
+	CHAT_ILLEGAL_DATA(38, ChatIllegalDataDAO.class, ChatIllegalDataCreator.class),
+	// 副本保底掉落数据
+	DROP_GUARANTEE(39, DropGuaranteeDAO.class, DropGuaranteeCreator.class);
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
 		this.typeValue = type;
