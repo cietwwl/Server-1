@@ -19,31 +19,32 @@ public class MagicSecretScoreCollector implements RedPointCollector {
 		if (MagicSecretMgr.getInstance().hasScoreReward(player)) {
 			map.put(RedPointType.MAGIC_SECRET_SCORE_REWARD, Collections.EMPTY_LIST);
 		}
-		// MagicSecretMgr mgr = MagicSecretMgr.getInstance();
-		// if (mgr.hasScoreReward(player)) {
-		// map.put(RedPointType.MAGIC_SECRET_SCORE_REWARD, Collections.EMPTY_LIST);
-		// }
-		//
-		// // 乾坤幻境的可扫荡状态
-		// MagicChapterInfoHolder instance = MagicChapterInfoHolder.getInstance();
-		// List<MagicChapterInfo> itemList = instance.getItemList(player);
-		// if (itemList == null || itemList.isEmpty()) {
-		// return;
-		// }
-		//
-		// int size = itemList.size();
-		// List<String> canSweepIdList = new ArrayList<String>(size);
-		// for (int i = 0; i < size; i++) {
-		// MagicChapterInfo magicChapterInfo = itemList.get(i);
-		// String chapterId = magicChapterInfo.getChapterId();
-		// if (mgr.canSweep(player, chapterId)) {
-		// canSweepIdList.add(chapterId);
-		// }
-		// }
-		//
-		// if (!canSweepIdList.isEmpty()) {
-		// map.put(RedPointType.MAGIC_SECRET_SWEEP, canSweepIdList);
-		// }
+
+		MagicSecretMgr mgr = MagicSecretMgr.getInstance();
+		if (mgr.hasScoreReward(player)) {
+			map.put(RedPointType.MAGIC_SECRET_SCORE_REWARD, Collections.EMPTY_LIST);
+		}
+
+		// 乾坤幻境的可扫荡状态
+		MagicChapterInfoHolder instance = MagicChapterInfoHolder.getInstance();
+		List<MagicChapterInfo> itemList = instance.getItemList(player);
+		if (itemList == null || itemList.isEmpty()) {
+			return;
+		}
+
+		int size = itemList.size();
+		List<String> canSweepIdList = new ArrayList<String>(size);
+		for (int i = 0; i < size; i++) {
+			MagicChapterInfo magicChapterInfo = itemList.get(i);
+			String chapterId = magicChapterInfo.getChapterId();
+			if (mgr.canSweep(player, chapterId)) {
+				canSweepIdList.add(chapterId);
+			}
+		}
+
+		if (!canSweepIdList.isEmpty()) {
+			map.put(RedPointType.MAGIC_SECRET_SWEEP, canSweepIdList);
+		}
 	}
 
 	@Override
