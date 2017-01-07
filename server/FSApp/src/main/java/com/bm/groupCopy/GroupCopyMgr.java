@@ -801,7 +801,7 @@ public class GroupCopyMgr {
 					boolean sendMail = sendGroupPriceMailAndRecord(template.getItemID(), apply, groupName, time);
 					if (sendMail) {
 						send = true;
-						GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format("发放帮派奖励道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(), DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
+						GameLog.info(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format("发放帮派[%s]奖励道具成功，道具：[%s],接收角色[%s],时间：[%s]", groupId,template.getItemID(), apply.getRoleName(), DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 						// System.err.println(String.format("发放道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(),
 						// DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 						template.deleteApply(drop, apply);
