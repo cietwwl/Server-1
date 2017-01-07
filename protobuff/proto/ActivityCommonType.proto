@@ -1,0 +1,44 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ActivityCommonTypeProto";
+
+package activityCommonType;
+
+enum RequestType{
+	ShakeEnvelope = 1;		//摇一摇红包
+}
+
+enum ResultType{
+	SUCCESS = 1;		//成功
+	FAIL = 2;		//失败
+	GOLD_NOT_ENOUGH = 3;	//钻石不足
+	VIP_NOT_ENOUGH = 4;		//VIP等级不足
+	COIN_NOT_ENOUGH = 5;	//金币不足
+	EXCEPTION = 6;	//内部异常
+}
+
+message ActivityCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional ParamForEnvelope envelopeParam = 2;	//摇一摇红包的参数
+}
+
+message ActivityCommonRspMsg{
+	required RequestType reqType = 1;	//请求功能协议类型
+	required ResultType result = 2;		//是否成功处理
+	optional string tipMsg = 3;			//提示消息，可以是成功，也可以是失败的提示消息
+	optional ResultForEnvelope envelopeResult = 4; 	//摇一摇红包的返回结构
+}
+
+message ParamForEnvelope{
+	required string cfgId = 1;	//要领取奖励的配置id
+	optional string rewardId = 2;	//点击了哪个奖励，目前不需要传
+}
+
+message ResultForEnvelope{
+	repeated CommonItem reward = 1;	//获得的奖励
+}
+
+message CommonItem{
+	required string itemId = 1;	//物品id
+	optional int32 count = 2;	//物品数量
+}

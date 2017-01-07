@@ -18,6 +18,7 @@ import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.http.platformResponse.ServerBaseDataResponse;
 import com.rw.service.platformService.PlatformService;
+import com.rwbase.ServerTypeMgr;
 import com.rwbase.common.enu.EServerStatus;
 import com.rwproto.PlatformGSMsg.UserInfoRequest;
 import com.rwproto.PlatformGSMsg.ePlatformGSMsgType;
@@ -54,6 +55,7 @@ public class PlatformGSService implements IShutdownHandler {
 			serverBaseDataResponse.setZoneId(GameManager.getZoneId());
 			serverBaseDataResponse.setOnlineNum(size);
 			serverBaseDataResponse.setActivityTimeVersion(ActivitySpecialTimeMgr.VERSION.get());
+			serverBaseDataResponse.setServerType(ServerTypeMgr.getInstance().getServerType());
 			serverBaseDataResponse.setStatus(blnShutdown ? EServerStatus.CLOSE.getStatusId() : getStatus());
 			PlatformService.SendResponse("com.rw.netty.http.requestHandler.ServerStatusHandler", "notifyServerData", serverBaseDataResponse, ServerBaseDataResponse.class);
 		} catch (Exception ex) {

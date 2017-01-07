@@ -1159,6 +1159,14 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityModifiedCfg(121, 303),
+    /**
+     * <code>ActivityShakeEnvelope = 304;</code>
+     *
+     * <pre>
+     *摇一摇红包
+     * </pre>
+     */
+    ActivityShakeEnvelope(122, 304),
     ;
 
     /**
@@ -2137,6 +2145,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityModifiedCfg_VALUE = 303;
+    /**
+     * <code>ActivityShakeEnvelope = 304;</code>
+     *
+     * <pre>
+     *摇一摇红包
+     * </pre>
+     */
+    public static final int ActivityShakeEnvelope_VALUE = 304;
 
 
     public final int getNumber() { return value; }
@@ -2265,6 +2281,7 @@ public final class DataSynProtos {
         case 301: return ActivityChargeRank;
         case 302: return ActivityConsumeRank;
         case 303: return ActivityModifiedCfg;
+        case 304: return ActivityShakeEnvelope;
         default: return null;
       }
     }
@@ -8353,7 +8370,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\364\024\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\220\025\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8420,9 +8437,9 @@ public final class DataSynProtos {
       "ardInfo\020y\022\020\n\014WB_Broatcast\020z\022\024\n\020CommonSou" +
       "lConfig\020{\022\023\n\017NewGuideClosure\020|\022\027\n\022Activi" +
       "tyChargeRank\020\255\002\022\030\n\023ActivityConsumeRank\020\256" +
-      "\002\022\030\n\023ActivityModifiedCfg\020\257\002*\034\n\013RequestTy" +
-      "pe\022\r\n\tSynByType\020\001B\034\n\013com.rwprotoB\rDataSy" +
-      "nProtos"
+      "\002\022\030\n\023ActivityModifiedCfg\020\257\002\022\032\n\025ActivityS" +
+      "hakeEnvelope\020\260\002*\034\n\013RequestType\022\r\n\tSynByT" +
+      "ype\020\001B\034\n\013com.rwprotoB\rDataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -3,6 +3,8 @@ package com.playerdata.activityCommon;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
@@ -21,7 +23,7 @@ public class ActivityMgrHelper {
 	}
 	
 	/**
-	 * 同步活动数据
+	 * 初始化活动数据的时间（配置表加载的时候会初始化一次，但那次可能没有开服时间，所以需要再初始化一次）
 	 * @param player
 	 */
 	public void initActivityTime(){
@@ -83,7 +85,11 @@ public class ActivityMgrHelper {
 	public void dailyRefreshNewDaySubActivity(Player player) {
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
 			if(null != type.getActivityMgr()){
-				type.getActivityMgr().dailyRefreshNewDaySubActivity(player);
+				try{
+					type.getActivityMgr().dailyRefreshNewDaySubActivity(player);
+				}catch(Exception ex){
+					GameLog.error(LogModule.ComActivity, "ActivityMgrHelper-dailyRefreshNewDaySubActivity", "活动每日刷新的时候，出现异常", ex);
+				}
 			}
 		}
 	}

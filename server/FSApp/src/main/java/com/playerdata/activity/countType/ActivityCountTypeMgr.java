@@ -14,7 +14,6 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
@@ -25,6 +24,11 @@ import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.activityCommon.UserActivityChecker;
 
+/**
+ * //登录活动等基础活动
+ * @author aken
+ *
+ */
 public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeItem> {
 	
 	private static final int ACTIVITY_INDEX_BEGIN = 0;
@@ -47,7 +51,6 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityExchangeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityLimitHeroTypeMgr.getInstance().checkActivityOpen(player);

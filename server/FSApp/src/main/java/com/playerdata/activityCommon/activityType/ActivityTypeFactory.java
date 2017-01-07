@@ -38,6 +38,9 @@ import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
 import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveSubItem;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO;
@@ -50,6 +53,8 @@ import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
+import com.playerdata.activity.notice.ActivityNoticeMgr;
+import com.playerdata.activity.notice.cfg.ActivityNoticeCfgDAO;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
@@ -57,17 +62,20 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.playerdata.activity.shakeEnvelope.ActivityShakeEnvelopeMgr;
+import com.playerdata.activity.shakeEnvelope.cfg.ActivityShakeEnvelopeCfgDAO;
+import com.playerdata.activity.shakeEnvelope.data.ActivityShakeEnvelopeItem;
 import com.playerdata.activityCommon.activityType.exception.RepeatedActivityTypeException;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ActivityTypeFactory {
 	
-	public static final ActivityType DailyRecharge;
-	public static final ActivityType GrowthFund;
-	public static final ActivityType CountType;
-	public static final ActivityType EvilBaoArrive;
-	public static final ActivityType ChargeRank;
-	public static final ActivityType ConsumeRank;
+	public static final ActivityType DailyRecharge;	//每日充值
+	public static final ActivityType GrowthFund;	//成长基金
+	public static final ActivityType CountType;		//登录活动等基础活动
+	public static final ActivityType EvilBaoArrive;	//申公豹驾到
+	public static final ActivityType ChargeRank;	//充值排行榜
+	public static final ActivityType ConsumeRank;	//消费排行榜
 	public static final ActivityType ActRankType;	//竞技之王
 	public static final ActivityType DailyDiscount;	//折扣活动
 	public static final ActivityType FortuneCat;	//招财猫
@@ -77,6 +85,8 @@ public class ActivityTypeFactory {
 	public static final ActivityType RateType;	//双倍活动
 	public static final ActivityType RedEnvelopeType;	//红包活动
 	public static final ActivityType VitalityType;	//活跃之王
+	public static final ActivityType Notice;	//打脸图
+	public static final ActivityType ShakeEnvelope;	//摇一摇红包
 	
 	private static List<ActivityType> typeList;
 	
@@ -101,12 +111,17 @@ public class ActivityTypeFactory {
 				ActivityFortuneCatTypeSubCfgDAO.class, ActivityFortuneCatTypeSubItem.class, ActivityFortuneCatTypeMgr.getInstance());
 		DailyCount = new ActivityType(1010, ActivityDailyTypeCfgDAO.class, ActivityDailyTypeItem.class,
 				ActivityDailyTypeSubCfgDAO.class, ActivityDailyTypeSubItem.class, ActivityDailyTypeMgr.getInstance());
+		ExChangeType = new ActivityType(1011, ActivityExchangeTypeCfgDAO.class, ActivityExchangeTypeItem.class, 
+				ActivityExchangeTypeSubCfgDAO.class, ActivityExchangeTypeSubItem.class, ActivityExchangeTypeMgr.getInstance());
 		
-		ExChangeType = new ActivityType(1011, ActivityExchangeTypeCfgDAO.class, ActivityExchangeTypeMgr.getInstance());
 		LimitHeroType = new ActivityType(1012, ActivityLimitHeroCfgDAO.class, ActivityLimitHeroTypeMgr.getInstance());
 		RateType = new ActivityType(1013, ActivityRateTypeCfgDAO.class, ActivityRateTypeMgr.getInstance());
 		RedEnvelopeType = new ActivityType(1014, ActivityRedEnvelopeTypeCfgDAO.class, ActivityRedEnvelopeTypeMgr.getInstance());
 		VitalityType = new ActivityType(1015, ActivityVitalityCfgDAO.class, ActivityVitalityTypeMgr.getInstance());
+		
+		Notice = new ActivityType(1017, ActivityNoticeCfgDAO.class, ActivityNoticeMgr.getInstance());
+		ShakeEnvelope = new ActivityType(1016, ActivityShakeEnvelopeCfgDAO.class, ActivityShakeEnvelopeItem.class,
+				null, null, ActivityShakeEnvelopeMgr.getInstance());
 		
 		
 		typeList = new ArrayList<ActivityType>();
@@ -125,6 +140,8 @@ public class ActivityTypeFactory {
 		addType(RateType);
 		addType(RedEnvelopeType);
 		addType(VitalityType);
+		addType(Notice);
+		addType(ShakeEnvelope);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

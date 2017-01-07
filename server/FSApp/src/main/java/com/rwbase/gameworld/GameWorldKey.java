@@ -158,9 +158,21 @@ public enum GameWorldKey {
 	 */
 	ACTIVITY_VITALITYTYPE("ACTIVITY_VITALITYTYPE"),
 	/**
+	 * 活动:打脸图公告
+	 */
+	ACTIVITY_NOTICE("ACTIVITY_NOTICE"),
+	/**
+	 * 活动:摇一摇红包
+	 */
+	ACTIVITY_SHAKEENVELOPE("ACTIVITY_SHAKEENVELOPE"),
+	/**
 	 * 热更记录
 	 */
 	HOTFIX_HISTORY("HOTFIX_HISTORY"),
+	/**
+	 * 最后一次热更的文件夹里面的文件
+	 */
+	HOTFIX_FILES("HOTFIX_FILES"),
 	;
 	
 

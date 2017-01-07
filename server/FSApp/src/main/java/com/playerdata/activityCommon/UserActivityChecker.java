@@ -118,7 +118,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		int playerLevel = player.getLevel();
 		int playerVip = player.getVip();
 		for(ActivityCfgIF cfg : activeDailyList){
-			if(playerLevel < cfg.getLevelLimit() && playerVip < cfg.getVipLimit()){
+			if(playerLevel < cfg.getLevelLimit() || playerVip < cfg.getVipLimit()){
 				continue;
 			}
 			T item = itemStore.get(cfg.getId());
@@ -177,7 +177,6 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 				activeItemMap.put(item.getId(), item);
 			}else{
 				expireActivityHandler(userId, item);
-				item.setClosed(true);
 				removeList.add(item.getId());
 			}
 		}
@@ -206,8 +205,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		//还在活跃期内，取当天的数据
 		int todayNum = getCurrentDay(cfg);
 		for(ActivitySubCfgIF subCfg : subDao.getAllCfg()){
-			if(StringUtils.equals(subCfg.getDay(), String.valueOf(todayNum)) && 
-					StringUtils.equals(String.valueOf(subCfg.getType()), cfgID)){
+			if(subCfg.getDay() == todayNum && StringUtils.equals(String.valueOf(subCfg.getType()), cfgID)){
 				todaySubs.add(String.valueOf(subCfg.getId()));
 			}
 		}

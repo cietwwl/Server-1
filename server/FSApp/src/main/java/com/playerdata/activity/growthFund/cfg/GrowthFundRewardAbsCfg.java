@@ -29,8 +29,8 @@ public abstract class GrowthFundRewardAbsCfg extends BaseConfig implements Activ
 	}
 	
 	@Override
-	public String getDay() {
-		return "1";
+	public int getDay() {
+		return 1;
 	}
 	
 	@Override

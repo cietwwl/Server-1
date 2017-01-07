@@ -51,36 +51,36 @@ public class BattleTowerCollector implements RedPointCollector {
 		}
 
 		// 检查Boss
-//		List<String> bossIdList = null;
-//		List<BossInfo> bossInfoList = tableBattleTower.getBossInfoList();
-//		if (!bossInfoList.isEmpty()) {
-//			int size = bossInfoList.size();
-//			bossIdList = new ArrayList<String>(size);
-//
-//			long showTime = TimeUnit.MINUTES.toMillis(uniqueCfg.getBossShowTime());
-//
-//			for (int i = 0; i < size; i++) {
-//				BossInfo bossInfo = bossInfoList.get(i);
-//				if (now < bossInfo.getBossStartTime()) {
-//					continue;
-//				}
-//
-//				long offTime = now - bossInfo.getBossStartTime();
-//				if (offTime >= showTime) {
-//					continue;
-//				}
-//
-//				if (bossInfo.isHasFight()) {
-//					continue;
-//				}
-//
-//				bossIdList.add(String.valueOf(bossInfo.getBossUniqueId()));
-//			}
-//		}
-//
-//		if (bossIdList != null && !bossIdList.isEmpty()) {
-//			map.put(RedPointType.BATTLE_TOWER_NEW_BOSS, bossIdList);
-//		}
+		List<String> bossIdList = null;
+		List<BossInfo> bossInfoList = tableBattleTower.getBossInfoList();
+		if (!bossInfoList.isEmpty()) {
+			int size = bossInfoList.size();
+			bossIdList = new ArrayList<String>(size);
+
+			long showTime = TimeUnit.MINUTES.toMillis(uniqueCfg.getBossShowTime());
+
+			for (int i = 0; i < size; i++) {
+				BossInfo bossInfo = bossInfoList.get(i);
+				if (now < bossInfo.getBossStartTime()) {
+					continue;
+				}
+
+				long offTime = now - bossInfo.getBossStartTime();
+				if (offTime >= showTime) {
+					continue;
+				}
+
+				if (bossInfo.isHasFight()) {
+					continue;
+				}
+
+				bossIdList.add(String.valueOf(bossInfo.getBossUniqueId()));
+			}
+		}
+
+		if (bossIdList != null && !bossIdList.isEmpty()) {
+			map.put(RedPointType.BATTLE_TOWER_NEW_BOSS, bossIdList);
+		}
 	}
 
 	@Override

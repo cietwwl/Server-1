@@ -10,7 +10,7 @@ public class ActivityDailyChargeSubCfg extends BaseConfig implements ActivitySub
 	private int count; //领取条件
 	private String giftId; //奖励礼包
 	private String title; //活动子标题
-	private String day; //激活时间
+	private int day; //激活时间
 
 	public int getId() {
 		return id;
@@ -40,7 +40,7 @@ public class ActivityDailyChargeSubCfg extends BaseConfig implements ActivitySub
 		return title;
 	}
 	
-	public String getDay() {
+	public int getDay() {
 		return day;
 	}
 

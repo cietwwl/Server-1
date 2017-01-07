@@ -72,8 +72,8 @@ public class ActivityFortuneCatTypeSubCfg implements ActivitySubCfgIF{
 	}
 	
 	@Override
-	public String getDay() {
-		return "1";
+	public int getDay() {
+		return 1;
 	}
 
 	@Override
@@ -83,6 +83,6 @@ public class ActivityFortuneCatTypeSubCfg implements ActivitySubCfgIF{
 
 	@Override
 	public void setCfgReward(String reward) {
-		// TODO Auto-generated method stub
+		
 	}
 }

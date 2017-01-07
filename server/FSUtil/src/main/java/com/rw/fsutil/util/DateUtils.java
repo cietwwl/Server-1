@@ -489,7 +489,7 @@ public class DateUtils {
 	 * @return
 	 */
 	public static long getDayZeroTime(long time) {
-		Calendar c = Calendar.getInstance();
+		Calendar c = getCalendar();
 		c.setTimeInMillis(time);
 		setDayZeroTime(c);
 		return c.getTimeInMillis();

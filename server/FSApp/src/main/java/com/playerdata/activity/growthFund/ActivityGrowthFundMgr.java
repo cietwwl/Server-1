@@ -106,11 +106,9 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 		ActivityGrowthFundItemHolder _dataHolder = ActivityGrowthFundItemHolder.getInstance();
 		List<ActivityGrowthFundItem> list = _dataHolder.getItemList(player.getUserId());
 		_dataHolder.getGlobalData().increaseAlreadyBoughtCount();
-		int boughtCount = _dataHolder.getGlobalData().getAlreadyBoughtCount();
 		for (ActivityGrowthFundItem temp : list) {
 			checkIfFundTypeNull(temp);
 			temp.setBought(true);
-			temp.setBoughtCount(boughtCount);
 			_dataHolder.updateItem(player, temp);
 		}
 	}

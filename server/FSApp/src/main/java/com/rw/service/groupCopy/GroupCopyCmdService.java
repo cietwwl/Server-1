@@ -1,6 +1,5 @@
 package com.rw.service.groupCopy;
 
-import com.bm.groupCopy.GroupCopyDataVersionMgr;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;

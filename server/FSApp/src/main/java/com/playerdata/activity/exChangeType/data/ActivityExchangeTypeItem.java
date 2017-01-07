@@ -4,24 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_exchange_item")
-public class ActivityExchangeTypeItem implements  RoleExtProperty {
+public class ActivityExchangeTypeItem  implements ActivityTypeItemIF<ActivityExchangeTypeSubItem>{
 
 	@Id
 	private int id;
+	
 	@OwnerId
 	private String userId;// 对应的角色Id
 
@@ -41,7 +39,7 @@ public class ActivityExchangeTypeItem implements  RoleExtProperty {
 	private long lasttime;
 	
 	@CombineSave
-	private String version ;
+	private int version ;
 	
 	@CombineSave
 	private long redPointLastTime;
@@ -51,6 +49,9 @@ public class ActivityExchangeTypeItem implements  RoleExtProperty {
 	 */
 	@CombineSave
 	private List<String> historyRedPoint = new ArrayList<String>();	
+	
+	@CombineSave
+	private boolean isTouchRedPoint;
 	
 	public String getEnumId() {
 		return enumId;
@@ -75,9 +76,6 @@ public class ActivityExchangeTypeItem implements  RoleExtProperty {
 	public void setRedPointLastTime(long redPointLastTime) {
 		this.redPointLastTime = redPointLastTime;
 	}
-	
-	@CombineSave
-	private boolean isTouchRedPoint;	
 
 	public boolean isTouchRedPoint() {
 		return isTouchRedPoint;
@@ -87,24 +85,15 @@ public class ActivityExchangeTypeItem implements  RoleExtProperty {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
 	
-	
-	/**版本刷新*/
-	public void reset(ActivityExchangeTypeCfg targetCfg,List<ActivityExchangeTypeSubItem> list){
-		this.cfgId = String.valueOf(targetCfg.getId());
-		this.closed = false;
-		this.version = String.valueOf(targetCfg.getVersion());
-		subItemList = list;
-		isTouchRedPoint = false;
-		historyRedPoint = new ArrayList<String>();
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}	
+//	/**版本刷新*/
+//	public void reset(ActivityExchangeTypeCfg targetCfg,List<ActivityExchangeTypeSubItem> list){
+//		this.cfgId = String.valueOf(targetCfg.getId());
+//		this.closed = false;
+//		this.version = String.valueOf(targetCfg.getVersion());
+//		subItemList = list;
+//		isTouchRedPoint = false;
+//		historyRedPoint = new ArrayList<String>();
+//	}
 
 	public long getLasttime() {
 		return lasttime;
@@ -154,5 +143,31 @@ public class ActivityExchangeTypeItem implements  RoleExtProperty {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public boolean isHasViewed() {
+		return isTouchRedPoint;
+	}
+
+	@Override
+	public void setHasViewed(boolean hasViewed) {
+		isTouchRedPoint = hasViewed;
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}	
 }

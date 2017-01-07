@@ -41,8 +41,8 @@ public class ActivityCountTypeSubCfg implements ActivitySubCfgIF{
 	}
 	
 	@Override
-	public String getDay() {
-		return "1";
+	public int getDay() {
+		return 1;
 	}
 	
 	@Override

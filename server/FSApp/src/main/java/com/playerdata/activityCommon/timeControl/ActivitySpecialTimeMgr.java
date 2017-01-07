@@ -35,9 +35,11 @@ public class ActivitySpecialTimeMgr {
 				reloadSpecialActivity(actTimeInfo);
 			}
 			int oriVersion = VERSION.get();
-			VERSION.set(actTimeInfo.getPlatformVersion());
+			if(actTimeInfo.getPlatformVersion() == 0 || actTimeInfo.getPlatformVersion() > oriVersion){
+				VERSION.set(actTimeInfo.getPlatformVersion());
+			}
 			if(oriVersion != actTimeInfo.getPlatformVersion()){
-				GameLog.info("Activity", "activity", "Get activity["+ VERSION.get() + "] from Login server...");
+				GameLog.info("Activity", "activity", String.format("Get activity[%s] from Login server, last version[%s]...", actTimeInfo.getPlatformVersion(), oriVersion));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

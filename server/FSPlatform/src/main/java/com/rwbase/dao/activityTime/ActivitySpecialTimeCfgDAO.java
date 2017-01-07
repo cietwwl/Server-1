@@ -2,6 +2,7 @@ package com.rwbase.dao.activityTime;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.service.http.platformResponse.ServerType;
 import com.rwbase.common.config.CfgCsvHelper;
 
 //	<bean class="com.rwbase.dao.activityTime.ActivitySpecialTimeCfgDAO"  init-method="init" />
@@ -21,6 +23,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 	private static long LAST_MODIFY_TIME = 0;
 	private static AtomicInteger platformVersion = new AtomicInteger(0);
 	private static boolean OPENED_TIMER = false;
+	private EnumMap<ServerType, HashMap<Integer, List<SingleActTime>>> serTypeMap = new EnumMap<ServerType, HashMap<Integer, List<SingleActTime>>>(ServerType.class);
 	private HashMap<Integer, List<SingleActTime>> actCfgMap = new HashMap<Integer, List<SingleActTime>>();
 	private HashMap<Integer, List<SingleActTime>> actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
 	
@@ -30,12 +33,13 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 
 	@Override
 	public Map<String, ActivitySpecialTimeCfg> initJsonCfg() {
-		Map<String, ActivitySpecialTimeCfg> tmpMap = CfgCsvHelper.readCsv2Map("Activity/ActivitySpecialTimeCfg.csv",ActivitySpecialTimeCfg.class);
+		int tmpVersion = -1;
+		Map<String, ActivitySpecialTimeCfg> tmpMap = CfgCsvHelper.readCsv2Map("Activity/ActivitySpecialTimeCfg.csv", ActivitySpecialTimeCfg.class);
 		actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
 		for(ActivitySpecialTimeCfg cfgTmp : tmpMap.values()){
 			decodeActivityZone(cfgTmp);
 			if(cfgTmp.getId() == 1) {
-				platformVersion.set(cfgTmp.getVersion());
+				tmpVersion = cfgTmp.getVersion();
 			}
 		}
 		if(!OPENED_TIMER){
@@ -57,6 +61,9 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		}
 		cfgCacheMap = tmpMap;
 		actCfgMap = actCfgTmpMap;
+		if(-1 != tmpVersion){
+			platformVersion.set(tmpVersion);
+		}
 		return cfgCacheMap;
 	}
 	
@@ -72,7 +79,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		}
 	}
 	
-	public ActCfgInfo getZoneAct(int zoneId, int version){
+	public ActCfgInfo getZoneAct(int zoneId, int version, ServerType serType){
 		ActCfgInfo actInfo = new ActCfgInfo();
 		int thisVersion = platformVersion.get();
 		actInfo.setPlatformVersion(thisVersion);

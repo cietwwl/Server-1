@@ -72,7 +72,7 @@ public class Server {
 			
 			//每次启服的时候，检查是否有GM修改过的活动配置（启服最后检查）
 			ActivityModifyMgr.getInstance().checkModifiedActivity();
-			//每次启服的时候，初始化活动配置表的时间
+			//每次启服的时候，初始化活动配置表的时间(虽然配置表的init方法初始化过，但是那个时候没有开服时间，相对时间无法解析，所以这里需要重新初始化一次)
 			ActivityMgrHelper.getInstance().initActivityTime();
 			//从登录服同步活动的时间数据
 			PlatformGSService.notifyServerStatusToPlatform(false);

@@ -6,15 +6,27 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
 
 
+/**
+ * 活动时间的转化类
+ * @author aken
+ *
+ */
 public class ActivityTimeHelper {
 	
-	private static int TIME_SIZE = "YYYYMMDDHHmm".length();
-	private static int MAX_DAYS_SIZE = "9999".length();
-	private static long ONE_DAY_MS = 24 * 60 * 60 * 1000;
+	private static int TIME_SIZE = "YYYYMMDDHHmm".length();	//绝对时间的长度
+	private static int MAX_DAYS_SIZE = "9999".length();	//相对时间的长度
+	private static long ONE_DAY_MS = 24 * 60 * 60 * 1000;	//一天的毫秒数
 	
 	public static int RESET_HOUR = 5;	//活动的重置时间
-	private static long openTime = 0;
+	private static long openTime = 0;	//开服时间，起服后从登录服取的，会有延时
 	
+	/**
+	 * 把时间转化成毫秒
+	 * <li>如果是相对时间，先转化成绝对时间</li>
+	 * @param startTime
+	 * @param endTime
+	 * @return TimePair 返回这个结构，是需要替换原来的时间字符串的，前端只能解析绝对时间
+	 */
 	public static TimePair transToAbsoluteTime(String startTime, String endTime){
 		long startMil = cftStartTimeToLong(startTime);
 		if(startMil <= 0) return null;
@@ -54,22 +66,6 @@ public class ActivityTimeHelper {
 			result = DateUtils.getHour(result, RESET_HOUR);   //五点为重置时间
 		}
 		return result;
-	}
-	
-	public static String getThisZoneTime(String totalTimeStr){
-		if(null == totalTimeStr) return null;
-		String zoneId = String.valueOf(GameManager.getZoneId());
-		String tmpStr = totalTimeStr.replaceAll("\n\r", "");
-		String[] splitStrArr = tmpStr.split("|");
-		for(String zoneTimeStr : splitStrArr){
-			if(zoneTimeStr.indexOf(zoneId) >= 0){
-				String[] zoneAndTime = zoneTimeStr.split("_");
-				if(zoneAndTime.length == 2){
-					return zoneAndTime[1];
-				}
-			}
-		}
-		return null;
 	}
 	
 	public static class TimePair{

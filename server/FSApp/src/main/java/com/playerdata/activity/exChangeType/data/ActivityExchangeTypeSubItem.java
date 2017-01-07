@@ -2,11 +2,12 @@ package com.playerdata.activity.exChangeType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityExchangeTypeSubItem {
+public class ActivityExchangeTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
@@ -21,8 +22,6 @@ public class ActivityExchangeTypeSubItem {
 	public void setCfgId(String cfgId) {
 		this.cfgId = cfgId;
 	}
-	
-	
 	
 	public boolean isIsrefresh() {
 		return isrefresh;

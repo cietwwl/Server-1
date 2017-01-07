@@ -16,6 +16,7 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
+import com.playerdata.activity.shakeEnvelope.data.ActivityShakeEnvelopeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.rw.dataaccess.attachment.creator.ActivityChargeRankCreator;
@@ -32,6 +33,7 @@ import com.rw.dataaccess.attachment.creator.ActivityRankTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityRateCreator;
 import com.rw.dataaccess.attachment.creator.ActivityRedEnvelopeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityRetrieveCreator;
+import com.rw.dataaccess.attachment.creator.ActivityShakeEnvelopeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
@@ -102,6 +104,8 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_CONSUME_RANK(22, ActivityConsumeRankItem.class, ActivityConsumeRankCreator.class),
 	/**直通车礼包*/
 	ROUTER_GIFT(23, RouterGiftDataItem.class, RouterGiftDataCreator.class),
+	/**通用活动，摇一摇红包；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
+	ACTIVITY_SHAKE_ENVELOPE(24, ActivityShakeEnvelopeItem.class, ActivityShakeEnvelopeCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;
