@@ -5,9 +5,9 @@ vip2,,false,false,,,
 vip3,,false,false,,,
 vip4,,false,false,,,
 vip5,,false,false,,,
-vip6,,false,false,,,
-vip7,,true,false,,,
-vip8,,true,false,,,
+vip6,,false,false,1,,
+vip7,,true,false,1,,
+vip8,,true,false,1,,
 vip9,,true,false,1,1,1
 vip10,,true,false,1,1,1
 vip11,,true,true,1,1,1
