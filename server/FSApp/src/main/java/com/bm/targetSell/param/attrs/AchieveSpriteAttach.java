@@ -1,13 +1,16 @@
 package com.bm.targetSell.param.attrs;
 
+import java.util.List;
 import java.util.Map;
 
 import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.SpriteAttachMgr;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
 import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
 import com.rwbase.dao.user.User;
@@ -32,7 +35,12 @@ public class AchieveSpriteAttach implements AbsAchieveAttrValue{
 		}
 		
 		if(hero != null){
-			
+			List<SpriteAttachItem> list = SpriteAttachMgr.getInstance().getHeroSpriteAttach(player, heroModelId);
+			String[] attrName = cfg.getAttrName().split(",");
+			for (int i = 0; i < list.size(); i++) {
+				SpriteAttachItem item = list.get(i);
+				AttrMap.put(attrName[item.getIndex() - 1], item);//附灵的索引是从1开始的
+			}
 		}
 	}
 

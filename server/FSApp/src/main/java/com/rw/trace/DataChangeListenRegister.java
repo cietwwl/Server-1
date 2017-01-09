@@ -17,6 +17,7 @@ import com.rw.trace.listener.InlayDataListener;
 import com.rw.trace.listener.ItemDataListener;
 import com.rw.trace.listener.MainRoleDataListener;
 import com.rw.trace.listener.MajorDataListener;
+import com.rw.trace.listener.SpriteAttachDataListener;
 import com.rw.trace.listener.UserGameDataListener;
 
 /**
@@ -45,6 +46,8 @@ public enum DataChangeListenRegister {
 	FIXEXPEQUIPDATA(DataTraceRegistrator.FIX_EXP_EQUIP_ITEM, FixExpEquipDataListener.class),
 	FIXNOREQUIPDATA(DataTraceRegistrator.FIX_NOMR_EQUIP_ITEM, FixNorEquipDataListener.class),
 	INLAYDATA(DataTraceRegistrator.INLAY_ITEM, InlayDataListener.class),
+	SPRITEATTACHITEM(DataTraceRegistrator.SPRITEATTACHITEM, SpriteAttachDataListener.class),
+	
 	;
 	private DataChangeListenRegister(DataTraceRegistrator traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {
 		this.traceClass = traceClass;
