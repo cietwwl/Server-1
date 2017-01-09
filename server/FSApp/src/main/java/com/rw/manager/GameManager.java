@@ -22,6 +22,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import com.bm.arena.ArenaBM;
 import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
 import com.bm.notice.NoticeMgr;
@@ -62,6 +63,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
+import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.guide.NewGuideListener;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
@@ -235,6 +237,9 @@ public class GameManager {
 		if (ServerTypeMgr.getInstance().getServerType() == ServerType.IOS_YAOWAN) {
 			YaoWanLogConfig.init();
 		}
+		
+		ArenaBM.getInstance().preloadRobot();
+		PeakArenaBM.getInstance().preloadRobot();
 	}
 
 	public static void initServerProperties() {

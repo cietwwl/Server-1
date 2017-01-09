@@ -12,12 +12,14 @@ import com.bm.rank.ListRankingType;
 import com.common.HPCUtil;
 import com.common.RefInt;
 import com.common.RefParam;
+import com.common.RobotListRankingImpl;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroFightPowerComparator;
 import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -53,6 +55,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	private static long MILLIS_PER_HOUR = TimeUnit.HOURS.toMillis(1);
 	private static final int MAX_RECORD_COUNT = 30;
 	public static final int MAX_DISPLAY_COUNT = 20;
+	protected ListRanking<String, PeakArenaExtAttribute> robotRankingList;
 
 	public static PeakArenaBM getInstance() {
 		return instance;
@@ -220,12 +223,35 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		}
 		return false;
 	}
+	
+	public void preloadRobot() {
+		ListRanking<String, PeakArenaExtAttribute> ranking = getRanks();
+		List<? extends ListRankingEntry<String, PeakArenaExtAttribute>> entrysCopy = ranking.getEntrysCopy();
+		List<ListRankingEntry<String, PeakArenaExtAttribute>> robotRankings = new ArrayList<ListRankingEntry<String, PeakArenaExtAttribute>>();
+		for (int i = 0; i < entrysCopy.size(); i++) {
+			ListRankingEntry<String, PeakArenaExtAttribute> entry = entrysCopy.get(i);
+			if (PlayerMgr.getInstance().isPersistantRobot(entry.getKey())) {
+				robotRankings.add(entry);
+			}
+		}
+		Collections.sort(robotRankings, new RobotFighingComparator());
+		robotRankingList = new RobotListRankingImpl<PeakArenaExtAttribute>(ListRankingType.PEAK_ARENA.getType(), robotRankings);
+	}
 
 	// 玩家筛选
 	public List<ListRankingEntry<String, PeakArenaExtAttribute>> SelectPeakArenaInfos(TablePeakArenaData data, Player player) {
-		ListRanking<String, PeakArenaExtAttribute> wholeRank = getRanks();
+		ListRanking<String, PeakArenaExtAttribute> wholeRank;
 		// 获取玩家排名
-		int playerPlace = getPlace(wholeRank, player);
+		int playerPlace;
+		if (data == null || data.getCurrentRecordId() == 0) {
+			// 首次挑战只挑战机器人
+			wholeRank = robotRankingList;
+			playerPlace = wholeRank.getRankingSize() + 1;
+			System.out.println("玩家首次挑战，使用机器人数据！userId：" + player.getUserId());
+		} else {
+			wholeRank = getRanks();
+			playerPlace = getPlace(wholeRank, player);
+		}
 		ArrayList<ListRankingEntry<String, PeakArenaExtAttribute>> result = new ArrayList<ListRankingEntry<String, PeakArenaExtAttribute>>();
 		peakArenaMatchRule cfg = peakArenaMatchRuleHelper.getInstance().getBestMatch(playerPlace, true);
 		if (cfg != null) {
@@ -677,6 +703,15 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 
 	@Override
 	public void onClose(IStream<Pair<Player, Integer>> whichStream) {
+	}
+	
+	private static class RobotFighingComparator implements Comparator<ListRankingEntry<String, PeakArenaExtAttribute>> {
+
+		@Override
+		public int compare(ListRankingEntry<String, PeakArenaExtAttribute> o1, ListRankingEntry<String, PeakArenaExtAttribute> o2) {
+			return -(o1.getExtension().getFighting() - o2.getExtension().getFighting());
+		}
+
 	}
 
 }

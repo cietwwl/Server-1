@@ -14,6 +14,7 @@ import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.HPCUtil;
 import com.common.RefParam;
+import com.common.RobotListRankingImpl;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -50,6 +51,7 @@ public class ArenaBM {
 	private RandomCombination[][] randomArray;
 	private static ArenaBM instance = new ArenaBM();
 	private TableArenaDataDAO tableArenaDataDAO = TableArenaDataDAO.getInstance();
+	protected ListRanking<String, ArenaExtAttribute> robotRankingList;
 
 	protected ArenaBM() {
 		RandomCombination[] singleDigitArray = new RandomCombination[10];
@@ -91,6 +93,20 @@ public class ArenaBM {
 		// instance = new ArenaBM();
 		// }
 		return instance;
+	}
+	
+	public void preloadRobot() {
+		ListRanking<String, ArenaExtAttribute> ranking = getRanking();
+		List<? extends ListRankingEntry<String, ArenaExtAttribute>> entrysCopy = ranking.getEntrysCopy();
+		List<ListRankingEntry<String, ArenaExtAttribute>> robotRankings = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>(4068);
+		for (int i = 0; i < entrysCopy.size(); i++) {
+			ListRankingEntry<String, ArenaExtAttribute> entry = entrysCopy.get(i);
+			if (PlayerMgr.getInstance().isPersistantRobot(entry.getKey())) {
+				robotRankings.add(entry);
+			}
+		}
+		Collections.sort(robotRankings, new RobotFighingComparator());
+		robotRankingList = new RobotListRankingImpl<ArenaExtAttribute>(ListRankingType.ARENA.getType(), robotRankings);
 	}
 
 	public TableArenaData getArenaData(String userId) {
@@ -326,17 +342,26 @@ public class ArenaBM {
 	public List<ListRankingEntry<String, ArenaExtAttribute>> selectArenaInfos(Player player) {
 		int career = player.getCareer();
 		if (career <= 0) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 		String userId = player.getUserId();
-		ListRanking<String, ArenaExtAttribute> ranking = getRanking();
+		ListRanking<String, ArenaExtAttribute> ranking;
+		int place = getArenaPlace(player); // 里面有添加竞技场数据
+		TableArenaData data = getArenaData(userId);
+		if(data.getChallengeTime() == 0) {
+			// 第一次挑战，完全使用机器人的数据
+			ranking = robotRankingList;
+			place = robotRankingList.getRankingSize() + 1;
+			System.out.println("角色：" + player.getUserId() + "，第一次打竞技场，使用机器人数据！");
+		} else {
+			ranking = getRanking();
+		}
 		ArrayList<ListRankingEntry<String, ArenaExtAttribute>> result = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
 		// 排行前10名，ing，随机拉取前10名的其中三个作为对手
 		// 前10名以外按照此规则拉取对手(M是名次)：
 		// 第三个人区间[0.8M,1.0M)
 		// 第二个人区间[0.6M,0.8M)
 		// 第一个人区间[0.4M,0.6M)
-		int place = getArenaPlace(player);
 		if (place <= 10) {
 			fillByTenSteps(userId, result, 0, ranking, 3);
 		} else {
@@ -364,6 +389,15 @@ public class ArenaBM {
 		}
 
 	};
+	
+	private static class RobotFighingComparator implements Comparator<ListRankingEntry<String, ArenaExtAttribute>> {
+
+		@Override
+		public int compare(ListRankingEntry<String, ArenaExtAttribute> o1, ListRankingEntry<String, ArenaExtAttribute> o2) {
+			return -(o1.getExtension().getFighting() - o2.getExtension().getFighting());
+		}
+
+	}
 
 	/**
 	 * 获取竞技场信息列表(兼容旧有方法)

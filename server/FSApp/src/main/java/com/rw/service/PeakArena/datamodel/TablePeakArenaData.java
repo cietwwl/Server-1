@@ -206,6 +206,11 @@ public class TablePeakArenaData {
 	}
 	
 	@JsonIgnore
+	public int getCurrentRecordId() {
+		return this.recordIdGenerator.get();
+	}
+	
+	@JsonIgnore
 	public int getNextId() {
 		this.recordIdGenerator.compareAndSet(Short.MAX_VALUE, 0);
 		return this.recordIdGenerator.incrementAndGet();
