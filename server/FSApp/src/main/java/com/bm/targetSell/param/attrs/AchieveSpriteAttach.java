@@ -35,11 +35,11 @@ public class AchieveSpriteAttach implements AbsAchieveAttrValue{
 		}
 		
 		if(hero != null){
-			List<SpriteAttachItem> list = SpriteAttachMgr.getInstance().getHeroSpriteAttach(player, heroModelId);
+			List<SpriteAttachItem> list = SpriteAttachMgr.getInstance().getHeroSpriteAttach(player, hero.getModeId());
 			String[] attrName = cfg.getAttrName().split(",");
 			for (int i = 0; i < list.size(); i++) {
 				SpriteAttachItem item = list.get(i);
-				AttrMap.put(attrName[item.getIndex() - 1], item);//附灵的索引是从1开始的
+				AttrMap.put(attrName[item.getIndex() - 1], item.getLevel());//附灵的索引是从1开始的
 			}
 		}
 	}

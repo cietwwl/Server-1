@@ -69,9 +69,6 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler,
 			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
 		this.name = key.getName();
-		if(StringUtils.equals(name, "SpriteAttachSyn")){
-			System.out.println();
-		}
 		int tenPercent = maxCapacity / 10;
 		this.capacity = maxCapacity - tenPercent;
 		this.evictedQueue = new FSBoundedQueue<ReentrantFutureTask>(name, tenPercent);
