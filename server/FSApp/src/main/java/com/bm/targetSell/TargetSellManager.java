@@ -480,9 +480,9 @@ public class TargetSellManager {
 	 * 通知属性改变
 	 * 
 	 * @param player
-	 * @param list
+	 * @param cfgID
 	 */
-	public void notifyRoleAttrsChange(String userId, String eRoleAttrID) {
+	public void notifyRoleAttrsChange(String userId, String cfgID) {
 		TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
 		if (targetSellRoleChange == null) {
 			targetSellRoleChange = new TargetSellRoleChange(userId, DateUtils.getSecondLevelMillis());
@@ -492,7 +492,7 @@ public class TargetSellManager {
 				targetSellRoleChange = old;
 			}
 		}
-		targetSellRoleChange.addChange(eRoleAttrID);
+		targetSellRoleChange.addChange(cfgID);
 
 	}
 
