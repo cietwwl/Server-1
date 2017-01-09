@@ -377,7 +377,7 @@ public class GMHandler {
 			if (sessionId == null) {
 				return false;
 			}
-			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionId, request));
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionId, request, request.getHeader().getCommand()));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

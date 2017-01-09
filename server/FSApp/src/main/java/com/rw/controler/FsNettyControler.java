@@ -21,8 +21,10 @@ import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.GameLoginProtos.GameLoginRequest;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.MsgExtensionProtos.MsgExtensionRequest;
 import com.rwproto.ReConnectionProtos.ReConnectRequest;
 import com.rwproto.RequestProtos.Request;
+import com.rwproto.RequestProtos.RequestBody;
 import com.rwproto.RequestProtos.RequestHeader;
 
 public class FsNettyControler {
@@ -33,7 +35,7 @@ public class FsNettyControler {
 	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
 		long current = System.currentTimeMillis();
 		RequestHeader header = exRequest.getHeader();
-		final Command command = header.getCommand();
+		Command command = header.getCommand();
 		// 更新消息接收时间
 		ServerHandler.updateSessionInfo(ctx, current, command);
 		// GameLog.debug("msg:" + command);
@@ -58,11 +60,31 @@ public class FsNettyControler {
 			if (userId == null) {
 				return;
 			}
+			if (command == Command.MSG_Rs_DATA) {
+				try {
+					MsgExtensionRequest msgExtReq = MsgExtensionRequest.parseFrom(exRequest.getBody().getSerializedContent());
+					Request.Builder newBuilder = Request.newBuilder();
+					RequestBody.Builder requestBody = RequestBody.newBuilder();
+					requestBody.setSerializedContent(msgExtReq.getBody());
+					newBuilder.setBody(requestBody.build());
+					RequestHeader.Builder requestHeader = RequestHeader.newBuilder();
+					requestHeader.mergeFrom(header);
+					newBuilder.setHeader(requestHeader);
+					exRequest = newBuilder.build();
+
+					command = msgExtReq.getCommandId();
+				} catch (Exception e) {
+					e.printStackTrace();
+					UserChannelMgr.sendErrorResponse(userId, header, "", 500);
+					return;
+				}
+			}
+
 			// HeartBeat可以归到service做
 			if (command == Command.MSG_HeartBeat) {
 				GameWorldFactory.getGameWorld().asyncExecute(userId, new HeartBeatTask(sessionId, exRequest));
 			} else {
-				GameWorldFactory.getGameWorld().asyncExecute(userId, new GameLogicTask(sessionId, exRequest));
+				GameWorldFactory.getGameWorld().asyncExecute(userId, new GameLogicTask(sessionId, exRequest, command));
 			}
 		}
 	}
@@ -112,11 +134,11 @@ public class FsNettyControler {
 	private void doPlatformGSMsg(Request exRequest, ChannelHandlerContext ctx) {
 		PlatformGSService.doTask(exRequest, ctx);
 	}
-	
+
 	private void doGetRandomName(Request exRequest, ChannelHandlerContext ctx) {
 		RandomNameService.getInstance().processGetRandomName(exRequest, ctx);
 	}
-	
+
 	public FsService<GeneratedMessage, ProtocolMessageEnum> getSerivice(Command command) {
 		return commandMap.get(command);
 	}
