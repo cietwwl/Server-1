@@ -20,6 +20,8 @@ public enum EAchieveType {
 	AchieveStoneLevel(15, new AchieveStoneAttrValue()),
 	AchieveMagicUpgradLv(16, new AchieveMagicUpgradLv()),//角色某一类法宝的最高进化等级
 	AchieveMagicLevel(17, new AchieveMagicLevel()),//角色某一类法宝的最高等级
+	AchieveItemCount(18, new AchieveItemCount()),//检查某个道具数量
+	AchieveSpriteAttach(19, new AchieveSpriteAttach()),//英雄附灵等级
 	;
 	
 	private int id;
