@@ -37,17 +37,16 @@ import com.rwproto.FixEquipProto.SelectItem;
 
 public class FixExpEquipMgr {
 
-
 	private static FixExpEquipMgr _instance = new FixExpEquipMgr();
 
 	public static FixExpEquipMgr getInstance() {
 		return _instance;
 	}
 
-	public FixExpEquipDataItemHolder getFixExpEquipDataItemHolder(){
-		return FixExpEquipDataItemHolder.getInstance();	
+	public FixExpEquipDataItemHolder getFixExpEquipDataItemHolder() {
+		return FixExpEquipDataItemHolder.getInstance();
 	}
-	
+
 	protected FixExpEquipMgr() {
 	}
 
@@ -59,7 +58,6 @@ public class FixExpEquipMgr {
 		}
 
 	};
-
 
 	public boolean newHeroInit(Player player, String ownerId, int modelId) {
 		List<FixExpEquipDataItem> equipItemList = new ArrayList<FixExpEquipDataItem>();
@@ -184,9 +182,9 @@ public class FixExpEquipMgr {
 
 		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		for (FixExpEquipDataItem dataItem : itemList) {
-			
+
 			boolean checkOpen = false;
-			FixEquipResult result = checkStarUp(player, ownerId, dataItem, checkOpen );
+			FixEquipResult result = checkStarUp(player, ownerId, dataItem, checkOpen);
 			if (result.isSuccess()) {
 				upIdList.add(dataItem.strId());
 			}
@@ -316,15 +314,15 @@ public class FixExpEquipMgr {
 
 	public boolean isOpen(Player player, FixExpEquipDataItem dataItem) {
 		boolean isOpen = false;
-		
-		if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP,player)){
-			
+
+		if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player)) {
+
 			eConsumeTypeDef consumeType = getConsumeType(dataItem);
-			
-			if(consumeType == eConsumeTypeDef.Exp4FixEquip_4){
-				isOpen =CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_4,player);
-			}else if(consumeType == eConsumeTypeDef.Exp4FixEquip_5){
-				isOpen =CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_5,player);
+
+			if (consumeType == eConsumeTypeDef.Exp4FixEquip_4) {
+				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_4, player);
+			} else if (consumeType == eConsumeTypeDef.Exp4FixEquip_5) {
+				isOpen = CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_Exp_EQUIP_5, player);
 			}
 		}
 
@@ -385,14 +383,16 @@ public class FixExpEquipMgr {
 		if (storedExp > 0) {
 
 			int allowMaxLevelNeedExp = getAllowMaxLevelNeedExp(player, dataItem);
-			int curExp = dataItem.getExp();
-			int upExp = storedExp + curExp < allowMaxLevelNeedExp ? storedExp : (allowMaxLevelNeedExp - curExp);
-			int leftExp = storedExp - upExp;
+			if (allowMaxLevelNeedExp > 0) {
+				int curExp = dataItem.getExp();
+				int upExp = storedExp + curExp < allowMaxLevelNeedExp ? storedExp : (allowMaxLevelNeedExp - curExp);
+				int leftExp = storedExp - upExp;
 
-			dataItem.setStoredExp(leftExp);
-			iterateLevelUp(dataItem, upExp);
-			adjustExpShow(dataItem);
-			getFixExpEquipDataItemHolder().updateItem(player, dataItem);
+				dataItem.setStoredExp(leftExp);
+				iterateLevelUp(dataItem, upExp);
+				adjustExpShow(dataItem);
+				getFixExpEquipDataItemHolder().updateItem(player, dataItem);
+			}
 		}
 	}
 
@@ -489,7 +489,7 @@ public class FixExpEquipMgr {
 		if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
-			if(equipQualityCfgDAO == null){
+			if (equipQualityCfgDAO == null) {
 				equipQualityCfgDAO = FixExpEquipQualityCfgDAO.getInstance();
 			}
 			int curlevel = dataItem.getLevel();
@@ -549,7 +549,7 @@ public class FixExpEquipMgr {
 		FixExpEquipDataItem dataItem = getFixExpEquipDataItemHolder().getItem(ownerId, Integer.valueOf(itemId));
 
 		boolean checkOpen = true;
-		FixEquipResult result = checkStarUp(player, ownerId, dataItem,checkOpen);
+		FixEquipResult result = checkStarUp(player, ownerId, dataItem, checkOpen);
 		if (result.isSuccess()) {
 			result = doStarUp(player, dataItem);
 		}
@@ -557,11 +557,11 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult checkStarUp(Player player, String ownerId, FixExpEquipDataItem dataItem,boolean checkOpen) {
+	private FixEquipResult checkStarUp(Player player, String ownerId, FixExpEquipDataItem dataItem, boolean checkOpen) {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (checkOpen && !CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player)) {
+		if (checkOpen && !CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player)) {
 			result.setReason("未到功能开放等级");
 		} else if (dataItem == null) {
 			result.setReason("装备不存在。");
@@ -656,13 +656,13 @@ public class FixExpEquipMgr {
 	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
 		return FixEquipHelper.parseFixExpEquip2SimpleList(getFixExpEquipDataItemHolder().getItemList(heroId));
 	}
-	
+
 	/*******************************只限gm使用*************************************/
-	public void gmSaveFixEquip(Player player, FixExpEquipDataItem fixExpEquipDataItem){
+	public void gmSaveFixEquip(Player player, FixExpEquipDataItem fixExpEquipDataItem) {
 		getFixExpEquipDataItemHolder().updateItem(player, fixExpEquipDataItem);
 	}
-	
-	public List<FixExpEquipDataItem> gmGetHeroFixExpEquipDataItems(String heroId){
+
+	public List<FixExpEquipDataItem> gmGetHeroFixExpEquipDataItems(String heroId) {
 		return getFixExpEquipDataItemHolder().getItemList(heroId);
 	}
 	/*******************************只限gm使用*************************************/
