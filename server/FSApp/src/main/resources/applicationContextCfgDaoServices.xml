@@ -400,6 +400,9 @@
 	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO"  init-method="init" />
 	
+	<!-- 打脸图的时间配置 -->
+	<bean class="com.playerdata.activity.notice.cfg.ActivityNoticeCfgDAO"  init-method="init" />
+	
 	<!-- 红点 -->
 	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
 	

@@ -50,6 +50,8 @@ import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
+import com.playerdata.activity.notice.ActivityNoticeMgr;
+import com.playerdata.activity.notice.cfg.ActivityNoticeCfgDAO;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
@@ -77,6 +79,7 @@ public class ActivityTypeFactory {
 	public static final ActivityType RateType;	//双倍活动
 	public static final ActivityType RedEnvelopeType;	//红包活动
 	public static final ActivityType VitalityType;	//活跃之王
+	public static final ActivityType Notice;	//打脸图
 	
 	private static List<ActivityType> typeList;
 	
@@ -108,6 +111,8 @@ public class ActivityTypeFactory {
 		RedEnvelopeType = new ActivityType(1014, ActivityRedEnvelopeTypeCfgDAO.class, ActivityRedEnvelopeTypeMgr.getInstance());
 		VitalityType = new ActivityType(1015, ActivityVitalityCfgDAO.class, ActivityVitalityTypeMgr.getInstance());
 		
+		Notice = new ActivityType(1017, ActivityNoticeCfgDAO.class, ActivityNoticeMgr.getInstance());
+		
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -125,6 +130,7 @@ public class ActivityTypeFactory {
 		addType(RateType);
 		addType(RedEnvelopeType);
 		addType(VitalityType);
+		addType(Notice);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

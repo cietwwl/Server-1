@@ -158,6 +158,10 @@ public enum GameWorldKey {
 	 */
 	ACTIVITY_VITALITYTYPE("ACTIVITY_VITALITYTYPE"),
 	/**
+	 * 活动:打脸图公告
+	 */
+	ACTIVITY_NOTICE("ACTIVITY_NOTICE"),
+	/**
 	 * 热更记录
 	 */
 	HOTFIX_HISTORY("HOTFIX_HISTORY"),
