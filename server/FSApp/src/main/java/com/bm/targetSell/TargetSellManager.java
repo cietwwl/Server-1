@@ -309,10 +309,10 @@ public class TargetSellManager {
 			}
 			// -------------------重置--------------------------------
 			long nextRefreshTimeMils = getNextRefreshTimeMils();
-			sb.append("是否要发送自动购买道具：[").append(!itemMap.isEmpty()).append("],积分下次重置时间：").append(DateUtils.getDateTimeFormatString(nextRefreshTimeMils, "yyyy-MM-dd HH:mm:ss"));
-			logger.info(sb.toString());
 			record.setBenefitScore(0);
 			record.setNextClearScoreTime(nextRefreshTimeMils);
+			sb.append("是否要发送自动购买道具：[").append(!itemMap.isEmpty()).append("],积分下次重置时间：").append(DateUtils.getDateTimeFormatString(nextRefreshTimeMils, "yyyy-MM-dd HH:mm:ss"));
+			logger.info(sb.toString());
 		}
 		dataDao.update(record);
 		// 同步到前端
