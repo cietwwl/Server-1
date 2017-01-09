@@ -237,4 +237,18 @@ public class SpriteAttachMgr implements IDataMgrSingletone{
 		}
 		spriteAttachHolder.updateItem(player, spriteAttachSyn);
 	}
+	
+	/**
+	 * 获取指定英雄的附灵信息
+	 * @param player
+	 * @param heroModelId
+	 * @return
+	 */
+	public List<SpriteAttachItem> getHeroSpriteAttach(Player player, int heroModelId){
+		HeroMgr heroMgr = player.getHeroMgr();
+		Hero hero = heroMgr.getHeroByModerId(player, heroModelId);
+		SpriteAttachHolder spriteAttachHolder = getSpriteAttachHolder();
+		SpriteAttachSyn spriteAttachSyn = spriteAttachHolder.getSpriteAttachSyn(hero.getId());
+		return spriteAttachSyn.getItems();
+	}
 }
