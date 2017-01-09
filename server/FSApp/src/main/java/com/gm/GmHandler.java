@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.gm.task.GMRuntimeUpdate;
 import com.gm.task.GMWorldBossState;
+import com.gm.task.GmAddMonthCard;
 import com.gm.task.GmAddVipExp;
 import com.gm.task.GmBlockPlayer;
 import com.gm.task.GmBlockRelease;
@@ -166,6 +167,8 @@ public class GmHandler {
 		taskMap.put(20078, new GMWorldBossState());
 		//VIP经验
 		taskMap.put(20079, new GmAddVipExp());
+		//添加月卡
+		taskMap.put(20080, new GmAddMonthCard());
 
 		taskMap.put(99999, new GmExecuteGMCommand());
 

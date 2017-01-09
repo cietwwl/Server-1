@@ -22,7 +22,7 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 
 public class GmAddVipExp implements IGmTask {
 
-	private static Logger addVipExpLogger = Logger.getLogger("checkRebateLogger");
+	public static Logger addVipExpLogger = Logger.getLogger("checkRebateLogger");
 	
 	@Override
 	public GmResponse doTask(GmRequest request) {
