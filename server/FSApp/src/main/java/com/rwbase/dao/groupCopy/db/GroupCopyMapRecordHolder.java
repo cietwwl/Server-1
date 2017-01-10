@@ -154,7 +154,8 @@ public class GroupCopyMapRecordHolder{
 			GroupCopyArmyDamageInfo damageInfo) {
 		boolean suc = getItemByID(chaterID).checkOrAddDamageRank(damageInfo);
 		if(suc){
-			//TODO 这个数据暂时没有向前端同步，后面再考虑是否开放
+			//TODO 是否要向前端同步？
+			getItemStore().update(getRecordID(chaterID));
 			update();
 		}
 	}
