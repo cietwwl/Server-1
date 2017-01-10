@@ -43,6 +43,7 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			for (Pair<String, ItemData> pair : delList) {
 				ItemData data = pair.getT2();
 				sbDel.append(data.getModelId()).append(":").append(data.getCount()).append("&");
+				checkItemDataAndNotifyBenefit(data);
 			}
 		}
 		Map<String, Pair<ItemData, ItemData>> changedMap = event.getChangedMap();
@@ -109,6 +110,13 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			if(cfg != null){
 				TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());
 			}
+		}
+		
+		//检查道具变化数量
+		BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(data.getModelId(),
+				EAchieveType.AchieveItemCount.getId());
+		if(cfg != null){
+			TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());
 		}
 	}
 }
