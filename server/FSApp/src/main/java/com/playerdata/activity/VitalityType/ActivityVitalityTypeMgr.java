@@ -268,6 +268,9 @@ public class ActivityVitalityTypeMgr extends AbstractActivityMgr<ActivityVitalit
 	 * @return
 	 */
 	private boolean isHaveBoxReward(ActivityVitalityTypeItem item, ActivityVitalityRewardCfgDAO rewardCfgDAO){
+		if(!item.isCanGetReward()){
+			return false;
+		}
 		List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = item.getSubBoxItemList();
 		for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
 			ActivityVitalityRewardCfg subItemCfg = rewardCfgDAO.getCfgById(subItem.getCfgId());
