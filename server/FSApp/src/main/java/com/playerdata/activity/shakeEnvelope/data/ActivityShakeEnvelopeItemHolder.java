@@ -23,6 +23,10 @@ public class ActivityShakeEnvelopeItemHolder extends UserActivityChecker<Activit
 		return new ArrayList<ActivityShakeEnvelopeSubItem>();
 	}
 	
+	public List<ActivityShakeEnvelopeItem> getItemList(String userId){
+		return refreshActivity(userId);
+	}
+	
 	@Override
 	@SuppressWarnings("rawtypes")
 	public ActivityType getActivityType() {
@@ -36,6 +40,6 @@ public class ActivityShakeEnvelopeItemHolder extends UserActivityChecker<Activit
 
 	@Override
 	protected eSynType getSynType() {
-		return eSynType.ActivityShakeEnvelope;
+		return eSynType.Pve_UnendingWar;
 	}
 }
