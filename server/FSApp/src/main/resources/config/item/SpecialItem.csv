@@ -1,4 +1,4 @@
-Key,Remarks,id,name,icon,atlas,description
+﻿Key,Remarks,id,name,icon,atlas,description
 1,,1,金币,Item/ect_gold,Common,封神之旅中不可缺少的货币。通过冒险、钻石购买、聚宝之地可获得金币。
 2,,2,钻石,Item/ect_diamonds,Common,闪闪发光的钻石，可以用来购买各种物品的货币。通过任务、充值、活动可获得钻石。
 3,,3,体力,Item/icon_RiChang_TiLi,Common,游戏中闯关必须的资源
@@ -14,4 +14,4 @@ Key,Remarks,id,name,icon,atlas,description
 13,,13,探道笺,Item/icon_GongHuiYueKa,Common,强化神器的资源
 14,,14,驱魔币,Item/ect_QuMoJiFen,Common,可用于心魔录的道具兑换
 15,,15,觉醒碎片,Item/ect_JueXingShangDian,Common,可用于兑换神器觉醒材料
-16,,16,觉醒钥匙,Item/ect_ShiLianTa_03,Common,可用于打开觉醒宝箱
+16,,16,觉醒符,Item/fixEquip_strength_1001,Common,可以在觉醒商店中免费打开一次觉醒宝箱
