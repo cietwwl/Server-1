@@ -1,6 +1,7 @@
 package com.playerdata.charge;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
@@ -37,7 +38,11 @@ import com.rwbase.ServerTypeMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ChargeServiceProto;
+import com.rwproto.ChargeServiceProto.ChargeCfgData;
+import com.rwproto.ChargeServiceProto.ChargeServiceCommonRspMsg;
+import com.rwproto.ChargeServiceProto.RequestType;
 import com.rwproto.MsgDef;
+import com.rwproto.MsgDef.Command;
 
 public class ChargeMgr {
 
@@ -97,11 +102,21 @@ public class ChargeMgr {
 
 	public void syn(Player player, int version) {
 		checkVipMonthCardExists(player);
+		sendAllChargeCfg(player);
 		ChargeInfoHolder.getInstance().syn(player, version);
 	}
 
 	public ChargeInfo getChargeInfo(String userId) {
 		return ChargeInfoHolder.getInstance().get(userId);
+	}
+	
+	private void sendAllChargeCfg(Player player) {
+		List<ChargeCfgData> allCfgProtos = ChargeCfgDao.getInstance().getAllCfgProtos();
+		ChargeServiceCommonRspMsg.Builder builder = ChargeServiceCommonRspMsg.newBuilder();
+		builder.setReqType(RequestType.GetChargeCfg);
+		builder.setIsSuccess(true);
+		builder.addAllAllChargeCfgs(allCfgProtos);
+		player.SendMsg(Command.MSG_CHARGE_CFG_REQUEST, builder.build().toByteString());
 	}
 
 	// 主要检测是不是测试订单，并且能不能使用测试订单
