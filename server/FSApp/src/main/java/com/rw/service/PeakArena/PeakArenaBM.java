@@ -247,7 +247,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			// 首次挑战只挑战机器人
 			wholeRank = robotRankingList;
 			playerPlace = wholeRank.getRankingSize() + 1;
-			System.out.println("玩家首次挑战，使用机器人数据！userId：" + player.getUserId());
+//			System.out.println("玩家首次挑战，使用机器人数据！userId：" + player.getUserId());
 		} else {
 			wholeRank = getRanks();
 			playerPlace = getPlace(wholeRank, player);

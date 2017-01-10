@@ -600,8 +600,8 @@ public class PeakArenaHandler {
 				}
 			}
 
-			// 通知角色日常任务 by Alex
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
+//			// 通知角色日常任务 by Alex
+//			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
 
 			if (!win) {
 				playerArenaData.setFightStartTime(currentTimeMillis);
@@ -618,6 +618,12 @@ public class PeakArenaHandler {
 
 			return response.build().toByteString();
 		} finally {
+			try {
+				// 日常任务移到finally @ 2017-01-09 by Perry
+				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
+			} catch (Exception e) {
+				GameLog.error("PeakArenaHandler#fightFinish", player.getUserId(), "巅峰竞技场结算通知日常任务出错！");
+			}
 			// TODO 同宇超商量不对挑战者加锁
 			playerEntry.getExtension().setNotFighting();
 

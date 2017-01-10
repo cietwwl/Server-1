@@ -352,7 +352,7 @@ public class ArenaBM {
 			// 第一次挑战，完全使用机器人的数据
 			ranking = robotRankingList;
 			place = robotRankingList.getRankingSize() + 1;
-			System.out.println("角色：" + player.getUserId() + "，第一次打竞技场，使用机器人数据！");
+//			System.out.println("角色：" + player.getUserId() + "，第一次打竞技场，使用机器人数据！");
 		} else {
 			ranking = getRanking();
 		}
