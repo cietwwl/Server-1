@@ -20,7 +20,16 @@
 	</listener>
 	
 
+	<!-- log4j配置文件 -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
+	</context-param>
 
+	<!-- 使用springmvc配置log4j -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
 	<!-- 配置logback配置文件
 	<context-param>
 		<param-name>webAppRootKey</param-name>
