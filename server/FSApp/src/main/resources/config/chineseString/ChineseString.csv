@@ -288,7 +288,7 @@ TeamBattleRule,,,"1.组队战每天5点重置，重置时刷新可挑战的英�
 TeamBattleMail,,,自己完成战斗后，每有1名其他队友完成战斗，可额外获得{0}奖励（邮件发放）
 TeamBattleScore,,,完成当前战斗可获得{0}驱魔币
 TeamBattleOpenBuyTips,,,{0}开启购买心魔录功能，充值可提升贵族等级
-TeamBattleBuyTips,,,今日心魔录购买次数已用完，将贵族等级提升到6级、12级可各增加1次购买次数
+TeamBattleBuyTips,,,今日心魔录购买次数已用完，将贵族等级提升到2级、6级、12级可各增加1次购买次数
 TeamBattleTips,,,今日心魔录购买次数已用完，大神，您已经无法再增加购买次数
 GroupCopyOpenTips,,GroupCopyOpenTips,帮主、副帮主可开启
 GroupCopyNoPriceItemTips,,GroupCopyNoPriceItemTips,没有可分配的战利品
