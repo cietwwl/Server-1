@@ -2,7 +2,6 @@ package com.rw.dataaccess.attachment.creator;
 
 import java.util.List;
 
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;

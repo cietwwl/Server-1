@@ -4,26 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_vitalitytype_item")
-public class ActivityVitalityTypeItem implements  RoleExtProperty {
+public class ActivityVitalityTypeItem implements ActivityTypeItemIF<ActivityVitalityTypeSubItem>{
 
 	@Id
 	private int id;
+	
 	@OwnerId
 	private String userId;// 对应的角色Id
 
@@ -49,13 +46,16 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 	private List<ActivityVitalityTypeSubBoxItem> subBoxItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
 	
 	@CombineSave
-	private String version ;
+	private int version;
 	
 	@CombineSave
 	private long redPointLastTime;	
 	
 	@CombineSave
 	private String enumId;	
+	
+	@CombineSave
+	private boolean isTouchRedPoint;
 	
 	public String getEnumId() {
 		return enumId;
@@ -73,9 +73,6 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 		this.redPointLastTime = redPointLastTime;
 	}
 	
-	@CombineSave
-	private boolean isTouchRedPoint;	
-
 	public boolean isTouchRedPoint() {
 		return isTouchRedPoint;
 	}
@@ -83,26 +80,12 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 	public void setTouchRedPoint(boolean isTouchRedPoint) {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
-	
-	public void reset(ActivityVitalityCfg cfg){
-		this.cfgId = String.valueOf(cfg.getId());
-		closed = false;
-		version = String.valueOf(cfg.getVersion());
-		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg));
-		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg);
-		if(boxlist != null&&!boxlist.isEmpty()){
-			setSubBoxItemList(boxlist);
-		}
-		lastTime = System.currentTimeMillis();
-		activeCount = 0;
-		isTouchRedPoint = false;
-	}
 
-	public String getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 	
@@ -150,8 +133,7 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 		return subBoxItemList;
 	}
 
-	public void setSubBoxItemList(
-			List<ActivityVitalityTypeSubBoxItem> subBoxItemList) {
+	public void setSubBoxItemList(List<ActivityVitalityTypeSubBoxItem> subBoxItemList) {
 		this.subBoxItemList = subBoxItemList;
 	}
 
@@ -162,7 +144,6 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
 
 	public boolean isClosed() {
 		return closed;
@@ -188,7 +169,22 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 				break;
 			}
 		}
-		
 		return subitem;
+	}
+
+	@Override
+	public boolean isHasViewed() {
+		return isTouchRedPoint;
+	}
+
+	@Override
+	public void setHasViewed(boolean hasViewed) {
+		isTouchRedPoint = hasViewed;
+	}
+
+	@Override
+	public void reset() {
+		
+		
 	}
 }

@@ -3,7 +3,6 @@ package com.rw.dataaccess.attachment.creator;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
@@ -21,7 +20,6 @@ public class ActivityVitalityCreator implements PlayerExtPropertyCreator<Activit
 	public List<ActivityVitalityTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		return new ArrayList<ActivityVitalityTypeItem>();
-		//return ActivityVitalityTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -33,6 +31,6 @@ public class ActivityVitalityCreator implements PlayerExtPropertyCreator<Activit
 
 	@Override
 	public boolean requiredToPreload(PlayerPropertyParams params) {
-		return ActivityVitalityTypeMgr.getInstance().isOpen(params.getCreateTime());
+		return true;
 	}
 }

@@ -2,11 +2,12 @@ package com.playerdata.activity.VitalityType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityVitalityTypeSubItem {
+public class ActivityVitalityTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
@@ -18,6 +19,7 @@ public class ActivityVitalityTypeSubItem {
 	private String giftId ;	
 	
 	private String type;
+	
 	public String getType() {
 		return type;
 	}
@@ -51,7 +53,6 @@ public class ActivityVitalityTypeSubItem {
 		this.count = count;
 	}
 
-
 	public boolean isTaken() {
 		return taken;
 	}
@@ -59,8 +60,4 @@ public class ActivityVitalityTypeSubItem {
 	public void setTaken(boolean taken) {
 		this.taken = taken;
 	}
-
-	
-	
-
 }

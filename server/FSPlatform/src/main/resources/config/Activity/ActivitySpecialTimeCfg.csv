@@ -1,1 +1,1 @@
-id,Remarks,zoneId,cfgId,startTime,endTime,startViceTime,endViceTime,rangeTime,actDesc
+id,Remarks,zoneId,serType,cfgId,startTime,endTime,startViceTime,endViceTime,rangeTime,actDesc,version
