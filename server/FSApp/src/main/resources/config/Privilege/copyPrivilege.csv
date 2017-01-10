@@ -2,7 +2,7 @@ source,Remarks,copyRewardAdd,isAllowTenSweep,eliteRewardAdd,eliteResetCnt
 vip0,,,false,,
 vip1,,,false,,
 vip2,,,false,,1
-vip3,,,false,,1
+vip3,,,true,,1
 vip4,,,true,,2
 vip5,,,true,,3
 vip6,,,true,,3

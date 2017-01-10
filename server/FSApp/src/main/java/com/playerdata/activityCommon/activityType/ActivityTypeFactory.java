@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activity.chargeRank.ActivityChargeRankMgr;
 import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO;
 import com.playerdata.activity.chargeRank.data.ActivityChargeRankItem;
@@ -117,11 +120,13 @@ public class ActivityTypeFactory {
 		LimitHeroType = new ActivityType(1012, ActivityLimitHeroCfgDAO.class, ActivityLimitHeroTypeMgr.getInstance());
 		RateType = new ActivityType(1013, ActivityRateTypeCfgDAO.class, ActivityRateTypeMgr.getInstance());
 		RedEnvelopeType = new ActivityType(1014, ActivityRedEnvelopeTypeCfgDAO.class, ActivityRedEnvelopeTypeMgr.getInstance());
-		VitalityType = new ActivityType(1015, ActivityVitalityCfgDAO.class, ActivityVitalityTypeMgr.getInstance());
 		
-		Notice = new ActivityType(1017, ActivityNoticeCfgDAO.class, ActivityNoticeMgr.getInstance());
+		VitalityType = new ActivityType(1015, ActivityVitalityCfgDAO.class, ActivityVitalityTypeItem.class, 
+				ActivityVitalitySubCfgDAO.class, ActivityVitalityTypeSubItem.class, ActivityVitalityTypeMgr.getInstance());
 		ShakeEnvelope = new ActivityType(1016, ActivityShakeEnvelopeCfgDAO.class, ActivityShakeEnvelopeItem.class,
 				null, null, ActivityShakeEnvelopeMgr.getInstance());
+		
+		Notice = new ActivityType(1017, ActivityNoticeCfgDAO.class, ActivityNoticeMgr.getInstance());
 		
 		
 		typeList = new ArrayList<ActivityType>();

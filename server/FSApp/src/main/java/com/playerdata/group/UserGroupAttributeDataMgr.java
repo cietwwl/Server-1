@@ -469,7 +469,6 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		}
 
 		userGroupData.setState(0);// 设置成未领取状态
-		userGroupData.clearPrayList();// 清除
 		userGroupData.setLastPrayTime(DateUtils.getSecondLevelMillis());// 设置当前祈福的时间点
 		holder.flush(userId);
 

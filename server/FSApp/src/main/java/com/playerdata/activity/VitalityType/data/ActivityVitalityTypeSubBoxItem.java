@@ -48,5 +48,5 @@ public class ActivityVitalityTypeSubBoxItem {
 
 	public void setTaken(boolean taken) {
 		this.taken = taken;
-	}		
+	}
 }

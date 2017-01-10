@@ -1,10 +1,13 @@
 package com.rwbase.dao.fightinggrowth.pojo;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.playerdata.fightinggrowth.FSFightingGrowthWayType;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.fightinggrowth.FightingGrowthTypeTarget;
@@ -58,9 +61,24 @@ public class FSUserFightingGrowthTitleCfg {
 	private int spriteAttachFighting; // 附灵期望战力
 	private Map<FSFightingGrowthWayType, Integer> expectedFightingMap; // 期望战力
 	private Map<FSFightingGrowthWayType, Integer> expectedFightingMapRO; // 期望战力
+	private Map<Integer, Integer> requiredOfItemOnly;
+	private Map<eSpecialItemId, Integer> requiredOfCurrency;
 	
 	public void setItemRequiredMap(Map<Integer, Integer> map) {
 		this._itemRequiredMap = Collections.unmodifiableMap(map);
+		Map<eSpecialItemId, Integer> currencyMap = new HashMap<eSpecialItemId, Integer>();
+		Map<Integer, Integer> itemMap = new HashMap<Integer, Integer>();
+		for (Iterator<Integer> keyItr = map.keySet().iterator(); keyItr.hasNext();) {
+			Integer key = keyItr.next();
+			Integer value = map.get(key);
+			if (key < eSpecialItemId.eSpecial_End.getValue()) {
+				currencyMap.put(eSpecialItemId.getDef(key), value);
+			} else {
+				itemMap.put(key, value);
+			}
+		}
+		requiredOfItemOnly = Collections.unmodifiableMap(itemMap);
+		requiredOfCurrency = Collections.unmodifiableMap(currencyMap);
 	}
 	
 	public void setItemRewardMap(Map<Integer, Integer> map) {
@@ -190,6 +208,14 @@ public class FSUserFightingGrowthTitleCfg {
 	
 	public Map<FSFightingGrowthWayType, Integer> getExpectedFightingMap() {
 		return expectedFightingMapRO;
+	}
+
+	public Map<Integer, Integer> getRequiredOfItemOnly() {
+		return requiredOfItemOnly;
+	}
+
+	public Map<eSpecialItemId, Integer> getRequiredOfCurrency() {
+		return requiredOfCurrency;
 	}
 
 //	public int getHeroFighting() {

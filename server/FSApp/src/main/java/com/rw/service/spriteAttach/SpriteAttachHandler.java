@@ -17,6 +17,7 @@ import com.playerdata.SpriteAttachMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.checkWare.CheckCommonItemWare;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.spriteattach.SpriteAttachCfgDAO;
@@ -137,6 +138,7 @@ public class SpriteAttachHandler {
 		}
 		if (upgradeLevel.value != spriteAttachLevel) {
 			spriteAttachItem.setLevel(upgradeLevel.value);
+			UserEventMgr.getInstance().attachDaily(player, upgradeLevel.value, spriteAttachLevel);
 		}
 		spriteAttachItem.setExp(upgradeExp.value);
 		SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, synItem);

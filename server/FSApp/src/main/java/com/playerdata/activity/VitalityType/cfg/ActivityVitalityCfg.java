@@ -32,6 +32,9 @@ public class ActivityVitalityCfg implements ActivityCfgIF{
 	
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 0;	//是否服务端同步描述
+	
+	private int isDailyRefresh = 0;	//是否每天刷新
+	private int isSame = 1;	//是否每天用相同的子项
 
 	public int getEnumID() {
 		return enumID;
@@ -103,12 +106,12 @@ public class ActivityVitalityCfg implements ActivityCfgIF{
 
 	@Override
 	public boolean isDailyRefresh() {
-		return false;
+		return isDailyRefresh == 1;
 	}
 
 	@Override
 	public boolean isEveryDaySame() {
-		return true;
+		return isSame == 1;
 	}
 
 	public void ExtraInitAfterLoad() {

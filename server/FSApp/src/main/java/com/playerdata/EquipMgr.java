@@ -14,7 +14,6 @@ import com.playerdata.refactor.IDataMgrSingletone;
 import com.rw.service.Equip.EquipHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
-import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.equipment.EquipItemHelper;
@@ -156,8 +155,7 @@ public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 				equipItem.setLevel(pEquipAttachCfg.getId());
 				equipItem.setExp(totalExp);
 				equipItemHolder.updateItem(player, heroId, equipItem);
-
-				UserEventMgr.getInstance().attachDaily(player, pEquipAttachCfg.getStarLevel(), tempStarLevel);// pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
+				//UserEventMgr.getInstance().attachDaily(player, pEquipAttachCfg.getStarLevel(), tempStarLevel);// pEquipAttachCfg.getId()-levelBeforeAttach;1次附灵升70级也计数1
 			}
 		}
 		return result;

@@ -16,8 +16,6 @@ public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<Activi
 		return null;
 	}
 
-	
-
 	@Override
 	public List<ActivityDailyTypeItem> firstCreate(
 			PlayerPropertyParams params) {

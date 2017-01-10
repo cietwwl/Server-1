@@ -3,8 +3,6 @@ package com.rw.dataaccess.attachment.creator;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;

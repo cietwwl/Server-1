@@ -157,6 +157,8 @@ enum Command {
 	
 	MSG_GROUP_PRAY = 241;//帮派祈福
 	
+	MSG_CHARGE_CFG_REQUEST = 242;// 充值配置请求
+	
 	
 	
 	

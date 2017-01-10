@@ -1,5 +1,5 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
 copyRewardAdd,,,,,
-isAllowTenSweep,,,,,贵族4开启一键扫荡功能，充值可提升贵族等级。
+isAllowTenSweep,,,,,贵族3开启一键扫荡功能，充值可提升贵族等级。
 eliteRewardAdd,,,,,
 eliteResetCnt,,999,今日精英副本重置次数已用完，提高贵族等级可以增加重置次数,今日精英副本重置次数已用完，大神，您已经无法再增加重置次数,贵族2开启重置精英副本次数功能，充值可提升贵族等级。

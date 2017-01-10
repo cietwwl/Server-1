@@ -60,7 +60,7 @@ public class ServerGroupCopyDamageRecordMgr {
 		boolean suc = record.checkOrAddRecord(damageInfo, kill);
 		if(suc){
 			if(updateItem(record)){
-//				synSingleData(player, dataVersion.get(), levelId, false);暂时不主动推送
+				synSingleData(player, dataVersion.get(), levelId, false);//暂时不主动推送,
 			}
 		}
 		

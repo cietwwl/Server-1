@@ -7,19 +7,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
-import com.playerdata.activity.rateType.ActivityRateTypeEnum;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.service.copy.PvECommonHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
 import com.rw.service.pve.PveHandler;
 import com.rw.service.unendingwar.UnendingWarHandler;
-import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -62,8 +58,7 @@ public class WarFareHandler {
 		}
 		
 		int times = copyRequest.getTagBattleData().getBattleClearingTime();
-		
-		UserEventMgr.getInstance().warFareDifficultyTwoVitality(player, levelId, times);
+
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
 		

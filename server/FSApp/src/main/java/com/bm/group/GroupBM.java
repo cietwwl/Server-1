@@ -12,6 +12,7 @@ import com.bm.chat.ChatBM;
 import com.bm.groupCopy.GroupCopyLevelBL;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
@@ -194,8 +195,8 @@ public final class GroupBM {
 		}
 
 		// 放入成员
-		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame(),
-				GroupCopyLevelBL.MAX_ALLOT_COUNT);
+		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.LEADER_VALUE, FSHeroMgr.getInstance().getFightingTeam(player), now, now, false,
+				player.getHeadFrame(), GroupCopyLevelBL.MAX_ALLOT_COUNT);
 
 		return group;
 	}

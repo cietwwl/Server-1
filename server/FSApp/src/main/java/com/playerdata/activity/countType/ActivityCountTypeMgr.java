@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
@@ -51,7 +50,6 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityLimitHeroTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRetrieveTypeMgr.getInstance().checkActivityOpen(player);
