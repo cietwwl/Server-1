@@ -754,35 +754,43 @@ public class TargetSellManager {
 				respMsg.setTipsMsg("已经达到可领取上限，不可再领取");
 				return respMsg.build().toByteString();
 			}
-			BenefitItems items = itemMap.remove(itemGroupId);
+			BenefitItems items = itemMap.get(itemGroupId);
+//			BenefitItems items = itemMap.remove(itemGroupId);
 			if(items == null){
 				respMsg.setIsSuccess(false);
 				respMsg.setTipsMsg("无法找到目标道具");
 				return respMsg.build().toByteString();
 			}
+			//增加积分检查，避免没有积分的时候也领取
+			int benefitScore = record.getBenefitScore();
+			if(benefitScore < items.getRecharge()){
+				respMsg.setIsSuccess(false);
+				respMsg.setTipsMsg("积分不足，无法领取此奖励！");
+				return respMsg.build().toByteString();
+			}
+			
+			
 			StringBuilder sb = new StringBuilder("玩家["+player.getUserName()+"],id:["+player.getUserId()
 					+"],主动领取物品，当前积分：" + record.getBenefitScore()+",道具组id:" + itemGroupId + ",道具列表："+ items.getItemIds()
 					+",消耗积分：" + items.getRecharge());
 			// 添加道具
 			boolean addItem = ItemBagMgr.getInstance().addItem(player, tranfer2ItemInfo(items));
 			if (addItem) {
+				itemMap.remove(itemGroupId);//删除目标道具数据
 				// 通知精准服，玩家领取了道具,同时保存一下可领取次数
 				notifyBenefitServerRoleGetItem(player, itemGroupId);
 				if (recieveMap == null) {
 					recieveMap = new HashMap<Integer, Integer>();
 				}
 				recieveMap.put(itemGroupId, items.getPushCount() - 1);
-				int benefitScore = record.getBenefitScore();
 				record.setBenefitScore(benefitScore - items.getRecharge());
 			}
 			sb.append(",发送道具成功：").append(addItem);
 			logger.info(sb.toString());
-			// System.out.println("itemstr" + items.getItemIds() + ",item desc" + items.getTitle()+ ", item groupid" + items.getItemGroupId());
 			dataDao.update(record);
 			respMsg.setDataStr(items.getItemIds());
 			respMsg.setIsSuccess(true);
 			ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
-			// player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), items));
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellManager[roleGetItem]", "玩家领取物品时出现异常", e);
 		}

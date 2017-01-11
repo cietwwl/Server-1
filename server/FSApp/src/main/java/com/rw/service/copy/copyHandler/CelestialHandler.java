@@ -61,7 +61,7 @@ public class CelestialHandler {
 		String rewardInfoActivity = "";
 		List<? extends ItemInfo> listItemBattle = null;
 		try {
-			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -42,11 +42,11 @@ public class LQSGHandler {
 	public ByteString battleClear(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		TagBattleData tagBattleData = copyRequest.getTagBattleData();
-		boolean isWin = tagBattleData.getFightResult()==EBattleStatus.WIN;
+		boolean isWin = tagBattleData.getFightResult() == EBattleStatus.WIN;
 		int fightTime = tagBattleData.getFightTime();
-		
+
 		int levelId = copyRequest.getTagBattleData().getLevelId();
-		
+
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
 
 		CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
@@ -56,30 +56,27 @@ public class LQSGHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
-		
-		
+
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String rewardInfoActivity="";
+		String rewardInfoActivity = "";
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
 
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(),isWin, fightTime,rewardInfoActivity,0);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(), isWin, fightTime, rewardInfoActivity, 0);
 		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.lxsg);
-		if(!isWin){
+		if (!isWin) {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
-		
-		
-		
+
 		// 铜钱 经验 体力 结算
 		PvECommonHelper.addPlayerAttr4Battle(player, copyCfg);
-		
+
 		// TODO HC @Modify 2015-11-30 bug fix 没有把掉落物品放进去发送给玩家
 		PvECommonHelper.addCopyRewards(player, copyCfg, dropItems);
 
@@ -101,6 +98,5 @@ public class LQSGHandler {
 		PveHandler.getInstance().sendPveInfo(player);
 		return copyResponse.build().toByteString();
 	}
-
 
 }
