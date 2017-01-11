@@ -60,12 +60,12 @@ public class JBZDHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
-		
+
 		// 验证聚宝之地的金币数量是否合法
 		int addCoin = copyRequest.getTagBattleData().getFortuneResult().getGainGoldCount();
 		if (addCoin > 0) {
 			FortuneResultCfg cfg = FortuneResultCfgDAO.getInstance().getCfgById(String.valueOf(levelId));
-			if(null != cfg && cfg.getUpLimit() < addCoin){
+			if (null != cfg && cfg.getUpLimit() < addCoin) {
 				player.NotifyCommonMsg(CommonTip.COIN_TOO_MUCH);
 				return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 			}
@@ -73,7 +73,7 @@ public class JBZDHandler {
 
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class JBZDHandler {
 
 		// 增加金币
 		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), addCoin);
-		
+
 		// 聚宝之地
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_JBZD, 1);
 		UserEventMgr.getInstance().TreasureLandCopyWinDaily(player, 1);

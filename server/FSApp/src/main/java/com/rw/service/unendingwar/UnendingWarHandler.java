@@ -144,7 +144,7 @@ public class UnendingWarHandler {
 		List<? extends ItemInfo> listItemBattle = null;
 		try {
 			DropItemManager.getInstance().pretreatDrop(player, dropList, cMap, false);
-			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, cMap);
+			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, cMap, true);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

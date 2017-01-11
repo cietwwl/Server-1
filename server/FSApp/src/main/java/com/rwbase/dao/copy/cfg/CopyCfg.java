@@ -29,10 +29,9 @@ public class CopyCfg implements CopyCfgIF {
 	private String extraRewards;
 	private String extraRewardsNum;
 	private int resetNum;
+	private String rewardInfo;// 关卡宝箱id，不一定有值
+	private String dropGuarantee;
 
-	
-	private String rewardInfo;//关卡宝箱id，不一定有值
-	
 	public int getMapID() {
 		return mapID;
 	}
@@ -216,13 +215,21 @@ public class CopyCfg implements CopyCfgIF {
 	public void setFirstDropItems(String firstDropItems) {
 		this.firstDropItems = firstDropItems;
 	}
-	
+
 	public String getRewardInfo() {
 		return rewardInfo;
 	}
 
 	public void setRewardInfo(String rewardInfo) {
 		this.rewardInfo = rewardInfo;
+	}
+
+	public String getDropGuarantee() {
+		return dropGuarantee;
+	}
+
+	public void setDropGuarantee(String dropGuarantee) {
+		this.dropGuarantee = dropGuarantee;
 	}
 
 }

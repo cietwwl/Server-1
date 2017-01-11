@@ -1,28 +1,15 @@
 package com.rwbase.dao.dropitem;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.SerializerProvider;
 
 import com.log.GameLog;
 import com.rw.service.dropitem.DropResult;
-import com.rwbase.common.enu.eTaskFinishDef;
 
 /**
  * 掉落记录存储实体
@@ -41,15 +28,16 @@ public class DropRecord {
 	// key = DropRecordId
 	private ConcurrentHashMap<Integer, Integer> dropMissTimesMap;
 	// key = DropRuleId(只存在内存)
+	@JsonIgnore
 	private ConcurrentHashMap<Integer, DropResult> pretreatMap;
 
 	public DropRecord() {
-		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>(4, 1.0f, 2);
+		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>(4, 1.0f, 1);
 	}
 
 	public DropRecord(String userId) {
 		this.userId = userId;
-		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>(4, 1.0f, 2);
+		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>(4, 1.0f, 1);
 		this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(); 
 		this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(); 
 	}
@@ -129,10 +117,10 @@ public class DropRecord {
 	public void setFirstDropMap(ConcurrentHashMap<Integer, Integer> firstDropMap) {
 		if (firstDropMap == null) {
 			GameLog.error("DropRecord", userId, "firstDropMap is null");
-			this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(8, 0.9f, 2);
+			this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(8, 1.0f, 1);
 		} else {
 			int size = firstDropMap.size();
-			this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(size, 0.9f, 2);
+			this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(size, 1.0f, 1);
 			this.firstDropMap.putAll(firstDropMap);
 		}
 	}
@@ -144,10 +132,10 @@ public class DropRecord {
 	public void setDropMissTimesMap(ConcurrentHashMap<Integer, Integer> dropMissTimesMap) {
 		if (dropMissTimesMap == null) {
 			GameLog.error("DropRecord", userId, "firstDropMap is null");
-			this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(8, 0.9f, 2);
+			this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(8, 1.0f, 1);
 		} else {
 			int size = dropMissTimesMap.size();
-			this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(size, 0.9f, 2);
+			this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(size, 1.0f, 1);
 			this.dropMissTimesMap.putAll(dropMissTimesMap);
 		}
 	}

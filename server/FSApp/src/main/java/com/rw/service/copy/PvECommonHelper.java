@@ -188,7 +188,7 @@ public class PvECommonHelper {
 				// 预生成奖励
 				DropItemManager.getInstance().pretreatDrop(player, copyCfg);
 				// 提取预生成的奖励
-				dropItems = new ArrayList<ItemInfo>(DropItemManager.getInstance().extractDropPretreatment(player, copyCfg.getLevelID()));
+				dropItems = new ArrayList<ItemInfo>(DropItemManager.getInstance().extractDropPretreatment(player, copyCfg.getLevelID(), true));
 			} catch (DataAccessTimeoutException e) {
 				GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + copyCfg.getLevelID(), e);
 			}
