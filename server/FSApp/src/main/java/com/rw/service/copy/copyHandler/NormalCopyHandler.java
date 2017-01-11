@@ -71,7 +71,7 @@ public class NormalCopyHandler {
 
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -154,8 +154,8 @@ public class NormalCopyHandler {
 
 		// 同步日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, times);
-		
-		//随机boss
+
+		// 随机boss
 		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		// 黑市或者神秘商店

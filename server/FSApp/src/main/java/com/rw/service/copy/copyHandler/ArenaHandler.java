@@ -50,27 +50,23 @@ public class ArenaHandler {
 
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
-		
-		
-		String rewardInfoActivity="";
+
+		String rewardInfoActivity = "";
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
-		
 
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);		
-		if(!isWin){
-			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA, copyCfg.getLevelID(), isWin, fightTime, rewardInfoActivity, 0);
+		if (!isWin) {
+			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
-
-
 
 		// 合法性检查
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
@@ -89,10 +85,9 @@ public class ArenaHandler {
 
 		// 此处专门处理副本地图的关卡记录...
 		String levelRecord4Client = copyRecordMgr.updateLevelRecord(levelId, tagBattleData.getStarLevel(), 1);
-		//日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
-		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
-		
-		
+		// 日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
+
 		if (StringUtils.isBlank(levelRecord4Client)) {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 
@@ -108,12 +103,8 @@ public class ArenaHandler {
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-		
-		
+
 		return copyResponse.build().toByteString();
 	}
-
-	
-	
 
 }
