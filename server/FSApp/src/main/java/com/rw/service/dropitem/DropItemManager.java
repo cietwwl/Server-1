@@ -18,6 +18,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
+import com.rw.fsutil.common.IntTuple;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
@@ -36,27 +37,6 @@ public class DropItemManager {
 
 	public static DropItemManager getInstance() {
 		return instance;
-	}
-
-	/**
-	 * 无调用；掉落并记录必要信息
-	 * 
-	 * @param player
-	 * @param copyCfg
-	 * @return
-	 */
-	public List<? extends ItemInfo> dropAndRecord(Player player, CopyCfg copyCfg) {
-		int levelId = copyCfg.getLevelID();
-		List<? extends ItemInfo> listItemBattle = null;
-		try {
-			// TODO 需合并成一个方法减少操作
-			DropItemManager.getInstance().pretreatDrop(player, copyCfg);
-			listItemBattle = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
-			return listItemBattle;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return Collections.EMPTY_LIST;
-		}
 	}
 
 	/**
@@ -187,16 +167,16 @@ public class DropItemManager {
 					random -= rate;
 				}
 			}
-
+			ArrayList<IntTuple<Integer, DropGuaranteeState>> stateList = null;
 			// 检查掉落保底与不掉落保底
 			int guaranteeSize = guaranteeList.size();
 			if (guaranteeSize > 0) {
-				DropGuaranteeDAO guaranteeDAO = DropGuaranteeDAO.getInstance();
-				DropGuaranteeData guaranteeData = guaranteeDAO.get(userId);
+				DropGuaranteeData guaranteeData = DropGuaranteeDAO.getInstance().get(userId);
 				if (guaranteeData == null) {
 					GameLog.error("DropItemManager", userId, "获取保底掉落数据失败");
 				} else {
 					DropGuaranteeCfgDAO guaranteeCfgDAO = DropGuaranteeCfgDAO.getInstance();
+					stateList = new ArrayList<IntTuple<Integer, DropGuaranteeState>>(guaranteeSize);
 					for (int i = guaranteeSize; --i >= 0;) {
 						Integer guaranteeId = guaranteeList.get(i);
 						DropGuaranteeCfg cfg = guaranteeCfgDAO.getDropGuarantee(guaranteeId);
@@ -210,6 +190,7 @@ public class DropItemManager {
 						// 检查本次是否掉落
 						boolean drop = dropItemInfoMap.containsKey(itemTemplateId);
 						DropGuaranteeRecord guaranteeRecord = guaranteeData.getRecord(guaranteeId);
+						DropGuaranteeState state;
 						if (guaranteeRecord != null) {
 							int times;
 							// 记录的道具ID不一致，清0
@@ -217,49 +198,51 @@ public class DropItemManager {
 							if (itemId != cfg.getItemTemplateId()) {
 								GameLog.error("DropGuarantee", userId, "清空不一致掉落ID,old=" + itemId + ",new=" + cfg.getItemTemplateId());
 								times = 0;
+								guaranteeRecord.setT(times);
 							} else {
 								times = guaranteeRecord.getT();
 							}
-							int result;
+							// 之前掉落次数n>=0 次(即连续掉落n次)
 							if (times >= 0) {
 								if (!drop) {
-									result = -1;
+									// 如果这次不掉，记录不掉落1次(不检查保底)
+									state = DropGuaranteeState.MISS_RESET;
 								} else {
+									// 如果这次掉落，检查是否到底不掉落阀值，检查方式 之前掉落次数>=不掉落阀值，触发不掉落，并记录不掉落1次；否则继续增加掉落次数
 									int maxCount = cfg.getMaxDropCount();
 									if (times < maxCount) {
-										result = times + 1;
+										state = DropGuaranteeState.ADD_DROP;
 									} else {
-										result = 0;
+										state = DropGuaranteeState.MISS_RESET;
 										dropItemInfoMap.remove(itemId);
 									}
 								}
 							} else {
+								// 之前掉落次数n< 0次(即连续不掉落n次)
 								if (drop) {
-									result = 1;
+									//如果这次掉落，记录掉落1次(不检查保底)
+									state = DropGuaranteeState.DROP_RESET;
 								} else {
+									//如果这次不掉落，检查是否到底掉落阀值，检查方式 之前不掉落次数 >= 掉落阀值，触发掉落，并记录掉落1次；否则继续     增加不掉落次数
 									int maxCount = cfg.getMaxMisspCount();
 									if (Math.abs(times) < maxCount) {
-										result = times - 1;
+										state = DropGuaranteeState.ADD_MISS;
 									} else {
-										result = 1;
+										state = DropGuaranteeState.DROP_RESET;
 										dropItemInfoMap.put(itemId, new RefInt(1));
 									}
 								}
 							}
-							guaranteeRecord.setId(itemId);
-							guaranteeRecord.setT(result);
 						} else {
-							// 生成一条新的记录
-							guaranteeRecord = new DropGuaranteeRecord();
-							guaranteeRecord.setId(itemTemplateId);
+							//第一次生成记录，按掉落情况来记录，不检查保底
 							if (drop) {
-								guaranteeRecord.setT(1);
+								state = DropGuaranteeState.DROP_RESET;
 							} else {
-								guaranteeRecord.setT(-1);
+								state = DropGuaranteeState.MISS_RESET;
 							}
-							guaranteeData.addRecord(guaranteeId, guaranteeRecord);
 						}
-						guaranteeDAO.update(guaranteeData);
+						IntTuple<Integer, DropGuaranteeState> tuple = new IntTuple<Integer, DropGuaranteeState>(itemTemplateId, guaranteeId, state);
+						stateList.add(tuple);
 					}
 				}
 			}
@@ -276,7 +259,6 @@ public class DropItemManager {
 			CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(copyId);
 			if (!firstDrop && copyCfg != null) {
 				Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
-				// int multipleItem = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
 				int multipleItem = ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.item.getValue());
 
 				List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
@@ -302,8 +284,7 @@ public class DropItemManager {
 
 			if (copyId > 0) {
 				List<ItemInfo> result = Collections.unmodifiableList(dropItemInfoList);
-				record.putPretreatDropList(copyId, new DropResult(result, firstDrop));
-				dropRecordDAO.update(record);
+				record.putPretreatDropList(copyId, new DropResult(result, firstDrop, stateList));
 			} else {
 				recordDrop(record, false, copyId);
 			}
@@ -322,7 +303,7 @@ public class DropItemManager {
 	 * @return
 	 * @throws DataAccessTimeoutException
 	 */
-	public List<? extends ItemInfo> extractDropPretreatment(Player player, int copyId) throws DataAccessTimeoutException {
+	public List<? extends ItemInfo> extractDropPretreatment(Player player, int copyId, boolean isWin) throws DataAccessTimeoutException {
 		List<ItemInfo> itemInfoList = null;
 		try {
 			String userId = player.getUserId();
@@ -331,31 +312,68 @@ public class DropItemManager {
 			// 获取并删除
 			DropResult dropResult = record.extract(copyId);
 			if (dropResult == null) {
-				GameLog.error("缺少战斗结果掉落集：" + userId);
-				return Collections.EMPTY_LIST;
+				GameLog.error("DropItemManager", userId, "缺少战斗结果掉落集");
+				return Collections.emptyList();
 			}
 			itemInfoList = dropResult.getItemInfos();
+			List<IntTuple<Integer, DropGuaranteeState>> list = dropResult.getGuaranteeList();
+			if (isWin && list != null && !list.isEmpty()) {
+				DropGuaranteeDAO guaranteeDAO = DropGuaranteeDAO.getInstance();
+				DropGuaranteeData guaranteeData = guaranteeDAO.get(userId);
+				if (guaranteeData != null) {
+					for (int i = list.size(); --i >= 0;) {
+						IntTuple<Integer, DropGuaranteeState> tuple = list.get(i);
+						Integer guaranteeId = tuple.getT1();
+						DropGuaranteeRecord guaranteeRecord = guaranteeData.getRecord(guaranteeId);
+						if (guaranteeRecord == null) {
+							guaranteeRecord = new DropGuaranteeRecord();
+							guaranteeData.addRecord(guaranteeId, guaranteeRecord);
+						}
+						guaranteeRecord.setId(tuple.getValue());
+						DropGuaranteeState state = tuple.getT2();
+						int times = guaranteeRecord.getT();
+						if (state == DropGuaranteeState.DROP_RESET) {
+							guaranteeRecord.setT(1);
+						} else if (state == DropGuaranteeState.MISS_RESET) {
+							guaranteeRecord.setT(-1);
+						} else if (state == DropGuaranteeState.ADD_DROP) {
+							if (times < 0) {
+								GameLog.error("DropItemManager", userId, "ADD_DROP state is error:" + times + "," + guaranteeId);
+								guaranteeRecord.setT(1);
+							} else {
+								guaranteeRecord.setT(times + 1);
+							}
+						} else {
+							if (times > 0) {
+								GameLog.error("DropItemManager", userId, "ADD_MISS state is error:" + times + "," + guaranteeId);
+								guaranteeRecord.setT(-1);
+							} else {
+								guaranteeRecord.setT(times - 1);
+							}
+						}
+					}
+					guaranteeDAO.update(guaranteeData);
+				} else {
+					GameLog.error("DropItemManager", userId, "记录副本保底掉落失败：" + list);
+				}
+			}
 			recordDrop(record, dropResult.isFirstDrop(), copyId);
 			return itemInfoList;
 		} catch (Throwable t) {
-			GameLog.error(t);
+			GameLog.error("DropItemManager", player == null ? "null" : player.getUserId(), "", t);
 			if (itemInfoList != null) {
 				return itemInfoList;
 			} else {
-				return Collections.EMPTY_LIST;
+				return Collections.emptyList();
 			}
 		}
 	}
 
 	private void recordDrop(DropRecord record, boolean isFirstDrop, int copyId) {
-		boolean needUpdate = false;
 		if (isFirstDrop && copyId > 0) {
 			record.addFirstDrop(copyId);
-			needUpdate = true;
-			GameLog.error("DropItemManaer", "#trace", "记录首掉：" + record.getUserId() + "," + copyId);
-		}
-		if (needUpdate) {
 			DropRecordDAO.getInstance().update(record);
+			GameLog.error("DropItemManaer", "#trace", "记录首掉：" + record.getUserId() + "," + copyId);
 		}
 	}
 
