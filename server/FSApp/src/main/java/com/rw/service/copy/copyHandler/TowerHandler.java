@@ -50,24 +50,22 @@ public class TowerHandler {
 
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
-		
-		
-		String rewardInfoActivity="";
+
+		String rewardInfoActivity = "";
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
-		
-	
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
-		
-		if(!isWin){
-			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
+
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), isWin, fightTime, rewardInfoActivity, 0);
+
+		if (!isWin) {
+			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 
@@ -88,10 +86,9 @@ public class TowerHandler {
 
 		// 此处专门处理副本地图的关卡记录...
 		String levelRecord4Client = copyRecordMgr.updateLevelRecord(levelId, tagBattleData.getStarLevel(), 1);
-		//日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
-		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
-		
-		
+		// 日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
+
 		if (StringUtils.isBlank(levelRecord4Client)) {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 
@@ -109,8 +106,5 @@ public class TowerHandler {
 
 		return copyResponse.build().toByteString();
 	}
-
-	
-	
 
 }

@@ -50,6 +50,7 @@ public class EliteCopyHandler {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		TagBattleData tagBattleData = copyRequest.getTagBattleData();
 		boolean isWin = tagBattleData.getFightResult() == EBattleStatus.WIN;
+
 		int fightTime = tagBattleData.getFightTime();
 
 		int levelId = tagBattleData.getLevelId();
@@ -59,12 +60,11 @@ public class EliteCopyHandler {
 
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
-		
-		
-		String rewardInfoActivity="";
+
+		String rewardInfoActivity = "";
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
+			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId, isWin);
 		} catch (DataAccessTimeoutException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,13 +73,10 @@ public class EliteCopyHandler {
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		GameBehaviorMgr.getInstance().setMapId(player.getUserId(), copyCfg.getLevelID());
 
-		
-		if(!isWin){
-			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
+		if (!isWin) {
+			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
-
-
 
 		// 合法性检查
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
@@ -98,17 +95,16 @@ public class EliteCopyHandler {
 
 		// 此处专门处理副本地图的关卡记录...
 		String levelRecord4Client = copyRecordMgr.updateLevelRecord(levelId, tagBattleData.getStarLevel(), 1);
-		//日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
-		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
-		
-		
+		// 日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
+
 		if (StringUtils.isBlank(levelRecord4Client)) {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 
 		}
 		copyResponse.addTagCopyLevelRecord(levelRecord4Client);
-		
-		// 任务数量 日常		
+
+		// 任务数量 日常
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Elite, 1);
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Copy_Elite);
 		player.getFresherActivityMgr().doCheck(eActivityType.A_EliteCopyLv);
@@ -125,17 +121,14 @@ public class EliteCopyHandler {
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
 
-
 		UserEventMgr.getInstance().ElityCopyWin(player, 1);
-		//随机boss
+		// 随机boss
 		RandomBossMgr.getInstance().findBossBorn(player, true);
 		return copyResponse.build().toByteString();
 	}
 
 	/*
-	 * 扫荡关卡...
-	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
-	 * 副本扫荡经验双倍预计掉落
+	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}] 副本扫荡经验双倍预计掉落
 	 */
 	public ByteString copySweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
@@ -156,7 +149,7 @@ public class EliteCopyHandler {
 
 		// 同步日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Elite, times);
-		//随机boss
+		// 随机boss
 		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		// 黑市或者神秘商店
@@ -183,10 +176,9 @@ public class EliteCopyHandler {
 		if (levelRecord4Client != null) {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
 		}
-		
+
 		UserEventMgr.getInstance().ElityCopyWin(player, times);
 		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();
 	}
-	
 
 }

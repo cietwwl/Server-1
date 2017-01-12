@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
@@ -45,7 +46,10 @@ public class ActivityCountTypeItem implements ActivityTypeItemIF<ActivityCountTy
 	private String enumId;
 	
 	@CombineSave
-	private boolean isTouchRedPoint;	
+	private boolean isTouchRedPoint;
+	
+	@IgnoreSynField
+	private long lastAddCountTime = 0;
 	
 	public String getEnumId() {
 		return enumId;
@@ -136,6 +140,14 @@ public class ActivityCountTypeItem implements ActivityTypeItemIF<ActivityCountTy
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+	
+	public long getLastAddCountTime() {
+		return lastAddCountTime;
+	}
+
+	public void setLastAddCountTime(long lastAddCountTime) {
+		this.lastAddCountTime = lastAddCountTime;
 	}
 
 	@Override

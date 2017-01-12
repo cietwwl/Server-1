@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.HPCUtil;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
@@ -22,6 +24,7 @@ import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.activityCommon.UserActivityChecker;
+import com.rw.fsutil.util.DateUtils;
 
 /**
  * //登录活动等基础活动
@@ -61,6 +64,12 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		ActivityCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), countType);
 		if (dataItem == null) {
 			return;
+		}
+		if(StringUtils.equals(dataItem.getEnumId(), ActivityCountTypeEnum.Login.getCfgId())){
+			if(0 != dataItem.getLastAddCountTime() && !HPCUtil.isResetTime(dataItem.getLastAddCountTime())){
+				return;
+			}
+			dataItem.setLastAddCountTime(DateUtils.getSecondLevelMillis());
 		}
 		dataItem.setCount(dataItem.getCount() + countadd);
 		dataHolder.updateItem(player, dataItem);
