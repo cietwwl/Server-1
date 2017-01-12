@@ -31,7 +31,7 @@ import com.rounter.util.JsonUtil;
 @Service
 public class ServerChannelManager {
 	
-	Logger logger = LoggerFactory.getLogger(ServerChannelManager.class);
+	Logger logger = LoggerFactory.getLogger("mainlog");
 	
 	private static ServerChannelManager instance = new ServerChannelManager();
 	
@@ -98,7 +98,7 @@ public class ServerChannelManager {
 	}
 
 	public void refreshPlatformChannel(){
-		logger.debug("begin refresh channel ~~");
+		logger.info("begin refresh channel ~~");
 		HashMap<String, ServerInfo> platforms = LoginServerInfo.getInstance().checkServerProp();
 		if(platforms != null){
 			dropNotExistPlatform(platforms);
