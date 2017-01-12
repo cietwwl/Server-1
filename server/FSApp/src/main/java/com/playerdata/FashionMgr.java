@@ -50,7 +50,7 @@ import com.rwproto.MsgDef;
 public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	private static TimeUnit DefaultTimeUnit = TimeUnit.DAYS;
 	private static String ExpiredEMailID = "10030";
-	//private static String GiveEMailID = "10036";
+	// private static String GiveEMailID = "10036";
 	private static String ExpiredNotifycation = "您的时装%s已过期，请到试衣间续费";
 
 	private Player m_player = null;
@@ -87,8 +87,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	 * 兼容旧的配置，映射所有1开头的时装ID到9开头
 	 */
 	public void convertData() {
-		FashionHandle.getInstance().convertData(fashionItemHolder, fashionUsedHolder,
-				getFashionBeingUsed(),m_player.getUserId());
+		FashionHandle.getInstance().convertData(fashionItemHolder, fashionUsedHolder, getFashionBeingUsed(), m_player.getUserId());
 	}
 
 	@Override
@@ -301,7 +300,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		checkExpired();
 		fashionItemHolder.synAllData(m_player, 0);
 		notifyProxy.checkDelayNotify();
-		//TODO 临时解决客户端木有时装配置的问题
+		// TODO 临时解决客户端木有时装配置的问题
 		FashionResponse.Builder fashionResponse = FashionResponse.newBuilder();
 		fashionResponse.setEventType(FashionEventType.getFashiondata);
 		FashionCommon.Builder common = FashionCommon.newBuilder();
@@ -312,7 +311,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		common.setUsedFashion(fashion);
 		fashionResponse.setFashionCommon(common);
 		fashionResponse.setError(ErrorType.SUCCESS);
-		UserChannelMgr.sendAyncResponse(userId, MsgDef.Command.MSG_FASHION,"syncAll", fashionResponse.build().toByteString());
+		UserChannelMgr.sendAyncResponse(userId, MsgDef.Command.MSG_FASHION, "syncAll", fashionResponse.build().toByteString());
 	}
 
 	/**
@@ -400,12 +399,17 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 
 		FashionItem old = fashionItemHolder.getItem(fashionId);
-		if (old != null && old.isBrought()){//已经有这件时装，不能再赠送
-			if (timingUnit == null){
+		if (old != null && old.isBrought()) {// 已经有这件时装，不能再赠送
+			if (old.getExpiredTime() < 0) {// 永久的不给替换了
+				return true;
+			}
+
+			if (timingUnit == null) {
 				timingUnit = DefaultTimeUnit;
 			}
-			//有效期<=0看成永久时装
-			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : old.getExpiredTime()+timingUnit.toMillis(expaireTimeCount));
+
+			// 有效期<=0看成永久时装
+			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : old.getExpiredTime() + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
 			notifyProxy.checkDelayNotify();
 			fashionItemHolder.updateItem(player, old);
@@ -416,11 +420,15 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 			old = newFashionItem(fashionCfg, expaireTimeCount, timingUnit);
 			fashionItemHolder.addItem(player, old);
 		} else {
+			if (old.getExpiredTime() < 0) {// 永久的不给替换了
+				return true;
+			}
+
 			if (timingUnit == null) {
 				timingUnit = DefaultTimeUnit;
 			}
 			long now = System.currentTimeMillis();
-			//有效期<=0看成永久时装
+			// 有效期<=0看成永久时装
 			old.setExpiredTime(expaireTimeCount <= 0 ? -1 : now + timingUnit.toMillis(expaireTimeCount));
 			old.setBrought(true);
 			notifyProxy.checkDelayNotify();
@@ -435,8 +443,8 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		if (sendEmail) {
 			List<String> args = new ArrayList<String>();
 			args.add(fashionCfg.getName());
-//			EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
-			//GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
+			// EmailUtils.sendEmail(player.getUserId(), GiveEMailID, args);
+			// GameLog.info("时装", player.getUserId(), "发送赠送时装的邮件", null);
 		}
 		notifyProxy.checkDelayNotify();
 		return true;
@@ -500,11 +508,10 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		RecomputeBattleAdded();
 		notifyProxy.checkDelayNotify();
 		/*
-		 * List<FashionItem> list = fashionItemHolder.getItemList(); for (FashionItem fasItem : list) { FashionCfg fashcfg =
-		 * FashionCfgDao.getInstance().getConfig(fasItem.getId()); if(fashcfg == null){ continue; } if(fasItem.getType() == FashType.suit.ordinal()){
-		 * FashionCfg newcfg = FashionCfgDao.getInstance().getConfig(fashcfg.getSuitId(),m_pPlayer.getCareer(),m_pPlayer.getSex()); FashionItem
-		 * newitem = newFash(newcfg); if(newitem != null){ newitem.setState(fasItem.getState()); fashionItemHolder.addItem(m_pPlayer, newitem); }
-		 * fashionItemHolder.removeItem(m_pPlayer, fasItem); } }
+		 * List<FashionItem> list = fashionItemHolder.getItemList(); for (FashionItem fasItem : list) { FashionCfg fashcfg = FashionCfgDao.getInstance().getConfig(fasItem.getId()); if(fashcfg ==
+		 * null){ continue; } if(fasItem.getType() == FashType.suit.ordinal()){ FashionCfg newcfg = FashionCfgDao.getInstance().getConfig(fashcfg.getSuitId(),m_pPlayer.getCareer(),m_pPlayer.getSex());
+		 * FashionItem newitem = newFash(newcfg); if(newitem != null){ newitem.setState(fasItem.getState()); fashionItemHolder.addItem(m_pPlayer, newitem); } fashionItemHolder.removeItem(m_pPlayer,
+		 * fasItem); } }
 		 */
 	}
 
@@ -677,7 +684,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 		long buyTime = item.getBuyTime();
 		long expired = item.getExpiredTime();
-		if (expired >0 && buyTime > expired) {
+		if (expired > 0 && buyTime > expired) {
 			LogError(tip, "时装数据异常", ",购买时间比到期时间迟！fashionId=" + fashionId);
 			return false;
 		}
@@ -719,11 +726,11 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 						fasItem.setBrought(false);
 					}
 				}
-				
-				//允许购买的时装需要从购买数据库中删除，但是不允许购买的时装需要保留在数据库中继续勾引玩家
-				if (fashcfg == null || !fashcfg.getNotAllowBuy()){
+
+				// 允许购买的时装需要从购买数据库中删除，但是不允许购买的时装需要保留在数据库中继续勾引玩家
+				if (fashcfg == null || !fashcfg.getNotAllowBuy()) {
 					fashionItemHolder.removeItem(m_player, fasItem);
-				}else{
+				} else {
 					fashionItemHolder.updateItem(m_player, fasItem);
 				}
 			}
@@ -731,8 +738,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 	}
 
 	/**
-	 * 设置重新计算战斗增益的标志 与时装穿戴数据的改变有关(FashionBeingUsedHolder负责存储) 有效期时装总数带来的增益(FashionItemHolder负责存储) 以及职业变更有关系 时装的穿戴，脱下和过期会导致改变
-	 * 有效期时装数量或者变更（购买，续费，过期）会导致变化
+	 * 设置重新计算战斗增益的标志 与时装穿戴数据的改变有关(FashionBeingUsedHolder负责存储) 有效期时装总数带来的增益(FashionItemHolder负责存储) 以及职业变更有关系 时装的穿戴，脱下和过期会导致改变 有效期时装数量或者变更（购买，续费，过期）会导致变化
 	 */
 	private void RecomputeBattleAdded() {
 		// totalEffects = null;
@@ -764,7 +770,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * 获取用户拥有，并且没有过期的时装
