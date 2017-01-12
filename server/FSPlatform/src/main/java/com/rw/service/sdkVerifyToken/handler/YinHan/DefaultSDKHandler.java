@@ -6,15 +6,11 @@ import com.log.PlatformLog;
 import com.rw.fsutil.util.HttpUtils;
 import com.rw.service.sdkVerifyToken.SDKVerifyResult;
 
-/**
- * ios正式的二次验证地址
- * @author lida
- *
- */
-public class YinHanSDKHandler extends AbsSDKHandler{
 
-	protected String URL = "http://nsdk.yhres.cn:4003/verifyToken";
-	protected String BackupURL = "http://nsdk.yhres.cn:4003/verifyToken";
+public class DefaultSDKHandler extends AbsSDKHandler{
+	
+	protected String URL = "http://nsdk.01234.com.cn:4003/verifyToken";
+	protected String BackupURL = "http://nsdk.01234.com.cn:4003/verifyToken";
 	
 	public SDKVerifyResult verifySDK() {
 		// TODO Auto-generated method stub

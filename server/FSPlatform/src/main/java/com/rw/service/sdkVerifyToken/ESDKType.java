@@ -7,7 +7,10 @@ package com.rw.service.sdkVerifyToken;
  */
 public enum ESDKType {
 	NONE_SDK(0),
-	YINHAN_SDK(1);
+	YINHAN_SDK(1),
+	ZYINHAN_SDK(2),
+	DEFAULT_SDK(-1),
+	;
 	
 	private int type;
 	private ESDKType(int type){
@@ -28,6 +31,6 @@ public enum ESDKType {
 				return esdkType;
 			}
 		}
-		return YINHAN_SDK;
+		return DEFAULT_SDK;
 	}
 }
