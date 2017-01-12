@@ -157,7 +157,7 @@ public class ActivityExchangeTypeMgr extends AbstractActivityMgr<ActivityExchang
 				// 等级不足
 				continue;
 			}
-			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(String.valueOf(activityExchangeTypeCfg.getId()));
+			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(String.valueOf(activityExchangeTypeCfg.getCfgId()));
 			if (dropCfgList == null) {
 				continue;
 			}
