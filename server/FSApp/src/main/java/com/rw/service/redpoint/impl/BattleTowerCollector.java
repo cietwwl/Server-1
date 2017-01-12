@@ -1,6 +1,5 @@
 package com.rw.service.redpoint.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Player;
 import com.rw.service.battletower.BattleTowerHandler;
 import com.rw.service.redpoint.RedPointType;
-import com.rwbase.dao.battletower.pojo.BossInfo;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerConfigCfg;
 import com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
@@ -50,37 +48,37 @@ public class BattleTowerCollector implements RedPointCollector {
 			map.put(RedPointType.BATTLE_TOWER_SWEEP_END, Collections.EMPTY_LIST);
 		}
 
-		// 检查Boss
-		List<String> bossIdList = null;
-		List<BossInfo> bossInfoList = tableBattleTower.getBossInfoList();
-		if (!bossInfoList.isEmpty()) {
-			int size = bossInfoList.size();
-			bossIdList = new ArrayList<String>(size);
-
-			long showTime = TimeUnit.MINUTES.toMillis(uniqueCfg.getBossShowTime());
-
-			for (int i = 0; i < size; i++) {
-				BossInfo bossInfo = bossInfoList.get(i);
-				if (now < bossInfo.getBossStartTime()) {
-					continue;
-				}
-
-				long offTime = now - bossInfo.getBossStartTime();
-				if (offTime >= showTime) {
-					continue;
-				}
-
-				if (bossInfo.isHasFight()) {
-					continue;
-				}
-
-				bossIdList.add(String.valueOf(bossInfo.getBossUniqueId()));
-			}
-		}
-
-		if (bossIdList != null && !bossIdList.isEmpty()) {
-			map.put(RedPointType.BATTLE_TOWER_NEW_BOSS, bossIdList);
-		}
+		// // 检查Boss
+		// List<String> bossIdList = null;
+		// List<BossInfo> bossInfoList = tableBattleTower.getBossInfoList();
+		// if (!bossInfoList.isEmpty()) {
+		// int size = bossInfoList.size();
+		// bossIdList = new ArrayList<String>(size);
+		//
+		// long showTime = TimeUnit.MINUTES.toMillis(uniqueCfg.getBossShowTime());
+		//
+		// for (int i = 0; i < size; i++) {
+		// BossInfo bossInfo = bossInfoList.get(i);
+		// if (now < bossInfo.getBossStartTime()) {
+		// continue;
+		// }
+		//
+		// long offTime = now - bossInfo.getBossStartTime();
+		// if (offTime >= showTime) {
+		// continue;
+		// }
+		//
+		// if (bossInfo.isHasFight()) {
+		// continue;
+		// }
+		//
+		// bossIdList.add(String.valueOf(bossInfo.getBossUniqueId()));
+		// }
+		// }
+		//
+		// if (bossIdList != null && !bossIdList.isEmpty()) {
+		// map.put(RedPointType.BATTLE_TOWER_NEW_BOSS, bossIdList);
+		// }
 	}
 
 	@Override
