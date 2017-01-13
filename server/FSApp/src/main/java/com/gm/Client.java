@@ -5,6 +5,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.gm.util.SocketHelper;
 
@@ -23,10 +25,19 @@ public class Client {
         DataOutputStream output = new DataOutputStream(socket.getOutputStream());  
         
         GmRequest request = new GmRequest();
-        request.setOpType(1001);
-        request.setAccount("account");
-        request.setPassword("password");
-//        request.setArgs("{'value':0}");
+        request.setOpType(20008);
+        request.setAccount("gm");
+        request.setPassword("123456");
+        
+        Map<String, Object> prams = new HashMap<String, Object>();
+        prams.put("noticeId", 0);
+        prams.put("title", "Hello3");
+        prams.put("content", "Hello Everyone~~~~~~~~333");
+        prams.put("startTime", System.currentTimeMillis()/1000);
+        prams.put("endTime", System.currentTimeMillis()/1000 + 10 * 60);
+        prams.put("cycleInterval", "0");
+        prams.put("priority", "1");
+        request.setArgs(prams);
         
         SocketHelper.write(output, request);  
         output.flush();
