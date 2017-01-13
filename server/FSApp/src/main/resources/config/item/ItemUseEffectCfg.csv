@@ -91,3 +91,7 @@ Key,Remarks,modelId,combineUse,useEffectClass,directResult,dropResult
 806159,,806159,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35148;35149;35150;35151
 806374,,806374,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,39101;39102;39103;39104;39105;39106;39107;39108;39109;39110;39111;39112;39113;39114;39115;39116;39117;39118;39119;39120;39121;39122;39123;39124
 806375,,806375,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,39201;39202;39203;39204;39205;39206;39207;39208;39209;39210;39211;39212;39213;39214;39215;39216;39217;39218;39219;39220;39221;39222;39223;39224
+806380,,806380,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35210;35211
+806381,,806381,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35212;35213
+806382,,806382,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35214;35215
+806383,,806383,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35216;35217
