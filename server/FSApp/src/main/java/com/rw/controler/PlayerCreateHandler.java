@@ -210,7 +210,7 @@ public class PlayerCreateHandler {
 			if (clienInfo != null) {
 				baseInfo.setChannelId(clienInfo.getChannelId());
 			}
-			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
+			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId, openAccount));
 		}
 		UserDataDao.getInstance().saveOrUpdate(baseInfo);
 	}
