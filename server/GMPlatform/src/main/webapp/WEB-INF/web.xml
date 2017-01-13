@@ -6,18 +6,45 @@
 	id="WebApp_ID" version="3.0">
 
 	<display-name>FS GMPlatfrom Application</display-name>
+	
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+  	<!--防止发生java.beans.Introspector内存泄露,应将它配置在ContextLoaderListener的前面 -->
+  	<!-- 详见此类注释  -->
+    <listener>
+        <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
 
 	<!-- 配置Spring配置文件路径 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
             classpath*:applicationContext.xml
+            classpath*:shiro.xml
         </param-value>
 	</context-param>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	
+	<!-- 配置Shiro过滤器,先让Shiro过滤系统接收到的请求 -->
+	<!-- 这里filter-name必须对应shiro.xml中定义的<bean id="shiroFilter"/> -->
+	<!-- 使用[/*]匹配所有请求,保证所有的可控请求都经过Shiro的过滤 -->
+	<!-- 通常会将此filter-mapping放置到最前面(即其他filter-mapping前面),以保证它是过滤器链中第一个起作用的 -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 -->
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	
 
 	<!-- log4j配置文件 -->
@@ -47,10 +74,11 @@
 		<!-- 拦截所有/rest/* 的请求,交给DispatcherServlet处理,性能最好 这个参数设置的规则是什么？ “/” 是用来定义默认 
 			servlet 映射的。也可以如“*.html”表示拦截所有以 html 为扩展名的请求。 匹配逻辑： 1.精确匹配， 2.前缀匹配 3.后缀匹配，（扩展名） -->
 		<!-- <url-pattern>/rest/*</url-pattern> -->
-		<url-pattern>/</url-pattern>
+		<url-pattern>/view/*</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 </web-app>

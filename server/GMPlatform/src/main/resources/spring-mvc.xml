@@ -10,39 +10,31 @@
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+	<mvc:resources mapping="*/assets/**" location="*/assets/*" /><!-- 处理静态资源请求 -->
 
 	<context:annotation-config />
 	<context:component-scan base-package="com.server.*" />
 	
-  	<bean id="objectMapper" class="com.server.util.CustomObjectMapper" init-method="init">
-		<property name="lowcase" value="false" />
-    	<property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss" />
-	</bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />  
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" />  
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>  
+		</mvc:message-converters>
+	</mvc:annotation-driven>	
 	
-	<!-- 配置Springmvc注解驱动 -->  
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>    
-  
-    <!-- 启动Spring MVC的注解功能,设置编码方式，防止乱码 -->  
+	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
+	 <!-- 启动Spring MVC的注解功能,设置编码方式，防止乱码 -->  
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
         <property name="messageConverters">  
             <list>  
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />  
-                <bean class = "org.springframework.http.converter.StringHttpMessageConverter">  
-                        <property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />  
-                </bean>  
-                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
-                	<property name="objectMapper" ref="objectMapper" />
-                    <property name="supportedMediaTypes">  
-                        <list>  
-                            <value>text/html;charset=UTF-8</value>  
-                        </list>  
-                    </property>  
-                </bean>  
+              	<ref bean="fastJsonHttpMessageConverter" />
             </list>  
         </property>  
-    </bean> 
-	
-	
+    </bean>
+
 	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="useCodeAsDefaultMessage" value="false"/>
