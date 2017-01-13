@@ -9,26 +9,24 @@ import com.bm.login.AccoutBM;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
-import com.gm.GmExecutor;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
 import com.gm.gmEmail.GMEmailDataDao;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.log.GmLog;
 import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
-import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.accountInfo.TableAccount;
+import com.rwbase.dao.user.platformwhitelist.PlatformWhiteList;
+import com.rwbase.dao.user.platformwhitelist.PlatformWhiteListDataHolder;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 
@@ -61,21 +59,21 @@ public class GmEmailWhiteList implements IGmTask {
 			gmEmail.setConditionList(conditionList);
 			ServerStatusMgr.addGmMail(gmEmail);
 
-			List<String> whiteList = ServerStatusMgr.getWhiteList();
+			List<PlatformWhiteList> allWhiteList = PlatformWhiteListDataHolder.getInstance().getAllWhiteList();
+			
 			final List<Player> playerList = new ArrayList<Player>();
-			for (String userIdTmp : whiteList) {
+			for (PlatformWhiteList tablePlatformWhiteList : allWhiteList) {
+				String openAccount = tablePlatformWhiteList.getAccountId();
+				boolean close = tablePlatformWhiteList.isClose();
 				try {
-					TableAccount account = AccoutBM.getInstance()
-							.getByOpenAccount(userIdTmp);
-					User user = UserDataDao.getInstance().getByAccoutAndZoneId(
-							account.getAccountId(), GameManager.getZoneId());
-					Player targetTmp = PlayerMgr.getInstance().find(
-							user.getUserId());
+					TableAccount account = AccoutBM.getInstance().getByOpenAccount(openAccount);
+					User user = UserDataDao.getInstance().getByAccoutAndZoneId(account.getAccountId(), GameManager.getZoneId());
+					Player targetTmp = PlayerMgr.getInstance().find(user.getUserId());
 					if (targetTmp != null) {
 						playerList.add(targetTmp);
 					}
 				} catch (Exception ex) {
-					GmLog.info("send gm mail fail:" + userIdTmp);
+					GmLog.info("send gm mail fail:" + openAccount);
 					continue;
 				}
 			}

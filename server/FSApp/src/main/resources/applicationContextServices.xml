@@ -144,6 +144,8 @@
      			<entry key="MSG_SALOON" value-ref="saloonService" />
      			<entry key="MSG_WORLD_BOSS" value-ref="worldBossService" />
      			<entry key="MSG_BATTLE_VERIFY" value-ref="battleVerifyService" />
+     			
+     			<entry key="MSG_GROUP_PRAY" value-ref="groupPrayService" />
 			</map>
 		</property>
 	</bean>
@@ -262,4 +264,6 @@
 	<bean id="worldBossService"  class="com.bm.worldBoss.service.WBService" />
 	
 	<bean id="battleVerifyService"  class="com.playerdata.battleVerify.BattleVerifyService" />
+	
+	<bean id="groupPrayService" class="com.rw.service.group.GroupPrayService" />
 </beans>  

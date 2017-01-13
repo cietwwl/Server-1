@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 
 import com.common.RefInt;
 import com.log.GameLog;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.service.Email.EmailUtils;
@@ -346,7 +347,7 @@ public class ItemBagMgr {
 			} else if (cfgId == eSpecialItemId.BraveCoin.getValue()) {
 				return player.getUserGameDataMgr().getTowerCoin() >= count;
 			} else if (cfgId == eSpecialItemId.GuildCoin.getValue()) {
-				return player.getUserGroupAttributeDataMgr().getUserGroupContribution() >= count;
+				return UserGroupAttributeDataMgr.getMgr().getUserGroupContribution(player.getUserId()) >= count;
 			} else if (cfgId == eSpecialItemId.PeakArenaCoin.getValue()) {
 				return player.getUserGameDataMgr().getPeakArenaCoin() >= count;
 			}// 新增竞技场货币处理
@@ -412,10 +413,10 @@ public class ItemBagMgr {
 
 		return success;
 	}
-	
+
 	/**
-	 * 添加机器人的道具，临时方法
-	 * 解决不会触发战力的问题
+	 * 添加机器人的道具，临时方法 解决不会触发战力的问题
+	 * 
 	 * @param cfgId
 	 * @param count
 	 * @return
@@ -526,7 +527,7 @@ public class ItemBagMgr {
 		} else if (cfgId == eSpecialItemId.BraveCoin.getValue()) {
 			player.getUserGameDataMgr().addTowerCoin(value);
 		} else if (cfgId == eSpecialItemId.GuildCoin.getValue()) {
-			player.getUserGroupAttributeDataMgr().useUserGroupContribution(value);
+			UserGroupAttributeDataMgr.getMgr().useUserGroupContribution(player.getUserId(), value);
 		} else if (cfgId == eSpecialItemId.PeakArenaCoin.getValue()) {
 			player.getUserGameDataMgr().addPeakArenaCoin(value);
 		}// 新增竞技场货币处理

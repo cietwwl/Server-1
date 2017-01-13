@@ -15,8 +15,8 @@ enum eStoreRequestType {
 }
 
 enum eWakenRewardDrawType{
-	oneDraw = 1;   //µ¥³é
-	tenDraw = 2;   //Ê®Á¬³é
+	oneDraw = 1;   //ÂµÂ¥Â³Ã©
+	tenDraw = 2;   //ÃŠÂ®ÃÂ¬Â³Ã©
 }
 
 enum eProbType{

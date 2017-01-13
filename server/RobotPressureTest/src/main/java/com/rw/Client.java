@@ -25,6 +25,7 @@ import com.rw.handler.fixEquip.FixNormEquipDataItemHolder;
 import com.rw.handler.fixExpEquip.FixExpEquipDataItemHolder;
 import com.rw.handler.fresheractivity.FresherActivityHolder;
 import com.rw.handler.group.data.GroupDataVersion;
+import com.rw.handler.group.data.GroupPrayData;
 import com.rw.handler.group.data.GroupRequestCacheData;
 import com.rw.handler.group.holder.GroupApplyMemberHolder;
 import com.rw.handler.group.holder.GroupBaseDataHolder;
@@ -70,7 +71,7 @@ import com.rw.handler.worldboss.data.WBDataHolder;
  * @Description 
  */
 public class Client {
-	
+
 	private ActionRateHelper rateHelper = new ActionRateHelper();
 	// private static Random r = new Random();// 随机性别
 	private String accountId;// 帐号Id
@@ -160,26 +161,25 @@ public class Client {
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
 
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
-	
+
 	private RoleBaseInfoHolder roleBaseInfoHolder = new RoleBaseInfoHolder();
 
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
-	
-	//世界boss
+	// 世界boss
 	private WBDataHolder wbDataHolder = new WBDataHolder();
-	
-	
-	
 	// last seqId
 	// private volatile int lastSeqId;
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
 
 	private AtomicBoolean closeFlat = new AtomicBoolean();
-	
+
 	private Queue<AsynExecuteTask> asynExecuteResps = new ConcurrentLinkedQueue<AsynExecuteTask>();
 
 	// 聊天数据缓存
 	private ChatData chatData = new ChatData();
+
+	// 帮派祈福的数据
+	private GroupPrayData groupPrayData = new GroupPrayData();
 
 	public Client(String accountIdP) {
 		this.accountId = accountIdP;
@@ -305,13 +305,13 @@ public class Client {
 		}
 		this.serverList.add(serverInfo);
 	}
-	
+
 	public void addAsynExecuteResp(AsynExecuteTask task) {
 		synchronized (this.asynExecuteResps) {
 			this.asynExecuteResps.add(task);
 		}
 	}
-	
+
 	public void executeAsynResp() {
 		Queue<AsynExecuteTask> queue = null;
 		if (this.asynExecuteResps.size() > 0) {
@@ -568,10 +568,7 @@ public class Client {
 	public GCompMatchBattleSynDataHolder getgCompMatchBattleSynDataHolder() {
 		return gCompMatchBattleSynDataHolder;
 	}
-	
-	
-	
-	
+
 	public WBDataHolder getWbDataHolder() {
 		return wbDataHolder;
 	}
@@ -580,13 +577,23 @@ public class Client {
 	 * 
 	 * @return
 	 */
-	public ActionRateHelper getRateHelper(){
+	public ActionRateHelper getRateHelper() {
 		return rateHelper;
 	}
-	
-	public RandomMethodIF getNextModuleHandler(){
+
+	public RandomMethodIF getNextModuleHandler() {
 		ActionEnum act = rateHelper.getRandomAction();
-		if(null == act) return null;
+		if (null == act)
+			return null;
 		return rateHelper.getRandomAction().getExeHandler();
+	}
+
+	/**
+	 * 获取帮派祈福数据
+	 * 
+	 * @return
+	 */
+	public GroupPrayData getGroupPrayData() {
+		return groupPrayData;
 	}
 }

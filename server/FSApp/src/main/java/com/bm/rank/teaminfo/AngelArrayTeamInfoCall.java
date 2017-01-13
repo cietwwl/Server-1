@@ -1,6 +1,7 @@
 package com.bm.rank.teaminfo;
 
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.team.TeamInfo;
 
 /*
@@ -68,7 +69,7 @@ public class AngelArrayTeamInfoCall {
 		@Override
 		public void call(Player p, AngelArrayTeamInfoAttribute extendedAttribute) {
 			TeamInfo teamInfo = extendedAttribute.getTeamInfo();
-			teamInfo.setGroupName(p.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
+			teamInfo.setGroupName(UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(p.getUserId()).getGroupName());
 		}
 	};
 }

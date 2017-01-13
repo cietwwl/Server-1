@@ -28,6 +28,7 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.ranking.exception.RankingCapacityNotEougthException;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -86,9 +87,9 @@ public class ArenaBM {
 	}
 
 	public static ArenaBM getInstance() {
-//		if (instance == null) {
-//			instance = new ArenaBM();
-//		}
+		// if (instance == null) {
+		// instance = new ArenaBM();
+		// }
 		return instance;
 	}
 
@@ -124,11 +125,11 @@ public class ArenaBM {
 	public static final int ARENA_SIZE = 3;
 
 	public ArenaExtAttribute createArenaExt(Player player) {
-//		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+		// ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
 		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel(), player.getVip(), (player.getMagic() != null ? player.getMagic().getModelId() : 0));
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
-//		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+		// arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 		return arenaExt;
 	}
@@ -185,7 +186,7 @@ public class ArenaBM {
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
 
-//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		// List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		ArrayList<String> defaultHeros = new ArrayList<String>(4);
 		// ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
@@ -220,7 +221,7 @@ public class ArenaBM {
 	}
 
 	public ListRankingEntry<String, ArenaExtAttribute> getEntry(String userId, int career) {
-		//ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
+		// ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
 		ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.ARENA);
 		if (ranking == null) {
 			return null;
@@ -543,6 +544,8 @@ public class ArenaBM {
 		String headImage = player.getHeadImage();
 		String userName = player.getUserName();
 		String headBox = player.getHeadFrame();
+		int vip = player.getVip();
+		int sex = player.getSex();
 		TableArenaData data = tableArenaDataDAO.get(userId);
 		int fighting = 0;
 		if (data != null) {
@@ -552,8 +555,8 @@ public class ArenaBM {
 			data.setFighting(fighting);
 			data.setHeadImage(headImage);
 			data.setHeadbox(headBox);
-			data.setVip(player.getVip());
-			data.setSex(player.getSex());
+			data.setVip(vip);
+			data.setSex(sex);
 			ItemData magic = player.getMagic();
 			if (magic != null) {
 				data.setMagicId(magic.getModelId());
@@ -562,13 +565,27 @@ public class ArenaBM {
 				data.setMagicId(0);
 				data.setMagicLevel(0);
 			}
-			data.setName(player.getUserName());
+			data.setName(userName);
 			data.setTempleteId(player.getTemplateId());
 			tableArenaDataDAO.update(data);
 		}
 		ListRankingEntry<String, ArenaExtAttribute> entry = getEntry(userId, career);
 		if (entry != null) {
-			ArenaExtAttribute arenaExt = entry.getExtension();
+			updateAreanExt(player, entry.getExtension(), career, level, fighting, headImage, headBox, userName, vip, sex);
+			// 不主动提交属性变化的更新了
+		}
+		ListRanking<String, PeakArenaExtAttribute> peakArena = RankingFactory.getSRanking(ListRankingType.PEAK_ARENA);
+		if (peakArena != null) {
+			ListRankingEntry<String, PeakArenaExtAttribute> peakArenaEntry = peakArena.getRankingEntry(userId);
+			if (peakArenaEntry != null) {
+				updateAreanExt(player, peakArenaEntry.getExtension(), career, level, fighting, headImage, headBox, userName, vip, sex);
+			}
+		}
+	}
+
+	private void updateAreanExt(Player player, ArenaExtAttribute arenaExt, int career, int level, int fighting, String headImage
+			, String headBox, String userName, int vip, int sex) {
+		if (arenaExt != null) {
 			arenaExt.setCareer(career);
 			arenaExt.setLevel(level);
 			// TODO 出问题的时候不更新战力，后面改
@@ -577,13 +594,13 @@ public class ArenaBM {
 			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
-			arenaExt.setVip(player.getVip());
-//			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+			arenaExt.setVip(vip);
+			arenaExt.setSex(sex);
+			// arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 			if (player.getMagic() != null) {
 				arenaExt.setMagicCfgId(player.getMagic().getModelId());
 			}
-			// 不主动提交属性变化的更新了
 		}
 	}
 

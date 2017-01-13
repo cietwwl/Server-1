@@ -1,0 +1,57 @@
+syntax="proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupPrayProto";
+
+package groupproto;
+
+enum ReqType{
+	OPEN_MAIN_VIEW = 1;//打开祈福主界面
+	NEED_PRAY = 2;//请求祈福
+	SEND_PRAY = 3;//赠送卡片给某人
+}
+
+//单个祈福的数据
+message PrayEntry{
+	required string memberId = 1;//成员的Id
+	required int32 soulId = 2;//魂石的Id
+	required int32 process = 3;//进度
+	required bool hasSend = 4;//是否赠送过这个人
+}
+
+//祈福的奖励
+message PrayRewardInfo{
+	required int32 soulId = 1;//奖励的魂石Id
+	required int32 count = 2;//获取的魂石奖励
+}
+
+//请求打开祈福界面
+message OpenPrayMainViewRspMsg{
+	repeated PrayEntry entry = 1;//所有成员祈福数据
+	required bool hasPray = 2;//自己是否祈福过
+	optional PrayRewardInfo prayReward = 3;//祈福的奖励
+}
+
+//请求祈福的消息
+message NeedPrayReqMsg{
+	required int32 soulId = 1;//请求的魂石Id
+}
+
+//给某人赠送卡片的消息
+message SendPrayReqMsg{
+	required string memberId = 1;//赠送给成员的Id
+}
+
+//祈福的通用请求消息
+message GroupPrayCommonReqMsg{
+	required ReqType reqType = 1;//请求的类型
+	optional NeedPrayReqMsg needPrayReq = 2;//请求祈福
+	optional SendPrayReqMsg sendPrayReq = 3;//赠送卡片
+}
+
+//祈福的通用响应消息
+message GroupPrayCommonRspMsg{
+	required ReqType reqType = 1;//请求的类型
+	required bool isSuccess = 2;//是否处理成功
+	optional string tipMsg = 3;//提示的消息(这个不管成功和失败都有可能会发)
+	optional OpenPrayMainViewRspMsg openPrayMainViewRsp = 4;//打开祈福主界面的响应
+}

@@ -7,7 +7,6 @@ import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.SignMgr;
 import com.playerdata.TowerMgr;
-import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -81,7 +80,7 @@ public interface PlayerIF {
 	 */
 	public ItemDataIF getMagic();
 
-	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr();
+	// public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr();
 
 	public String getUserName();
 

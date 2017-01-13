@@ -81,7 +81,7 @@ public class GroupMemberManagerHandler {
 		commonRsp.setReqType(RequestType.GET_APPLY_MEMBER_LIST_TYPE);
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(playerId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -145,8 +145,8 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查帮派存在不存在
-		final UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
+		final UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData(playerId);
 		final String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -209,7 +209,7 @@ public class GroupMemberManagerHandler {
 				public void run(Player player) {
 					// 更新下个人的数据
 					String groupName = groupData.getGroupName();
-					player.getUserGroupAttributeDataMgr().updateDataWhenHasGroup(player, groupId, groupName);
+					mgr.updateDataWhenHasGroup(player, groupId, groupName);
 					// 发送邮件
 					GroupHelper.sendJoinGroupMail(player.getUserId(), groupName);
 				}
@@ -231,7 +231,7 @@ public class GroupMemberManagerHandler {
 
 				final PlayerIF p = PlayerMgr.getInstance().getReadOnlyPlayer(applyMemberId);
 				// 检查是否被其他帮派接受
-				UserGroupAttributeDataIF applyBaseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+				UserGroupAttributeDataIF applyBaseData = mgr.getUserGroupAttributeData(applyMemberId);
 				String hasGroupId = applyBaseData.getGroupId();
 				if (StringUtils.isEmpty(hasGroupId)) {// 没有帮派
 					GroupMemberJoinCallback joinCallback = new GroupMemberJoinCallback() {
@@ -282,7 +282,7 @@ public class GroupMemberManagerHandler {
 					final PlayerIF p = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
 
 					// 检查是否被其他帮派接受
-					UserGroupAttributeDataIF applyBaseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+					UserGroupAttributeDataIF applyBaseData = mgr.getUserGroupAttributeData(userId);
 					String hasGroupId = applyBaseData.getGroupId();
 					if (StringUtils.isEmpty(hasGroupId)) {// 没有帮派
 						GroupMemberJoinCallback joinCallback = new GroupMemberJoinCallback() {
@@ -329,7 +329,7 @@ public class GroupMemberManagerHandler {
 
 				@Override
 				public void run(Player player) {
-					player.getUserGroupAttributeDataMgr().updateDataWhenRefuseByGroup(player, groupId);
+					mgr.updateDataWhenRefuseByGroup(player, groupId);
 				}
 			};
 
@@ -371,7 +371,7 @@ public class GroupMemberManagerHandler {
 		commonRsp.setReqType(RequestType.NOMINATE_POST_TYPE);
 
 		// 检查帮派存在不存在
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(playerId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -495,7 +495,7 @@ public class GroupMemberManagerHandler {
 		commonRsp.setReqType(RequestType.CANCEL_NOMINATE_TYPE);
 
 		// 检查帮派存在不存在
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(playerId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -591,8 +591,8 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 判断帮派是否存在
-		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData(playerId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -737,7 +737,7 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 判断帮派是否存在
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(playerId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");

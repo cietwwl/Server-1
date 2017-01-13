@@ -163,6 +163,16 @@ enum eSynType	//数据同步类型
 	/**300以上为活动，非活动的请到300之前*/
 }
 
+message MsgDataSyn
+{
+    required eSynType synType = 1;				//同步数据类型
+    optional eSynOpType synOpType = 2;			//同步操作类型
+    repeated SynData SynData = 3;				//同步数据
+    optional int32 version=4;					//数据版本号
+    optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+    optional string optMap=6;					//长转短映射表
+}
+
 message MsgDataSynList
 {
     repeated MsgDataSyn msgDataSyn = 3;				//同步数列表
@@ -176,16 +186,6 @@ message DataSynVersion{
 
 message MsgDataSynVersion{
 	repeated DataSynVersion version = 1;
-}
-
-message MsgDataSyn
-{
-    required eSynType synType = 1;				//同步数据类型
-    optional eSynOpType synOpType = 2;			//同步操作类型
-    repeated SynData SynData = 3;				//同步数据
-    optional int32 version=4;					//数据版本号
-    optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
-    optional string optMap=6;					//长转短映射表
 }
 
 

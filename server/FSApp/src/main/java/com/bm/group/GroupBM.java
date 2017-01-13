@@ -11,6 +11,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.chat.ChatBM;
 import com.bm.groupCopy.GroupCopyLevelBL;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
@@ -42,15 +43,15 @@ public final class GroupBM {
 	/** 常驻内存的帮派容器 */
 	private static final ConcurrentHashMap<String, Group> cacheGroupDataMap = new ConcurrentHashMap<String, Group>();
 	private static GroupIdCache groupIdCache;
-	
-	public static void init(String dsName,DruidDataSource dataSource){
-		groupIdCache = new GroupIdCache(dsName,dataSource);
+
+	public static void init(String dsName, DruidDataSource dataSource) {
+		groupIdCache = new GroupIdCache(dsName, dataSource);
 	}
-	
-	public static String getGroupId(String groupName){
+
+	public static String getGroupId(String groupName) {
 		return groupIdCache.getGroupId(groupName);
 	}
-	
+
 	/**
 	 * 检查帮派是否存在
 	 * 
@@ -102,7 +103,7 @@ public final class GroupBM {
 	 * @return
 	 */
 	public static Group get(String groupId) {
-		if(groupId == null || groupId.isEmpty()){
+		if (groupId == null || groupId.isEmpty()) {
 			return null;
 		}
 		Group group = cacheGroupDataMap.get(groupId);
@@ -193,10 +194,9 @@ public final class GroupBM {
 		}
 
 		// 放入成员
-		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(),
-				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame(), GroupCopyLevelBL.MAX_ALLOT_COUNT);
+		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame(),
+				GroupCopyLevelBL.MAX_ALLOT_COUNT);
 
-		
 		return group;
 	}
 
@@ -246,7 +246,7 @@ public final class GroupBM {
 
 			@Override
 			public void run(Player player) {
-				player.getUserGroupAttributeDataMgr().updateDataWhenQuitGroup(player, now);
+				UserGroupAttributeDataMgr.getMgr().updateDataWhenQuitGroup(player, now);
 				EmailUtils.sendEmail(player.getUserId(), emailData);
 				// 通知好友更改更新帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
@@ -260,7 +260,7 @@ public final class GroupBM {
 
 			@Override
 			public void run(Player player) {
-				player.getUserGroupAttributeDataMgr().updateDataWhenRefuseByGroup(player, groupId);
+				UserGroupAttributeDataMgr.getMgr().updateDataWhenRefuseByGroup(player, groupId);
 			}
 		};
 

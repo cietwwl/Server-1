@@ -117,6 +117,7 @@ import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
+import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
 import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -1427,22 +1428,15 @@ public class GMHandler {
 			tableBattleTower.setResetTimes(0);
 			TableBattleTowerDao.getDao().update(tableBattleTower);
 		} else if (functionName.equalsIgnoreCase("dt")) {
-			UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
-			UserGroupAttributeData userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+			UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+			String userId = player.getUserId();
+			UserGroupAttributeData userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData(userId);
 			String groupId = userGroupAttributeData.getGroupId();
 			if (StringUtils.isEmpty(groupId)) {
 				return false;
 			}
 
-			userGroupAttributeDataMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
-
-			// Group group = GroupBM.get(groupId);
-			// if (group == null) {
-			// return false;
-			// }
-			//
-			// GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			// groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(userId, System.currentTimeMillis());
 		} else if (functionName.equalsIgnoreCase("wxf")) {
 			resetWxFighting(player);
 		}
@@ -1459,8 +1453,9 @@ public class GMHandler {
 			return false;
 		}
 
-		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+		String userId = player.getUserId();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData(userId);
 
 		String functionName = arrCommandContents[0];
 		if (functionName.equalsIgnoreCase("cet")) {// 清除发送邮件冷却时间
@@ -1487,7 +1482,6 @@ public class GMHandler {
 			return false;
 		}
 
-		String userId = player.getUserId();
 		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(userId, false);
 		if (memberData == null) {
@@ -1534,6 +1528,24 @@ public class GMHandler {
 			}
 
 			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, 0, value, true);
+		} else if (functionName.equalsIgnoreCase("cpd")) {// 清除祈福的数据
+			boolean b = memberData instanceof GroupMemberData;
+			boolean b1 = baseGroupData instanceof UserGroupAttributeData;
+			if (!b || !b1) {
+				return false;
+			}
+
+			GroupMemberData member = (GroupMemberData) memberData;
+			member.setPrayCardId(0);
+			member.setPrayProcess(0);
+			groupMemberMgr.flush();
+
+			UserGroupAttributeData userGroupData = (UserGroupAttributeData) baseGroupData;
+			userGroupData.clearPrayList();
+			userGroupData.setLastPrayTime(0);
+			userGroupData.setLastResetPrayTime(0);
+			userGroupData.setState(0);
+			UserGroupAttributeDataDAO.getDAO().update(userId);
 		}
 
 		return true;
@@ -2435,8 +2447,9 @@ public class GMHandler {
 		Group group = GroupBM.get(GroupHelper.getGroupId(player));
 		if (group != null) {
 			int contribute = Integer.parseInt(arrCommandContents[0]);
-			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-			group.getGroupMemberMgr().updateMemberDataWhenDonate(player.getUserId(), baseData.getDonateTimes() + 1, System.currentTimeMillis(), contribute, true);
+			String userId = player.getUserId();
+			UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
+			group.getGroupMemberMgr().updateMemberDataWhenDonate(userId, baseData.getDonateTimes() + 1, System.currentTimeMillis(), contribute, true);
 		}
 		return true;
 	}

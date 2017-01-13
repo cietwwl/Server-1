@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.bm.group.GroupBM;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
@@ -51,11 +52,11 @@ public class GroupSecretVersionMgr {
 		List<SecretTeamInfoSynData> teamInfoList = new ArrayList<SecretTeamInfoSynData>();
 
 		// 检查密境列表
-//		List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
-//		for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
+		// List<String> defendSecretIdList = userGroupSecretData.getDefendSecretIdList();
+		// for (int i = 0, size = defendSecretIdList.size(); i < size; i++) {
 		Map<Integer, String> defendSecretIdMap = userGroupSecretData.getDefendSecretIdMap();
-		for(Iterator<Map.Entry<Integer, String>> itr = defendSecretIdMap.entrySet().iterator();itr.hasNext();) {
-//			String id = defendSecretIdList.get(i);
+		for (Iterator<Map.Entry<Integer, String>> itr = defendSecretIdMap.entrySet().iterator(); itr.hasNext();) {
+			// String id = defendSecretIdList.get(i);
 			Map.Entry<Integer, String> entry = itr.next();
 			String id = entry.getValue();
 			String[] idArr = GroupSecretHelper.parseString2UserIdAndSecretId(id);
@@ -116,7 +117,7 @@ public class GroupSecretVersionMgr {
 
 		// 发送帮派成员的列表
 
-		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+		String groupId = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId).getGroupId();
 		Group group = GroupBM.get(groupId);
 		if (group != null) {
 			group.synGroupMemberData(player, false, groupSecretVersion.getMemberVersion());

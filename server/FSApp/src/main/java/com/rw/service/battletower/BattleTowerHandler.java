@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.IHeroSynHandler;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
@@ -24,6 +25,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.common.herosynhandler.CommonHeroSynHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.battletower.pojo.BattleTowerHeroInfo;
 import com.rwbase.dao.battletower.pojo.BattleTowerRoleInfo;
@@ -53,6 +55,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonRspMsg;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerConfig;
 import com.rwproto.BattleTowerServiceProtos.BossInfoMsg;
@@ -91,6 +94,8 @@ import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
  */
 public class BattleTowerHandler {
 	private static final int BOSS_RANDOM_RATE = 10000;
+
+	private static IHeroSynHandler _synHandler = new CommonHeroSynHandler();
 
 	/**
 	 * 打开角色的试练塔主界面
@@ -155,6 +160,14 @@ public class BattleTowerHandler {
 				rsp.setSweepFloor(highestFloor);// 扫荡结束了，必须设置当前扫荡层数为最高层
 
 				rsp.addAllRewardInfoMsg(reward);
+
+				int dis = highestFloor - sweepStartFloor;
+				// 封神台通知日常，这里假设可扫荡层数大于1层，开始扫荡马上通知一次，扫荡完成的时候可造成通知日常总次数-1(结果保证>0)
+				if (dis > 0) {
+					player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.CHALLEGE_BATTLETOWER, dis);
+				}
+
+				UserEventMgr.getInstance().BattleTower(player, highestFloor);
 			} else {
 				int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(now - sweepStartTime);// 经历的时间
 				int addFloor = seconds / theSweepTime4PerFloor;// 要增加的层数
@@ -745,7 +758,7 @@ public class BattleTowerHandler {
 
 		// 没有在扫荡，就不用领取奖励
 		if (!tableBattleTower.getSweepState()) {
-			SetFail(commonRsp, "试练塔扫荡结束", userId, "当前不是扫荡状态", "当前不是扫荡状态");
+			SetFail(commonRsp, "试练塔扫荡结束", userId, "当前不是扫荡状态", "扫荡已结束");
 			return;
 		}
 
@@ -1047,6 +1060,7 @@ public class BattleTowerHandler {
 
 		commonRsp.setReqType(ERequestType.CHALLENGE_START);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+		_synHandler.synHeroData(player, eBattlePositionType.TowerBattle, null);
 	}
 
 	/**
@@ -1365,10 +1379,24 @@ public class BattleTowerHandler {
 			return;
 		}
 
-		tableBattleTower.setChallengeBossId(bossId);
-		dao.update(tableBattleTower);
+		boolean hasChange = false;
+		if (!bossInfo.isHasFight()) {
+			bossInfo.setHasFight(true);// 设置已经打过这个Boss
+			hasChange = true;
+		}
+
+		if (tableBattleTower.getChallengeBossId() != bossId) {
+			tableBattleTower.setChallengeBossId(bossId);
+			hasChange = true;
+		}
+
+		if (hasChange) {
+			dao.update(tableBattleTower);
+		}
 
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
+
+		_synHandler.synHeroData(player, eBattlePositionType.TowerBattle, null);
 	}
 
 	/**

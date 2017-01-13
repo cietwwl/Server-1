@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.StoreMgrIF;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.RandomUtil;
@@ -125,7 +126,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			RefParam<String> outTip = new RefParam<String>();
 			if (CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, m_pPlayer, outTip)) {
 				// if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
-				UserGroupAttributeDataIF groupData = m_pPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+				UserGroupAttributeDataIF groupData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(m_pPlayer.getUserId());
 
 				boolean hasGroup = groupData == null ? false : StringUtils.isNotBlank(groupData.getGroupId());
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
@@ -188,7 +189,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 
 	public void removeStore(int type) {
 		StoreData store = getStore(type);
-		if(store != null){
+		if (store != null) {
 			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 			m_StoreData.remove(store.getType().getOrder());
 			storeDataHolder.remove(m_pPlayer, store);

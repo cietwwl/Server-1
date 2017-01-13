@@ -22,6 +22,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
@@ -180,7 +181,7 @@ public class GroupSecretHandler {
 		}
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -487,7 +488,7 @@ public class GroupSecretHandler {
 
 		// 增加帮派经验物资
 		boolean hasGroupAdd = false;
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
 			if (groupId.equals(groupSecretData.getGroupId())) {
@@ -555,7 +556,7 @@ public class GroupSecretHandler {
 		}
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -940,7 +941,7 @@ public class GroupSecretHandler {
 		}
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -1070,7 +1071,7 @@ public class GroupSecretHandler {
 		}
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -1347,7 +1348,7 @@ public class GroupSecretHandler {
 		}
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");

@@ -46,6 +46,8 @@ public enum ActivityKey {
 	ACTIVITY_REDENVELOPE(14, GameWorldKey.ACTIVITY_REDENVELOPE, ActivityTypeFactory.RedEnvelopeType),
 	/**--	活跃之王	--*/
 	ACTIVITY_VITALITYTYPE(15, GameWorldKey.ACTIVITY_VITALITYTYPE, ActivityTypeFactory.VitalityType),
+	/**--	打脸图公告	--*/
+	ACTIVITY_NOTICE(15, GameWorldKey.ACTIVITY_NOTICE, ActivityTypeFactory.Notice),
 	/**--	摇一摇红包	--*/
 	ACTIVITY_SHAKEENVELOPE(16, GameWorldKey.ACTIVITY_SHAKEENVELOPE, ActivityTypeFactory.ShakeEnvelope),
 	;

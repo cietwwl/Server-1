@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.StringUtils;
 
+import com.common.HPCUtil;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfg;
@@ -169,7 +169,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 			if(freshItem == null){
 				continue;
 			}
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLastTime())) {
+			if (HPCUtil.isResetTime(freshItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player, freshItem.getSubItemList());
 				sendEmailIfBoxGiftNotTaken(player, freshItem);
 				freshItem.reset(cfg);
