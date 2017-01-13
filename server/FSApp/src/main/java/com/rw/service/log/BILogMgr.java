@@ -53,6 +53,7 @@ import com.rw.service.log.template.FinanceMainConsumeLogTemplate;
 import com.rw.service.log.template.GiftGoldChangedLogTemplate;
 import com.rw.service.log.template.GiftPackageLogTemplate;
 import com.rw.service.log.template.GoldChangeLogTemplate;
+import com.rw.service.log.template.GuideLogTemplate;
 import com.rw.service.log.template.ItemChangedLogTemplate;
 import com.rw.service.log.template.OnlineCountLogTemplate;
 import com.rw.service.log.template.PayLogTemplate;
@@ -132,6 +133,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.FinanceMainCoinConsume, new FinanceMainConsumeLogTemplate());
 		templateMap.put(eBILogType.FinanceMainCoinHold, new FinanceMainCoinHoldLogTemplate());
 		templateMap.put(eBILogType.GiftPackage, new GiftPackageLogTemplate());
+		templateMap.put(eBILogType.Guide, new GuideLogTemplate());
 	}
 
 	private Logger getLogger(eBILogType type) {
@@ -207,6 +209,15 @@ public class BILogMgr {
 		moreInfo.put("factionId", groupId);
 		moreInfo.put("giftReward", StringUtils.isEmpty(reward) ? "" : "item@num:" + reward);
 		logPlayer(eBILogType.GiftPackage, player, moreInfo);
+	}
+	
+	public void logGuide(Player player, String guideCode, int guideType) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("guideEntrance", String.valueOf(player.getUserDataMgr().getEntranceId()));
+		moreInfo.put("guideCode", guideCode);
+		moreInfo.put("guideType", "1");
+		moreInfo.put("optype", "guide_finsh");
+		logPlayer(eBILogType.Guide, player, moreInfo);
 	}
 
 	public void logZoneLogout(Player player) {

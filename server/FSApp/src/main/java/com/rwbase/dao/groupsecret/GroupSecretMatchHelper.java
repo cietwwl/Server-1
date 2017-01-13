@@ -10,6 +10,7 @@ import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankComparable;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.common.SegmentList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -58,7 +59,7 @@ public class GroupSecretMatchHelper {
 		}
 
 		int tFighting = 0;
-//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		// List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
 			Hero hero = maxFightingHeros.get(i);
@@ -155,7 +156,7 @@ public class GroupSecretMatchHelper {
 
 		int level = player.getLevel();
 		int fighting = 0;// 匹配的战力
-//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		// List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
 			Hero hero = maxFightingHeros.get(i);
@@ -189,7 +190,7 @@ public class GroupSecretMatchHelper {
 
 		long now = System.currentTimeMillis();
 
-		String groupId = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId();
+		String groupId = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(player.getUserId()).getGroupId();
 
 		List<String> matchIdList = new ArrayList<String>();
 		for (int i = 0; i < refSize; i++) {

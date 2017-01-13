@@ -20,6 +20,7 @@ import com.rw.handler.gamble.GambleHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
+import com.rw.handler.group.GroupPrayHandler;
 import com.rw.handler.groupCompetition.service.GroupCompSameSceneHandler;
 import com.rw.handler.groupCompetition.service.GroupCompetitionHandler;
 import com.rw.handler.groupCompetition.service.GroupCompetitionQuizHandler;
@@ -80,6 +81,7 @@ public enum ActionEnum {
 	GroupCompSameScene(36, GroupCompSameSceneHandler.getHandler()),
 	GroupCompetition(37, GroupCompetitionHandler.getHandler()),
 	SelectCareer(38, SelectCareerHandler.instance(), 0),
+	GroupPray(39, GroupPrayHandler.getHandler(), 0),
 	;
 	
 	private int indx;

@@ -32,6 +32,7 @@ import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.ERoleAttrs;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
@@ -669,7 +670,8 @@ public class RankingMgr {
 	}
 
 	private void updateUserGroupFight(Player player, final int teamFighting) {
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String userId = player.getUserId();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		if (baseData == null) {
 			return;
 		}
@@ -686,7 +688,6 @@ public class RankingMgr {
 		if (group.getGroupBaseDataMgr().getGroupData() == null) {
 			return;
 		}
-		String userId = player.getUserId();
 		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
 		GroupMemberDataIF memberData = memberMgr.getMemberData(userId, false);
 		if (memberData == null) {

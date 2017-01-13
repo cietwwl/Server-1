@@ -16,6 +16,7 @@ import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.rw.fsutil.common.PairKey;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
@@ -25,6 +26,7 @@ import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FsService;
 import com.rw.service.common.FunctionOpenLogic;
+import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rw.service.yaowanlog.YaoWanLogHandler;
@@ -47,11 +49,13 @@ public class GameLogicTask implements PlayerTask {
 	private final Request request;
 	private final Long sessionId;
 	private final long submitTime;
+	private final Command command;
 
-	public GameLogicTask(Long sessionId, Request request) {
+	public GameLogicTask(Long sessionId, Request request, Command command) {
 		this.request = request;
 		this.sessionId = sessionId;
 		this.submitTime = System.currentTimeMillis();
+		this.command = command;
 	}
 
 	@Override
@@ -60,7 +64,6 @@ public class GameLogicTask implements PlayerTask {
 		String userId = null;
 		RequestHeader header = request.getHeader();
 		final int seqID = header.getSeqID();
-		final Command command = header.getCommand();
 		final long executeTime = System.currentTimeMillis();
 		ProtocolMessageEnum msgType = null;
 		ByteString synData = null;// 同步数据
@@ -171,9 +174,11 @@ public class GameLogicTask implements PlayerTask {
 	private void registerBehavior(String userId, FsService serivice, Command command, ProtocolMessageEnum msgType, GeneratedMessage msg, int viewId) {
 		// if (msgType != null) {
 		// String value = String.valueOf(msgType.getNumber());
-		// GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+		// GameBehaviorMgr.getInstance().registerBehavior(player, command,
+		// msgType, value, viewId);
 		// } else {
-		// GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
+		// GameBehaviorMgr.getInstance().registerBehavior(player, command,
+		// msgType, "-1", viewId);
 		// }
 		GameBehaviorMgr.getInstance().registerBehavior(userId, command, msgType, viewId);
 	}
@@ -196,6 +201,7 @@ public class GameLogicTask implements PlayerTask {
 				return;
 			}
 			if (guideSize > 0) {
+				Player player =  PlayerMgr.getInstance().find(userId);
 				GuideProgressDAO guideDAO = GuideProgressDAO.getInstance();
 				UserGuideProgress userGuideProgress = guideDAO.get(userId);
 				if (userGuideProgress == null) {
@@ -206,7 +212,14 @@ public class GameLogicTask implements PlayerTask {
 				Map<Integer, Integer> map = userGuideProgress.getProgressMap();
 				for (int i = guideSize; --i >= 0;) {
 					GuidanceProgress p = guidanceList.get(i);
-					map.put(p.getGuideID(), p.getProgress());
+					int guideID = p.getGuideID();
+					int progress = p.getProgress();
+					map.put(guideID, progress);
+					try {
+						BILogMgr.getInstance().logGuide(player, guideID + "_" + (progress < 0 ? 0 : progress), 1);
+					} catch (Exception ex) {
+
+					}
 				}
 				guideDAO.update(userGuideProgress);
 			}

@@ -6,12 +6,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import com.fy.version.VersionDao;
 
 public class ChannelAddressInfoDao {
 
 	private static Field[] fields = null;
-	public static ChannelAddressInfo fromFile(File file) throws IOException, Exception {
+	public static Map<String, ChannelAddressInfo> fromFile(File file) throws IOException, Exception {
 
 		try {
 			if (fields == null) {
@@ -29,32 +33,61 @@ public class ChannelAddressInfoDao {
 		
 
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-		ChannelAddressInfo channelAddressInfo = new ChannelAddressInfo();
 		
-		String name = file.getName();
-		name = name.replace(".path", "");
-		channelAddressInfo.setChannel(name);
+		String channelName = file.getName();
+		channelName = channelName.replace(".path", "");
 		
+		
+		Map<String, ChannelAddressInfo> ChannelAddressMap = new HashMap<String, ChannelAddressInfo>();
+		//<version, map<name, value>>
+		HashMap<String, HashMap<String, String>> pathMap = new HashMap<String, HashMap<String, String>>();
 		
 		try {
-
-			Map<String, String> propMap = new HashMap<String, String>();
+			
+			HashMap<String, String> propMap = new HashMap<String, String>();
 			String line = reader.readLine();
+			
+			ChannelAddressInfo channelAddressInfo = new ChannelAddressInfo();
+			channelAddressInfo.setChannel(channelName);
+			String packageName = VersionDao.DEFAULT_PACKAGENAME;
+			
 			while (line != null && !line.equals("")) {
 				String[] split = line.split("=");
 				if (split.length == 2) {
-					propMap.put(split[0].trim(), split[1].trim());
+					String valueName = split[0].trim();
+					String value = split[1].trim();
+					if(valueName.equals("packageName")){
+						ChannelAddressMap.put(packageName, channelAddressInfo);
+						pathMap.put(packageName, propMap);
+						packageName = value;
+						propMap = new HashMap<String, String>();
+						channelAddressInfo = new ChannelAddressInfo();
+					}else{
+						propMap.put(valueName, value);
+					}
 				}
 				line = reader.readLine();
 			}
-			for (Field fieldTmp : fields) {
+			ChannelAddressMap.put(packageName, channelAddressInfo);
+			pathMap.put(packageName, propMap);
+			
+			for (Iterator<Entry<String, HashMap<String, String>>> iterator = pathMap.entrySet().iterator(); iterator.hasNext();) {
+				Entry<String, HashMap<String, String>> entry = iterator.next();
+				HashMap<String, String> map = entry.getValue();
+				String key = entry.getKey();
+				ChannelAddressInfo info = ChannelAddressMap.get(key);
+				if(info == null){
+					continue;
+				}
+				
+				for (Field fieldTmp : fields) {
 
-				String value = propMap.get(fieldTmp.getName());
-				if (value != null) {
-					fieldTmp.set(channelAddressInfo, value);
+					String value = map.get(fieldTmp.getName());
+					if (value != null) {
+						fieldTmp.set(info, value);
+					}
 				}
 			}
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new Exception(ex.getMessage());
@@ -62,7 +95,7 @@ public class ChannelAddressInfoDao {
 			reader.close();
 		}
 		
-		return channelAddressInfo;
+		return ChannelAddressMap;
 	}
 	
 }

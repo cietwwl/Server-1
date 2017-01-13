@@ -30,3 +30,4 @@ FinanceGoldAddLogTemplate = "打印时间|core_finance|用户登录区ID|日志�
 FinanceGoldConsumeLogTemplate = "打印时间|core_finance|用户登录区ID|日志的触发时间|finance_main_coin_consume|用户登录区ID|账号唯一识别符|用户注册子渠道|用户登录子渠道|一级变动原因|二级变动原因|充值币消耗量|此处为空|此处为空|此处为空|充值币持有量";
 FinanceGoldHoldLogTemplate = "打印时间|core_finance|用户登录区ID|日志的触发时间|finance_main_coin_hold|用户登录区ID|统计唯一识别符|用户注册子渠道||||0||||充值币持有量";
 GiftPackageLogTemplate = "打印时间|core_market|用户登录区ID|日志的触发时间|package|用户登录区ID|账号唯一识别符|uid|角色ID|用户注册子渠道|用户登录子渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|礼包兑换界面|激活码|礼包id|礼包type|参考操作码对照表|部落id|1|item@num:兑换物品code1@兑换物品数量&兑换物品code1|广告短链接id";
+GuideLogTemplate="打印时间|dynamic_4|用户登录区ID|日志的触发时间|392|用户登录区ID|账号唯一识别符|UID|角色ID|用户注册子渠道|用户登录渠道|4=安卓/5=ios/7=wm|UID创建时间|角色创建时间|当前游戏客户端版本|用户VIP等级|用户角色等级|用户战力|职业ID|职级|行为起因/最初触发点|对象的唯一识别符|指引code|1=新手指引/2=其他指引|参考操作码对照表|备用字段补充多类别对象|1|此处为空";

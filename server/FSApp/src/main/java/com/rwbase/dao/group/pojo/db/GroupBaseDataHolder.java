@@ -1,10 +1,10 @@
-package com.rwbase.dao.group.pojo.db.dao;
+package com.rwbase.dao.group.pojo.db;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rwbase.dao.group.pojo.db.GroupBaseData;
+import com.rwbase.dao.group.pojo.db.dao.GroupBaseDataDAO;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 

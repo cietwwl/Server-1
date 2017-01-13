@@ -1,3 +1,4 @@
+syntax = "proto2";
 package google.protobuf;
 option java_package = "com.google.protobuf";
 option java_outer_classname = "DescriptorProtos";

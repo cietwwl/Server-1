@@ -8,6 +8,6 @@ message FrshActRequest{
 
 message FrshActResponse{
 	optional int32 cfgId = 1;
-	optional int32 result = 2;  //0 ʧ��  1 �ɹ�
+	optional int32 result = 2;  //0 Ê§°Ü  1 ³É¹¦
 	optional string resultValue = 3;
 }

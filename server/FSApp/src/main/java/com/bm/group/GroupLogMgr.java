@@ -2,7 +2,7 @@ package com.bm.group;
 
 import com.playerdata.Player;
 import com.rwbase.dao.group.pojo.db.GroupLog;
-import com.rwbase.dao.group.pojo.db.dao.GroupLogDataHolder;
+import com.rwbase.dao.group.pojo.db.GroupLogDataHolder;
 
 /*
  * @author HC

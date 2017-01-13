@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
@@ -27,7 +28,7 @@ public class GroupMemberHelper {
 
 		@Override
 		public void run(Player player) {
-			player.getUserGroupAttributeDataMgr().updateDataWhenQuitGroup(player, System.currentTimeMillis());
+			UserGroupAttributeDataMgr.getMgr().updateDataWhenQuitGroup(player, System.currentTimeMillis());
 		}
 	};
 
@@ -148,9 +149,9 @@ public class GroupMemberHelper {
 	public static void updateMemberData(Player player, boolean isLogin) {
 		String playerId = player.getUserId();
 		// 角色是否有帮派数据
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(playerId);
 
-		if(baseData == null){
+		if (baseData == null) {
 			return;
 		}
 		String groupId = baseData.getGroupId();
@@ -195,7 +196,7 @@ public class GroupMemberHelper {
 	 * @return
 	 */
 	public static String getGroupName(Player player) {
-		UserGroupAttributeDataIF groupBaseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF groupBaseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(player.getUserId());
 		if (groupBaseData == null) {
 			return "";
 		}

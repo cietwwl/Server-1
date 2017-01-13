@@ -147,7 +147,7 @@ public class Player implements PlayerIF {
 	private GuidanceMgr guideMgr = new GuidanceMgr();
 
 	// 个人帮派数据的Mgr
-	private UserGroupAttributeDataMgr userGroupAttributeDataMgr;
+	private UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
 	private UserGroupCopyMapRecordMgr userGroupCopyRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
@@ -262,7 +262,7 @@ public class Player implements PlayerIF {
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
-		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
+		// userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
 		if (!loadFromDB) {
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
@@ -392,7 +392,7 @@ public class Player implements PlayerIF {
 					long now = System.currentTimeMillis();
 					userDataMgr.setLastLoginTime(now);
 					// 推送帮派的数据
-					getUserGroupAttributeDataMgr().synUserGroupData(player);
+					userGroupAttributeDataMgr.synUserGroupData(player);
 					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
@@ -922,7 +922,7 @@ public class Player implements PlayerIF {
 			reslut = userGameDataMgr.getTowerCoin();
 			break;
 		case GuildCoin:
-			reslut = userGroupAttributeDataMgr.getUserGroupContribution();
+			reslut = userGroupAttributeDataMgr.getUserGroupContribution(userId);
 			break;
 		case PeakArenaCoin:
 			reslut = userGameDataMgr.getPeakArenaCoin();
@@ -1251,14 +1251,14 @@ public class Player implements PlayerIF {
 		return playerQuestionMgr;
 	}
 
-	/**
-	 * 获取个人的帮派数据
-	 * 
-	 * @return
-	 */
-	public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
-		return userGroupAttributeDataMgr;
-	}
+	// /**
+	// * 获取个人的帮派数据
+	// *
+	// * @return
+	// */
+	// public UserGroupAttributeDataMgr getUserGroupAttributeDataMgr() {
+	// return userGroupAttributeDataMgr;
+	// }
 
 	/**
 	 * 获取个人的帮派副本数据

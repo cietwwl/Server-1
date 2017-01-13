@@ -69,7 +69,7 @@ public class FSGetSpriteAttachFightingCalc implements IFightingCalc {
 			fighting += cfg.getFightingOfIndex(index);
 		}
 
-		System.err.println("附灵----------" + fighting);
+		// System.err.println("附灵----------" + fighting);
 		return fighting;
 	}
 }

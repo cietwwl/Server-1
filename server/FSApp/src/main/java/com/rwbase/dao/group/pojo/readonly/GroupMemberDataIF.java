@@ -136,4 +136,25 @@ public interface GroupMemberDataIF {
 	 * 获取帮派管理员帮派副本的当前手动分配次数
 	 */
 	public int getAllotRewardCount();
+
+	/**
+	 * 获取祈福的进度
+	 * 
+	 * @return
+	 */
+	public int getPrayProcess();
+
+	/**
+	 * 获取祈福的卡Id
+	 * 
+	 * @return
+	 */
+	public int getPrayCardId();
+
+	/**
+	 * 获取上次领取的数量
+	 * 
+	 * @return
+	 */
+	public int getLastGetPrayCount();
 }

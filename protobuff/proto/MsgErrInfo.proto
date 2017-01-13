@@ -3,8 +3,8 @@ option java_package = "com.rwproto";
 option java_outer_classname = "MsgErrInfoProtos";
 
 enum EMsgErrorInfoType {
-	ServerMsg = 0;//服务器错误
-	ClientMsg = 1;//客户端发送
+	ServerMsg = 0;//路镁脦帽脝梅麓铆脦贸
+	ClientMsg = 1;//驴脥禄搂露脣路垄脣脥
 
 }
 

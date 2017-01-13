@@ -1,4 +1,4 @@
-package com.rwbase.dao.group.pojo.db.dao;
+package com.rwbase.dao.group.pojo.db;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,6 @@ import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
-import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
