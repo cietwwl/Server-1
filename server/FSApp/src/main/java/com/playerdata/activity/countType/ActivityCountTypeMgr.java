@@ -9,7 +9,6 @@ import com.common.HPCUtil;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
@@ -65,7 +64,7 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		if (dataItem == null) {
 			return;
 		}
-		if(StringUtils.equals(dataItem.getEnumId(), ActivityCountTypeEnum.Login.getCfgId())){
+		if(StringUtils.equals(String.valueOf(dataItem.getId()), ActivityCountTypeEnum.Login.getCfgId())){
 			if(0 != dataItem.getLastAddCountTime() && !HPCUtil.isResetTime(dataItem.getLastAddCountTime())){
 				return;
 			}
