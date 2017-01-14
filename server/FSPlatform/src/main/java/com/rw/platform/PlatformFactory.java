@@ -98,6 +98,4 @@ public class PlatformFactory {
 	public static int getRounterPort() {
 		return rounterPort;
 	}
-
-	
 }
