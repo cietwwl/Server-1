@@ -3,34 +3,26 @@ package com.rounter.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rounter.controller.ucParam.Request9Game;
-import com.rounter.controller.ucParam.RequestTestParam;
-import com.rounter.controller.ucParam.Response9Game;
 import com.rounter.loginServer.LoginServerEnum;
 import com.rounter.param.IResponseData;
 import com.rounter.service.IUCService;
@@ -54,13 +46,6 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	public String getTestPost(HttpServletRequest request){
 		
 		return getAreasInfoInfo(request);
-	}
-	
-	@RequestMapping(value="test", method={RequestMethod.GET})
-	@ResponseBody
-	public String getTestGet(@RequestBody RequestTestParam request){
-		logger.info("GET recve role info test:{}", request.toString());
-		return request.toString();
 	}
 	
 	/**
