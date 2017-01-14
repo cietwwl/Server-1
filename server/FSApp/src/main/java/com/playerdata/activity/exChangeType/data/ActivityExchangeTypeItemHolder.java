@@ -47,7 +47,7 @@ public class ActivityExchangeTypeItemHolder{
 			}
 			boolean isRight = false;
 			for(ActivityExchangeTypeCfg cfg: typeCfgList){
-				if(StringUtils.equals(cfg.getId(), item.getCfgId())){
+				if(StringUtils.equals(String.valueOf(cfg.getId()), item.getCfgId())){
 					isRight = true;
 				}
 			}

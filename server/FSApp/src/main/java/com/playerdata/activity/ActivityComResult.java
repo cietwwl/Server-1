@@ -23,10 +23,9 @@ public class ActivityComResult {
 	}
 	
 	public static ActivityComResult newInstance(boolean success){
-		
 		ActivityComResult activityComResult = new ActivityComResult();
 		activityComResult.setSuccess(success);
-		activityComResult.setReason("");
+		activityComResult.setReason("没有可以领取的奖励");
 		return activityComResult;
 	}
 	

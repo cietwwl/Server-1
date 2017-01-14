@@ -20,6 +20,7 @@ import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfg
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
+import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -28,7 +29,10 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 
-public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate {
+public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate, IndexRankJudgeIF {
+	
+	private static final int ACTIVITY_INDEX_BEGIN = 40000;
+	private static final int ACTIVITY_INDEX_END = 50000;
 
 	private static ActivityRedEnvelopeTypeMgr instance = new ActivityRedEnvelopeTypeMgr();
 
@@ -92,18 +96,18 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate {
 			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
 			item.setId(id);
 			item.setUserId(userId);
-			item.setCfgId(cfg.getId());
-			item.setVersion(cfg.getVersion());
+			item.setCfgId(String.valueOf(cfg.getId()));
+			item.setVersion(String.valueOf(cfg.getVersion()));
 			item.setLastTime(System.currentTimeMillis());
 			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
 			item.setDay(day);
 			List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
-			List<ActivityRedEnvelopeTypeSubCfg> subList = subDao.getSubCfgListByParentID(cfg.getId());
+			List<ActivityRedEnvelopeTypeSubCfg> subList = subDao.getSubCfgListByParentID(String.valueOf(cfg.getId()));
 			if (subList == null) {
 				subList = new ArrayList<ActivityRedEnvelopeTypeSubCfg>();
 			}
 			for (ActivityRedEnvelopeTypeSubCfg subCfg : subList) {
-				if (!StringUtils.equals(cfg.getId(), subCfg.getParantid())) {
+				if (!StringUtils.equals(String.valueOf(cfg.getId()), subCfg.getParantid())) {
 					continue;
 				}
 				ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
@@ -150,7 +154,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityRedEnvelopeTypeItem freshItem = null;
 			for (ActivityRedEnvelopeTypeItem item : itemList) {
-				if (!StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (!StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					freshItem = item;
 				}
 			}
@@ -179,7 +183,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityRedEnvelopeTypeItem freshItem = null;
 			for (ActivityRedEnvelopeTypeItem item : itemList) {
-				if (StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					freshItem = item;
 				}
 			}
@@ -230,7 +234,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityRedEnvelopeTypeItem closeItem = null;
 			for (ActivityRedEnvelopeTypeItem item : itemList) {
-				if (StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					closeItem = item;
 					break;
 				}
@@ -432,4 +436,8 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate {
 		return redPointList;
 	}
 
+	@Override
+	public boolean isThisActivityIndex(int index) {
+		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
+	}
 }

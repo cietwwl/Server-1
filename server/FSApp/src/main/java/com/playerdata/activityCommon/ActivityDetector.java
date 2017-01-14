@@ -68,6 +68,9 @@ public class ActivityDetector {
 		boolean changed = false;
 		List<Player> players = PlayerMgr.getInstance().getOnlinePlayers();
 		for(final ActivityType activityType : types){
+			if(null == activityType.getActivityMgr()){
+				continue;
+			}
 			HashMap<String, ActivityCfgIF> currentSubMap = new HashMap<String, ActivityCfgIF>();
 			List<? extends ActivityCfgIF> actCfgs = activityType.getActivityDao().getAllCfg();
 			if (null != actCfgs && !actCfgs.isEmpty()) {

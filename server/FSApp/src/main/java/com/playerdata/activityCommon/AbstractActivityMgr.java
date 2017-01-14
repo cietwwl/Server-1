@@ -14,11 +14,12 @@ import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
+import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 
 
 @SuppressWarnings({ "rawtypes", "unchecked"})
-public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implements ActivityRedPointUpdate {
+public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implements ActivityRedPointUpdate, IndexRankJudgeIF{
 
 	public void synData(Player player) {
 		getHolder().synAllData(player);
@@ -187,12 +188,4 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	}
 	
 	protected abstract UserActivityChecker<T> getHolder();
-	
-	/**
-	 * 判断一个id是否是该类活动的合法id
-	 * (每类活动都有一个id取值范围)
-	 * @param index
-	 * @return
-	 */
-	public abstract boolean isThisActivityIndex(int index);
 }
