@@ -1,23 +1,35 @@
 package com.rounter.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rounter.controller.ucParam.Request9Game;
+import com.rounter.controller.ucParam.RequestTestParam;
 import com.rounter.controller.ucParam.Response9Game;
 import com.rounter.loginServer.LoginServerEnum;
 import com.rounter.param.IResponseData;
@@ -36,6 +48,21 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	@Resource
 	private IUCService ucService;
 
+	
+	@RequestMapping(value="test", method={RequestMethod.POST})
+	@ResponseBody
+	public String getTestPost(HttpServletRequest request){
+		
+		return getAreasInfoInfo(request);
+	}
+	
+	@RequestMapping(value="test", method={RequestMethod.GET})
+	@ResponseBody
+	public String getTestGet(@RequestBody RequestTestParam request){
+		logger.info("GET recve role info test:{}", request.toString());
+		return request.toString();
+	}
+	
 	/**
 	 * 获取用户在指定区服的角色列表
 	 * @param request
@@ -43,11 +70,15 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	 */
 	@RequestMapping(value="roleinfo", method={RequestMethod.POST})
 	@ResponseBody
-	public String getRoleInfo(@RequestBody Request9Game request){
-		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+	public String getRoleInfo(HttpServletRequest request){
+		
+		Request9Game req = formatParam(request);
+		
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(req);
 		UCStateCode stateCode = beforeOpt.getKey();
 		String t2 = beforeOpt.getValue();
 		if(stateCode != UCStateCode.STATE_OK){
+			
 			return t2;
 		}
 		JSONObject json = (JSONObject) JSONObject.parse(t2);
@@ -61,12 +92,12 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		}
 		
 		if(StringUtils.isEmpty(serverKey)){
-			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+			return responseString(UCStateCode.STATE_PARAM_ERROR, req.getId(), null);
 		}
 		
 		
 		IResponseData responseData = ucService.getRoleInfo(serverKey, account);
-		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, req.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
 	}
@@ -78,8 +109,11 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	 */
 	@RequestMapping(value="areainfo", method={RequestMethod.POST})
 	@ResponseBody
-	public String getAreasInfoInfo(@RequestBody Request9Game request){
-		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+	public String getAreasInfoInfo(HttpServletRequest request){
+		
+		Request9Game req = formatParam(request);
+		
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(req);
 		UCStateCode stateCode = beforeOpt.getKey();
 		String t2 = beforeOpt.getValue();
 		if(stateCode != UCStateCode.STATE_OK){
@@ -97,13 +131,13 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		}
 		
 		if(StringUtils.isEmpty(serverKey)){
-			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+			return responseString(UCStateCode.STATE_PARAM_ERROR, req.getId(), null);
 		}
 		int page = json.getIntValue("page") != 0 ? json.getIntValue("page") : 1;
 		int count = json.getIntValue("count") != 0 ? json.getIntValue("count") : 20;
 		
 		IResponseData responseData = ucService.getAreasInfo(serverKey, page, count);
-		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, req.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
 	}
@@ -115,8 +149,11 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	 */
 	@RequestMapping(value="sendgift", method={RequestMethod.POST})
 	@ResponseBody
-	public String sendGift(@RequestBody Request9Game request){
-		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+	public String sendGift(HttpServletRequest request){
+		
+		Request9Game req = formatParam(request);
+		
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(req);
 		UCStateCode stateCode = beforeOpt.getKey();
 		String t2 = beforeOpt.getValue();
 		if(stateCode != UCStateCode.STATE_OK){
@@ -130,11 +167,11 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		String recvDate = json.getString("getDate");
 		if(areaId == null || roleID == null || giftId == null || recvDate == null){
 			logger.info("发送礼包时发现参数错误，areaId:{}, roleID:{}, giftID:{}, recvDate:{}", areaId, roleID, giftId, recvDate);
-			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+			return responseString(UCStateCode.STATE_PARAM_ERROR, req.getId(), null);
 		}
 		
 		IResponseData responseData = ucService.getGift(areaId, roleID, giftId, recvDate);
-		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, req.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
 	}
@@ -146,8 +183,11 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	 */
 	@RequestMapping(value="checkgift", method={RequestMethod.POST})
 	@ResponseBody
-	public String checkgift(@RequestBody Request9Game request){
-		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+	public String checkgift(HttpServletRequest request){
+		
+		Request9Game req = formatParam(request);
+		
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(req);
 		UCStateCode stateCode = beforeOpt.getKey();
 		String t2 = beforeOpt.getValue();
 		if(stateCode != UCStateCode.STATE_OK){
@@ -159,11 +199,11 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		String giftId = json.getString("kaId");
 		if( giftId == null || gameID == 0){
 			logger.info("校验礼包时发现参数错误，gameID:{}, giftID:{}", giftId, gameID);
-			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+			return responseString(UCStateCode.STATE_PARAM_ERROR, req.getId(), null);
 		}
 		
 		IResponseData responseData = ucService.checkGiftId(giftId);
-		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, req.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
 	}
@@ -222,18 +262,20 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	}
 	
 	private String responseString(UCStateCode code, long id, String dataJsonStr){
-		Response9Game resp = new Response9Game();
-		resp.setId(id);
+		JSONObject obj = new JSONObject();
+		obj.put("id", id);
+		
 		Map<String, Object> state = new HashMap<String, Object>();
 		state.put("code", code.getId());
 		state.put("msg", code.getMsg());
-		resp.setState(state);
+		obj.put("state", state);
+		
 		if(StringUtils.isNotBlank(dataJsonStr)){
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("params", dataJsonStr);
-			resp.setData(data);
+			obj.put("data", data);
 		}
-		return JsonUtil.writeValue(resp);
+		return obj.toJSONString();
 	}
 
 	@Override
@@ -279,5 +321,92 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		String returnStr = responseString(respCode, id, dataStr);
 		logger.info("Response role info to 9game:{}", returnStr);
 		return MutablePair.of(respCode, returnStr);
+	}
+	
+	
+	/**
+	 * 9game居然不指定类型，要我自己解释=。=
+	 * @param request
+	 * @return
+	 */
+	private Request9Game formatParam(HttpServletRequest request){
+		Request9Game param = null;
+		BufferedReader in = null;
+		try {
+			
+			in = new BufferedReader(new InputStreamReader(request.getInputStream()));
+			
+			StringBuffer sb = new StringBuffer();
+			String line = "";
+			while ((line = in.readLine()) != null) {
+				sb.append(line);
+			}
+			logger.debug("input stream:{}", sb.toString());
+			
+			
+			param = JsonUtil.readValue(sb.toString(), Request9Game.class);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					logger.error("close bufferedReady error");
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return param;
+	}
+	
+	private void formatTest(HttpServletRequest request){
+		BufferedReader in = null;
+		try {
+			//Request9Game param = new Request9Game();
+			String contentType = request.getContentType();
+			logger.debug("recv request, content type:{},content encoding:{}, querryString:{}",
+					contentType, request.getCharacterEncoding(), request.getQueryString());
+			
+			in = new BufferedReader(new InputStreamReader(request.getInputStream()));
+			
+			StringBuffer sb = new StringBuffer();
+			String line = "";
+			while ((line = in.readLine()) != null) {
+				sb.append(line);
+			}
+			logger.debug("input stream:{}", sb.toString());
+			
+			@SuppressWarnings("unchecked")
+			Map<String, Object> map = request.getParameterMap();
+			for (Iterator<Entry<String, Object>> itr = map.entrySet().iterator(); itr.hasNext();) {
+				Entry<String, Object> entry = itr.next();
+				logger.debug("param key:{}, value:{}", entry.getKey(), entry.getValue());
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			if(in != null){
+				try {
+					in.close();
+				} catch (IOException e) {
+					logger.error("close bufferedReady error");
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	private String addCharset2ReponseStr(String str){
+		try {
+			return new String(str.getBytes(), "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return str;
 	}
 }

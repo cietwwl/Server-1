@@ -53,7 +53,7 @@ public class Utils {
 	 * @return
 	 */
 	public static String get9GameSign(String caller, String content){
-		return MD5.getMD5String(caller + Param_9Game + content + ApiKey_9Game);
+		return MD5.getMD5String(caller + Param_9Game + content + ApiKey_9Game).toLowerCase();
 	}
 	
 	/**
@@ -142,6 +142,14 @@ public class Utils {
 		return new String(orginBytes).trim();
 	}
 	
+	public void md5test(){
+		String ttr = "changyouparams=a13cPwhP3rK0JRdJsOPUxWlxHCN/gNP6Nh3wL1vguxwCB0YNiV804+5I0kh7jPxMxnm8k19BSK+36qYeBzHm5w==202cb962234w4ers2aa";
+		String sign = "7134253783fb479a8dea968e49e56485";
+		String md5String = MD5.getMD5String(ttr);
+		System.out.println("md5 string:" + md5String + ", eques:" + md5String.equals(sign));
+
+	}
+	
 	
 
 	public static void main(String[] args) throws Exception {
@@ -153,52 +161,51 @@ public class Utils {
 //        String decryptResult = decrypt(key,iv,encryptResult);
 //        System.out.println(decryptResult);
 		
-		String url = "http://119.29.162.42:10006/FSGameRounter/9game/roleinfo";
-		//String url = "http://192.168.2.113:8080/FSGameRounter/9game/roleinfo";
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("id", 1330395827);
-		JSONObject jsonData = new JSONObject();
-		jsonData.put("accountId", "12301");
-		jsonData.put("gameId", 1236540);
-		jsonData.put("platform", 2);
-		String encryptData = encrypt9Game(jsonData.toJSONString());
-		Map<String, String> param = new HashMap<String, String>();
-		param.put("params", encryptData);
+//		String url = "http://119.29.162.42:10006/FSGameRounter/9game/test";
+//		//String url = "http://192.168.2.113:8080/FSGameRounter/9game/roleinfo";
+//		JSONObject jsonObj = new JSONObject();
+//		jsonObj.put("id", 1330395827);
+//		JSONObject jsonData = new JSONObject();
+//		jsonData.put("accountId", "12301");
+//		jsonData.put("gameId", 1236540);
+//		jsonData.put("platform", 2);
+//		String encryptData = encrypt9Game(jsonData.toJSONString());
+//		Map<String, String> param = new HashMap<String, String>();
+//		param.put("params", encryptData);
+//		
+//		jsonObj.put("data", param);
+//		
+//		
+//		JSONObject jsonClient = new JSONObject();
+//		jsonClient.put("caller", "ka.9game");
+//		jsonClient.put("ex", "5987412");
+//		jsonObj.put("client", jsonClient);
+//		jsonObj.put("encrypt", "md5");
+//		String signStr = get9GameSign(jsonClient.getString("caller"), encryptData);
+//		jsonObj.put("sign", signStr);
+//		
+//		
+//		try {
+//			HttpPost post = new  HttpPost(url);
+//			HttpClientBuilder postClient = HttpClientBuilder.create();
+//			String jsonString = jsonObj.toJSONString();
+//			System.out.println(jsonString);
+//			StringEntity entity = new StringEntity(jsonString, "utf-8");
+//			entity.setContentEncoding("UTF-8");
+//			entity.setContentType("application/json");
+//			post.setEntity(entity);
+//			CloseableHttpClient httpClient = postClient.build();
+//			CloseableHttpResponse response = httpClient.execute(post);
+//			if(response.getStatusLine().getStatusCode() == 200){
+//				HttpEntity he = response.getEntity();
+//				System.out.println("response string:"+ EntityUtils.toString(he, "UTF-8"));
+//				
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		
-		jsonObj.put("data", param);
 		
-		
-		JSONObject jsonClient = new JSONObject();
-		jsonClient.put("caller", "ka.9game");
-		jsonClient.put("ex", "5987412");
-		jsonObj.put("client", jsonClient);
-		jsonObj.put("encrypt", "md5");
-		String signStr = get9GameSign(jsonClient.getString("caller"), encryptData);
-		jsonObj.put("sign", signStr);
-		
-		
-		try {
-			HttpPost post = new  HttpPost(url);
-			HttpClientBuilder postClient = HttpClientBuilder.create();
-			String jsonString = jsonObj.toJSONString();
-			System.out.println(jsonString);
-			StringEntity entity = new StringEntity(jsonString, "utf-8");
-			entity.setContentEncoding("UTF-8");
-			entity.setContentType("application/json");
-			post.setEntity(entity);
-			CloseableHttpClient httpClient = postClient.build();
-			CloseableHttpResponse response = httpClient.execute(post);
-			if(response.getStatusLine().getStatusCode() == 200){
-				HttpEntity he = response.getEntity();
-				System.out.println("response string:"+ EntityUtils.toString(he, "UTF-8"));
-				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-
 	}
 	
 	

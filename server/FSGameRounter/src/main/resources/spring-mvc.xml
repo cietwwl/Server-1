@@ -12,25 +12,53 @@
 
 
 	<context:annotation-config />
-	
+
 
 	
 	<context:component-scan base-package="com.rounter.*" />
 	
 	
+	<!-- 手动配置Springmvc注解驱动 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>    
+  
+    <!-- 启动Spring MVC的注解功能,设置编码方式，防止乱码 -->  
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="messageConverters">  
+            <list>  
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />  
+                <bean class = "org.springframework.http.converter.StringHttpMessageConverter">  
+                        <property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />  
+                </bean>  
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+                    <property name="supportedMediaTypes">  
+                        <list>  
+                            <value>text/html;charset=UTF-8</value>  
+                        </list>  
+                    </property>  
+                </bean>  
+            </list>  
+        </property>  
+    </bean> 
+	
+<!--  Jackson 来提供 JSON 的序列化操作 
 	<bean id="objectMapper" class="com.rounter.util.CustomObjectMapper" init-method="init">
 		<property name="lowcase" value="false" />
     	<property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss" />
 	</bean>
 
-<!--  Jackson 来提供 JSON 的序列化操作  -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
+		
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="objectMapper" ref="objectMapper" />
 			</bean>
+			s
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8"/>
+			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	 -->
 	
 	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">

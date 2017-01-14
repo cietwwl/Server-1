@@ -21,7 +21,7 @@
 	
 
 
-	<!-- 配置logback配置文件 -->
+	<!-- 配置logback配置文件
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>webApp.root</param-value>
@@ -33,7 +33,7 @@
 	<listener>
 		<listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
 	</listener>	
-
+ -->
 
 	<!-- Spring MVC 核心控制器 DispatcherServlet 配置 -->
 	<servlet>
