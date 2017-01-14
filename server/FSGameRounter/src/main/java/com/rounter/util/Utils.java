@@ -1,12 +1,24 @@
 package com.rounter.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSONObject;
 
 
 /**
@@ -133,14 +145,62 @@ public class Utils {
 	
 
 	public static void main(String[] args) throws Exception {
-		String data = "{\"platform\":2,\"accountId\":\"1a6400b435a1c5ca643a28a09760ae32\",\"gameId\":535733}";
-        String key = "1234567890123456";
-        String iv = "1234567890123456";
-        String encryptResult = encrypt(key,iv,data);
-        System.out.println(encryptResult);
-        String decryptResult = decrypt(key,iv,encryptResult);
-        System.out.println(decryptResult);
+//		String data = "{\"platform\":2,\"accountId\":\"1a6400b435a1c5ca643a28a09760ae32\",\"gameId\":535733}";
+//        String key = "1234567890123456";
+//        String iv = "1234567890123456";
+//        String encryptResult = encrypt(key,iv,data);
+//        System.out.println(encryptResult);
+//        String decryptResult = decrypt(key,iv,encryptResult);
+//        System.out.println(decryptResult);
+		
+		String url = "http://119.29.162.42:10006/FSGameRounter/9game/roleinfo";
+		//String url = "http://192.168.2.113:8080/FSGameRounter/9game/roleinfo";
+		JSONObject jsonObj = new JSONObject();
+		jsonObj.put("id", 1330395827);
+		JSONObject jsonData = new JSONObject();
+		jsonData.put("accountId", "12301");
+		jsonData.put("gameId", 1236540);
+		jsonData.put("platform", 2);
+		String encryptData = encrypt9Game(jsonData.toJSONString());
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("params", encryptData);
+		
+		jsonObj.put("data", param);
+		
+		
+		JSONObject jsonClient = new JSONObject();
+		jsonClient.put("caller", "ka.9game");
+		jsonClient.put("ex", "5987412");
+		jsonObj.put("client", jsonClient);
+		jsonObj.put("encrypt", "md5");
+		String signStr = get9GameSign(jsonClient.getString("caller"), encryptData);
+		jsonObj.put("sign", signStr);
+		
+		
+		try {
+			HttpPost post = new  HttpPost(url);
+			HttpClientBuilder postClient = HttpClientBuilder.create();
+			String jsonString = jsonObj.toJSONString();
+			System.out.println(jsonString);
+			StringEntity entity = new StringEntity(jsonString, "utf-8");
+			entity.setContentEncoding("UTF-8");
+			entity.setContentType("application/json");
+			post.setEntity(entity);
+			CloseableHttpClient httpClient = postClient.build();
+			CloseableHttpResponse response = httpClient.execute(post);
+			if(response.getStatusLine().getStatusCode() == 200){
+				HttpEntity he = response.getEntity();
+				System.out.println("response string:"+ EntityUtils.toString(he, "UTF-8"));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 
 	}
+	
+	
 
 }
