@@ -80,7 +80,7 @@ public class ActivityChargeRebateMgr {
 			int chargeMoney = activityChargeRebateData.getChargeMoney();
 			int result = 0;
 			//充值返利 返还1.5倍
-			result = (int)(chargeMoney * 1.5);
+			result = (int)((chargeMoney / 10) * 1.5);
 
 			int monthCard = activityChargeRebateData.getMonthCard();
 			int vipMonthCard = activityChargeRebateData.getVipMonthCard();

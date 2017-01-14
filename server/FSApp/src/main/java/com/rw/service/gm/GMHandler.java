@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,7 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.ranking.Ranking;
@@ -79,7 +81,9 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.angelarray.AngelArrayConst;
 import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayDataDao;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -111,6 +115,7 @@ import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -324,6 +329,7 @@ public class GMHandler {
 		funcCallBackMap.put("openwb", "openWorldBoss");// 开启/关闭世界boss状态 openwb num(0=关闭，1=开启)
 		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
 		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
+		funcCallBackMap.put("recal", "reCal");
 	}
 
 	public boolean isActive() {
@@ -1417,6 +1423,8 @@ public class GMHandler {
 			//
 			// GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 			// groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+		} else if (functionName.equalsIgnoreCase("wxf")) {
+			resetWxFighting(player);
 		}
 
 		return true;
@@ -2254,7 +2262,7 @@ public class GMHandler {
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
-	
+
 	public boolean resetQKHJ(String[] arrCommandContents, Player player) {
 		return this.resetCopy(player, CopyType.COPY_TYPE_WARFARE);
 	}
@@ -2262,7 +2270,7 @@ public class GMHandler {
 	public boolean resetQKHJCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_WARFARE);
 	}
-	
+
 	public boolean resetSCLJ(String[] arrCommandContents, Player player) {
 		return this.resetCopy(player, CopyType.COPY_TYPE_CELESTIAL);
 	}
@@ -2270,7 +2278,7 @@ public class GMHandler {
 	public boolean resetSCLJCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_CELESTIAL);
 	}
-	
+
 	public boolean resetWXZ(String[] arrCommandContents, Player player) {
 		return this.resetCopy(player, CopyType.COPY_TYPE_TOWER);
 	}
@@ -2278,7 +2286,7 @@ public class GMHandler {
 	public boolean resetWXZCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TOWER);
 	}
-	
+
 	public boolean resetFST(String[] arrCommandContents, Player player) {
 		return this.resetCopy(player, CopyType.COPY_TYPE_BATTLETOWER);
 	}
@@ -2286,7 +2294,7 @@ public class GMHandler {
 	public boolean resetFSTCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_BATTLETOWER);
 	}
-	
+
 	public boolean sendWorldChat(String[] arrCommandContents, Player player) {
 		String targetUserId = arrCommandContents[0];
 		Player target = PlayerMgr.getInstance().find(targetUserId);
@@ -2412,4 +2420,81 @@ public class GMHandler {
 		}
 		return true;
 	}
+
+	public boolean reCal(String[] arrCommandContents, Player player) {
+		List<Hero> heros = FSHeroMgr.getInstance().getAllHeros(player, null);
+		for (Hero h : heros) {
+			h.getAttrMgr().reCal();
+		}
+		return true;
+	}
+
+	/**
+	 * 重置万仙阵战力
+	 * 
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	private boolean resetWxFighting(Player player) {
+		TableAngelArrayData angleArrayData = player.getTowerMgr().getAngleArrayData();
+
+		angleArrayData.setResetTime(System.currentTimeMillis());// 设置重置个人数据的时间
+		// 从昨日竞技排行榜拿数据
+		angleArrayData.setResetLevel(player.getLevel());// 竞技阵容出现的最高等级
+		angleArrayData.setResetRankIndex(0);// 竞技排名
+		// 从昨日榜中获取自己的战力
+		Ranking rank = RankingFactory.getRanking(RankType.TEAM_FIGHTING_DAILY);
+		// 获取到佣兵要用于匹配的总战力
+		int totalFighting = -1;
+		if (rank != null) {
+			RankingEntry rankingEntry = rank.getRankingEntry(player.getUserId());
+			if (rankingEntry != null) {
+				RankingLevelData att = (RankingLevelData) rankingEntry.getExtendedAttribute();
+				if (att != null) {
+					totalFighting = att.getFightingTeam();
+				}
+			}
+		}
+
+		if (totalFighting == -1) {
+			List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, comparator);
+
+			// 要看一下总共要获取多少个佣兵的战力
+			int maxSize = AngelArrayConst.MAX_HERO_FIGHTING_SIZE + 1;// 包括主要角色在内的佣兵数据
+			maxSize = maxSize > allHeros.size() ? allHeros.size() : maxSize;
+
+			// 获取到佣兵要用于匹配的总战力
+			for (int i = 0; i < maxSize; i++) {
+				totalFighting += allHeros.get(i).getFighting();
+			}
+		}
+
+		angleArrayData.setResetFighting(totalFighting);
+		AngelArrayDataDao.getDao().update(player.getUserId());
+
+		return true;
+	}
+
+	/**
+	 * 获取英雄的排序方法
+	 */
+	private static final Comparator<Hero> comparator = new Comparator<Hero>() {
+
+		@Override
+		public int compare(Hero h1, Hero h2) {
+			// 主角始终是排在最前边的
+			int rType1 = h1.getRoleType().ordinal();
+			int rType2 = h2.getRoleType().ordinal();
+			if (rType1 < rType2) {
+				return -1;
+			} else if (rType1 > rType2) {
+				return 1;
+			}
+			// 佣兵的个人战力，谁大谁在前
+			int f1 = h1.getFighting();
+			int f2 = h2.getFighting();
+			return f2 - f1;
+		}
+	};
 }
