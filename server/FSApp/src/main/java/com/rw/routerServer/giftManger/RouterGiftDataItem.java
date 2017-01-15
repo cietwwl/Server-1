@@ -1,15 +1,19 @@
 package com.rw.routerServer.giftManger;
 
+import javax.persistence.Id;
+
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
+import com.rw.fsutil.dao.annotation.CombineSave;
 
 public class RouterGiftDataItem implements RoleExtProperty{
-	
+	@Id
 	private Integer giftId;
 	
 	private String userId;
-	
+
+	@CombineSave
 	private String belongTime;	//礼包所属于的日期
-	
+	@CombineSave
 	private int count;
 
 	public Integer getGiftId() {
