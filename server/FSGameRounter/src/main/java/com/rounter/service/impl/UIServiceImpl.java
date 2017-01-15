@@ -30,7 +30,7 @@ import com.rounter.util.ServerCode;
 public class UIServiceImpl implements IUCService{
 
 	@Override
-	public IResponseData getRoleInfo(final String platformId, String accountId) {
+	public IResponseData getRoleInfo(final String platformId, final String accountId) {
 		RouterReqestObject reqObject = new RouterReqestObject();
 		reqObject.setType(ReqType.GetSelfRoles);
 		ReqestParams param = new ReqestParams();
@@ -47,7 +47,7 @@ public class UIServiceImpl implements IUCService{
 					AllRolesInfo roles = JsonUtil.readValue((String)resObject.getContent(), AllRolesInfo.class);
 					JSONObject jsObj = new JSONObject();
 					if(null != roles){
-						jsObj.put("accountId", roles.getAccountId());
+						jsObj.put("accountId", accountId);
 						JSONArray jsArray = new JSONArray();
 						jsObj.put("roleInfos", jsArray);
 						if(null != roles.getRoles()){
@@ -139,10 +139,9 @@ public class UIServiceImpl implements IUCService{
 				public void handleServerResponse(Object msgBack, IResponseData response) {
 					RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
 					JSONObject jsObj = new JSONObject();
-					if(resObject.getResult() == ResultState.SUCCESS){
-						response.setStateCode(UCStateCode.STATE_OK.getId());
-					}
-			
+					
+					response.setStateCode(resObject.getResult().getUCStateCode().getId());
+					
 					if(resObject.getResult() == ResultState.SUCCESS){
 						jsObj.put("result", true);
 					}else{

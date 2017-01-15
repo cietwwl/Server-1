@@ -25,6 +25,11 @@ public class RouterGiftMgr {
 	
 	public ResultState addGift(String userId, String giftId, String date){
 		//TODO 判断时间的合法性，以及id的合法性
+
+		UCGiftCfg cfg = UCGiftCfgDAO.getInstance().getCfgById(giftId);
+		if(cfg == null){
+			return ResultState.GIFT_ID_ERROR;
+		}
 		RouterGiftDataHolder giftDataHolder = RouterGiftDataHolder.getInstance();
 		RouterGiftDataItem giftItem = giftDataHolder.getItem(userId, Integer.valueOf(giftId));
 		if(null == giftItem){	// || !StringUtils.equals(giftItem.getBelongTime(), date)){

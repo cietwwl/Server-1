@@ -28,7 +28,6 @@ import com.rounter.param.IResponseData;
 import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
-import com.rounter.util.ServerCode;
 import com.rounter.util.Utils;
 
 
@@ -89,7 +88,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	}
 	
 	/**
-	 * 获取用户在指定区服的角色列表
+	 * 获取区服列表
 	 * @param request
 	 * @return
 	 */
