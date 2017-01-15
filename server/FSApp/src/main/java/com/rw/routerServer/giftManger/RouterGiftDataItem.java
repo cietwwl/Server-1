@@ -4,11 +4,13 @@ import javax.persistence.Id;
 
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
+
 
 public class RouterGiftDataItem implements RoleExtProperty{
 	@Id
 	private Integer giftId;
-	
+	@OwnerId
 	private String userId;
 
 	@CombineSave

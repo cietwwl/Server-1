@@ -231,7 +231,7 @@ public class Utils {
 		jsonData.put("kaId", "10001");
 		jsonData.put("serverId", "2");
 		jsonData.put("roleId", "100100000181");
-		jsonData.put("getDate", "2016-12-15");
+		jsonData.put("getDate", "2016-12-14");
 		String encryptData = encrypt9Game(jsonData.toJSONString());
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("params", encryptData);
