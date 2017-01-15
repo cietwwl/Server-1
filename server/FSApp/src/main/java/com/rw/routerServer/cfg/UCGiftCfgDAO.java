@@ -14,7 +14,7 @@ public class UCGiftCfgDAO extends CfgCsvDao<UCGiftCfg>{
 
 	@Override
 	protected Map<String, UCGiftCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("ucGifg/UCGiftCfg.csv", UCGiftCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("ucGift/UCGiftCfg.csv", UCGiftCfg.class);
 		return cfgCacheMap;
 	}
 
