@@ -27,6 +27,6 @@ public class Timer{
 
 			}
 			
-		}, 0, 10, TimeUnit.SECONDS);
+		}, 0, 60, TimeUnit.SECONDS);
 	}
 }

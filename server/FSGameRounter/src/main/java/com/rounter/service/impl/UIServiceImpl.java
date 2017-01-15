@@ -24,6 +24,7 @@ import com.rounter.service.IResponseHandler;
 import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
+import com.rounter.util.ServerCode;
 
 @Service
 public class UIServiceImpl implements IUCService{
@@ -33,7 +34,7 @@ public class UIServiceImpl implements IUCService{
 		RouterReqestObject reqObject = new RouterReqestObject();
 		reqObject.setType(ReqType.GetSelfRoles);
 		ReqestParams param = new ReqestParams();
-		param.setAccountId(accountId);
+		param.setAccountId(ServerCode.SERVERCODE_UC+accountId);
 		reqObject.setContent(JsonUtil.writeValue(param));
 		ChannelNodeManager channelMgr = ServerChannelManager.getInstance().getPlatformNodeManager(platformId);
 		IResponseData resData = new ResDataFromServer();
@@ -172,11 +173,14 @@ public class UIServiceImpl implements IUCService{
 	public IResponseData checkGiftId(String giftId) {
 		IResponseData response = new ResDataFromServer();
 		UCGiftCfg cfg = UCGiftCfgDAO.getInstance().getCfgById(giftId);
-		boolean result = cfg == null ? false : true;
-		JSONObject jsObj = new JSONObject();
-		jsObj.put("result", result);
-		response.setData(jsObj);
-		response.setStateCode(UCStateCode.STATE_OK.getId());
+		if(cfg == null){
+			response.setStateCode(UCStateCode.STATE_GIFTID_ERROR.getId());
+		}else{
+			JSONObject jsObj = new JSONObject();
+			jsObj.put("result", true);
+			response.setData(jsObj);
+			response.setStateCode(UCStateCode.STATE_OK.getId());
+		}
 		return response;
 	}
 }

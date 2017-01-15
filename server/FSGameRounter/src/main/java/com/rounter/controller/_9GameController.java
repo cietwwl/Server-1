@@ -28,6 +28,7 @@ import com.rounter.param.IResponseData;
 import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
+import com.rounter.util.ServerCode;
 import com.rounter.util.Utils;
 
 
@@ -256,9 +257,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		obj.put("state", state);
 		
 		if(StringUtils.isNotBlank(dataJsonStr)){
-			Map<String, Object> data = new HashMap<String, Object>();
-			data.put("params", dataJsonStr);
-			obj.put("data", data);
+			obj.put("data", dataJsonStr);
 		}
 		return obj.toJSONString();
 	}
@@ -299,12 +298,13 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 			//处理有问题
 			return MutablePair.of(respCode, responseString(respCode, id, null));
 		}
+		String jsonString = responseData.getData().toJSONString();
+		logger.debug("before encrypt:{}",jsonString);
 		//进行加密
-		String dataStr = Utils.encrypt9Game(responseData.getData().toJSONString());
-		
+		String dataStr = Utils.encrypt9Game(jsonString);
 		//转为json字符串
 		String returnStr = responseString(respCode, id, dataStr);
-		logger.info("Response role info to 9game:{}", returnStr);
+		logger.debug("Response role info to 9game:{}", returnStr);
 		return MutablePair.of(respCode, returnStr);
 	}
 	

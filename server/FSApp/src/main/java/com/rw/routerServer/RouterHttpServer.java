@@ -50,7 +50,7 @@ public class RouterHttpServer {
 					.childHandler(new ChannelInitializer<SocketChannel>() {
 						@Override
 						public void initChannel(SocketChannel ch) throws Exception {
-							ch.pipeline().addLast(new LineBasedFrameDecoder(10240));
+							ch.pipeline().addLast(new LineBasedFrameDecoder(102400));
 							ch.pipeline().addLast(new StringDecoder());
 							ch.pipeline().addLast(new RouterInboundHandler());
 						}

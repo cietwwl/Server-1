@@ -25,8 +25,10 @@ public class RouterServiceHandler {
 		ReqestParams paramObj = JsonUtil.readValue(param, ReqestParams.class);		
 		RouterRespObject responseObj = new RouterRespObject();
 		responseObj.setResult(ResultState.SUCCESS);
-		TableAccount tableAccount = AccoutBM.getInstance().getByAccountId(paramObj.getAccountId());
+		//System.out.println("apply role info, openAccountId:"+ paramObj.getAccountId());
+		TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(paramObj.getAccountId());
 		if(null == tableAccount){
+			//System.out.println("-------no role data!!!");
 			responseObj.setResult(ResultState.NO_ACCOUNT);
 		}else{
 			AllRolesInfo roles = new AllRolesInfo();

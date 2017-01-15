@@ -25,6 +25,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.rounter.client.config.NodeState;
 import com.rounter.client.config.RouterConst;
 import com.rounter.client.exception.CannotCreateNodeException;
@@ -37,6 +40,8 @@ import com.rounter.service.IResponseHandler;
 import com.rounter.util.JsonUtil;
 
 public final class ChannelNode {
+	
+	Logger logger = LoggerFactory.getLogger(ChannelNode.class);
 	
 	private final EventLoopGroup senderGroup;
 	private ConcurrentLinkedQueue<NodeData> msgQueue = new ConcurrentLinkedQueue<NodeData>();
@@ -125,6 +130,7 @@ public final class ChannelNode {
 		}
 		final NodeData nodeData = new NodeData(resData, resHandler);
 		final String sendeMsg = JsonUtil.writeValue(reqData) + System.getProperty("line.separator");
+		logger.debug("send msg to other server,ip:{}, port:{}, msg:{}",TARGET_ADDR, TARGET_PORT, sendeMsg);
 		final ByteBuf buf = Unpooled.copiedBuffer(sendeMsg.getBytes("UTF-8"));
 		cf.channel().eventLoop().execute(new Runnable() {
 			public void run() {
@@ -192,7 +198,8 @@ public final class ChannelNode {
 		queueMemCount.set(0);
 		nodeState = NodeState.Over;
 		try {
-			connectOrReconnectChannel();
+			boolean suc = connectOrReconnectChannel();
+			logger.debug("contect target, ip:{}, port:{},suc:{}",TARGET_ADDR, TARGET_PORT, suc);
 		} catch (Exception ex) {
 			System.out.println("handleFailedQueue-Node建立连接失败..." + ex.toString());
 			nodeState = NodeState.ConnFail;
@@ -294,7 +301,7 @@ public final class ChannelNode {
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
-			ch.pipeline().addLast(new LineBasedFrameDecoder(10240));
+			ch.pipeline().addLast(new LineBasedFrameDecoder(102400));
 			ch.pipeline().addLast(new StringDecoder());
 			ch.pipeline().addLast(
 					new IdleStateHandler(READ_IDEL_TIME_OUT,

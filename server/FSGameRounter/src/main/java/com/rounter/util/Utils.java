@@ -44,7 +44,7 @@ public class Utils {
 	/**
 	 * 九游json的key
 	 */
-	private static final String Param_9Game = "params";
+	private static final String Param_9Game = "params=";
 	
 	/**
 	 * 获取9游签名
@@ -160,8 +160,12 @@ public class Utils {
 //        System.out.println(encryptResult);
 //        String decryptResult = decrypt(key,iv,encryptResult);
 //        System.out.println(decryptResult);
+		String data = "PbM+3g//dB6YWuVE8tqLo6zRTw73i2EiC0WW0Z+Am9Bz0ZAdoDpbEE7oOaW5NcC8Ah57OJCelTMPUcReQx4BLzsMsy36gzTC8cfHvY1R+ybEMyg2dIT195SPTP+91hfNOvhbS51zAe64P3pSCGoX3zQh0JhHBPNJvwuSN+XwbLQ=";
+//		String data ="krIvZ7vrTVEvx1fYH2OZ7iA8pgvNJQ4ZdsdSud2ytkaGp+JXHeOYWljoq6EKZez1yIDbo6GxWo/3K3Tn0aAXOw==";
+		String string = decrypt9Game(data);
+		System.out.println(string);
 		
-//		String url = "http://119.29.162.42:10006/FSGameRounter/9game/test";
+//		String url = "http://119.29.162.42:10006/FSGameRounter/9game/roleinfo";
 //		//String url = "http://192.168.2.113:8080/FSGameRounter/9game/roleinfo";
 //		JSONObject jsonObj = new JSONObject();
 //		jsonObj.put("id", 1330395827);

@@ -25,6 +25,11 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			case GetAreaInfo:
 				result = RouterServiceHandler.getInstance().getAllAreas();
 				break;
+			case HeartBit:
+				RouterRespObject obj2 = new RouterRespObject();
+				obj2.setResult(ResultState.SUCCESS);
+				result = JsonUtil.writeValue(obj2);
+				break;
 			default:
 				RouterRespObject obj = new RouterRespObject();
 				obj.setResult(ResultState.PARAM_ERROR);
@@ -36,6 +41,7 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			obj.setResult(ResultState.EXCEPTION);
 			result = JsonUtil.writeValue(obj);
 		}
+		//System.out.println("response msg:" +result);
 		ByteBuf buf = Unpooled.copiedBuffer(((String)result + System.getProperty("line.separator")).getBytes("UTF-8"));
         ctx.writeAndFlush(buf);
 	}

@@ -17,6 +17,10 @@
 	
 	<context:component-scan base-package="com.rounter.*" />
 	
+  	<bean id="objectMapper" class="com.rounter.util.CustomObjectMapper" init-method="init">
+		<property name="lowcase" value="false" />
+    	<property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss" />
+	</bean>
 	
 	<!-- 手动配置Springmvc注解驱动 -->  
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>    
@@ -30,6 +34,7 @@
                         <property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />  
                 </bean>  
                 <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+                	<property name="objectMapper" ref="objectMapper" />
                     <property name="supportedMediaTypes">  
                         <list>  
                             <value>text/html;charset=UTF-8</value>  

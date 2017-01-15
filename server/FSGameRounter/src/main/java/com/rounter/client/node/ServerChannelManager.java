@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.rounter.client.config.RouterConst;
@@ -27,6 +29,8 @@ import com.rounter.util.JsonUtil;
 
 @Service
 public class ServerChannelManager {
+	
+	Logger logger = LoggerFactory.getLogger(ServerChannelManager.class);
 	
 	private static ServerChannelManager instance = new ServerChannelManager();
 	
@@ -93,12 +97,12 @@ public class ServerChannelManager {
 	}
 
 	public void refreshPlatformChannel(){
+		logger.debug("begin refresh channel ~~");
 		HashMap<String, ServerInfo> platforms = LoginServerInfo.getInstance().checkServerProp();
-		if(platforms == null){
-			return;
+		if(platforms != null){
+			dropNotExistPlatform(platforms);
+			this.platformMap = platforms;
 		}
-		dropNotExistPlatform(platforms);
-		this.platformMap = platforms;
 		for(ServerInfo platform : this.platformMap.values()){
 			ChannelNodeManager platformNodeMgr = platformMgrMap.get(platform.getId());
 			if(null == platformNodeMgr && platform.isActive()){
@@ -113,6 +117,10 @@ public class ServerChannelManager {
 				dropNotExistServer(platform.getId(), platformAreas);
 				serverMap.put(platform.getId(), platformAreas);
 				for(ServerInfo server : platformAreas.values()){
+					if(server == null){
+						logger.debug("check and found null area info!!");
+						continue;
+					}
 					HashMap<String, ChannelNodeManager> platformAreaMgrs = areaMgrMap.get(platform.getId());
 					if(null == platformAreaMgrs){
 						platformAreaMgrs = new HashMap<String, ChannelNodeManager>();
@@ -123,12 +131,14 @@ public class ServerChannelManager {
 						serverNodeMgr = new ChannelNodeManager(senderGroup, server.getIp(), server.getPort());
 						platformAreaMgrs.put(server.getId(), serverNodeMgr);
 						serverNodeMgr.init();
-					}else{
+					}else if(null != serverNodeMgr){
 						serverNodeMgr.setActiveState(server.isActive());
 					}
 				}
 			}
 		}
+		
+		logger.debug("refresh channel complete~~");
 	}
 	
 	/**
@@ -172,10 +182,9 @@ public class ServerChannelManager {
 					itor.remove();
 					HashMap<String, ChannelNodeManager> platformAreaMgrs = areaMgrMap.get(platformId);
 					if(null != platformAreaMgrs){
-						ChannelNodeManager areaMgr = platformAreaMgrs.get(serverId);
-						if(null != areaMgr){
-							areaMgr.close();
-							platformAreaMgrs.remove(serverId);
+						ChannelNodeManager remove = platformAreaMgrs.remove(serverId);
+						if(null != remove){
+							remove.close();
 						}
 					}
 				}
@@ -209,13 +218,12 @@ public class ServerChannelManager {
 								area.setName(zoneInfo.getZoneName());
 								area.setIp(zoneInfo.getIntranetIp());
 								area.setPort(zoneInfo.getUcGiftRounterPort());
-								//TODO 判断服务器状态
-								area.setActive(true);
+								//TODO 判断服务器状态  status -1是关闭
+								area.setActive(zoneInfo.getStatus() >= 0);
 								platformAreas.put(area.getId(), area);
 							}
 						}
 					}
-					
 				} catch (Exception e) {
 					handleSendFailResponse(response);
 					e.printStackTrace();
