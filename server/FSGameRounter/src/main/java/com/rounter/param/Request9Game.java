@@ -13,9 +13,9 @@ public class Request9Game {
 	private long id;
 	
 
-	private JSON data;
+	private String data;
 	
-	private JSON client;
+	private String client;
 	//加密方式
 	private String encrypt;
 	
@@ -30,19 +30,19 @@ public class Request9Game {
 		this.id = id;
 	}
 
-	public JSON getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(JSON data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
-	public JSON getClient() {
+	public String getClient() {
 		return client;
 	}
 
-	public void setClient(JSON client) {
+	public void setClient(String client) {
 		this.client = client;
 	}
 
