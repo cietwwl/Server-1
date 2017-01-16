@@ -1,6 +1,7 @@
 package com.rounter.param.impl;
 
 import com.rounter.param.IRequestData;
+import com.alibaba.fastjson.JSONObject;
 
 
 /**
@@ -14,9 +15,9 @@ public class Request9Game implements IRequestData{
 	private long id;
 	
 
-	private String data;
+	private JSONObject data;
 	
-	private String client;
+	private JSONObject client;
 	//加密方式
 	private String encrypt;
 	
@@ -31,19 +32,19 @@ public class Request9Game implements IRequestData{
 		this.id = id;
 	}
 
-	public String getData() {
+	public JSONObject getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(JSONObject data) {
 		this.data = data;
 	}
 
-	public String getClient() {
+	public JSONObject getClient() {
 		return client;
 	}
 
-	public void setClient(String client) {
+	public void setClient(JSONObject client) {
 		this.client = client;
 	}
 
@@ -62,7 +63,9 @@ public class Request9Game implements IRequestData{
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "id:" + id + ", data:" + data + ", client:" + client + ", encrypt:" + encrypt + ", sign:" + sign;
+	}
 }

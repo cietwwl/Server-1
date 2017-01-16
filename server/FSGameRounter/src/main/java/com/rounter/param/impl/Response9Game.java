@@ -1,5 +1,6 @@
 package com.rounter.param.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.rounter.param.IResponseData;
 
 
@@ -12,8 +13,8 @@ import com.rounter.param.IResponseData;
 public class Response9Game implements IResponseData{
 
 	private long id;
-	private String state;
-	private String data;
+	private JSON state;
+	private JSON data;
 	
 	
 	public long getId() {
@@ -24,20 +25,19 @@ public class Response9Game implements IResponseData{
 		this.id = id;
 	}
 	
-	public String getState() {
+	public JSON getState() {
 		return state;
 	}
 	
-	public void setState(String state) {
+	public void setState(JSON state) {
 		this.state = state;
 	}
 	
-	public String getData() {
+	public JSON getData() {
 		return data;
 	}
 	
-	public void setData(String data) {
+	public void setData(JSON data) {
 		this.data = data;
 	}
-
 }
