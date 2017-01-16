@@ -1,41 +1,51 @@
 package com.rounter.controller;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rounter.param.Request9Game;
-import com.rounter.service.IUCService;
+import com.rounter.client.sender.node.SenderToGameServer;
+import com.rounter.param.IRequestData;
+import com.rounter.param.IResponseData;
+import com.rounter.param.impl.Response9Game;
+import com.rounter.service.IResponseHandler;
 
 
 @RestController
 public class ApplicationController {
 	Logger logger = LoggerFactory.getLogger("mainLogger");
 
+	@Resource
+	SenderToGameServer server;
+	
 	@RequestMapping("/hello")
 	public String greeting() {
-		Integer r = 0;
-		synchronized (r) {
-			logger.info("recv msg:{}", "hello");
-			try {
-				
-				new IUCService(){
+		long startTime = System.currentTimeMillis();
+		IResponseData resData = new Response9Game();
 
-					@Override
-					public void getRoleInfo(Request9Game request, r) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				}
-				r.wait(200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		server.sendMsgToGameServer(new IRequestData() {
+			
+			@Override
+			public long getId() {
+				return 999;
 			}
-		}
-		logger.info("recv msg:{}", "hello");
-		return "Say hello";
+		}, new IResponseHandler() {
+			
+			@Override
+			public void handleServerResponse(Object msgBack, IResponseData response) {
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@handleServerResponse: " + msgBack);
+			}
+			
+			@Override
+			public void handleSendFailResponse(IResponseData response) {
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@handleSendFailResponse..........");
+			}
+		}, resData);
+		System.out.println(System.currentTimeMillis() - startTime);
+		return resData.toString();
 	}
 	
 	@RequestMapping("/index")

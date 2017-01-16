@@ -1,6 +1,7 @@
-package com.rounter.param;
+package com.rounter.param.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.rounter.param.IResponseData;
+
 
 /**
  * 9游的响应参数
@@ -8,7 +9,7 @@ import com.alibaba.fastjson.JSON;
  *
  * 2016年12月11日 下午6:07:17
  */
-public class Response9Game {
+public class Response9Game implements IResponseData{
 
 	private long id;
 	private String state;
@@ -18,23 +19,25 @@ public class Response9Game {
 	public long getId() {
 		return id;
 	}
+	
 	public void setId(long id) {
 		this.id = id;
 	}
+	
 	public String getState() {
 		return state;
 	}
+	
 	public void setState(String state) {
 		this.state = state;
 	}
+	
 	public String getData() {
 		return data;
 	}
+	
 	public void setData(String data) {
 		this.data = data;
 	}
-	
-	
-	
-	
+
 }

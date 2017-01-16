@@ -1,10 +1,11 @@
 package com.rounter.service;
 
-import com.rounter.param.Response9Game;
+import com.rounter.param.IResponseData;
 
 public interface IResponseHandler {
-	public Response9Game handleResponse(from, result){
-		r.setRe();
-		r.notify();
-	}
+	
+	public void handleServerResponse(Object msgBack, IResponseData response);
+	
+	public void handleSendFailResponse(IResponseData response);
+	
 }

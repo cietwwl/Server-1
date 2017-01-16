@@ -8,10 +8,10 @@
 			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-
+	<bean name = "channelNodeManager" class="com.rounter.client.sender.node.ChannelNodeManager" init-method="init" />
+	<bean class="com.rounter.client.sender.node.SenderToGameServer"  p:chNodeMgr-ref = "channelNodeManager" />
+	
 	<!-- task任务扫描注解 -->
 	<task:annotation-driven/>  
-
-    
-           
+	        
 </beans>

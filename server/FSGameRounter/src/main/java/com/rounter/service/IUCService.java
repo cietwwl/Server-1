@@ -1,6 +1,7 @@
 package com.rounter.service;
 
-import com.rounter.param.Request9Game;
+import com.rounter.param.impl.Request9Game;
+import com.rounter.param.impl.Response9Game;
 
 /**
  * 9游服务接口
@@ -10,6 +11,6 @@ import com.rounter.param.Request9Game;
  */
 public interface IUCService {
 
-	void getRoleInfo(Request9Game request, Result);
+	Response9Game getRoleInfo(Request9Game request);
 	
 }

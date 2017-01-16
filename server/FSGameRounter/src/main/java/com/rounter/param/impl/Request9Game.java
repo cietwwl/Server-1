@@ -1,6 +1,7 @@
-package com.rounter.param;
+package com.rounter.param.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.rounter.param.IRequestData;
+
 
 /**
  * 9游的请求参数
@@ -8,7 +9,7 @@ import com.alibaba.fastjson.JSON;
  *
  * 2016年12月11日 下午6:00:24
  */
-public class Request9Game {
+public class Request9Game implements IRequestData{
 	
 	private long id;
 	

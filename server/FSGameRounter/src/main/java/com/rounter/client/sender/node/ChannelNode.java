@@ -1,5 +1,6 @@
 package com.rounter.client.sender.node;
 
+import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -8,6 +9,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
@@ -16,8 +18,6 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.GenericFutureListener;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.nio.channels.SocketChannel;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,18 +26,17 @@ import com.rounter.client.sender.config.LogConst;
 import com.rounter.client.sender.config.NodeState;
 import com.rounter.client.sender.exception.CannotCreateNodeException;
 import com.rounter.client.sender.exception.NodeMsgQueueDisorderException;
-import com.rounter.client.sender.resultHandler.SendMsgResultHandler;
-import com.rounter.client.sender.resultHandler.ServerResponseHandler;
-import com.sun.jdi.Bootstrap;
+import com.rounter.client.sender.exception.ParamInvalidException;
+import com.rounter.param.IRequestData;
+import com.rounter.param.IResponseData;
+import com.rounter.service.IResponseHandler;
 
 public final class ChannelNode {
+	
 	private static long HEARTBITKEY = -101;
 
 	private final EventLoopGroup senderGroup;
-	private final SendMsgResultHandler resultHandler = new SendMsgResultHandler();
-	private final ServerResponseHandler responseHandler = new ServerResponseHandler();
-
-	private ConcurrentLinkedQueue<LogStoreInfo> msgQueue = new ConcurrentLinkedQueue<LogStoreInfo>();
+	private ConcurrentLinkedQueue<NodeData> msgQueue = new ConcurrentLinkedQueue<NodeData>();
 	private AtomicInteger queueMemCount = new AtomicInteger();
 	private ChannelHandlerContext cf;
 	private volatile NodeState nodeState = NodeState.Normal; // 连接状态
@@ -55,8 +54,7 @@ public final class ChannelNode {
 		this.senderGroup = senderGroup;
 	}
 
-	public void connectOrReconnectChannel() throws InterruptedException,
-			CannotCreateNodeException {
+	public void connectOrReconnectChannel() throws InterruptedException, CannotCreateNodeException {
 		if(System.currentTimeMillis() - lastConnectTime < LogConst.RECONNECT_DISTANCE){
 			//间隔时间重连
 			return;
@@ -71,7 +69,8 @@ public final class ChannelNode {
 				.channel(NioSocketChannel.class)
 				.option(ChannelOption.SO_KEEPALIVE, true)
 				.handler(new HeartbeatChannelInitializer());
-		b.connect(LogConst.TARGET_ADDR, LogConst.TARGET_PORT);
+		ChannelFuture cf1 = b.connect(LogConst.TARGET_ADDR, LogConst.TARGET_PORT);
+		System.out.println(cf1.isSuccess());
 		lastConnectTime = System.currentTimeMillis();
 	}
 
@@ -89,45 +88,59 @@ public final class ChannelNode {
 		return cf != null && cf.channel().isActive();
 	}
 
-	public void sendMessage(final LogStoreInfo logInfo)
-			throws UnsupportedEncodingException, InterruptedException {
+	public <T extends IResponseData> void sendMessage(final IRequestData reqData, IResponseHandler resHandler, T resData)
+			throws UnsupportedEncodingException, InterruptedException, ParamInvalidException {
 		if (queueMemCount.incrementAndGet() >= LogConst.NODE_MAX_QUEUE_SIZE){
 			nodeState = NodeState.Busy;
 		}
 		if(null == cf){
 			throw new NullPointerException("链接还未建立");
 		}
-		final String sendeMsg = logInfo.getLog_Id() + System.getProperty("line.separator");
+		final NodeData nodeData = new NodeData(resData, resHandler);
+		final String sendeMsg = reqData.getId() + System.getProperty("line.separator");
 		final ByteBuf buf = Unpooled.copiedBuffer(sendeMsg.getBytes("UTF-8"));
 		cf.channel().eventLoop().execute(new Runnable() {
 			public void run() {
+				
 				cf.channel().writeAndFlush(buf).addListener(new GenericFutureListener<ChannelFuture>() {
-					public void operationComplete(ChannelFuture future)
-							throws Exception {
-						if(!future.isSuccess() || !addToQueue(logInfo)) {
+					
+					public void operationComplete(ChannelFuture future) throws Exception {
+						if(!future.isSuccess() || !addToQueue(nodeData)) {
 							if (queueMemCount.decrementAndGet() < LogConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy){
 								nodeState = NodeState.Normal;
 							}
-							if(logInfo.getLog_Id() != HEARTBITKEY) resultHandler.handleResult(false, logInfo);
+							if(reqData.getId() != HEARTBITKEY){
+								nodeData.getResHandler().handleSendFailResponse(nodeData.getResData());
+								synchronized (nodeData) {
+									nodeData.getResData().notify();
+								}
+							}
 						}
 					}
+					
 				});
 			}
 		});
+		if(null != resData){
+			synchronized (resData) {
+				resData.wait(200);
+			}
+		}
 	}
 
 	private void msgBackSuccess(Object msg) {
 		try {
-			LogStoreInfo longInfo = pollFromQueue();
-			if(Long.valueOf((String) msg) != longInfo.getLog_Id()){
-				(new Exception("Queue Disorder...")).printStackTrace();
-			}
+			NodeData ndInfo = pollFromQueue();
 			if (onCheckNodeActive > 0) {
 				endCheckTime = System.nanoTime();
 				onCheckNodeActive--;
 			}
-			if (longInfo.getLog_Id() != HEARTBITKEY)
-				responseHandler.handleResponse(true, longInfo);
+			if (ndInfo.getResData() != null && ndInfo.getResHandler() != null){
+				ndInfo.getResHandler().handleServerResponse(msg, ndInfo.getResData());
+				synchronized (ndInfo.getResData()) {
+					ndInfo.getResData().notify();
+				}
+			}
 		} catch (NodeMsgQueueDisorderException e) {
 			e.printStackTrace();
 		}
@@ -142,9 +155,10 @@ public final class ChannelNode {
 	 */
 	private synchronized void handleFailedQueue() {
 		nodeState = NodeState.HandleFailedQueue;
-		for (LogStoreInfo log : msgQueue) {
-			if (log.getLog_Id() != HEARTBITKEY)
-				resultHandler.handleResult(false, log);
+		for (NodeData nd : msgQueue) {
+			if (nd.getResData() != null && nd.getResHandler() != null){
+				nd.getResHandler().handleServerResponse(false, nd.getResData());
+			}
 		}
 		msgQueue.clear();
 		queueMemCount.set(0);
@@ -162,8 +176,8 @@ public final class ChannelNode {
 	 * @param log
 	 * @return
 	 */
-	private boolean addToQueue(LogStoreInfo log) {	
-		return msgQueue.add(log);
+	private boolean addToQueue(NodeData nodeData) {	
+		return msgQueue.add(nodeData);
 	}
 
 	/**
@@ -171,12 +185,12 @@ public final class ChannelNode {
 	 * @return
 	 * @throws NodeMsgQueueDisorderException
 	 */
-	private LogStoreInfo pollFromQueue() throws NodeMsgQueueDisorderException {
-		LogStoreInfo logInfo = msgQueue.poll();
-		if (logInfo != null) {
+	private NodeData pollFromQueue() throws NodeMsgQueueDisorderException {
+		NodeData nodeData = msgQueue.poll();
+		if (nodeData != null) {
 			if (queueMemCount.decrementAndGet() < LogConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy)
 				nodeState = NodeState.Normal;
-			return logInfo;
+			return nodeData;
 		}
 		throw new NodeMsgQueueDisorderException("Msg Queue Disorder");
 	}
@@ -192,27 +206,13 @@ public final class ChannelNode {
 		protected void channelRead0(ChannelHandlerContext ctx, Object msg)
 				throws Exception {
 			msgBackSuccess(msg);
-			// TODO
-//			switch(Integer.valueOf((String) msg)){
-//			case 1: //成功
-//				break;
-//			case 2:  //格式不对
-//				break;
-//			case 3:  //长度不符合
-//				break;
-//			default:
-//				break;
-//			}
 		}
 
 		@Override
 		public void userEventTriggered(ChannelHandlerContext ctx, Object evt)
 				throws Exception {
 			if (evt instanceof IdleStateEvent) {
-				startCheckResponseTime("NODE_MAX_IDLE_TIMES");
-				// TODO
-				IdleStateEvent event = (IdleStateEvent) evt;
-				System.out.println(ctx.channel().remoteAddress() + "超时类型：" + event.state().name());
+				startCheckResponseTime();
 			} else {
 				super.userEventTriggered(ctx, evt);
 			}
@@ -258,11 +258,11 @@ public final class ChannelNode {
 			ChannelInitializer<SocketChannel> {
 
 		private static final long READ_IDEL_TIME_OUT = LogConst.MAX_OVER_TIME
-				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 4; // 读超时
+				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 6; // 读超时
 		private static final long WRITE_IDEL_TIME_OUT = LogConst.MAX_OVER_TIME
 				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 3; // 写超时
 		private static final long ALL_IDEL_TIME_OUT = LogConst.MAX_OVER_TIME
-				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 5; // 所有超时
+				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 12; // 所有超时
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
@@ -279,12 +279,8 @@ public final class ChannelNode {
 	/**
 	 * 该方法不会立即返回响应时间，它被放入了另外一条线程中去等待检测时间
 	 * 
-	 * @return
-	 * @throws URISyntaxException
-	 * @throws UnsupportedEncodingException
-	 * @throws InterruptedException
 	 */
-	public void startCheckResponseTime(String heartBitContent) {
+	public void startCheckResponseTime() {
 		synchronized (checkResponseLock) {
 			if(System.currentTimeMillis() - lastCheckResponse < LogConst.RECONNECT_DISTANCE){
 				//间隔时间心跳
@@ -295,21 +291,23 @@ public final class ChannelNode {
 			endCheckTime = startCheckTime;
 			lastCheckResponse = System.currentTimeMillis();
 		}
-		sendHeartBitMessage(heartBitContent);
+		sendHeartBitMessage();
 		putCheckResponseToThread();
 	}
 
 	/**
 	 * 发送心跳数据
 	 * @param heartBitMsg
-	 * @throws URISyntaxException
-	 * @throws UnsupportedEncodingException
-	 * @throws InterruptedException
 	 */
-	private void sendHeartBitMessage(String heartBitMsg){
+	private void sendHeartBitMessage(){
 		for (int i = 0; i < LogConst.CHECK_CHANNEL_SAMPLE_COUNT; i++){
 			try {
-				sendMessage(new LogStoreInfo(HEARTBITKEY, heartBitMsg, 0, false));
+				sendMessage(new IRequestData(){
+					@Override
+					public long getId() {
+						return HEARTBITKEY;
+					}
+				}, null, null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
