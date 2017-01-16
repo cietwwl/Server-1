@@ -98,9 +98,9 @@ public class ActivityCollector implements RedPointCollector {
 		List<String> subList = ActivityMgrHelper.getInstance().haveRedPoint(player);
 		activityList.addAll(subList);
 
-		// if (!activityList.isEmpty()) {
-		map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);
-		// }
+		if (!activityList.isEmpty()) {
+			map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);
+		}
 		
 		List<String> evilBaoArriveList = EvilBaoArriveMgr.getInstance().getRedPoint(player);
 		if(!evilBaoArriveList.isEmpty()){
