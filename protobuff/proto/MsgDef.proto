@@ -159,6 +159,8 @@ enum Command {
 	
 	MSG_CHARGE_CFG_REQUEST = 242;// 充值配置请求
 	
+	MSG_PEAK_ARENA_COMPETITION = 243; // 巅峰争霸赛消息协议
+	
 	
 	
 	
