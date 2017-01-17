@@ -156,6 +156,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		}
 		
 		IResponseData responseData = ucService.getGift(areaId, roleID, giftId, recvDate);
+		logger.info("请求发送礼包：{},接收角色id:{},所在区id:{},状态：{}",giftId, roleID,areaId,UCStateCode.getCodeByID(responseData.getStateCode()));
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, req.getId());
 		logger.debug("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
