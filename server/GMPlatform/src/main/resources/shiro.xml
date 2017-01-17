@@ -15,11 +15,14 @@
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realms">
 			<list>
-				<ref bean="securityRealm" />
+				<ref bean="securityRealm" /><!-- 这里面暂时是只实现一个realm -->
 			</list>
 		</property>
+		<property name="cacheManager" ref="cacheManager" /><!--  -->
 	</bean>
 
+	<!-- 缓存管理器，用来管理用户，角色，权限等缓存 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"></bean>
 
 	<!-- Shiro生命周期处理器 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
@@ -70,6 +73,8 @@
 			</value>
 		</property>
 	</bean>
+	
+	
 	
 	<bean id="loginFilter" class="com.server.security.LoginFilter" />
 	

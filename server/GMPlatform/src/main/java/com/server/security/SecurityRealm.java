@@ -58,7 +58,7 @@ import org.apache.shiro.subject.PrincipalCollection;
  * @see =============================================================================================================================
  * 
  * 用户身份验证，授权Realm组件
- * 
+ * 可以把它看作shiro的数据源,shiro在这里获取到用户，角色，权限等数据
  * @author Alex
  * 2017年1月12日 下午3:12:34
  */
@@ -71,6 +71,7 @@ public class SecurityRealm extends AuthorizingRealm{
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
+		Object object = arg0.getPrincipal();
 		return null;
 	}
 

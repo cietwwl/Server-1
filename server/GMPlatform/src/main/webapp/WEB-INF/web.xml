@@ -77,6 +77,25 @@
 		<url-pattern>/view/*</url-pattern>
 	</servlet-mapping>
 
+
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<!-- 错误页 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/page/404.html</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/page/500.html</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/page/401.html</location>
+    </error-page>
+    
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.jsp</welcome-file>

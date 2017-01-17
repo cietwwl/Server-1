@@ -54,12 +54,10 @@ var Login = function() {
             submitHandler : function(form) {
             	var account = $('#username').val();
                 var passwordInput = $('[name="password"]');
-//                bootbox.alert("password input before :" + passwordInput);
+
                 passwordInput.val(sha256_digest(passwordInput.val()));
-//                form.submit();
-//                swal("password input after :" + passwordInput.val());
-                //在此执行提交  所以应该在这里修改
-                
+
+                //在此执行提交
                 $.ajax({
                 	type:'post',
                 	url:'/user/login',
@@ -70,7 +68,7 @@ var Login = function() {
                 		if(response.meta.success){
                 			//登录成功,保存cookie
                 			$.cookie(Cookie.TOKEN,response.data.token);
-                			$.cookie(Cookie.USERNAME,response,data.username)
+                			$.cookie(Cookie.USERNAME,response.data.username)
                 			location.href='/view/main.html';
                 		}else{
                 			alert(response.meta.message);
@@ -93,10 +91,7 @@ var Login = function() {
             }
         });
         
-        /*jQuery('#loginBut').click(function() {
-            swal("submit button click~~~");
-            bootbox.alert("Hello world!");  
-        });*/
+
     }
 
     var handleForgetPassword = function() {

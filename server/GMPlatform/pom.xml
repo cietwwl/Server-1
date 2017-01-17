@@ -15,6 +15,8 @@
 		<java.home>${env.JAVA_HOME}</java.home>
 	</properties>
 
+
+
 	<dependencies>
 
 		<dependency>
@@ -38,6 +40,26 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>4.0.6.RELEASE</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
+
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.5</version>
+		</dependency>
+		
 		
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -154,7 +176,47 @@
 			<artifactId>shiro-spring</artifactId>
 			<version>1.2.4</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		
+		<!-- 数据库连接 -->
+		<dependency>
+	   		<groupId>mysql</groupId>
+	   		<artifactId>mysql-connector-java</artifactId>
+	   		<version>5.1.18</version>
+   		</dependency>
+   		
+   		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>0.2.6</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.1.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>1.3.1</version>
+			<scope>compile</scope>
+		</dependency>
+		
 	</dependencies>
+	
+	
 
 
 
