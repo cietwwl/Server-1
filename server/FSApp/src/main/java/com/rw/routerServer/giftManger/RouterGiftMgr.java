@@ -69,12 +69,8 @@ public class RouterGiftMgr {
 			return ResultState.REPEAT_GET;
 		}else if(cfg.getType() == RounterGiftType.TYPE_WEEK.getType()){
 			//检查当周有没有记录
-			int w = DateUtils.getCurrent().get(Calendar.WEEK_OF_YEAR);
-			long time = DateUtils.getTime(giftItem.getBelongTime());
-			Calendar calendar = DateUtils.getCalendar();
-			calendar.setTimeInMillis(time);
-			int w2 = calendar.get(Calendar.WEEK_OF_YEAR);
-			if(w == w2){
+			boolean sameWeek = checkWeek(giftItem.getBelongTime());
+			if(sameWeek){
 				return ResultState.REPEAT_GET;
 			}
 		}
@@ -125,4 +121,16 @@ public class RouterGiftMgr {
 					+userId + ",礼包id:" + giftId);
 		}
 	}
+	
+	
+	private  boolean checkWeek(String dayOfYear){
+		int w = DateUtils.getCurrent().get(Calendar.WEEK_OF_YEAR);
+		long time = DateUtils.getTime(dayOfYear);
+		Calendar calendar = DateUtils.getCalendar();
+		calendar.setTimeInMillis(time);
+		int w2 = calendar.get(Calendar.WEEK_OF_YEAR);
+		return w == w2;
+	}
+	
+	
 }
