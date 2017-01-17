@@ -134,6 +134,30 @@ public enum GameWorldKey {
 	 */
 	ACTIVITY_FORTUNECAT("ACTIVITY_FORTUNECAT"),
 	/**
+	 * 活动:每日福利
+	 */
+	ACTIVITY_DAILY_COUNT("ACTIVITY_DAILY_COUNT"),
+	/**
+	 * 活动:交换活动
+	 */
+	ACTIVITY_EXCHANGE("ACTIVITY_EXCHANGE"),
+	/**
+	 * 活动:限时英雄
+	 */
+	ACTIVITY_LIMITHERO("ACTIVITY_LIMITHERO"),
+	/**
+	 * 活动:双倍活动
+	 */
+	ACTIVITY_RATETYPE("ACTIVITY_RATETYPE"),
+	/**
+	 * 活动:红包活动
+	 */
+	ACTIVITY_REDENVELOPE("ACTIVITY_REDENVELOPE"),
+	/**
+	 * 活动:活跃之王
+	 */
+	ACTIVITY_VITALITYTYPE("ACTIVITY_VITALITYTYPE"),
+	/**
 	 * 热更记录
 	 */
 	HOTFIX_HISTORY("HOTFIX_HISTORY"),

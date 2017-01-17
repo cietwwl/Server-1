@@ -22,6 +22,4 @@
 	<import resource="applicationContextDataSources.xml" />
 	<import resource="applicationContextServices.xml" />
 
-		
-	
 </beans>

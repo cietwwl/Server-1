@@ -60,10 +60,10 @@ public class ActivityRedEnvelopeTypeItem implements  RoleExtProperty {
 	}
 	
 	public void resetByVersion(ActivityRedEnvelopeTypeCfg cfg,List<ActivityRedEnvelopeTypeSubItem> subItemList,int day){
-		this.cfgId = cfg.getId();
+		this.cfgId = String.valueOf(cfg.getId());
 		closed = false;
 		lastTime = System.currentTimeMillis();
-		version = cfg.getVersion();
+		version = String.valueOf(cfg.getVersion());
 		this.subItemList = subItemList;
 		this.day = day;
 		istaken = false;

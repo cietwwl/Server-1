@@ -5,7 +5,8 @@ public enum EServerStatus {
 	MAINTAIN	(1, "维护"),
 	NORMAL		(2, "正常"),
 	HIT			(3, "火爆"),
-	NEW			(4, "新服")
+	NEW			(4, "新服"),
+	FIRST_INFORM	(5, "首次通知"),
 	;
 	private int statusId;
 	private String statusDes;

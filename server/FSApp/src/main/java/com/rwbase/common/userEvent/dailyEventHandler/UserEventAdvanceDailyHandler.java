@@ -8,7 +8,6 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
@@ -24,14 +23,7 @@ public class UserEventAdvanceDailyHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityDailyTypeSubCfgDAO instance = ActivityDailyTypeSubCfgDAO
-						.getInstance();
-				if (instance.isOpenAndLevelEnough(player.getLevel(), instance
-						.getCfgMapByEnumid(ActivityDailyTypeEnum.AdvanceDaily
-								.getCfgId()))) {
-					ActivityDailyTypeMgr.getInstance().addCount(player,
-							ActivityDailyTypeEnum.AdvanceDaily, 1);
-				}
+				ActivityDailyTypeMgr.getInstance().addCount(player, ActivityDailyTypeEnum.AdvanceDaily, 1);
 			}
 
 			@Override

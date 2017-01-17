@@ -45,7 +45,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		this.type = type;
 		this.entityClass = entityClass;
 		this.clasInfo = new ClassInfo(entityClass, ClassHelper.getFirstAnnotateFieldName(entityClass, OwnerId.class));
-		NameFilterIntrospector nameFilter = new NameFilterIntrospector(entityClass,clasInfo.getPrimaryKey(), clasInfo.getOwnerFieldName());
+		NameFilterIntrospector nameFilter = new NameFilterIntrospector(entityClass, clasInfo.getPrimaryKey(), clasInfo.getOwnerFieldName());
 		this.mapper.setAnnotationIntrospector(nameFilter);
 		this.dataAccessManager = extPropertyManager;
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClass);
@@ -138,7 +138,30 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 
 		@Override
 		public boolean updateToDB(String key, RoleExtPropertyStoreImpl<T> value) {
-			return false;
+			HashMap<Integer, RoleExtPropertyData<T>> dirtyMap = value.getDirtyItems();
+			for (Map.Entry<Integer, RoleExtPropertyData<T>> entry : dirtyMap.entrySet()) {
+				RoleExtPropertyData<T> data = entry.getValue();
+				String ext;
+				try {
+					ext = mapper.writeValueAsString(entry.getValue().getAttachment());
+				} catch (Exception e) {
+					FSUtilLogger.error("保存数据解析Json失败:" + ",key=" + key + ",pk=" + data.getPrimaryKey());
+					return false;
+				}
+				if (ext == null) {
+					FSUtilLogger.error("保存数据提取内容失败:" + ",key=" + key + ",pk=" + data.getPrimaryKey());
+					continue;
+				}
+				try {
+					boolean updateResult = dataAccessManager.updateAttachmentExtention(key, ext, data.getPrimaryKey());
+					if (!updateResult) {
+						FSUtilLogger.error("保存数据失败:" + ",key=" + key + ",pk=" + data.getPrimaryKey() + ",ext=" + ext);
+					}
+				} catch (Throwable t) {
+					FSUtilLogger.error("保存数据异常:" + ",key=" + key + ",pk=" + data.getPrimaryKey() + ",ext=" + ext, t);
+				}
+			}
+			return true;
 		}
 
 		@Override
@@ -163,7 +186,6 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 			try {
 				ext = mapper.writeValueAsString(data.getAttachment());
 			} catch (Exception e) {
-				// TODO Logger object info
 				e.printStackTrace();
 				return false;
 			}
@@ -183,7 +205,6 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 				try {
 					ext = mapper.writeValueAsString(entry.getValue().getAttachment());
 				} catch (Exception e) {
-					// TODO Logger object info
 					e.printStackTrace();
 					return false;
 				}

@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.tools.ant.taskdefs.condition.HasMethod;
+
 import com.bm.serverStatus.ServerStatusMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
@@ -32,6 +34,8 @@ public class NoticeMgr {
 	
 	private List<Notice> NoticeList = new ArrayList<Notice>();
 	
+	private HashMap<Integer, Notice> GmNotices = new HashMap<Integer, Notice>();
+	
 	protected NoticeMgr() {
 		
 	}
@@ -56,32 +60,30 @@ public class NoticeMgr {
 		
 		
 		//加载数据库的公告
+		refreshGameNotice();
+	}
+	
+	public void refreshGameNotice() {
+		long secondLevelMillis = DateUtils.getSecondLevelMillis();
+
 		HashMap<Integer, TableGameNotice> map = GameManager.getGameNotice().getGameNotices();
 		for (Iterator<Entry<Integer, TableGameNotice>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, TableGameNotice> entry = iterator.next();
 			TableGameNotice value = entry.getValue();
-			if(value.getEndTime() * 1000 < secondLevelMillis){
+			if (value.getEndTime() * 1000 < secondLevelMillis) {
 				continue;
 			}
-			Notice notice =new Notice();
-			notice.SetNotice(value);
-			NoticeList.add(notice);
-		}
-	}
-	
-	public void AddNotice(TableGameNotice tableGameNotice){
-		for (Notice notice : NoticeList) {
-			if(notice.isConfigNotice()){
-				continue;
-			}
-			if(notice.getId() == tableGameNotice.getNoticeId()){
-				UpdateNotice(tableGameNotice, notice);
-				return;
+			if (GmNotices.containsKey(value.getNoticeId())) {
+				Notice notice = GmNotices.get(value.getNoticeId());
+				if (notice.getId() != 0 && notice.getId() == value.getNoticeId()) {
+					UpdateNotice(value, notice);
+				}
+			} else {
+				Notice notice = new Notice();
+				notice.SetNotice(value);
+				GmNotices.put(value.getNoticeId(), notice);
 			}
 		}
-		Notice notice = new Notice();
-		notice.SetNotice(tableGameNotice);
-		NoticeList.add(notice);
 	}
 	
 	public void UpdateNotice(TableGameNotice tableGameNotice, Notice notice){
@@ -89,21 +91,14 @@ public class NoticeMgr {
 	}
 	
 	public void RemoveNotice(TableGameNotice tableGameNotice) {
-		for (int i = NoticeList.size(); --i >= 0;) {
-			Notice notice = NoticeList.get(i);
-			if (notice.isConfigNotice()) {
-				continue;
-			}
-			if (notice.getId() == tableGameNotice.getNoticeId()) {
-				NoticeList.remove(i);
-				break;
-			}
-		}
+		GmNotices.remove(tableGameNotice.getNoticeId());
 	}
 	
 	public List<Notice> getNoticeList(){
-		
-		return NoticeList;
+		List<Notice> result = new ArrayList<Notice>();
+		result.addAll(NoticeList);
+		result.addAll(GmNotices.values());
+		return result;
 		
 	}
 }

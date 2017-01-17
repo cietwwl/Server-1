@@ -1,5 +1,6 @@
 package com.rw.dataaccess.attachment.creator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
@@ -13,31 +14,25 @@ public class ActivityVitalityCreator implements PlayerExtPropertyCreator<Activit
 
 	@Override
 	public eOpenLevelType getOpenLevelType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 	@Override
 	public List<ActivityVitalityTypeItem> firstCreate(
 			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityVitalityTypeMgr.getInstance().creatItems(params.getUserId(), false);
+		return new ArrayList<ActivityVitalityTypeItem>();
+		//return ActivityVitalityTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
 	public List<ActivityVitalityTypeItem> checkAndCreate(
 			RoleExtPropertyStore<ActivityVitalityTypeItem> store,
 			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean requiredToPreload(PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
 		return ActivityVitalityTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
-
 }

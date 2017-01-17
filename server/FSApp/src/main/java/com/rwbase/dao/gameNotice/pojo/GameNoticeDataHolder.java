@@ -45,13 +45,13 @@ public class GameNoticeDataHolder {
 	
 	public void saveOrUpdate(TableGameNotice notice, boolean insert){
 		TableGameNoticeDAO.getInstance().save(notice, insert);
-		NoticeMgr.getInstance().AddNotice(notice);
 	}
 	
 	public void addGameNotice(TableGameNotice notice, boolean insert){
 		synchronized (_lock) {
 			saveOrUpdate(notice, insert);
 			initNotice();
+			NoticeMgr.getInstance().refreshGameNotice();
 		}
 	}
 	

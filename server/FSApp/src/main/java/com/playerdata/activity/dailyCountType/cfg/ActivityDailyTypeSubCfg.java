@@ -1,9 +1,13 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
+import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
-public class ActivityDailyTypeSubCfg {
 
-	private String id;
+public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
+
+	private int id;
 	
 	private String parentId;
 	
@@ -11,6 +15,7 @@ public class ActivityDailyTypeSubCfg {
 	
 	//计数
 	private int count;
+	
 	//计数奖励
 	private String giftId;	
 
@@ -22,7 +27,11 @@ public class ActivityDailyTypeSubCfg {
 	
 	private String startTimeStr;
 	
-	private String endTimeStr;	
+	private String endTimeStr;
+	
+	private String version;
+	
+	private String day = "1";
 	
 	public String getEnumId() {
 		return enumId;
@@ -96,13 +105,11 @@ public class ActivityDailyTypeSubCfg {
 		this.version = version;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-
-	private String version;
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -114,12 +121,27 @@ public class ActivityDailyTypeSubCfg {
 		this.emailTitle = emailTitle;
 	}
 
-	
+	@Override
+	public String getDay() {
+		return day;
+	}
 
+	@Override
+	public int getType() {
+		return Integer.parseInt(parentId);
+	}
 
-
+	@Override
+	public void setCfgReward(String reward) {
+		this.giftId = reward;
+	}
 	
-	
-	
-	
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
 }

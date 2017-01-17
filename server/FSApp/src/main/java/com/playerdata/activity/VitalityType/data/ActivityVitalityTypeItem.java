@@ -85,9 +85,9 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 	}
 	
 	public void reset(ActivityVitalityCfg cfg){
-		this.cfgId = cfg.getId();
+		this.cfgId = String.valueOf(cfg.getId());
 		closed = false;
-		version = cfg.getVersion();
+		version = String.valueOf(cfg.getVersion());
 		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg));
 		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg);
 		if(boxlist != null&&!boxlist.isEmpty()){

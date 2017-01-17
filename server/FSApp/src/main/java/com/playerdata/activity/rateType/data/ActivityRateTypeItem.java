@@ -116,9 +116,9 @@ public class ActivityRateTypeItem implements RoleExtProperty {
 	}
 
 	public void reset(ActivityRateTypeCfg activityRateTypeCfg) {
-		this.version = activityRateTypeCfg.getVersion();
+		this.version = String.valueOf(activityRateTypeCfg.getVersion());
 		isTouchRedPoint = false;
-		cfgId = activityRateTypeCfg.getId();
+		cfgId = String.valueOf(activityRateTypeCfg.getId());
 		this.closed = false;
 	}
 

@@ -21,6 +21,7 @@ import com.rw.manager.GameManager;
 import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -31,6 +32,7 @@ import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
+import com.rwbase.dao.group.GroupUtils;
 import com.rwbase.dao.majorDatas.MajorDataCacheFactory;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -48,6 +50,7 @@ public class PlayerCreateHandler {
 
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private static PlayerCreateHandler instance = new PlayerCreateHandler();
+	private static int maxNameLength = 12;
 
 	public static PlayerCreateHandler getInstance() {
 		return instance;
@@ -75,7 +78,7 @@ public class PlayerCreateHandler {
 
 		GameLoginResponse.Builder response = GameLoginResponse.newBuilder();
 		// 检查昵称
-		if (CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
+		if (!checkNameLength(nick) || CharFilterFactory.getCharFilter().checkWords(nick, true, true, true, true)) {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能包含屏蔽字或非法字符";
 			response.setError(reason);
@@ -132,21 +135,21 @@ public class PlayerCreateHandler {
 		FashionBeingUsed used = new FashionBeingUsed();
 		used.setUserId(userId);
 		FashionBeingUsedHolder.getInstance().saveOrUpdate(used);
-//		// 提前创建ChargeInfo need trx // chargeInfo改为KVData了，会自动创建
-//		ChargeInfo chargeInfo = new ChargeInfo();
-//		chargeInfo.setUserId(userId);
-//		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
-//		ChargeInfoDao.getInstance().update(chargeInfo);
+		// // 提前创建ChargeInfo need trx // chargeInfo改为KVData了，会自动创建
+		// ChargeInfo chargeInfo = new ChargeInfo();
+		// chargeInfo.setUserId(userId);
+		// chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
+		// ChargeInfoDao.getInstance().update(chargeInfo);
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		User user = player.getUserDataMgr().getUser();
 		user.setZoneLoginInfo(zoneLoginInfo);
-		
-		//通知精准营销
+
+		// 通知精准营销
 		TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_CreateTime.getId());
-		//封测充值返利
+		// 封测充值返利
 		ActivityChargeRebateMgr.getInstance().processChargeRebate(player, accountId);
-		
+
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);
 
@@ -155,7 +158,7 @@ public class PlayerCreateHandler {
 		if (taskMgr != null) {
 			BILogMgr.getInstance().logTaskBegin(player, player.getTaskMgr().getTaskEnumeration(), BITaskType.Main);
 		}
-		
+
 		BILogMgr.getInstance().logZoneReg(player);
 		// 临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
 		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, 0);
@@ -197,5 +200,15 @@ public class PlayerCreateHandler {
 		sb.append(GameManager.getServerId());
 		sb.append(HPCUtil.fillZero(generator.generateId(), GameManager.getGenerateIdNumber()));
 		return sb.toString();
+	}
+
+	public boolean checkNameLength(String name) {
+		int nameLength = GroupUtils.getChineseNumLimitLength(name);
+		if (nameLength == -1) {
+			return false;
+		} else if (nameLength > maxNameLength) {
+			return false;
+		}
+		return true;
 	}
 }

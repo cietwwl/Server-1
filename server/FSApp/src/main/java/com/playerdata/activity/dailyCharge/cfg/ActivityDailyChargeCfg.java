@@ -1,6 +1,7 @@
 package com.playerdata.activity.dailyCharge.cfg;
 import com.common.BaseConfig;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
@@ -14,6 +15,8 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private long endTime;
 	private int version; //活动版本
 	private int isDailyRefresh;
+	
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public int getId() {
 		return id;
@@ -60,15 +63,30 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 		return endTime;
 	}
 
-	@Override
- 	public void ExtraInitAfterLoad() {
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
  	}
+	
+	@Override
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
+		this.startTimeStr = startTimeStr;
+		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
+	}
 
 	@Override
 	public boolean isDailyRefresh() {
 		return isDailyRefresh == 1;
+	}
+	
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
 	}
 	
 	@Override
@@ -77,14 +95,15 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	}
 
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		this.startTimeStr = startTimeStr;
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
-
+	
 	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
-		this.endTimeStr = endTimeStr;
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

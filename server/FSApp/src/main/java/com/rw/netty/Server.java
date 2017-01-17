@@ -22,6 +22,7 @@ import com.common.refOpt.RefOptClassGener;
 import com.gm.GmHotFixManager;
 import com.log.GameLog;
 import com.playerdata.GambleMgr;
+import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
@@ -64,13 +65,14 @@ public class Server {
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
-
 			// 初始化每日热点数据
 			GambleMgr.resetWhenStart();
 			// GambleTest.Test();
 			
 			//每次启服的时候，检查是否有GM修改过的活动配置（启服最后检查）
 			ActivityModifyMgr.getInstance().checkModifiedActivity();
+			//每次启服的时候，初始化活动配置表的时间
+			ActivityMgrHelper.getInstance().initActivityTime();
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			GmHotFixManager.serverStartComplete(); // 自动执行hot fix
 

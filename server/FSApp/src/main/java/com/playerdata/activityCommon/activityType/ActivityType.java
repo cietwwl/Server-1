@@ -12,6 +12,9 @@ public class ActivityType<D extends CfgCsvDao<? extends ActivityCfgIF>, T extend
 	private Class<? extends CfgCsvDao<? extends ActivitySubCfgIF>> activitySubDao;
 	private Class<? extends ActivityTypeSubItemIF> activitySubItem;
 	private AbstractActivityMgr<?> activityMgr;
+	@Deprecated
+	private IndexRankJudgeIF activityMgr2; 	//过渡类型，以后会去掉
+	
 	private volatile long verStamp = 0;
 
 	public ActivityType(int typeId, Class<D> dao, Class<T> item, AbstractActivityMgr<?> mgr) {
@@ -30,6 +33,17 @@ public class ActivityType<D extends CfgCsvDao<? extends ActivityCfgIF>, T extend
 		this.activitySubDao = subDao;
 		this.activitySubItem = subItem;
 		this.activityMgr = mgr;
+		this.activityMgr2 = mgr;
+	}
+	
+	public ActivityType(int typeId, Class<D> dao, IndexRankJudgeIF mgr) {
+		this.typeId = typeId;
+		this.activityDao = dao;
+		this.activityItem = null;
+		this.activitySubDao = null;
+		this.activitySubItem = null;
+		this.activityMgr = null;
+		this.activityMgr2 = mgr;
 	}
 
 	public int getTypeId() {
@@ -81,6 +95,10 @@ public class ActivityType<D extends CfgCsvDao<? extends ActivityCfgIF>, T extend
 
 	public AbstractActivityMgr<?> getActivityMgr() {
 		return activityMgr;
+	}
+	
+	public IndexRankJudgeIF getActivityJudgeMgr() {
+		return activityMgr2;
 	}
 	
 	public boolean equals(ActivityType type){

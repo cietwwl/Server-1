@@ -1128,13 +1128,21 @@ public final class DataSynProtos {
      */
     CommonSoulConfig(117, 123),
     /**
+     * <code>NewGuideClosure = 124;</code>
+     *
+     * <pre>
+     *关闭新手引导
+     * </pre>
+     */
+    NewGuideClosure(118, 124),
+    /**
      * <code>ActivityChargeRank = 301;</code>
      *
      * <pre>
      **300以上为活动，非活动的请写上面
      * </pre>
      */
-    ActivityChargeRank(118, 301),
+    ActivityChargeRank(119, 301),
     /**
      * <code>ActivityConsumeRank = 302;</code>
      *
@@ -1142,7 +1150,7 @@ public final class DataSynProtos {
      *消费排行榜
      * </pre>
      */
-    ActivityConsumeRank(119, 302),
+    ActivityConsumeRank(120, 302),
     /**
      * <code>ActivityModifiedCfg = 303;</code>
      *
@@ -1150,7 +1158,7 @@ public final class DataSynProtos {
      *修改过的活动配置
      * </pre>
      */
-    ActivityModifiedCfg(120, 303),
+    ActivityModifiedCfg(121, 303),
     ;
 
     /**
@@ -2098,6 +2106,14 @@ public final class DataSynProtos {
      */
     public static final int CommonSoulConfig_VALUE = 123;
     /**
+     * <code>NewGuideClosure = 124;</code>
+     *
+     * <pre>
+     *关闭新手引导
+     * </pre>
+     */
+    public static final int NewGuideClosure_VALUE = 124;
+    /**
      * <code>ActivityChargeRank = 301;</code>
      *
      * <pre>
@@ -2245,6 +2261,7 @@ public final class DataSynProtos {
         case 121: return FriendMonthCardInfo;
         case 122: return WB_Broatcast;
         case 123: return CommonSoulConfig;
+        case 124: return NewGuideClosure;
         case 301: return ActivityChargeRank;
         case 302: return ActivityConsumeRank;
         case 303: return ActivityModifiedCfg;
@@ -8336,7 +8353,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\337\024\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\364\024\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8401,10 +8418,11 @@ public final class DataSynProtos {
       "N\020u\022\020\n\014SaloonPlayer\020v\022\022\n\016SaloonPosition\020" +
       "w\022\025\n\021SPRITE_ATTACH_SYN\020x\022\027\n\023FriendMonthC" +
       "ardInfo\020y\022\020\n\014WB_Broatcast\020z\022\024\n\020CommonSou" +
-      "lConfig\020{\022\027\n\022ActivityChargeRank\020\255\002\022\030\n\023Ac" +
-      "tivityConsumeRank\020\256\002\022\030\n\023ActivityModified" +
-      "Cfg\020\257\002*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n\013" +
-      "com.rwprotoB\rDataSynProtos"
+      "lConfig\020{\022\023\n\017NewGuideClosure\020|\022\027\n\022Activi" +
+      "tyChargeRank\020\255\002\022\030\n\023ActivityConsumeRank\020\256" +
+      "\002\022\030\n\023ActivityModifiedCfg\020\257\002*\034\n\013RequestTy" +
+      "pe\022\r\n\tSynByType\020\001B\034\n\013com.rwprotoB\rDataSy" +
+      "nProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -1,10 +1,7 @@
 package com.rw.service.login.account;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.print.attribute.standard.Severity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -14,6 +11,7 @@ import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.account.Account;
 import com.rw.account.ZoneInfoCache;
+import com.rw.fsutil.concurrent.ConcurrentRunnable;
 import com.rw.fsutil.util.TextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.platform.PlatformFactory;
@@ -56,6 +54,12 @@ public class AccountLoginHandler {
 		return instance;
 	}
 
+	private static ConcurrentRunnable<String> concurrentRunnable;
+
+	static {
+		concurrentRunnable = new ConcurrentRunnable<String>();
+	}
+
 	public ByteString accountLogin(AccountLoginRequest request, Account account) {
 		AccountLoginResponse.Builder response = AccountLoginResponse.newBuilder();
 		response.setLoginType(eAccountLoginType.ACCOUNT_LOGIN);
@@ -71,31 +75,49 @@ public class AccountLoginHandler {
 		return response.build().toByteString();
 	}
 
-	private void handelLogin(AccountLoginRequest request, Account account, AccountLoginResponse.Builder response) {
-		AccountInfo accountInfo = request.getAccount();
-		String accountId = accountInfo.getAccountId();
-		String password = accountInfo.getPassword();
-		String openAccountId = accountInfo.getOpenAccountId();
-		int logType = accountInfo.getLogType();
-		String phoneInfo = accountInfo.getPhoneInfo();
-		String clientInfoJson = accountInfo.getClientInfoJson();
+	private void handelLogin(final AccountLoginRequest request, final Account account, final AccountLoginResponse.Builder response) {
+		Runnable task = new Runnable() {
 
-		PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId + "; openAccountId:" + openAccountId);
+			@Override
+			public void run() {
+				AccountInfo accountInfo = request.getAccount();
+				String accountId = accountInfo.getAccountId();
+				String password = accountInfo.getPassword();
+				String openAccountId = accountInfo.getOpenAccountId();
+				int logType = accountInfo.getLogType();
+				String phoneInfo = accountInfo.getPhoneInfo();
+				String clientInfoJson = accountInfo.getClientInfoJson();
+				PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId + "; openAccountId:" + openAccountId);
 
-		// 快速注册账号
-		if (accountId.equals("")) {
-			accountId = handelRandomAccount(account, response, accountId, openAccountId, logType, phoneInfo, clientInfoJson);
-		} else {
-			// 注册账号
-			TableAccount tableAccount = AccoutBM.getInstance().getByAccountId(accountId);
-			if (tableAccount == null) {
-				handleRegByAccountId(account, response, accountInfo, accountId, password, openAccountId, logType, phoneInfo, clientInfoJson);
-			} else {
-				// 验证账号
-				handleAccountLogin(account, response, accountInfo, accountId, logType, phoneInfo, clientInfoJson);
+				if (accountId == null || accountId.isEmpty()) {
+					TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(openAccountId);
+					if (tableAccount != null) {
+						accountId = tableAccount.getAccount();
+						PlatformLog.info("Query by openAccount", "openAccountId", "accountId=" + accountId + ",openAccountId=" + openAccountId);
+					}
+				}
+				// 快速注册账号
+				if (accountId.equals("")) {
+					accountId = handelRandomAccount(account, response, accountId, openAccountId, logType, phoneInfo, clientInfoJson);
+				} else {
+					// 注册账号
+					TableAccount tableAccount = AccoutBM.getInstance().getByAccountId(accountId);
+					if (tableAccount == null) {
+						handleRegByAccountId(account, response, accountInfo, accountId, password, openAccountId, logType, phoneInfo, clientInfoJson);
+					} else {
+						// 验证账号
+						handleAccountLogin(account, response, accountInfo, accountId, logType, phoneInfo, clientInfoJson);
+					}
+				}
+				addAccount(account, accountId);
 			}
+		};
+		String openAccountId = request.getAccount().getOpenAccountId();
+		if (openAccountId != null) {
+			concurrentRunnable.executeTask(openAccountId, task);
+		} else {
+			task.run();
 		}
-		addAccount(account, accountId);
 	}
 
 	/** 验证账号 */
@@ -115,13 +137,7 @@ public class AccountLoginHandler {
 				zoneInfo = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 			}
 			if (zoneInfo != null) {
-				if (account.isWhiteList()) {
-					response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
-				}else{
-					if(zoneInfo.getEnabled() != 0){
-						response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
-					} 
-				}
+				response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
 			}
 		} else {
 			ZoneInfoCache zoneInfo = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
@@ -167,8 +183,7 @@ public class AccountLoginHandler {
 	}
 
 	/** 注册账号 */
-	private void handleRegByAccountId(Account account, AccountLoginResponse.Builder response, AccountInfo accountInfo, String accountId, String password, String openAccountId, int logType,
-			String phoneInfo, String clientInfoJson) {
+	private void handleRegByAccountId(Account account, AccountLoginResponse.Builder response, AccountInfo accountInfo, String accountId, String password, String openAccountId, int logType, String phoneInfo, String clientInfoJson) {
 		if (isIllegalAccount(accountId)) {
 			response.setError("注册失败，账户名不符合规范");
 			response.setResultType(eLoginResultType.FAIL);
@@ -264,7 +279,7 @@ public class AccountLoginHandler {
 
 		return zoneInfo.build();
 	}
-	
+
 	private String getServerStatusTips(ZoneInfoCache zone, String status) {
 		String closeTips = zone.getCloseTips();
 		if (StringUtils.isEmpty(closeTips)) {
@@ -336,33 +351,30 @@ public class AccountLoginHandler {
 	private void handleZoneList(Account account, AccountLoginResponse.Builder response, String accountId) {
 		TableAccount userAccount = account.getTableAccount();
 		if (userAccount == null) {
-			userAccount = AccoutBM.getInstance().getByAccountId(accountId);
+			//TODO 增加通过OpenAccountId获取的容错
+			String openAccountId = response.getAccount().getOpenAccountId();
+			if(openAccountId != null && !openAccountId.isEmpty()){
+				userAccount = AccoutBM.getInstance().getByOpenAccount(openAccountId);
+			}else{
+				userAccount = AccoutBM.getInstance().getByAccountId(accountId);
+			}
 		}
 		// 没有玩家只发服务器列表
 
 		response.setLoginType(eAccountLoginType.ZONE_LIST);
 		List<ZoneInfoCache> allZoneList = PlatformFactory.getPlatformService().getAllZoneList();
-		HashMap<Integer, Integer> ZoneStatusList = new HashMap<Integer, Integer>();
 		for (ZoneInfoCache zone : allZoneList) {
-			// 当设置服务器不显示，则不发送到客户端
-			if (account.isWhiteList()) {
-				response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
-			}else{
-				if(zone.getEnabled() != 0){
-					response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
-				} 
-			}
-			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
+			response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
 		}
-		
+
 		Collection<TableServerPage> allServerPage = PlatformFactory.getPlatformService().getAllServerPage();
 		for (TableServerPage tableServerPage : allServerPage) {
 			int pageId = tableServerPage.getPageId();
-			
-			if(pageId == TableServerPageDAO.TEST_PAGE && !account.isWhiteList()){
+
+			if (pageId == TableServerPageDAO.TEST_PAGE && !account.isWhiteList()) {
 				continue;
 			}
-			
+
 			ServerPageInfo.Builder serverPageInfo = ServerPageInfo.newBuilder();
 			serverPageInfo.setPageId(pageId);
 			serverPageInfo.setPageName(tableServerPage.getPageName());
@@ -376,12 +388,8 @@ public class AccountLoginHandler {
 
 		for (int i = lastLoginList.size() - 1; i >= 0; i--) {
 			int zoneId = lastLoginList.get(i);
-			Integer isEnable = ZoneStatusList.get(zoneId);
-			if (isEnable == 0 && !account.isWhiteList()) {
-				continue;
-			}
 			UserZoneInfo userZoneInfo = userAccount.getZoneIdInUserZoneInfoMap(zoneId);
-			if(userZoneInfo == null){
+			if (userZoneInfo == null) {
 				continue;
 			}
 			zone = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
@@ -394,7 +402,7 @@ public class AccountLoginHandler {
 			userInfo.setName(userZoneInfo.getUserName());
 			response.addUserList(userInfo);
 		}
-		
+
 		response.setResultType(eLoginResultType.SUCCESS);
 	}
 

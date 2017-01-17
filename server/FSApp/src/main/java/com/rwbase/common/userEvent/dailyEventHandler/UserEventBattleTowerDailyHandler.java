@@ -8,7 +8,6 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
@@ -27,34 +26,24 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				/** 活动是否开启 */
-				ActivityDailyTypeSubCfgDAO instance = ActivityDailyTypeSubCfgDAO
-						.getInstance();
-				if (!instance.isOpenAndLevelEnough(
-						player.getLevel(),
-						instance.getCfgMapByEnumid(ActivityDailyTypeEnum.BattleTowerDaily
-								.getCfgId()))) {
-					return;
-				}
 				int addcount = 0;
-				ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder
-						.getInstance();
-				ActivityDailyTypeItem dataItem = dataHolder.getItem(player
-						.getUserId());
-
-				ActivityDailyTypeSubItem subItem = ActivityDailyTypeMgr
-						.getInstance().getbyDailyCountTypeEnum(player,
-								ActivityDailyTypeEnum.BattleTowerDaily,
-								dataItem);
-				if (subItem != null) {
-					// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
-					addcount = Integer.parseInt(params.toString())
-							- subItem.getCount();
-				} else {
-					addcount = Integer.parseInt(params.toString());
+				ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
+				List<ActivityDailyTypeItem> dataItems = dataHolder.getItemList(player.getUserId());
+				for(ActivityDailyTypeItem dataItem : dataItems){
+					ActivityDailyTypeSubItem subItem = ActivityDailyTypeMgr
+							.getInstance().getByDailyCountTypeEnum(player,
+									ActivityDailyTypeEnum.BattleTowerDaily,
+									dataItem);
+					if (subItem != null) {
+						// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
+						addcount = Integer.parseInt(params.toString())
+								- subItem.getCount();
+					} else {
+						addcount = Integer.parseInt(params.toString());
+					}
+					ActivityDailyTypeMgr.getInstance().addCount(player,
+							ActivityDailyTypeEnum.BattleTowerDaily, addcount);
 				}
-				ActivityDailyTypeMgr.getInstance().addCount(player,
-						ActivityDailyTypeEnum.BattleTowerDaily, addcount);
 			}
 
 			@Override

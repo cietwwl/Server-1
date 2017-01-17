@@ -4,18 +4,23 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
+
+import com.rw.fsutil.common.PairValue;
 
 public class CacheStackTraceMap {
 
 	private final ReentrantLock lock;
-	private final LinkedHashMap<CacheStackTraceEntity, String> map;
+	private final LinkedHashMap<CacheStackTraceEntity, PairValue<String, AtomicLong>> map;
 	private final AtomicInteger idGenerator;
 	private final String name;
 	private final BufferedWriter writer;
@@ -24,18 +29,17 @@ public class CacheStackTraceMap {
 	public CacheStackTraceMap(final int maxCapacity, String name, Executor executor) {
 		this.name = "t" + new SimpleDateFormat("MMdd").format(new Date());
 		this.executor = executor;
-		this.map = new LinkedHashMap<CacheStackTraceEntity, String>(10000, 0.5f, true) {
+		this.map = new LinkedHashMap<CacheStackTraceEntity, PairValue<String, AtomicLong>>(maxCapacity >> 2, 0.5f, true) {
 
-			protected boolean removeEldestEntry(Map.Entry<CacheStackTraceEntity, String> eldest) {
+			protected boolean removeEldestEntry(Map.Entry<CacheStackTraceEntity, PairValue<String, AtomicLong>> eldest) {
 				return size() > maxCapacity;
 			}
 		};
 		this.lock = new ReentrantLock();
+		
 		this.idGenerator = new AtomicInteger();
-
-		File f = new File("");
 		try {
-			String firstDirPath = f.getCanonicalPath() + "/datalogs";
+			String firstDirPath = CacheFactory.getDatalogsPath();
 			File dirFile = new File(firstDirPath);
 			if (!dirFile.exists()) {
 				dirFile.mkdir();
@@ -56,14 +60,16 @@ public class CacheStackTraceMap {
 		if (trace == null) {
 			return "";
 		}
+		AtomicLong countStat = null;
 		lock.lock();
 		try {
-			String oldName = map.get(trace);
+			PairValue<String, AtomicLong> oldName = map.get(trace);
 			if (oldName != null) {
-				return oldName;
+				countStat = oldName.secondValue;
+				return oldName.firstValue;
 			}
 			final String creator = name + "_" + idGenerator.incrementAndGet();
-			map.put(trace, creator);
+			map.put(trace, new PairValue<String, AtomicLong>(creator, new AtomicLong(1)));
 			// 创建一个method记录
 			executor.execute(new Runnable() {
 
@@ -90,7 +96,19 @@ public class CacheStackTraceMap {
 			return creator;
 		} finally {
 			lock.unlock();
+			if (countStat != null) {
+				countStat.incrementAndGet();
+			}
 		}
 	}
 
+	public List<PairValue<String, AtomicLong>> getStackTrace() {
+		lock.lock();
+		try {
+			return new ArrayList<PairValue<String, AtomicLong>>(map.values());
+		} finally {
+			lock.unlock();
+		}
+
+	}
 }

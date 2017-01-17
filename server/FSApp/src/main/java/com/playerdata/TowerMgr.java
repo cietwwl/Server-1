@@ -61,9 +61,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			// 主角始终是排在最前边的
 			int rType1 = h1.getRoleType().ordinal();
 			int rType2 = h2.getRoleType().ordinal();
-			if (rType1 > rType2) {
+			if (rType1 < rType2) {
 				return -1;
-			} else if (rType1 < rType2) {
+			} else if (rType1 > rType2) {
 				return 1;
 			}
 			// 佣兵的个人战力，谁大谁在前
@@ -131,7 +131,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		angleArrayData.setResetLevel(player.getLevel());// 竞技阵容出现的最高等级
 		angleArrayData.setResetRankIndex(0);// 竞技排名
 		// 从昨日榜中获取自己的战力
-		Ranking rank = RankingFactory.getRanking(RankType.FIGHTING_ALL_DAILY);
+		Ranking rank = RankingFactory.getRanking(RankType.TEAM_FIGHTING_DAILY);
 		// 获取到佣兵要用于匹配的总战力
 		int totalFighting = -1;
 		if (rank != null) {

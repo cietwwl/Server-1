@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.PreparedStatementSetter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.common.CommonRowMapper;
-import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 

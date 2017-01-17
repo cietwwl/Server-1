@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
@@ -39,8 +38,6 @@ public class ActivityCollector implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
-		List<String> dailyCountList = ActivityDailyTypeMgr.getInstance().haveRedPoint(player);
-		activityList.addAll(dailyCountList);
 		// ------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();
 		List<ActivityRateTypeCfg> rateAllCfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
@@ -53,7 +50,7 @@ public class ActivityCollector implements RedPointCollector {
 			if (!activityRateTypeMgr.isLevelEnough(player, cfg)) {
 				continue;
 			}
-			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
+			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(String.valueOf(cfg.getEnumId()));
 			if (typeEnum == null) {
 				// 枚举没有配置
 				continue;
@@ -64,7 +61,7 @@ public class ActivityCollector implements RedPointCollector {
 				continue;
 			}
 			if (!rateItem.isTouchRedPoint()) {
-				activityList.add(cfg.getId());
+				activityList.add(String.valueOf(cfg.getId()));
 				continue;
 			}
 		}
@@ -135,7 +132,7 @@ public class ActivityCollector implements RedPointCollector {
 					if (targetItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
 						continue;
 					}
-					activityList.add(cfg.getId());
+					activityList.add(String.valueOf(cfg.getId()));
 					break;
 				}
 			}

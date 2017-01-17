@@ -13,7 +13,6 @@ public class ZoneInfoCache {
 	//subzone 是用户注册的时候分配的，一个zone有一个或椟个subZone组成
 	private String channelId; //渠道id
 	private int subZone;
-	private int enabled;  //分区是否已开启. 0 否 1 是
 	private int status;  //状态  参考 LoginServiceProtos.java ZoneStatusType  0 hot 1 recommanded 2 new
 	private int recommand;  //是否推荐  1是0否
 	private int weight;   //权重，大的排前面
@@ -35,7 +34,6 @@ public class ZoneInfoCache {
 		this.zoneName = tableZoneInfo.getZoneName();
 		this.channelId = tableZoneInfo.getChannelId();
 		this.subZone = tableZoneInfo.getSubZone();
-		this.enabled = tableZoneInfo.getEnabled();
 		this.status = tableZoneInfo.getStatus();
 		this.recommand = tableZoneInfo.getRecommand();
 		this.isSubZone = tableZoneInfo.getIsSubZone();
@@ -48,7 +46,6 @@ public class ZoneInfoCache {
 		this.zoneName = tableZoneInfo.getZoneName();
 		this.channelId = tableZoneInfo.getChannelId();
 		this.subZone = tableZoneInfo.getSubZone();
-		this.enabled = tableZoneInfo.getEnabled();
 		this.recommand = tableZoneInfo.getRecommand();
 		this.isSubZone = tableZoneInfo.getIsSubZone();
 		this.serverIp = tableZoneInfo.getServerIp();
@@ -84,12 +81,6 @@ public class ZoneInfoCache {
 	public void setChannelId(String channelId) {
 		this.channelId = channelId;
 	}
-
-
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
-	}
-
 
 	public void setRecommand(int recommand) {
 		this.recommand = recommand;
@@ -152,10 +143,6 @@ public class ZoneInfoCache {
 
 	public void setSubZone(int subZone) {
 		this.subZone = subZone;
-	}
-
-	public int getEnabled() {
-		return enabled;
 	}
 
 

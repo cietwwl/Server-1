@@ -50,9 +50,9 @@ public class ActivityLimitHeroTypeItem implements  RoleExtProperty{
 	private int guarantee ;
 	
 	public void reset(ActivityLimitHeroCfg cfg,List<ActivityLimitHeroTypeSubItem> subList){
-		this.cfgId = cfg.getId();
+		this.cfgId = String.valueOf(cfg.getId());
 		this.closed = false;
-		this.version = cfg.getVersion();
+		this.version = String.valueOf(cfg.getVersion());
 		this.isTouchRedPoint = false;
 		this.integral  = 0;//和初始化区分，测试完变为0；
 		this.lastSingleTime = 666;//0.0 和初始化区分

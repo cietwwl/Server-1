@@ -2,10 +2,7 @@ package com.playerdata.activity.dailyCountType;
 
 import java.util.HashMap;
 
-public enum ActivityDailyTypeEnum{	// implements TypeIdentification
-
-	Daily("19999"),
-	
+public enum ActivityDailyTypeEnum{
 	
 	LoginDaily("10001"),
 	TreasureLandDaily("10002"),//聚宝之地
@@ -19,8 +16,6 @@ public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 	ChargeDaily("10010"),//充值
 	GoldSpendDaily("10011");//花钻石 
 	
-	
-	
 	private String cfgId;
 	private ActivityDailyTypeEnum(String cfgId){
 		this.cfgId = cfgId;
@@ -30,7 +25,7 @@ public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 		return cfgId;
 	}	
 	
-	private static HashMap<String, ActivityDailyTypeEnum> map ;
+	private static HashMap<String, ActivityDailyTypeEnum> map;
 	
 	static {
 		ActivityDailyTypeEnum[] array = values();
@@ -44,8 +39,4 @@ public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 	public static ActivityDailyTypeEnum getById(String id){
 		return map.get(id);
 	}
-	
-	
-	
-	
 }

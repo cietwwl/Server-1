@@ -3,7 +3,7 @@ Key,Remarks,id,name,icon,atlas,description
 2,,2,钻石,Item/ect_diamonds,Common,闪闪发光的钻石，可以用来购买各种物品的货币。通过任务、充值、活动可获得钻石。
 3,,3,体力,Item/icon_RiChang_TiLi,Common,游戏中闯关必须的资源
 4,,4,经验值,Item/ect_exp,Common,提高人物等级的必要资源
-5,,5,竞技点,Item/ect_JingJiChang,Common,可兑换竞技场商店货物
+5,,5,论道点,Item/ect_JingJiChang,Common,可兑换论道场商店货物
 6,,6,万仙徽记,Item/ect_WanXianZhen,Common,可兑换仙阵商店货物
 7,,7,个人贡献,Item/ect_BangGong,Common,可兑换帮派商店货物
 8,,8,幻境古币,Item/ect_JianYin,Common,可兑换幻境商店中的货物

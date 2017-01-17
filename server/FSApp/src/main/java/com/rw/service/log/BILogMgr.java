@@ -481,8 +481,8 @@ public class BILogMgr {
 		}
 		moreInfo.put("taskId", taskId.toString());
 		moreInfo.put("result", "1");
-		moreInfo.put("biTaskType", "" + biTaskType.getTypeNo());
-		moreInfo.put("activityTime", "" + 0);
+		moreInfo.put("biTaskType", String.valueOf(biTaskType.getTypeNo()));
+		moreInfo.put("task_time", "0");
 		moreInfo.put("rewardsinfotask", rewardinfoactivity);
 		logPlayer(eBILogType.TaskEnd, player, moreInfo);
 	}
@@ -817,6 +817,10 @@ public class BILogMgr {
 			});
 		}
 
+	}
+
+	public BILogTemplate getBILogTemplate(eBILogType type) {
+		return templateMap.get(type);
 	}
 
 }

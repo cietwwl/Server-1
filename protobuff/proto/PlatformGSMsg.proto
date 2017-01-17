@@ -38,3 +38,17 @@ message UserStatusRequest{
 message UserStatusResponse{
 	required ePlatformGSMsgType platformGSMsgType = 1;
 }
+
+message ActivityTimeInfo{
+	repeated ActCfgInfo actInfos = 1;
+}
+
+message ActCfgInfo{
+	required int32 cfgId = 1; 	//»î¶¯id
+	required string startTime = 2;
+	required string endTime = 3;
+	optional string startViceTime = 4;
+	optional string endViceTime = 5;
+	optional string rangeTime = 6;
+	optional string actDesc = 7;
+}

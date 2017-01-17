@@ -1,6 +1,5 @@
 package com.playerdata.activity.limitHeroType.gamble;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.playerdata.Player;
@@ -20,7 +19,5 @@ public class SingelGamble implements Gamble{
 		}
 		return ActivityLimitHeroTypeMgr.getInstance().getGambleRewards(player,planList);
 	}
-
-
 
 }

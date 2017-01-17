@@ -2,6 +2,7 @@ package com.playerdata.activity.fortuneCatType.cfg;
 
 import java.util.Map;
 
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -16,8 +17,8 @@ public final class ActivityFortuneCatTypeCfgDAO extends CfgCsvDao<ActivityFortun
 	@Override
 	public Map<String, ActivityFortuneCatTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityFortunCatTypeCfg.csv", ActivityFortuneCatTypeCfg.class);
-		for (ActivityFortuneCatTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
+		for(ActivityCfgIF cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
 		}
 		return cfgCacheMap;
 	}

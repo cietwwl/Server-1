@@ -108,7 +108,6 @@ com.playerdata.hero.core.FSTableUserHero
 com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem
 com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem
 com.playerdata.teambattle.data.TeamHardInfo
-com.playerdata.activity.dateType.data.ActivityDateTypeItem
 com.rwbase.dao.user.User
 com.playerdata.fixEquip.norm.data.FixNormEquipDataItem
 com.playerdata.embattle.EmbattleInfo

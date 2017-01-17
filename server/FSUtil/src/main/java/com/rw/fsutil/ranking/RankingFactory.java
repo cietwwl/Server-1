@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.impl.ListRankingImpl;
 import com.rw.fsutil.ranking.impl.RankingDataManager;
@@ -85,7 +86,7 @@ public class RankingFactory {
 		}
 		rankingMap = rankingMap_;
 		srankingMap = srankingMap_;
-		//注册到停服处理器
+		// 注册到停服处理器
 		ShutdownService.registerShutdownService(new IShutdownHandler() {
 
 			@Override
@@ -93,6 +94,7 @@ public class RankingFactory {
 				for (RankingImpl ranking : rankingMap.values()) {
 					try {
 						ranking.updateToDB();
+						FSUtilLogger.info("停服保存排行榜：" + ranking.getName());
 					} catch (Throwable t) {
 						t.printStackTrace();
 					}
@@ -100,6 +102,7 @@ public class RankingFactory {
 				for (ListRankingImpl ranking : srankingMap.values()) {
 					try {
 						ranking.updateToDB();
+						FSUtilLogger.info("停服保存竞技场：" + ranking.getType());
 					} catch (Throwable t) {
 						t.printStackTrace();
 					}
@@ -111,8 +114,11 @@ public class RankingFactory {
 	}
 
 	/**
+	 * <pre>
 	 * 通过{@link TypeIdentification}获取指定类型的列表排行榜
 	 * 返回类型ListRanking (String, XXExtAttribute defined in XXExtension)
+	 * </pre>
+	 * 
 	 * @param typeId
 	 * @return ListRanking
 	 */

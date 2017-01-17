@@ -1,7 +1,5 @@
 package com.playerdata.activity.limitHeroType.gamble;
 
-import java.util.HashMap;
-
 import com.playerdata.Player;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;

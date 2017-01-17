@@ -29,6 +29,9 @@ public class Account {
 
 	public boolean isWhiteList() {
 		TableAccount tableAccount = getTableAccount();
+		if(tableAccount == null){
+			return false;
+		}
 		return TableWhiteListDAO.getInstance().CheckIsInWhiteList(tableAccount.getOpenAccount());
 	}
 }

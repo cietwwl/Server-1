@@ -8,7 +8,6 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
@@ -24,14 +23,6 @@ public class UserEventArenaDailyHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				/** 活动是否开启 */
-				ActivityDailyTypeSubCfgDAO instance = ActivityDailyTypeSubCfgDAO
-						.getInstance();
-				if (!instance.isOpenAndLevelEnough(player.getLevel(), instance
-						.getCfgMapByEnumid(ActivityDailyTypeEnum.ArenaDaily
-								.getCfgId()))) {
-					return;
-				}
 				// 胜利或失败获得的积分不一致。
 				int addcount = Integer.parseInt(params.toString());
 

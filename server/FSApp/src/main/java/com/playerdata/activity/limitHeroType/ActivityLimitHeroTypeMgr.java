@@ -37,6 +37,7 @@ import com.playerdata.activity.limitHeroType.gamble.FreeGamble;
 import com.playerdata.activity.limitHeroType.gamble.Gamble;
 import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
 import com.playerdata.activity.limitHeroType.gamble.TenGamble;
+import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -53,7 +54,11 @@ import com.rwproto.ActivityLimitHeroTypeProto.GambleType;
 import com.rwproto.ActivityLimitHeroTypeProto.GamebleReward;
 import com.rwproto.ActivityLimitHeroTypeProto.RankRecord;
 
-public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
+public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate, IndexRankJudgeIF{
+	
+	private static final int ACTIVITY_INDEX_BEGIN = 120000;
+	private static final int ACTIVITY_INDEX_END = 130000;
+	
 	public final static int TYPE_FREE_GAMBLE = 0;// 免费单抽
 	public final static int TYPE_SINGAL_GAMBLE = 1;// 单抽
 	public final static int TYPE_TEN_GAMBLE = 2;// 十连抽
@@ -128,12 +133,12 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();
 
 			item.setId(id);
-			item.setCfgId(cfg.getId());
+			item.setCfgId(String.valueOf(cfg.getId()));
 			item.setUserId(userid);
-			item.setVersion(cfg.getVersion());
+			item.setVersion(String.valueOf(cfg.getVersion()));
 			item.setLastSingleTime(0);
 			item.setIntegral(0);
-			List<ActivityLimitHeroBoxCfg> boxCfgList = dao.getCfgListByParentID(cfg.getId());
+			List<ActivityLimitHeroBoxCfg> boxCfgList = dao.getCfgListByParentID(String.valueOf(cfg.getId()));
 			List<ActivityLimitHeroTypeSubItem> subItemList = new ArrayList<ActivityLimitHeroTypeSubItem>();
 			if (boxCfgList == null) {
 				boxCfgList = new ArrayList<ActivityLimitHeroBoxCfg>();
@@ -187,7 +192,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityLimitHeroTypeItem freshItem = null;
 			for (ActivityLimitHeroTypeItem item : itemList) {
-				if (!StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (!StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					freshItem = item;
 				}
 			}
@@ -229,7 +234,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityLimitHeroTypeItem closeItem = null;
 			for (ActivityLimitHeroTypeItem item : itemList) {
-				if (StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					closeItem = item;
 					break;
 				}
@@ -296,7 +301,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 			return;
 		}
 
-		List<ActivityLimitHeroRankCfg> subCfgList = activityLimitHeroRankCfgDAO.getByParentCfgId(cfg.getId());
+		List<ActivityLimitHeroRankCfg> subCfgList = activityLimitHeroRankCfgDAO.getByParentCfgId(String.valueOf(cfg.getId()));
 		String tmpReward = null;
 		for (ActivityLimitHeroRankCfg subCfg : subCfgList) {
 			if (num >= subCfg.getRankRanges()[0] && num <= subCfg.getRankRanges()[1]) {
@@ -587,7 +592,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 		record.setPlayerName(player.getUserName());
 		record.setUid(player.getUserId());
 		record.setRegditTime(System.currentTimeMillis());
-		record.setVersion(cfg.getVersion());
+		record.setVersion(String.valueOf(cfg.getVersion()));
 
 		/** 没记录，但不用抢 */
 		if (list.size() < cfg.getRankNumer()) {
@@ -640,7 +645,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 	 */
 	private boolean reFreshRankByVersion(List<ActivityLimitHeroRankRecord> list, ActivityLimitHeroCfg cfg) {
 		for (ActivityLimitHeroRankRecord record : list) {
-			if (!StringUtils.equals(record.getVersion(), cfg.getVersion())) {
+			if (!StringUtils.equals(record.getVersion(), String.valueOf(cfg.getVersion()))) {
 				list.clear();
 				return true;
 			}
@@ -734,4 +739,8 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
+	@Override
+	public boolean isThisActivityIndex(int index) {
+		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
+	}
 }

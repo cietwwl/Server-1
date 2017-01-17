@@ -1,10 +1,10 @@
 package com.playerdata.activity.growthFund.cfg;
-import com.common.BaseConfig;
 import com.playerdata.activity.growthFund.GrowthFundType;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
-public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
+public class GrowthFundBasicCfg implements ActivityCfgIF{
 	
 	private int key; //关键字
 	private int vipLv; //可购买的VIP等级
@@ -14,6 +14,11 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	private GrowthFundType _fundType; // 类型的枚举形式
 	private long startTime = 0;
 	private long endTime = Long.MAX_VALUE;
+	private String startTimeStr = "197012120500";
+	private String endTimeStr = "300012120500";
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
 	public int getKey() {
 		return key;
@@ -65,6 +70,11 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	public boolean isDailyRefresh() {
 		return false;
 	}
+	
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
 
 	public int getType() {
 		return type;
@@ -74,7 +84,6 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 		return _fundType;
 	}
 	
-	@Override
 	public void ExtraInitAfterLoad() {
 		this._fundType = GrowthFundType.getBySign(type);
 	}
@@ -83,14 +92,37 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	public int getVipLimit() {
 		return vipLv;
 	}
-
+	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		this.startTimeStr = timePair.getStartTime();
+		this.endTimeStr = timePair.getEndTime();
 	}
 
 	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+	public String getStartTimeStr() {
+		return startTimeStr;
+	}
+
+	@Override
+	public String getEndTimeStr() {
+		return endTimeStr;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

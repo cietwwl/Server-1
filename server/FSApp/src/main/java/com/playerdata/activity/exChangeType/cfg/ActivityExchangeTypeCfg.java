@@ -1,13 +1,16 @@
 package com.playerdata.activity.exChangeType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
 
 
+public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF{
 
-public class ActivityExchangeTypeCfg {
-
-	private String id;
+	private int id;
 	
-	private String enumId;
+	private int enumId;
 	
 	private long dropStartTime;
 
@@ -25,19 +28,18 @@ public class ActivityExchangeTypeCfg {
 
 	private long changeEndTime;
 	
-	private String version;
+	private int version;
 
-	private int levelLimit;	
+	private int levelLimit;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
 	public String getEnumId() {
-		return enumId;
+		return String.valueOf(enumId);
 	}
 
-	public void setEnumId(String enumId) {
-		this.enumId = enumId;
-	}
-
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -47,18 +49,6 @@ public class ActivityExchangeTypeCfg {
 
 	public void setLevelLimit(int levelLimit) {
 		this.levelLimit = levelLimit;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public long getDropStartTime() {
@@ -125,13 +115,114 @@ public class ActivityExchangeTypeCfg {
 		this.changeEndTime = changeEndTime;
 	}
 
+	@Override
+	public String getViceStartTime() {
+		return dropStartTimeStr;
+	}
+
+	@Override
+	public String getViceEndTime() {
+		return dropEndTimeStr;
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public int getCfgId() {
+		return id;
+	}
+
+	@Override
+	public long getStartTime() {
+		return changeStartTime;
+	}
+
+	@Override
+	public long getEndTime() {
+		return changeEndTime;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return false;
+	}
+
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+ 	
+ 	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(changeStartTimeStr, changeEndTimeStr);
+		if(null == timePair) return;
+		changeStartTime = timePair.getStartMil();
+		changeEndTime = timePair.getEndMil();
+		changeStartTimeStr = timePair.getStartTime();
+		changeEndTimeStr = timePair.getEndTime();
+		ExtraInitViceAfterLoad();
+ 	}
 	
-
+	public void ExtraInitViceAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(dropStartTimeStr, dropEndTimeStr);
+		if(null == timePair) return;
+		dropStartTime = timePair.getStartMil();
+		dropEndTime = timePair.getEndMil();
+		dropStartTimeStr = timePair.getStartTime();
+		dropEndTimeStr = timePair.getEndTime();
+ 	}
 	
-
-
-
-
+	@Override
+	public void setStartAndEndTime(String changeStartTimeStr, String changeEndTimeStr) {
+		this.changeStartTimeStr = changeStartTimeStr;
+		this.changeEndTimeStr = changeEndTimeStr;
+		ExtraInitAfterLoad();
+	}
 	
+	@Override
+	public void setViceStartAndEndTime(String dropStartTimeStr, String dropEndTimeStr) {
+		this.dropStartTimeStr = dropStartTimeStr;
+		this.dropEndTimeStr = dropEndTimeStr;
+		ExtraInitViceAfterLoad();
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public String getStartTimeStr() {
+		return changeStartTimeStr;
+	}
+
+	@Override
+	public String getEndTimeStr() {
+		return changeEndTimeStr;
+	}
 	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }

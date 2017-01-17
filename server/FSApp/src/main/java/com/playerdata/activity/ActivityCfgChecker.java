@@ -71,10 +71,10 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityDailyCount, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityDailyTypeCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
-				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
+				if(cfg.getEnumId() != cfgTmp.getEnumId()){
 					continue;
 				}
 				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
@@ -82,22 +82,20 @@ public class ActivityCfgChecker {
 				}
 				GameLog.cfgError(LogModule.ComActivityDailyCount, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
 			}
-			
 		}
 	}
 	
 	private static void checkRate() {
-		// TODO Auto-generated method stub
 		List<ActivityRateTypeCfg> allCfg = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRateTypeCfg cfg:allCfg){
 			if(cfg.getStartTime() >= cfg.getEndTime()){
 				GameLog.cfgError(LogModule.ComActivityRate, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityRateTypeCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
-				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
+				if(cfg.getEnumId() != cfgTmp.getEnumId()){
 					continue;
 				}
 				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
@@ -116,7 +114,7 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityRedEnvelope, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityRedEnvelopeTypeCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
 //				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
@@ -139,10 +137,10 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityVitality, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityVitalityCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
-				if(!StringUtils.equals(cfg.getEnumID(), cfgTmp.getEnumID())){
+				if(cfg.getEnumID() != cfgTmp.getEnumID()){
 					continue;
 				}
 				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
@@ -161,7 +159,7 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityExchange, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityExchangeTypeCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
 				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
@@ -244,7 +242,7 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityLimitHero, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityLimitHeroCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
 				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){

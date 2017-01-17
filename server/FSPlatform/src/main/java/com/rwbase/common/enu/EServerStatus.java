@@ -5,7 +5,8 @@ public enum EServerStatus {
 	NORMAL		(0, "普通", EColor.Green),
 	MAINTAIN	(1, "维护", EColor.Gray),
 	HIT			(2, "火爆", EColor.Red),
-	NEW			(3, "新服", EColor.Green)
+	NEW			(3, "新服", EColor.Green),
+	FIRST_INFORM	(5, "首次通知", EColor.Green),
 	;
 	private int statusId;
 	private String statusDes;

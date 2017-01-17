@@ -791,16 +791,14 @@ public class GroupCopyMgr {
 					ApplyInfo apply = null;
 					DropInfo drop = dropInfo.get(0);
 					boolean match = false;
-					//找到符合的申请人，在物品掉落后进入帮派的不可以分
+					//找到符合的申请人，在物品掉落后进入帮派的不可以分        --按宇超要求，去掉这个限制       14.12.2016  by Alex
 					for (int i = 0; i < applyInfo.size(); i++) {
 						apply = applyInfo.get(i);
 						GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(apply.getRoleID(), false);
-						if(memberData == null || (drop.getTime() < memberData.getReceiveTime())){
-							GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format(
-									"Group ID[%s], item drop time [%s], role[%s] join group time [%s], he can't get item",group.getGroupBaseDataMgr().getGroupData().getGroupId(),
-									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),apply.getRoleName(),
-									DateUtils.getDateTimeFormatString(memberData.getReceiveTime(), "yyyy-MM-dd hh:m:ss")));
-//							System.out.println(String.format("item drop time [%s], role[%s] join group time [%s], he can't get item",
+						//if(memberData == null || (drop.getTime() < memberData.getReceiveTime())){
+						if(memberData == null){
+//							GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format(
+//									"Group ID[%s], item drop time [%s], role[%s] join group time [%s], he can't get item",group.getGroupBaseDataMgr().getGroupData().getGroupId(),
 //									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),apply.getRoleName(),
 //									DateUtils.getDateTimeFormatString(memberData.getReceiveTime(), "yyyy-MM-dd hh:m:ss")));
 							continue;

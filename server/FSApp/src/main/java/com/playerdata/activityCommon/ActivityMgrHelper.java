@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
+import com.playerdata.activityCommon.modifiedActivity.ActivityModifyItem;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
+import com.rw.fsutil.cacheDao.CfgCsvDao;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ActivityMgrHelper {
@@ -21,10 +24,28 @@ public class ActivityMgrHelper {
 	 * 同步活动数据
 	 * @param player
 	 */
-	public void synActivityData(Player player){
-		ActivityModifyMgr.getInstance().synModifiedActivity(player);
+	public void initActivityTime(){
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().synDataWithoutEmpty(player);
+			CfgCsvDao<? extends ActivityCfgIF> cfgDao = type.getActivityDao();
+			if(null != cfgDao){
+				List<? extends ActivityCfgIF> cfgList = cfgDao.getAllCfg();
+				for(ActivityCfgIF cfg : cfgList){
+					cfg.ExtraInitAfterLoad();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 同步活动数据
+	 * @param player
+	 */
+	public void synActivityData(Player player, List<ActivityModifyItem> modifiedList){
+		ActivityModifyMgr.getInstance().synModifiedActivity(player, modifiedList);
+		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().synDataWithoutEmpty(player);
+			}
 		}
 	}
 	
@@ -33,8 +54,10 @@ public class ActivityMgrHelper {
 	 * @param player
 	 */
 	public void checkActivity(Player player){
-		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().checkActivityOpen(player);
+		for(ActivityType type : ActivityTypeFactory.getAllTypes()){	
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().checkActivityOpen(player);
+			}
 		}
 	}
 	
@@ -46,7 +69,9 @@ public class ActivityMgrHelper {
 	public List<String> haveRedPoint(Player player){
 		List<String> redPointList = new ArrayList<String>();
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			redPointList.addAll(type.getActivityMgr().haveRedPoint(player));
+			if(null != type.getActivityMgr()){
+				redPointList.addAll(type.getActivityMgr().haveRedPoint(player));
+			}
 		}
 		return redPointList;
 	}
@@ -57,7 +82,9 @@ public class ActivityMgrHelper {
 	 */
 	public void dailyRefreshNewDaySubActivity(Player player) {
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().dailyRefreshNewDaySubActivity(player);
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().dailyRefreshNewDaySubActivity(player);
+			}
 		}
 	}
 	
@@ -66,7 +93,9 @@ public class ActivityMgrHelper {
 	 */
 	public void updateRedPoint(Player player, String eNum) {
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().updateRedPoint(player, eNum);
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().updateRedPoint(player, eNum);
+			}
 		}
 	}
 }

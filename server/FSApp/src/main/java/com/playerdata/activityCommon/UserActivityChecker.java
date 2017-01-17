@@ -44,6 +44,17 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			ClientDataSynMgr.updateData(player, item, getSynType(), eSynOpType.UPDATE_SINGLE);
 		}
 	}
+	
+	public void updateItem(Player player, List<T> items){
+		List<Integer> ids = new ArrayList<Integer>();
+		for(T item : items){
+			ids.add(item.getId());
+		}
+		getItemStore(player.getUserId()).updateItems(ids);
+		if(null != getSynType()){
+			ClientDataSynMgr.updateData(player, items, getSynType(), eSynOpType.UPDATE_PART_LIST);
+		}
+	}
 
 	/**
 	 * 同步活动数据
@@ -180,7 +191,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 * @return
 	 */
 	private int getCurrentDay(ActivityCfgIF cfg) {
-		if(!cfg.isDailyRefresh()) return 1;
+		if(!cfg.isDailyRefresh() || cfg.isEveryDaySame()) return 1;
 		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / ONE_DAY_MS) + 1;
 	}
 	

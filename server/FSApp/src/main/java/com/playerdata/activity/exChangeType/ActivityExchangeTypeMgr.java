@@ -22,6 +22,7 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -32,8 +33,11 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
-public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
+public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate, IndexRankJudgeIF{
 
+	private static final int ACTIVITY_INDEX_BEGIN = 60000;
+	private static final int ACTIVITY_INDEX_END = 70000;
+	
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
 	public static final Random random = new Random();
 
@@ -122,12 +126,12 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();
 			item.setId(id);
 			item.setEnumId(cfg.getEnumId());
-			item.setCfgId(cfg.getId());
+			item.setCfgId(String.valueOf(cfg.getId()));
 			item.setUserId(userId);
-			item.setVersion(cfg.getVersion());
+			item.setVersion(String.valueOf(cfg.getVersion()));
 			item.setLasttime(System.currentTimeMillis());
 			List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
-			List<ActivityExchangeTypeSubCfg> subItemCfgList = dao.getByParentCfgId(cfg.getId());
+			List<ActivityExchangeTypeSubCfg> subItemCfgList = dao.getByParentCfgId(String.valueOf(cfg.getId()));
 			if (subItemCfgList == null) {
 				subItemCfgList = new ArrayList<ActivityExchangeTypeSubCfg>();
 			}
@@ -180,7 +184,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityExchangeTypeItem freshItem = null;
 			for (ActivityExchangeTypeItem item : itemList) {
-				if (StringUtils.equals(item.getEnumId(), cfg.getEnumId()) && !StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (StringUtils.equals(item.getEnumId(), cfg.getEnumId()) && !StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					freshItem = item;
 				}
 			}
@@ -207,7 +211,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityExchangeTypeItem freshItem = null;
 			for (ActivityExchangeTypeItem item : itemList) {
-				if (StringUtils.equals(item.getVersion(), cfg.getVersion()) && StringUtils.equals(item.getEnumId(), cfg.getEnumId())) {
+				if (StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion())) && StringUtils.equals(item.getEnumId(), cfg.getEnumId())) {
 					freshItem = item;
 				}
 			}
@@ -249,7 +253,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityExchangeTypeItem closeItem = null;
 			for (ActivityExchangeTypeItem item : itemList) {
-				if (StringUtils.equals(item.getVersion(), cfg.getVersion())) {
+				if (StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))) {
 					closeItem = item;
 					break;
 				}
@@ -426,7 +430,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 				// 等级不足
 				continue;
 			}
-			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(activityExchangeTypeCfg.getId());
+			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(String.valueOf(activityExchangeTypeCfg.getId()));
 			if (dropCfgList == null) {
 				return idAndNumMap;
 			}
@@ -535,4 +539,8 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
+	@Override
+	public boolean isThisActivityIndex(int index){
+		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
+	}
 }

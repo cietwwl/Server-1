@@ -9,10 +9,16 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
+import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.jackson.JsonUtil;
@@ -47,19 +53,86 @@ public class ActivityModifyMgr {
 	}
 	
 	/**
-	 * 给玩家同步修改过的活动配置
+	 * 给玩家同步服务端的活动配置
 	 * @param player
 	 */
-	public void synModifiedActivity(Player player){
-		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
-		for(ActivityKey actKey : ActivityKey.values()){
-			ActivityModifyGlobleData modiData = getModifiedActivity(actKey);
-			if(null != modiData && !modiData.getItems().isEmpty()){
-				modifiedList.add(modiData);
+	public void synModifiedActivity(Player player, List<ActivityModifyItem> modifiedList){
+		if(null == modifiedList){
+			modifiedList = new ArrayList<ActivityModifyItem>();
+			for(ActivityKey actKey : ActivityKey.values()){
+				List<ActivityCfgIF> cfgs = actKey.getActivityType().getActivityDao().getAllCfg();
+				if(null != cfgs){
+					for(ActivityCfgIF cfg : cfgs){
+						ActivityModifyItem item = new ActivityModifyItem();
+						item.setId(cfg.getCfgId());
+						item.setStartTime(cfg.getStartTimeStr());
+						item.setEndTime(cfg.getEndTimeStr());
+						item.setVersion(cfg.getVersion());
+						item.setActDesc(cfg.getActDesc());
+						if(cfg instanceof ActivityExtendTimeIF){
+							item.setStartViceTime(((ActivityExtendTimeIF) cfg).getViceStartTime());
+							item.setEndViceTime(((ActivityExtendTimeIF) cfg).getViceEndTime());
+						}
+						if(cfg instanceof ActivityRangeTimeIF){
+							item.setRangeTime(((ActivityRangeTimeIF) cfg).getRangeTime());
+						}
+						modifiedList.add(item);
+					}
+				}
 			}
 		}
 		if(!modifiedList.isEmpty()){
-			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_PART_LIST);
+		}
+	}
+	
+	/**
+	 * 给在线玩家同步有更改的活动配置
+	 * @param player
+	 */
+	public void synModifiedActivityToAll(List<Integer> changedList){
+		List<Player> players = PlayerMgr.getInstance().getOnlinePlayers();
+		if(null == players || players.isEmpty()){
+			return;
+		}
+		List<ActivityModifyItem> modifiedList = new ArrayList<ActivityModifyItem>();
+		for(Integer cfgId : changedList){
+			ActivityType actType = ActivityTypeFactory.getByCfgId(cfgId);
+			ActivityCfgIF cfg = (ActivityCfgIF) actType.getActivityDao().getCfgById(String.valueOf(cfgId));
+			if(null != cfg){
+				ActivityModifyItem item = new ActivityModifyItem();
+				item.setId(cfg.getCfgId());
+				item.setStartTime(cfg.getStartTimeStr());
+				item.setEndTime(cfg.getEndTimeStr());
+				item.setVersion(cfg.getVersion());
+				item.setActDesc(cfg.getActDesc());
+				if(cfg instanceof ActivityExtendTimeIF){
+					item.setStartViceTime(((ActivityExtendTimeIF) cfg).getViceStartTime());
+					item.setEndViceTime(((ActivityExtendTimeIF) cfg).getViceEndTime());
+				}
+				if(cfg instanceof ActivityRangeTimeIF){
+					item.setRangeTime(((ActivityRangeTimeIF) cfg).getRangeTime());
+				}
+				modifiedList.add(item);
+			}
+		}
+		if(!modifiedList.isEmpty()){
+			for(Player player : players){
+				ActivityMgrHelper.getInstance().synActivityData(player, modifiedList);
+			}
+		}
+	}
+	
+	/**
+	 * 给玩家同步变化的活动配置
+	 * @param data
+	 */
+	private void synSingalModifiedActivity(ActivityModifyItem data){
+		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
+		for(Player player : onlinePlayers){
+			if(null != data){				
+				ClientDataSynMgr.synData(player, data, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_SINGLE);
+			}
 		}
 	}
 	
@@ -109,11 +182,12 @@ public class ActivityModifyMgr {
 			return;
 		}
 		long current = System.currentTimeMillis();
-		long start = ActivityTimeHelper.cftStartTimeToLong(startTime);
+		TimePair time = ActivityTimeHelper.transToAbsoluteTime(startTime, endTime);
+		long start = time.getStartMil();
 		if(Math.abs(current - start) > THREE_MONTH_MS){
 			return;
 		}
-		long end = ActivityTimeHelper.cftEndTimeToLong(start, endTime);
+		long end = time.getEndMil();
 		if(Math.abs(current - end) > THREE_MONTH_MS){
 			return;
 		}
@@ -128,7 +202,7 @@ public class ActivityModifyMgr {
 		modifyItem.setVersion(version);
 		updateModifiedActivity(activityKey, modifyItem, false);
 	}
-	
+
 	/**
 	 * gm命令设置活动的奖励内容
 	 * @param cfgId
@@ -167,6 +241,7 @@ public class ActivityModifyMgr {
 				globleData = new ActivityModifyGlobleData();
 			}
 			globleData.getItems().put(item.getId(), item);
+			synSingalModifiedActivity(item);
 			GameWorldFactory.getGameWorld().updateAttribute(activityKey.getGameWorldKey(), JsonUtil.writeValue(globleData));
 		}else if(isDropOld){
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
@@ -192,13 +267,19 @@ public class ActivityModifyMgr {
 			return false;
 		}
 		if(cfg.getVersion() <= item.getVersion()){
-			if(StringUtils.isNotBlank(item.getStartTime())){
-				cfg.setStartTime(item.getStartTime());
-			}
-			if(StringUtils.isNotBlank(item.getEndTime())){
-				cfg.setEndTime(item.getEndTime());
+			if(StringUtils.isNotBlank(item.getStartTime()) && StringUtils.isNotBlank(item.getEndTime())){
+				cfg.setStartAndEndTime(item.getStartTime(), item.getEndTime());
 			}
 			cfg.setVersion(item.getVersion());
+			if(StringUtils.isNotBlank(item.getStartViceTime()) 
+					&& StringUtils.isNotBlank(item.getEndViceTime()) 
+					&& cfg instanceof ActivityExtendTimeIF){
+				((ActivityExtendTimeIF) cfg).setViceStartAndEndTime(item.getStartViceTime(), item.getEndViceTime());
+			}
+			if(StringUtils.isNotBlank(item.getRangeTime()) 
+					&& cfg instanceof ActivityRangeTimeIF){
+				((ActivityRangeTimeIF) cfg).setRangeTime(item.getRangeTime());
+			}
 			setRewardContent(actType, item);
 			return true;
 		}

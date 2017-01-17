@@ -14,6 +14,7 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
@@ -25,7 +26,10 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 
-public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
+public class ActivityRateTypeMgr implements ActivityRedPointUpdate, IndexRankJudgeIF{
+	
+	private static final int ACTIVITY_INDEX_BEGIN = 20000;
+	private static final int ACTIVITY_INDEX_END = 30000;
 
 	private static ActivityRateTypeMgr instance = new ActivityRateTypeMgr();
 
@@ -91,8 +95,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				// 活动未开启
 				continue;
 			}
-			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum
-					.getById(cfg.getEnumId());
+			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(String.valueOf(cfg.getEnumId()));
 			if (typeEnum == null) {
 				// 枚举没有配置
 				continue;
@@ -118,10 +121,10 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityRateTypeItem item = new ActivityRateTypeItem();
 			item.setId(id);
-			item.setCfgId(cfg.getId());
-			item.setEnumId(cfg.getEnumId());
+			item.setCfgId(String.valueOf(cfg.getId()));
+			item.setEnumId(String.valueOf(cfg.getEnumId()));
 			item.setUserId(userId);
-			item.setVersion(cfg.getVersion());
+			item.setVersion(String.valueOf(cfg.getVersion()));
 			item.setMultiple(cfg.getMultiple());
 			if (addItemList == null) {
 				addItemList = new ArrayList<ActivityRateTypeItem>();
@@ -155,7 +158,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityRateTypeItem freshItem = null;
 			for(ActivityRateTypeItem item : itemList){
-				if(!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+				if(!StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))){
 					freshItem = item;
 				}
 			}
@@ -220,7 +223,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			}
 			ActivityRateTypeItem closeItem = null;
 			for(ActivityRateTypeItem item : itemList){
-				if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&StringUtils.equals(item.getVersion(), cfg.getVersion())){
+				if(StringUtils.equals(item.getEnumId(), String.valueOf(cfg.getEnumId()))&&StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))){
 					closeItem = item;
 					break;
 				}			
@@ -282,7 +285,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				continue;
 			}
 			//当前玩家通关的副本类型在这个活动里有对应的双倍奖励
-			ActivityRateTypeEnum eNum = ActivityRateTypeEnum.getById(cfg.getEnumId());
+			ActivityRateTypeEnum eNum = ActivityRateTypeEnum.getById(String.valueOf(cfg.getEnumId()));
 			if(eNum == null){
 				continue;
 			}
@@ -309,7 +312,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			return false;
 		}				
 		{
-			ActivityRateTypeItem targetItem = dataHolder.getItem(player.getUserId(), ActivityRateTypeEnum.getById(cfg.getEnumId()));// 已在之前生成数据的活动
+			ActivityRateTypeItem targetItem = dataHolder.getItem(player.getUserId(), ActivityRateTypeEnum.getById(String.valueOf(cfg.getEnumId())));// 已在之前生成数据的活动
 			if(targetItem == null){
 				checkNewOpen(player);				
 				return false;
@@ -344,7 +347,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		if(cfg == null ){
 			return;
 		}
-		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
+		ActivityRateTypeEnum rateEnum = ActivityRateTypeEnum.getById(String.valueOf(cfg.getEnumId()));
 		if(rateEnum == null){
 			return;
 		}
@@ -388,5 +391,10 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			}
 		}
 		return isopen;
+	}
+	
+	@Override
+	public boolean isThisActivityIndex(int index) {
+		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

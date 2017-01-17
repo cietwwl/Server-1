@@ -3,14 +3,11 @@ package com.rwbase.common.userEvent.vitalityTypeEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.binary.StringUtils;
-
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;

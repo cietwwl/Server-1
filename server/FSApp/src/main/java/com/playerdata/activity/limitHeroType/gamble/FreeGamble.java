@@ -1,6 +1,5 @@
 package com.playerdata.activity.limitHeroType.gamble;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.playerdata.Player;
@@ -9,8 +8,6 @@ import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItemHolder;
 
 public class FreeGamble implements Gamble{
-
-
 
 	@Override
 	public String gamble(Player player,

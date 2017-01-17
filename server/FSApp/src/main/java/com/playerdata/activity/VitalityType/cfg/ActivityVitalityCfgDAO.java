@@ -17,7 +17,6 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
@@ -36,25 +35,14 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	@Override
 	public Map<String, ActivityVitalityCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeCfg.csv", ActivityVitalityCfg.class);
-		for (ActivityVitalityCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
-		}
 		HashMap<String, List<ActivityVitalityCfg>> cfgListMapTmp = new HashMap<String, List<ActivityVitalityCfg>>();
 		for(ActivityVitalityCfg cfg : cfgCacheMap.values()){
-			ActivityTypeHelper.add(cfg, cfg.getEnumID(), cfgListMapTmp);			
+			cfg.ExtraInitAfterLoad();
+			ActivityTypeHelper.add(cfg, String.valueOf(cfg.getEnumID()), cfgListMapTmp);			
 		}
 		this.cfgListMap = cfgListMapTmp;
 		return cfgCacheMap;
 	}
-
-
-	public void parseTime(ActivityVitalityCfg cfg){
-		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getStartTimeStr());
-		cfg.setStartTime(startTime);		
-		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getEndTimeStr());
-		cfg.setEndTime(endTime);		
-	}		
-	
 	
 	/**
 	 * 
@@ -68,12 +56,12 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			int day = ActivityVitalityCfgDAO.getInstance().getday(cfgById) ;
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();	
 //			String itemId = ActivityVitalityTypeHelper.getItemId(userId, ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
-			int id = Integer.parseInt(cfgById.getEnumID());
+			int id = cfgById.getEnumID();
 			item.setId(id);
-			item.setEnumId(cfgById.getEnumID());
-			item.setCfgId(cfgById.getId());
+			item.setEnumId(String.valueOf(cfgById.getEnumID()));
+			item.setCfgId(String.valueOf(cfgById.getId()));
 			item.setUserId(userId);
-			item.setVersion(cfgById.getVersion());
+			item.setVersion(String.valueOf(cfgById.getVersion()));
 			item.setActiveCount(0);
 			item.setSubItemList(newItemList(day,cfgById));
 			List<ActivityVitalityTypeSubBoxItem> boxlist = newBoxItemList(day,cfgById);
@@ -100,10 +88,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	public List<ActivityVitalityTypeSubItem> newItemList(int day,ActivityVitalityCfg cfg) {
 		List<ActivityVitalityTypeSubItem> subItemList = null;
 		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
-		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID()) == ActivityVitalityTypeEnum.Vitality){
+		if(ActivityVitalityTypeEnum.getById(String.valueOf(cfg.getEnumID())) == ActivityVitalityTypeEnum.Vitality){
 			subItemList = newItemListOne(day,cfg,allsubCfgList);	
 		}			
-		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID()) == ActivityVitalityTypeEnum.VitalityTwo){
+		if(ActivityVitalityTypeEnum.getById(String.valueOf(cfg.getEnumID())) == ActivityVitalityTypeEnum.VitalityTwo){
 			subItemList = newItemListTwo(day,cfg,allsubCfgList);
 		}
 		return subItemList;
@@ -114,7 +102,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			List<ActivityVitalitySubCfg> allsubCfgList) {
 		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
 		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-			if(activityVitalitySubCfg.getDay() != day||(!StringUtils.equals(activityVitalitySubCfg.getActiveType()+"", cfg.getId()))){
+			if(activityVitalitySubCfg.getDay() != day||(activityVitalitySubCfg.getActiveType() != cfg.getId())){
 				continue;
 			}			
 			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
@@ -133,8 +121,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			List<ActivityVitalitySubCfg> allsubCfgList) {
 		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
 		for(ActivityVitalitySubCfg activityVitalitySubCfg : allsubCfgList){
-			if(!StringUtils.equals(cfg.getId(), activityVitalitySubCfg.getActiveType()+"")){
-				
+			if(cfg.getId() !=  activityVitalitySubCfg.getActiveType()){
 				continue;
 			}			
 			ActivityVitalityTypeSubItem subitem = new ActivityVitalityTypeSubItem();
@@ -151,10 +138,10 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	public List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day,ActivityVitalityCfg cfg) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = null;
 		List<ActivityVitalityRewardCfg> allsubCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();
-		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID())  == ActivityVitalityTypeEnum.Vitality){
+		if(ActivityVitalityTypeEnum.getById(String.valueOf(cfg.getEnumID()))  == ActivityVitalityTypeEnum.Vitality){
 			subItemList = newBoxItemListOne(day,cfg,allsubCfgList);	
 		}			
-		if(ActivityVitalityTypeEnum.getById(cfg.getEnumID())  == ActivityVitalityTypeEnum.VitalityTwo){
+		if(ActivityVitalityTypeEnum.getById(String.valueOf(cfg.getEnumID()))  == ActivityVitalityTypeEnum.VitalityTwo){
 			subItemList = newBoxItemListTwo(day,cfg,allsubCfgList);
 		}
 		return subItemList;
@@ -169,7 +156,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}
 		
 		for(ActivityVitalityRewardCfg activityVitalityRewardCfg : allsubCfgList){
-			if(activityVitalityRewardCfg.getDay() != day||(!StringUtils.equals(activityVitalityRewardCfg.getActiveType()+"", cfg.getId()))){
+			if(activityVitalityRewardCfg.getDay() != day||(activityVitalityRewardCfg.getActiveType() != cfg.getId())){
 				continue;
 			}			
 			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
@@ -190,8 +177,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			return subItemList;
 		}
 		for(ActivityVitalityRewardCfg activityVitalitySubCfg : allsubCfgList){
-			if(!StringUtils.equals(cfg.getId(), activityVitalitySubCfg.getActiveType()+"")){
-				
+			if(cfg.getId() != activityVitalitySubCfg.getActiveType()){
 				continue;
 			}			
 			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
@@ -212,7 +198,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 			return null;
 		}		
 		for(ActivityVitalityCfg cfg : listByEnumId){
-			if (!StringUtils.equals(item.getCfgId(), cfg.getId())
+			if (!StringUtils.equals(item.getCfgId(), String.valueOf(cfg.getId()))
 					&& activityVitalityTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}

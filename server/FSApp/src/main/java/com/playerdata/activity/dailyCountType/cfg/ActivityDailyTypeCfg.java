@@ -1,10 +1,13 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
-public class ActivityDailyTypeCfg {
+public class ActivityDailyTypeCfg implements ActivityCfgIF{
 
-	private String id;
+	private int id;
 	
 	private long startTime;
 	
@@ -14,19 +17,20 @@ public class ActivityDailyTypeCfg {
 	
 	private String endTimeStr;
 	
-	private String version;
+	private int version;
 	
 	private int levelLimit;
 	
-	private String enumId;
+	private int enumId;
 	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
-
-	public String getEnumId() {
+	public int getEnumId() {
 		return enumId;
 	}
 
-	public void setEnumId(String enumId) {
+	public void setEnumId(int enumId) {
 		this.enumId = enumId;
 	}
 
@@ -38,29 +42,19 @@ public class ActivityDailyTypeCfg {
 		this.levelLimit = levelLimit;
 	}
 
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-
 	private int sortNum;
 	
 	private String countLimit;
 
 
-	public String getId() {
-		return id;
+	public int getId() {
+		return enumId;
 	}
 
 	public long getEndTime() {
 		return endTime;
 	}
 
-	
 	public int getSortNum() {
 		return sortNum;
 	}
@@ -92,7 +86,6 @@ public class ActivityDailyTypeCfg {
 		this.endTimeStr = endTimeStr;
 	}
 
-
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -101,14 +94,62 @@ public class ActivityDailyTypeCfg {
 		this.endTime = endTime;
 	}
 
+	@Override
+	public int getCfgId() {
+		return id;
+	}
 
-
-
-
-
-
-
-
+	@Override
+	public int getVersion() {
+		return version;
+	}
 	
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return true;
+	}
 	
+	@Override
+	public boolean isEveryDaySame() {
+		return true;
+	}
+
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
+	
+	@Override
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
+		this.startTimeStr = startTimeStr;
+		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }
