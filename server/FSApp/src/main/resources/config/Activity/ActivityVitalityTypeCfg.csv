@@ -1,6 +1,6 @@
-Key,Remarks,id,enumID,bg,icon,icon2,title,bgTitle,titleBG,levelLimit,startTimeStr,endTimeStr,version,isCanGetReward
-50001,,50001,59999,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201508080500,201508150500,10,true
-50002,,50002,59998,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201610070500,201610140500,10,true
-50003,,50003,59999,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201508150500,201508220500,11,true
-50004,,50004,59998,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,201508150500,7,1,true
-50005,,50005,59998,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,201612280500,201701040500,12,true
+Key,Remarks,id,enumID,bg,icon,icon2,title,bgTitle,titleBG,levelLimit,startTimeStr,endTimeStr,isDailyRefresh,isSame,version,isCanGetReward
+50001,,50001,50001,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201508080500,201508150500,,1,10,true
+50002,,50002,50002,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201610070500,201610140500,,1,10,true
+50003,,50003,50003,SmallTex/Activity/ActivityTitleText_02,act_3,,活跃之王,,,1,201508150500,201508220500,,1,11,true
+50004,,50004,50004,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,0,7,,1,1701101100,true
+50005,,50005,50005,SmallTex/Activity/ActivityTitleText_02,huodong_013,,活跃之王,,,1,201612280500,201701040500,,1,12,true
