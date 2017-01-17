@@ -1,4 +1,4 @@
-package com.rounter.client.sender.node;
+package com.rounter.client.node;
 
 public class ServerInfo {
 	

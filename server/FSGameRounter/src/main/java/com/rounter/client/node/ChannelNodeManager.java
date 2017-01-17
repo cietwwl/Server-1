@@ -1,4 +1,4 @@
-package com.rounter.client.sender.node;
+package com.rounter.client.node;
 
 import io.netty.channel.EventLoopGroup;
 
@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.rounter.client.sender.config.RouterConst;
-import com.rounter.client.sender.exception.NoCanUseNodeException;
-import com.rounter.client.sender.exception.ParamInvalidException;
-import com.rounter.param.IRequestData;
+import com.rounter.client.config.RouterConst;
+import com.rounter.client.exception.NoCanUseNodeException;
+import com.rounter.client.exception.ParamInvalidException;
+import com.rounter.innerParam.ReqestObject;
 import com.rounter.param.IResponseData;
 import com.rounter.service.IResponseHandler;
 
@@ -45,7 +45,7 @@ public class ChannelNodeManager {
 		return result;
 	}
 	
-	public <T extends IResponseData> void sendMessage(final IRequestData reqData, IResponseHandler resHandler, T resData) throws UnsupportedEncodingException, InterruptedException, ParamInvalidException, NoCanUseNodeException, URISyntaxException{
+	public void sendMessage(ReqestObject reqData, IResponseHandler resHandler, IResponseData resData) throws UnsupportedEncodingException, InterruptedException, ParamInvalidException, NoCanUseNodeException, URISyntaxException{
 		try {
 			getProperChannelNode().sendMessage(reqData, resHandler, resData);
 		} catch (Exception e) {

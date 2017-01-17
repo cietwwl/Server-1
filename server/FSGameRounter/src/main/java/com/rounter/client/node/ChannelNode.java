@@ -1,4 +1,4 @@
-package com.rounter.client.sender.node;
+package com.rounter.client.node;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -24,20 +24,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.rounter.client.sender.config.RouterConst;
-import com.rounter.client.sender.config.NodeState;
-import com.rounter.client.sender.exception.CannotCreateNodeException;
-import com.rounter.client.sender.exception.NodeMsgQueueDisorderException;
-import com.rounter.client.sender.exception.ParamInvalidException;
-import com.rounter.param.IRequestData;
+import com.rounter.client.config.NodeState;
+import com.rounter.client.config.RouterConst;
+import com.rounter.client.exception.CannotCreateNodeException;
+import com.rounter.client.exception.NodeMsgQueueDisorderException;
+import com.rounter.client.exception.ParamInvalidException;
+import com.rounter.innerParam.ReqType;
+import com.rounter.innerParam.ReqestObject;
 import com.rounter.param.IResponseData;
 import com.rounter.service.IResponseHandler;
-import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rounter.util.JsonUtil;
 
 public final class ChannelNode {
 	
-	private static long HEARTBITKEY = -101;
-
 	private final EventLoopGroup senderGroup;
 	private ConcurrentLinkedQueue<NodeData> msgQueue = new ConcurrentLinkedQueue<NodeData>();
 	private AtomicInteger queueMemCount = new AtomicInteger();
@@ -110,7 +109,7 @@ public final class ChannelNode {
 		return cf != null && cf.channel().isActive();
 	}
 
-	public void sendMessage(final IRequestData reqData, IResponseHandler resHandler, IResponseData resData)
+	public void sendMessage(final ReqestObject reqData, IResponseHandler resHandler, IResponseData resData)
 			throws UnsupportedEncodingException, InterruptedException, ParamInvalidException {
 		if (queueMemCount.incrementAndGet() >= RouterConst.NODE_MAX_QUEUE_SIZE){
 			nodeState = NodeState.Busy;
@@ -119,7 +118,8 @@ public final class ChannelNode {
 			throw new NullPointerException("链接还未建立");
 		}
 		final NodeData nodeData = new NodeData(resData, resHandler);
-		final String sendeMsg = JsonUtil.writeValue(reqData) + System.getProperty("line.separator");
+		final String sendeMsg = JsonUtil.writeValue(reqData);
+		
 		final ByteBuf buf = Unpooled.copiedBuffer(sendeMsg.getBytes("UTF-8"));
 		cf.channel().eventLoop().execute(new Runnable() {
 			public void run() {
@@ -131,7 +131,7 @@ public final class ChannelNode {
 							if (queueMemCount.decrementAndGet() < RouterConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy){
 								nodeState = NodeState.Normal;
 							}
-							if(reqData.getId() != HEARTBITKEY){
+							if(reqData.getType() != ReqType.HeartBit){
 								nodeData.getResHandler().handleSendFailResponse(nodeData.getResData());
 								synchronized (nodeData) {
 									nodeData.getResData().notify();
@@ -143,7 +143,7 @@ public final class ChannelNode {
 				});
 			}
 		});
-		if(null != resData){
+		if(null != resData && reqData.getType() != ReqType.HeartBit){
 			synchronized (resData) {
 				resData.wait(200);
 			}
@@ -329,12 +329,9 @@ public final class ChannelNode {
 	private void sendHeartBitMessage(){
 		for (int i = 0; i < RouterConst.CHECK_CHANNEL_SAMPLE_COUNT; i++){
 			try {
-				sendMessage(new IRequestData(){
-					@Override
-					public long getId() {
-						return HEARTBITKEY;
-					}
-				}, null, null);
+				ReqestObject reqObj = new ReqestObject();
+				reqObj.setType(ReqType.HeartBit);
+				sendMessage(reqObj, null, null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -1,4 +1,4 @@
-package com.rounter.client.sender.exception;
+package com.rounter.client.exception;
 
 public class CannotCreateNodeException extends Exception {
 	

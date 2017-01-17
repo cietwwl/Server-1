@@ -1,4 +1,4 @@
-package com.rounter.client.sender.config;
+package com.rounter.client.config;
 
 public enum NodeState {
 	/**

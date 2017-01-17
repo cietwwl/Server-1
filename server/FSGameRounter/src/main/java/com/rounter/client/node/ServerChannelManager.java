@@ -1,4 +1,4 @@
-package com.rounter.client.sender.node;
+package com.rounter.client.node;
 
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -7,8 +7,7 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
 
-import com.rounter.client.sender.config.RouterConst;
-
+import com.rounter.client.config.RouterConst;
 
 @Service
 public class ServerChannelManager {
@@ -70,6 +69,6 @@ public class ServerChannelManager {
 	
 	private void refreshServerInfoMap(ChannelNodeManager platformNodeMgr){
 		final HashMap<String, ServerInfo> serverMap = new HashMap<String, ServerInfo>();
-		platformNodeMgr.sendMessage(reqData, resHandler, resData);
+		//platformNodeMgr.sendMessage(reqData, resHandler, resData);
 	}
 }

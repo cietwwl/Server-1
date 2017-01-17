@@ -1,4 +1,4 @@
-package com.rounter.client.sender.config;
+package com.rounter.client.config;
 
 public class RouterConst {
 	public final static String TARGET_ADDR = "localhost";
