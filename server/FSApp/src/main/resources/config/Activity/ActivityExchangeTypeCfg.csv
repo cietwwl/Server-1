@@ -3,3 +3,11 @@ Key,Remarks,id,enumId,bg,activityIcon,icon2,sort,goToType,title,bgTitle,subTitle
 60004,,60004,60003,SmallTex/Activity/ActivityTitleText_00,huodong_017,,3,,小熊喵兑换,,,,0,365,0,365,0,1,1701061420
 60005,,60005,60001,SmallTex/Activity/ActivityTitleText_22,huodong_027,,2,2,兑换魔礼青,,,,201701040500,7,201701040500,7,1,20,1612291500
 60006,,60006,60004,SmallTex/Activity/ActivityTitleText_28,huodong_027,,2,2,附灵兑换,,,,201701110500,7,201701110500,8,1,20,1701051100
+60007,,60007,60005,SmallTex/Activity/ActivityTitleText_38,huodong_020,,2,2,春节超值兑,,,,201701270500,201702080500,201701270500,201702080500,1,20,1701270500
+60008,,60008,60006,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702080500,1,201702080500,1,,20,1701161600
+60009,,60009,60007,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702090500,1,201702090500,1,,20,1701161600
+60010,,60010,60008,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702100500,1,201702100500,1,,20,1701161600
+60011,,60011,60009,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702110500,1,201702110500,1,,20,1701161600
+60012,,60012,60010,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702120500,1,201702120500,1,,20,1701161600
+60013,,60013,60011,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702130500,1,201702130500,1,,20,1701161600
+60014,,60014,60012,SmallTex/Activity/ActivityTitleText_41,huodong_020,,2,2,元宵超值兑,,,,201702140500,1,201702140500,1,,20,1701161600

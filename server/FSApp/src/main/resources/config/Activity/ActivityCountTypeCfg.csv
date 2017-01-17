@@ -16,3 +16,12 @@ Key,Remarks,id,enumId,bg,icon,icon2,sort,activityType,goToType,group,title,bgTit
 15,,15,7,SmallTex/Activity/ActivityTitleText,huodong_002,,1,7,6,,充值送仙器,充值送仙器,累计充值{0}钻石,活动期间，只要您充值达到一定额度就可以领取法宝大礼包！更有顶级法宝“离地焰光旗”等你来拿，机会难得，失不再来哦！,201608150500,201608220500,,0,,1,9
 16,,16,8,SmallTex/Activity/ActivityTitleText_16,huodong_022,,8,8,5,,钓鱼大返利,,钻石钓鱼{0}次,,201701110500,7,,0,,1,1701051100
 17,,17,1,SmallTex/Activity/ActivityTitleText_26,huodong_010,,3,1,,,天天送礼,,累计登陆{0}天,,201701110500,7,,0,,1,1701051100
+18,,18,1,SmallTex/Activity/ActivityTitleText_30,huodong_002,,3,1,,,每日登录,,累计登陆{0}天,,201701180500,201701270500,,0,,1,1701180500
+19,,19,2,SmallTex/Activity/ActivityTitleText_33,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201701210500,201701270500,,0,,1,1701210500
+20,,20,1,SmallTex/Activity/ActivityTitleText_34,huodong_002,,3,1,,,每日登录,,累计登陆{0}天,,201701270500,201702080500,,0,,1,1701270500
+21,,21,2,SmallTex/Activity/ActivityTitleText_25,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201701270500,201702040500,,0,,1,1701270500
+22,,22,2,SmallTex/Activity/ActivityTitleText_25,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201702040500,201702080500,,0,,1,1701270500
+23,,23,1,SmallTex/Activity/ActivityTitleText_30,huodong_002,,3,1,,,每日登录,,累计登陆{0}天,,201702080500,7,,0,,1,1701161600
+24,,24,3,SmallTex/Activity/ActivityTitleText_21,huodong_025,,4,3,2,,闯关有礼,,挑战普通副本{0}次,,201702080500,3,,0,,1,1701161600
+25,,25,4,SmallTex/Activity/ActivityTitleText_24,huodong_024,,5,4,3,,精英闯关,,挑战精英副本{0}次,,201702110500,4,,0,,1,1701161600
+26,,26,2,SmallTex/Activity/ActivityTitleText_33,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201702080500,7,,0,,1,1701161600
