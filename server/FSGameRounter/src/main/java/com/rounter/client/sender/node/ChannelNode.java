@@ -32,6 +32,7 @@ import com.rounter.client.sender.exception.ParamInvalidException;
 import com.rounter.param.IRequestData;
 import com.rounter.param.IResponseData;
 import com.rounter.service.IResponseHandler;
+import com.rw.fsutil.util.jackson.JsonUtil;
 
 public final class ChannelNode {
 	
@@ -91,7 +92,7 @@ public final class ChannelNode {
 				.handler(new HeartbeatChannelInitializer());
 		lastConnectTime = System.currentTimeMillis();
 		ChannelFuture connectFuture = b.connect(TARGET_ADDR, TARGET_PORT);
-		connectFuture.get(RouterConst.MAX_OVER_TIME, TimeUnit.SECONDS);
+		connectFuture.get(RouterConst.MAX_OVER_TIME * 3, TimeUnit.SECONDS);
 		return connectFuture.isSuccess();
 	}
 
@@ -118,7 +119,7 @@ public final class ChannelNode {
 			throw new NullPointerException("链接还未建立");
 		}
 		final NodeData nodeData = new NodeData(resData, resHandler);
-		final String sendeMsg = reqData.getId() + System.getProperty("line.separator");
+		final String sendeMsg = JsonUtil.writeValue(reqData) + System.getProperty("line.separator");
 		final ByteBuf buf = Unpooled.copiedBuffer(sendeMsg.getBytes("UTF-8"));
 		cf.channel().eventLoop().execute(new Runnable() {
 			public void run() {

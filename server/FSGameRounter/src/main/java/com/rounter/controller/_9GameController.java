@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.rounter.innerParam.ReqestObject;
 import com.rounter.param.IResponseData;
+import com.rounter.param.ReqType;
 import com.rounter.param.impl.ReqRoleInfo;
 import com.rounter.param.impl.Request9Game;
 import com.rounter.param.impl.Response9Game;
@@ -49,18 +51,15 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		if(stateCode != UCStateCode.STATE_OK){
 			return t2;
 		}
-		
-		ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
-		roleInfo.setRequestID(request.getId());
-		
-		IResponseData responseData = ucService.getRoleInfo(roleInfo);
+		ReqestObject reqObject = new ReqestObject();
+		reqObject.setType(ReqType.GetSelfRoles);
+		reqObject.setContent(t2);
+		reqObject.setId(request.getId());
+		IResponseData responseData = ucService.getRoleInfo(reqObject);
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData);
 		logger.info("response role info msg :{}", afterOpt.getT2());
 		return afterOpt.getT2();
 	}
-	
-	
-	
 	
 	/**
 	 * 从请求的消息中获取client节点中的caller参数值
@@ -156,7 +155,5 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		logger.info("Response role info to 9game:{}", returnStr);
 		return Pair.Create(respCode, returnStr);
 	}
-	
 
-	
 }
