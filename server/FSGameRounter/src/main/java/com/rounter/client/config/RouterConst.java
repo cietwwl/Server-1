@@ -1,7 +1,7 @@
 package com.rounter.client.config;
 
 public class RouterConst {
-	public final static String TARGET_ADDR = "localhost";
+	public final static String TARGET_ADDR = "127.0.0.1";
 	public final static int TARGET_PORT = 10119;
 	
 	public final static int MAX_CHANNEL_COUNT = 4;	// 处理的连接数

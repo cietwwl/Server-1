@@ -91,7 +91,7 @@ public final class ChannelNode {
 				.handler(new HeartbeatChannelInitializer());
 		lastConnectTime = System.currentTimeMillis();
 		ChannelFuture connectFuture = b.connect(TARGET_ADDR, TARGET_PORT);
-		connectFuture.get(RouterConst.MAX_OVER_TIME * 3, TimeUnit.SECONDS);
+		connectFuture.get(RouterConst.MAX_OVER_TIME, TimeUnit.SECONDS);
 		return connectFuture.isSuccess();
 	}
 
