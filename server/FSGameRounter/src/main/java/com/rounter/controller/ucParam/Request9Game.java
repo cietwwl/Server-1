@@ -1,6 +1,5 @@
-package com.rounter.param.impl;
+package com.rounter.controller.ucParam;
 
-import com.rounter.param.IRequestData;
 import com.alibaba.fastjson.JSONObject;
 
 
@@ -13,7 +12,6 @@ import com.alibaba.fastjson.JSONObject;
 public class Request9Game{
 	
 	private long id;
-	
 
 	private JSONObject data;
 	

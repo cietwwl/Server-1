@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,17 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rounter.innerParam.ReqestObject;
+import com.rounter.controller.ucParam.ReqRoleInfo;
+import com.rounter.controller.ucParam.Request9Game;
+import com.rounter.controller.ucParam.Response9Game;
 import com.rounter.param.IResponseData;
-import com.rounter.param.ReqType;
-import com.rounter.param.impl.ReqRoleInfo;
-import com.rounter.param.impl.Request9Game;
-import com.rounter.param.impl.Response9Game;
 import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
 import com.rounter.util.Utils;
-import com.rw.fsutil.common.Pair;
 
 
 @RestController
@@ -46,19 +45,18 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	@ResponseBody
 	public String getRoleInfo(@RequestBody Request9Game request){
 		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
-		UCStateCode stateCode = beforeOpt.getT1();
-		String t2 = beforeOpt.getT2();
+		UCStateCode stateCode = beforeOpt.getKey();
+		String t2 = beforeOpt.getValue();
 		if(stateCode != UCStateCode.STATE_OK){
 			return t2;
 		}
-		ReqestObject reqObject = new ReqestObject();
-		reqObject.setType(ReqType.GetSelfRoles);
-		reqObject.setContent(t2);
-		reqObject.setId(request.getId());
-		IResponseData responseData = ucService.getRoleInfo(reqObject);
-		Pair<UCStateCode,String> afterOpt = afterOpt(responseData);
-		logger.info("response role info msg :{}", afterOpt.getT2());
-		return afterOpt.getT2();
+		
+		ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
+		IResponseData responseData = ucService.getRoleInfo(roleInfo);
+		
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		logger.info("response role info msg :{}", afterOpt.getValue());
+		return afterOpt.getValue();
 	}
 	
 	/**
@@ -127,7 +125,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		UCStateCode stateCode = checkCondition(request);
 		if(stateCode != UCStateCode.STATE_OK){
 			//校验不通过，直接返回错误消息
-			return Pair.Create(stateCode, responseString(stateCode, request.getId(), null));
+			return MutablePair.of(stateCode, responseString(stateCode, request.getId(), null));
 		}
 		
 		logger.info("Get role info request from 9game, dataStr:{}", request.toString());
@@ -136,24 +134,34 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		logger.info("before decrypt 9game data string:{}", params);
 		String decryptStr = Utils.decrypt9Game(params);
 		logger.info("after decrypt 9game data string:{}", decryptStr);
-		return Pair.Create(stateCode, decryptStr);
+		return MutablePair.of(stateCode, decryptStr);
 	}
 
+	
+	/**
+	 * 在这个实现类里，第一个参数是service处理后的结果，可能为null,
+	 * 第二个参数是请求的id，逻辑上不会为null，因为在beforeOpt里已经校验过
+	 */
 	@Override
 	Pair<UCStateCode, String> afterOpt(Object... param) {
+		long id =  (Long) param[1];
+		if(param[0] == null){
+			return MutablePair.of(UCStateCode.STATE_SERVER_ERROR, responseString(UCStateCode.STATE_SERVER_ERROR, id, null));
+		}
 		IResponseData responseData = (IResponseData) param[0];
+		
 		UCStateCode respCode = UCStateCode.getCodeByID(responseData.getStateCode());
 		if(respCode != UCStateCode.STATE_OK){
 			//处理有问题
-			return Pair.Create(respCode, responseString(respCode, responseData.getId(), null));
+			return MutablePair.of(respCode, responseString(respCode, id, null));
 		}
 		//进行加密
 		String dataStr = Utils.encrypt9Game(responseData.getData().toJSONString());
 		
 		//转为json字符串
-		String returnStr = responseString(respCode, responseData.getId(), dataStr);
+		String returnStr = responseString(respCode, id, dataStr);
 		logger.info("Response role info to 9game:{}", returnStr);
-		return Pair.Create(respCode, returnStr);
+		return MutablePair.of(respCode, returnStr);
 	}
 
 }

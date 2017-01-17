@@ -1,13 +1,4 @@
-package com.rounter.param.impl;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.rounter.state.UCStateCode;
-
-
+package com.rounter.controller.ucParam;
 
 /**
  * 9游的响应参数
@@ -20,7 +11,6 @@ public class Response9Game{
 	private long id;
 	private Object state;
 	private Object data;
-	
 	
 	public long getId() {
 		return id;
@@ -45,5 +35,4 @@ public class Response9Game{
 	public void setData(Object data) {
 		this.data = data;
 	}
-
 }

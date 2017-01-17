@@ -1,9 +1,9 @@
-package com.rounter.param.impl;
+package com.rounter.controller.ucParam;
+
+import com.rounter.param.IRequestData;
 
 
-public class ReqRoleInfo{
-
-	private long requestID;
+public class ReqRoleInfo implements IRequestData{
 	
 	private String accountId;
 	
@@ -12,14 +12,6 @@ public class ReqRoleInfo{
 	private int platform;
 	
 	private String serverId;
-	
-	public long getRequestID() {
-		return requestID;
-	}
-
-	public void setRequestID(long requestID) {
-		this.requestID = requestID;
-	}
 
 	public String getAccountId() {
 		return accountId;
@@ -51,5 +43,10 @@ public class ReqRoleInfo{
 
 	public void setServerId(String serverId) {
 		this.serverId = serverId;
+	}
+
+	@Override
+	public String requestId() {
+		return serverId;
 	}
 }
