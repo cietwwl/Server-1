@@ -39,14 +39,14 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-		System.out.println("channelReadComplete");
+//		System.out.println("channelReadComplete");
 		ctx.flush();
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
-		System.out.println("exceptionCaught");
+//		System.out.println("exceptionCaught");
 		super.exceptionCaught(ctx, cause);
 		ctx.close();
 	}

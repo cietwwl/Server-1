@@ -102,6 +102,7 @@ public class RouterGiftMgr {
 			}
 			
 		} catch (Exception e) {
+			GameLog.error(LogModule.RouterServer.getName(), "RounterGiftMgr[sendGift]", "发送直通车礼包时出现异常，角色id:" + userId, e);
 			e.printStackTrace();
 		}
 	}

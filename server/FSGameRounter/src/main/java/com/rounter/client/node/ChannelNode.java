@@ -298,11 +298,11 @@ public final class ChannelNode {
 			ChannelInitializer<SocketChannel> {
 
 		private static final long READ_IDEL_TIME_OUT = RouterConst.MAX_OVER_TIME
-				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 6; // 读超时
+				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 10; // 读超时
 		private static final long WRITE_IDEL_TIME_OUT = RouterConst.MAX_OVER_TIME
-				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 3; // 写超时
+				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 6; // 写超时
 		private static final long ALL_IDEL_TIME_OUT = RouterConst.MAX_OVER_TIME
-				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 12; // 所有超时
+				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 15; // 所有超时
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
