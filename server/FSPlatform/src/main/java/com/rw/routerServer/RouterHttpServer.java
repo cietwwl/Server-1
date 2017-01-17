@@ -59,7 +59,7 @@ public class RouterHttpServer {
 						public void initChannel(SocketChannel ch)
 								throws Exception {
 							ch.pipeline().addLast(
-									new LineBasedFrameDecoder(102400));
+									new LineBasedFrameDecoder(409600));
 							ch.pipeline().addLast(new StringDecoder());
 							ch.pipeline().addLast(new RouterInboundHandler());
 						}

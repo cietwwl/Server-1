@@ -10,16 +10,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.rounter.client.config.RouterConst;
 import com.rounter.innerParam.ReqType;
+import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.RouterReqestObject;
 import com.rounter.innerParam.RouterRespObject;
-import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.jsonParam.AllAreasInfo;
 import com.rounter.innerParam.jsonParam.TableZoneInfo;
 import com.rounter.loginServer.LoginServerInfo;
@@ -122,9 +121,6 @@ public class ServerChannelManager {
 						logger.debug("check and found null area info!!");
 						continue;
 					}
-					if(StringUtils.equals(server.getId(), "29")){
-						System.out.println();
-					}
 					HashMap<String, ChannelNodeManager> platformAreaMgrs = areaMgrMap.get(platform.getId());
 					if(null == platformAreaMgrs){
 						platformAreaMgrs = new HashMap<String, ChannelNodeManager>();
@@ -141,7 +137,6 @@ public class ServerChannelManager {
 				}
 			}
 		}
-		
 		logger.debug("refresh channel complete~~");
 	}
 	

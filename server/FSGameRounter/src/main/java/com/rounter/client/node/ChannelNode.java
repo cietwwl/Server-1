@@ -63,16 +63,17 @@ public final class ChannelNode {
 	private AtomicBoolean isActive = new AtomicBoolean(false);
 
 	public void setActiveState(boolean isActive){
-		if(!this.isActive.get() && isActive){
+		if(this.isActive.compareAndSet(!isActive, isActive) && isActive){
 			//从不活跃转为活跃，就创建连接
 			handleFailedQueue();
 		}
-		this.isActive.set(isActive);
 	}
 	
 	public void closeNode(){
 		this.isActive.compareAndSet(true, false);
-		cf.channel().close();
+		if(null != cf && null != cf.channel()){
+			cf.channel().close();
+		}
 	}
 	
 	public ChannelNode(EventLoopGroup senderGroup, String addr, int port){
@@ -103,6 +104,7 @@ public final class ChannelNode {
 		lastConnectTime = System.currentTimeMillis();
 		ChannelFuture connectFuture = b.connect(TARGET_ADDR, TARGET_PORT);
 		connectFuture.get(RouterConst.MAX_OVER_TIME, TimeUnit.SECONDS);
+		isActive.set(connectFuture.isSuccess());
 		return connectFuture.isSuccess();
 	}
 
@@ -115,8 +117,10 @@ public final class ChannelNode {
 	 * @return
 	 */
 	public boolean isChannelActive() {
-		if (nodeState != NodeState.Normal)
+		logger.info("TARGET_ADDR:{}, TARGET_PORT:{}, nodeState:{}", TARGET_ADDR, TARGET_PORT, nodeState);
+		if (nodeState != NodeState.Normal){
 			return false;
+		}
 		return cf != null && cf.channel().isActive();
 	}
 
@@ -201,8 +205,9 @@ public final class ChannelNode {
 			boolean suc = connectOrReconnectChannel();
 			logger.debug("contect target, ip:{}, port:{},suc:{}",TARGET_ADDR, TARGET_PORT, suc);
 		} catch (Exception ex) {
-			System.out.println("handleFailedQueue-Node建立连接失败..." + ex.toString());
+			logger.error("contect target, ip:{}, port:{},suc:{}", TARGET_ADDR, TARGET_PORT, false, ex);
 			nodeState = NodeState.ConnFail;
+			isActive.set(false);
 		}
 	}
 

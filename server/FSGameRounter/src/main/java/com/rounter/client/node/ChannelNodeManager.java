@@ -37,8 +37,6 @@ public class ChannelNodeManager {
 			try {
 				if(node.connectOrReconnectChannel()){
 					result = true;
-				}else{
-					node.setActiveState(false);
 				}
 			} catch (Exception ex) {
 				System.out.println("init-Node建立连接失败..." + ex.toString());
@@ -107,24 +105,21 @@ public class ChannelNodeManager {
 			nodeBusyTimes.get(index).set(0);
 			return nodeQueue.get(index);
 		}
-		
 		int busyTimes = nodeBusyTimes.get(index).incrementAndGet();
 		if(busyTimes >= RouterConst.NODE_MAX_BUSY_TIMES) {
 			nodeQueue.get(index).startCheckResponseTime();
 			nodeBusyTimes.get(index).set(0);
 		}
-		
 		int i = (index + 1)%RouterConst.MAX_CHANNEL_COUNT;
 		while(i != index){
-			if(nodeQueue.get(i).isChannelActive()) 
+			if(nodeQueue.get(i).isChannelActive()) {
 				return nodeQueue.get(i);
-			
+			}
 			busyTimes = nodeBusyTimes.get(i).incrementAndGet();
 			if(busyTimes >= RouterConst.NODE_MAX_BUSY_TIMES) {
 				nodeQueue.get(i).startCheckResponseTime();
 				nodeBusyTimes.get(i).set(0);
 			}
-			
 			i = (i+1)%RouterConst.MAX_CHANNEL_COUNT;
 		}
 		throw new NoCanUseNodeException("找不到可以用的ChannelNode");
