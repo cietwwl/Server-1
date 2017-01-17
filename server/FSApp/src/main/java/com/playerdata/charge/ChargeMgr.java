@@ -61,24 +61,24 @@ public class ChargeMgr {
 		_checker = new YinHanChargeCallbackChecker();
 	}
 	
-	private void checkVipMonthCardExists(Player player) {
-		if (isValid(player, ChargeTypeEnum.VipMonthCard)) {
-			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-			if (chargeInfo != null) {
-				List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
-				for (int i = 0; i < allCfg.size(); i++) {
-					ChargeCfg cfg = allCfg.get(i);
-					if (cfg.getChargeType() == ChargeTypeEnum.VipMonthCard) {
-						if (!chargeInfo.isContainsId(cfg.getId())) {
-							chargeInfo.addChargeCfgId(cfg.getId());
-							ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
+//	private void checkVipMonthCardExists(Player player) {
+//		if (isValid(player, ChargeTypeEnum.VipMonthCard)) {
+//			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+//			if (chargeInfo != null) {
+//				List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
+//				for (int i = 0; i < allCfg.size(); i++) {
+//					ChargeCfg cfg = allCfg.get(i);
+//					if (cfg.getChargeType() == ChargeTypeEnum.VipMonthCard) {
+//						if (!chargeInfo.isContainsId(cfg.getId())) {
+//							chargeInfo.addChargeCfgId(cfg.getId());
+//							ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
+//							break;
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	public boolean isValid(Player player, ChargeTypeEnum monthCardType) {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
@@ -102,7 +102,10 @@ public class ChargeMgr {
 	}
 
 	public void syn(Player player, int version) {
-		checkVipMonthCardExists(player);
+		/* 开服第一周的时候，有部分玩家赠送了终身月卡，但是当时没有设置终身月卡的标识；
+		   现在已经过去1个月了，所以把这个上线检查去掉。 
+		 */
+//		checkVipMonthCardExists(player); 
 		sendAllChargeCfg(player);
 		ChargeInfoHolder.getInstance().syn(player, version);
 	}
