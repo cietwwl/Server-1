@@ -14,7 +14,7 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		System.out.println("channelRead:" + msg);
+		//System.out.println("channelRead:" + msg);
 		RouterReqestObject reqParam = JsonUtil.readValue((String)msg, RouterReqestObject.class);
 		String result = null;
 		try{
