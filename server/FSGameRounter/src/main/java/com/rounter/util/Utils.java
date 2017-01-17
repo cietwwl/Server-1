@@ -5,9 +5,9 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.rounter.param.impl.Request9Game;
-import com.rounter.param.impl.Response9Game;
 
 /**
  * 系统要用到的公用方法，例如加密解密
@@ -18,26 +18,66 @@ import com.rounter.param.impl.Response9Game;
  */
 public class Utils {
 
+	static Logger logger = LoggerFactory.getLogger(Utils.class);
+	/**
+	 * 九游的apikey
+	 */
+	private static final String ApiKey_9Game = "dedffebe8e6dd8423a4cceca03effaca";
+	
+	/**
+	 * 九游的加密key
+	 */
+	private static final String EncryptKey_9Game = "d259ksx59wS68x5M";
+	
+	/**
+	 * 九游json的key
+	 */
+	private static final String Param_9Game = "params";
+	
+	/**
+	 * 获取9游签名
+	 * @param caller
+	 * @param content 签名内容(加密后的data内容)
+	 * @return
+	 */
+	public static String get9GameSign(String caller, String content){
+		return MD5.getMD5String(caller + Param_9Game + content + ApiKey_9Game);
+	}
+	
 	/**
 	 * 9游的加密方式
 	 * 
-	 * @param resp
+	 * @param dataContent JSON格式中data节点下的一组key-value参数 (json字符串)
 	 * @return
 	 */
-	public static Response9Game encrypt9Game(Response9Game resp) {
-		return resp;
+	public static String encrypt9Game(String dataContent) {
+		
+		try {
+			return encrypt(EncryptKey_9Game, EncryptKey_9Game, dataContent);
+		} catch (Exception e) {
+			logger.error("加密9游消息时出现异常!!,消息内容：{}", dataContent);
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	/**
 	 * 9游的解密方式
 	 * 
-	 * @param request
-	 *            请求的参数
-	 * @return
+	 * @param decryptString
+	 *            要解密的字符串
+	 * @return 解密后返回的JSON字符串
 	 */
-	public static Request9Game decrypt9Game(Request9Game request) {
+	public static String decrypt9Game(String decryptString) {
 
-		return request;
+		String str = "";
+		try {
+			str = decrypt(EncryptKey_9Game, EncryptKey_9Game, decryptString);
+		} catch (Exception e) {
+			logger.error("解密9游消息时出现异常!!,消息内容：{}", decryptString);
+			e.printStackTrace();
+		}
+		return str;
 	}
 
 	/**
@@ -49,7 +89,7 @@ public class Utils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String encrypt(String key, String iv, String text)
+	private static String encrypt(String key, String iv, String text)
 			throws Exception {
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPadding");
 		int blockSize = cipher.getBlockSize();
@@ -78,7 +118,7 @@ public class Utils {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String decrypt(String key, String iv, String text)
+	private static String decrypt(String key, String iv, String text)
 			throws Exception {
 		byte[] baseDecryptBytes = Base64.decodeBase64(text);
 		Cipher cipher = Cipher.getInstance("AES/CBC/NOPadding");
