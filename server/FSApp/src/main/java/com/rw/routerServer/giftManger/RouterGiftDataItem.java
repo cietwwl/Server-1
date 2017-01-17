@@ -2,14 +2,16 @@ package com.rw.routerServer.giftManger;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RouterGiftDataItem implements RoleExtProperty{
 	@Id
-	private Integer giftId;
+	private Integer id;
 	@OwnerId
 	private String userId;
 
@@ -18,13 +20,7 @@ public class RouterGiftDataItem implements RoleExtProperty{
 	@CombineSave
 	private int count;
 
-	public Integer getGiftId() {
-		return giftId;
-	}
 
-	public void setGiftId(Integer giftId) {
-		this.giftId = giftId;
-	}
 
 	public String getUserId() {
 		return userId;
@@ -52,6 +48,10 @@ public class RouterGiftDataItem implements RoleExtProperty{
 
 	@Override
 	public Integer getId() {
-		return giftId;
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 }

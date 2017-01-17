@@ -20,7 +20,7 @@ public class RouterGiftDataHolder {
 	}
 	
 	public void updateItem(String userId, RouterGiftDataItem item){
-		getItemStore(userId).update(item.getGiftId());
+		getItemStore(userId).update(item.getId());
 	}
 	
 	public RouterGiftDataItem getItem(String userId, Integer giftId){		

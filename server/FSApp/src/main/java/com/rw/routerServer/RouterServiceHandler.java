@@ -15,14 +15,29 @@ public class RouterServiceHandler {
 	}
 	
 	public String getGift(String param){
+		System.out.println("get gift param:" + param);
 		RouterRespObject responseObj = new RouterRespObject();
-		ReqestParams paramObj = JsonUtil.readValue(param, ReqestParams.class);	
-		if(null != paramObj){
-			ResultState result = RouterGiftMgr.getInstance().addGift(paramObj.getRoleId(), paramObj.getGiftId(), paramObj.getDate());
-			responseObj.setResult(result);
-		}else{
-			responseObj.setResult(ResultState.PARAM_ERROR);
+		try {
+			
+			System.out.println("before json parse~");
+			
+			ReqestParams paramObj = JsonUtil.readValue(param, ReqestParams.class);	
+			if(null != paramObj){
+				ResultState result = RouterGiftMgr.getInstance().addGift(paramObj.getRoleId(), paramObj.getGiftId(), paramObj.getDate());
+				responseObj.setResult(result);
+			}else{
+				System.out.println("json is null");
+				responseObj.setResult(ResultState.PARAM_ERROR);
+			}
+			return JsonUtil.writeValue(responseObj);
+			
+		} catch (Exception e) {
+			System.out.println("parse accour exception!!");
+			e.printStackTrace();
 		}
+		responseObj.setResult(ResultState.EXCEPTION);
 		return JsonUtil.writeValue(responseObj);
 	}
+	
+
 }
