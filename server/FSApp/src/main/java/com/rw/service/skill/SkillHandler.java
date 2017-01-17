@@ -25,6 +25,9 @@ import com.rwproto.SkillServiceProtos.SkillResponse;
 
 public class SkillHandler {
 
+	protected SkillHandler() {
+	}
+
 	private static SkillHandler instance = new SkillHandler();
 
 	public static SkillHandler getInstance() {
@@ -43,7 +46,7 @@ public class SkillHandler {
 		return r.build().toByteString();
 	}
 
-	public static class UpdateSkillInfo {
+	private static class UpdateSkillInfo {
 		private final SkillItem skill;
 		private final int addLevel;
 		private final int cost;
@@ -116,17 +119,6 @@ public class SkillHandler {
 			int level = skill.getLevel();
 			if (level <= 0) {
 				return getFailResponse(player, "技能尚未激活", SkillEventType.Skill_Upgrade);
-			}
-
-			if (level >= heroLevel) {
-				return getFailResponse(player, "技能已达最高等级", SkillEventType.Skill_Upgrade);
-			}
-
-			if ((level + addLevel) > heroLevel) {
-				int ajustLevel = heroLevel - level;
-				GameLog.error("hero", "updateSkill", player + "请求增加技能等级过高：add=" + addLevel + ",skillLevel=" + level + ",heroLevel=" + heroLevel+",ajustLevel="+ajustLevel);
-				addLevel = ajustLevel;
-				continue;
 			}
 
 			int cost = 0;

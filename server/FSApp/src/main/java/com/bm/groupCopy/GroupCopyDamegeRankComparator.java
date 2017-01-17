@@ -70,7 +70,7 @@ public class GroupCopyDamegeRankComparator implements Comparator<GroupCopyArmyDa
 			}else if(StringUtils.isEmpty(o1.getDistRoleName()) && !StringUtils.isEmpty(o2.getDistRoleName())){
 				return 1;
 			}else if(!StringUtils.isEmpty(o1.getDistRoleName()) && !StringUtils.isEmpty(o2.getDistRoleName())){
-				return o1.getApplyTime() < o2.getApplyTime() ? -1 : 1;
+				return o1.getApplyTime() > o2.getApplyTime() ? -1 : 1;
 			}
 			return 0;
 		}
