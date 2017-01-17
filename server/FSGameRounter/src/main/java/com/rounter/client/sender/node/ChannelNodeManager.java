@@ -1,7 +1,6 @@
 package com.rounter.client.sender.node;
 
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -9,45 +8,77 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.springframework.stereotype.Service;
-
-import com.rounter.client.sender.config.LogConst;
+import com.rounter.client.sender.config.RouterConst;
 import com.rounter.client.sender.exception.NoCanUseNodeException;
-import com.rw.fsutil.util.SpringContextUtil;
+import com.rounter.client.sender.exception.ParamInvalidException;
+import com.rounter.param.IRequestData;
+import com.rounter.param.IResponseData;
+import com.rounter.service.IResponseHandler;
 
 
-@Service
 public class ChannelNodeManager {
 	
-	public ChannelNodeManager getInstance() {
-		ChannelNodeManager mgr = SpringContextUtil.getBean("ChannelNodeManager");
-		return mgr;
-		//return SpringContextUtil.getBean(ChannelNodeManager.class);
-	}
-	
-	private EventLoopGroup senderGroup = new NioEventLoopGroup(LogConst.MAX_THREAD_COUNT);
-	ArrayList<ChannelNode> nodeQueue = new ArrayList<ChannelNode>();
-	ConcurrentHashMap<Integer, AtomicInteger> nodeBusyTimes = new ConcurrentHashMap<Integer, AtomicInteger>();
+	private ArrayList<ChannelNode> nodeQueue = new ArrayList<ChannelNode>();
+	private ConcurrentHashMap<Integer, AtomicInteger> nodeBusyTimes = new ConcurrentHashMap<Integer, AtomicInteger>();
 	
 	private volatile int disturbFactor = 0;
 	
-	public void init(){
-		for(int i = 0; i < LogConst.MAX_CHANNEL_COUNT; i++){
-			ChannelNode cn = new ChannelNode(senderGroup);
+	public ChannelNodeManager(EventLoopGroup senderGroup, String addr, int port){
+		for(int i = 0; i < RouterConst.MAX_CHANNEL_COUNT; i++){
+			ChannelNode cn = new ChannelNode(senderGroup, addr, port);
 			nodeQueue.add(cn);
 			nodeBusyTimes.put(i, new AtomicInteger(0));
-			try {
-				cn.connectOrReconnectChannel();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	
-	public ChannelNode getProperChannelNode() throws NoCanUseNodeException, UnsupportedEncodingException, URISyntaxException, InterruptedException {
-		int index = (int) (Math.random() * LogConst.MAX_CHANNEL_COUNT);
+	public boolean init(){
+		boolean result = false;
+		for(ChannelNode node : nodeQueue){
+			try {
+				if(node.connectOrReconnectChannel()){
+					result = true;
+				}
+			} catch (Exception ex) {
+				System.out.println("init-Node建立连接失败..." + ex.toString());
+			}
+		}
+		return result;
+	}
+	
+	public <T extends IResponseData> void sendMessage(final IRequestData reqData, IResponseHandler resHandler, T resData) throws UnsupportedEncodingException, InterruptedException, ParamInvalidException, NoCanUseNodeException, URISyntaxException{
+		try {
+			getProperChannelNode().sendMessage(reqData, resHandler, resData);
+		} catch (Exception e) {
+			resHandler.handleSendFailResponse(resData);
+			synchronized (resData) {
+				resData.notify();
+			}
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 设置目标服务器的活跃状态
+	 * @param isActive
+	 */
+	public void setActiveState(boolean isActive){
+		for(ChannelNode node : nodeQueue){
+			node.setActiveState(isActive);
+		}
+	}
+	
+	/**
+	 * 当有多个连接的时候，随机查找一个合适的
+	 * @return
+	 * @throws NoCanUseNodeException
+	 * @throws UnsupportedEncodingException
+	 * @throws URISyntaxException
+	 * @throws InterruptedException
+	 */
+	private ChannelNode getProperChannelNode() throws NoCanUseNodeException, UnsupportedEncodingException, URISyntaxException, InterruptedException {
+		int index = (int) (Math.random() * RouterConst.MAX_CHANNEL_COUNT);
 		if(index == disturbFactor){
-			index = (index+1)%LogConst.MAX_CHANNEL_COUNT;
+			index = (index+1)%RouterConst.MAX_CHANNEL_COUNT;
 		}
 		disturbFactor = index;
 		if(nodeQueue.get(index).isChannelActive()) {
@@ -56,23 +87,23 @@ public class ChannelNodeManager {
 		}
 		
 		int busyTimes = nodeBusyTimes.get(index).incrementAndGet();
-		if(busyTimes >= LogConst.NODE_MAX_BUSY_TIMES) {
+		if(busyTimes >= RouterConst.NODE_MAX_BUSY_TIMES) {
 			nodeQueue.get(index).startCheckResponseTime();
 			nodeBusyTimes.get(index).set(0);
 		}
 		
-		int i = (index + 1)%LogConst.MAX_CHANNEL_COUNT;
+		int i = (index + 1)%RouterConst.MAX_CHANNEL_COUNT;
 		while(i != index){
 			if(nodeQueue.get(i).isChannelActive()) 
 				return nodeQueue.get(i);
 			
 			busyTimes = nodeBusyTimes.get(i).incrementAndGet();
-			if(busyTimes >= LogConst.NODE_MAX_BUSY_TIMES) {
+			if(busyTimes >= RouterConst.NODE_MAX_BUSY_TIMES) {
 				nodeQueue.get(i).startCheckResponseTime();
 				nodeBusyTimes.get(i).set(0);
 			}
 			
-			i = (i+1)%LogConst.MAX_CHANNEL_COUNT;
+			i = (i+1)%RouterConst.MAX_CHANNEL_COUNT;
 		}
 		throw new NoCanUseNodeException("找不到可以用的ChannelNode");
 	}

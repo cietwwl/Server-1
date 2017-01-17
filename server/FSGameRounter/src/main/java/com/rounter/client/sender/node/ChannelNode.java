@@ -19,10 +19,12 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.rounter.client.sender.config.LogConst;
+import com.rounter.client.sender.config.RouterConst;
 import com.rounter.client.sender.config.NodeState;
 import com.rounter.client.sender.exception.CannotCreateNodeException;
 import com.rounter.client.sender.exception.NodeMsgQueueDisorderException;
@@ -49,29 +51,48 @@ public final class ChannelNode {
 	private byte onCheckNodeActive = 0;
 	// 测试响应时间的锁
 	private byte[] checkResponseLock = new byte[0];
+	
+	private final String TARGET_ADDR;
+	private final int TARGET_PORT;
+	private boolean isActive = true;
 
-	public ChannelNode(EventLoopGroup senderGroup){
+	public synchronized void setActiveState(boolean isActive){
+		if(!this.isActive && isActive){
+			//从不活跃转为活跃，就创建连接
+			handleFailedQueue();
+		}
+		this.isActive = isActive;
+	}
+	
+	public ChannelNode(EventLoopGroup senderGroup, String addr, int port){
 		this.senderGroup = senderGroup;
+		this.TARGET_ADDR = addr;
+		this.TARGET_PORT = port;
 	}
 
-	public void connectOrReconnectChannel() throws InterruptedException, CannotCreateNodeException {
-		if(System.currentTimeMillis() - lastConnectTime < LogConst.RECONNECT_DISTANCE){
+	public boolean connectOrReconnectChannel() throws InterruptedException, CannotCreateNodeException, ExecutionException, TimeoutException {
+		if(System.currentTimeMillis() - lastConnectTime < RouterConst.RECONNECT_DISTANCE){
 			//间隔时间重连
-			return;
+			return false;
 		}
 		if (cf != null) {
-			if (nodeState != NodeState.Ready && nodeState != NodeState.Over)
+			if ((nodeState != NodeState.Ready && nodeState != NodeState.Over)){
 				throw new CannotCreateNodeException("当前状态不可以创建ChannelNode");
+			}
 			cf.channel().close();
+			if (!isActive){
+				throw new CannotCreateNodeException("目标状态不允许创建连接");
+			}
 		}
 		nodeState = NodeState.Connecting;
 		Bootstrap b = new Bootstrap().group(senderGroup)
 				.channel(NioSocketChannel.class)
 				.option(ChannelOption.SO_KEEPALIVE, true)
 				.handler(new HeartbeatChannelInitializer());
-		ChannelFuture cf1 = b.connect(LogConst.TARGET_ADDR, LogConst.TARGET_PORT);
-		System.out.println(cf1.isSuccess());
 		lastConnectTime = System.currentTimeMillis();
+		ChannelFuture connectFuture = b.connect(TARGET_ADDR, TARGET_PORT);
+		connectFuture.get(RouterConst.MAX_OVER_TIME, TimeUnit.SECONDS);
+		return connectFuture.isSuccess();
 	}
 
 	public int getMsgQueueCount() {
@@ -88,9 +109,9 @@ public final class ChannelNode {
 		return cf != null && cf.channel().isActive();
 	}
 
-	public <T extends IResponseData> void sendMessage(final IRequestData reqData, IResponseHandler resHandler, T resData)
+	public void sendMessage(final IRequestData reqData, IResponseHandler resHandler, IResponseData resData)
 			throws UnsupportedEncodingException, InterruptedException, ParamInvalidException {
-		if (queueMemCount.incrementAndGet() >= LogConst.NODE_MAX_QUEUE_SIZE){
+		if (queueMemCount.incrementAndGet() >= RouterConst.NODE_MAX_QUEUE_SIZE){
 			nodeState = NodeState.Busy;
 		}
 		if(null == cf){
@@ -106,7 +127,7 @@ public final class ChannelNode {
 					
 					public void operationComplete(ChannelFuture future) throws Exception {
 						if(!future.isSuccess() || !addToQueue(nodeData)) {
-							if (queueMemCount.decrementAndGet() < LogConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy){
+							if (queueMemCount.decrementAndGet() < RouterConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy){
 								nodeState = NodeState.Normal;
 							}
 							if(reqData.getId() != HEARTBITKEY){
@@ -150,14 +171,15 @@ public final class ChannelNode {
 	 * 节点失败（需要重置）
 	 * 处理没有收到成功返回的key
 	 * 
-	 * @throws CannotCreateNodeException
-	 * @throws InterruptedException
 	 */
 	private synchronized void handleFailedQueue() {
 		nodeState = NodeState.HandleFailedQueue;
 		for (NodeData nd : msgQueue) {
 			if (nd.getResData() != null && nd.getResHandler() != null){
-				nd.getResHandler().handleServerResponse(false, nd.getResData());
+				nd.getResHandler().handleSendFailResponse(nd.getResData());
+				synchronized (nd.getResData()) {
+					nd.getResData().notify();
+				}
 			}
 		}
 		msgQueue.clear();
@@ -166,7 +188,7 @@ public final class ChannelNode {
 		try {
 			connectOrReconnectChannel();
 		} catch (Exception ex) {
-			System.out.println("Node建立连接失败..." + ex.toString());
+			System.out.println("handleFailedQueue-Node建立连接失败..." + ex.toString());
 			nodeState = NodeState.ConnFail;
 		}
 	}
@@ -188,7 +210,7 @@ public final class ChannelNode {
 	private NodeData pollFromQueue() throws NodeMsgQueueDisorderException {
 		NodeData nodeData = msgQueue.poll();
 		if (nodeData != null) {
-			if (queueMemCount.decrementAndGet() < LogConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy)
+			if (queueMemCount.decrementAndGet() < RouterConst.NODE_MAX_QUEUE_SIZE && nodeState == NodeState.Busy)
 				nodeState = NodeState.Normal;
 			return nodeData;
 		}
@@ -257,12 +279,12 @@ public final class ChannelNode {
 	private class HeartbeatChannelInitializer extends
 			ChannelInitializer<SocketChannel> {
 
-		private static final long READ_IDEL_TIME_OUT = LogConst.MAX_OVER_TIME
-				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 6; // 读超时
-		private static final long WRITE_IDEL_TIME_OUT = LogConst.MAX_OVER_TIME
-				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 3; // 写超时
-		private static final long ALL_IDEL_TIME_OUT = LogConst.MAX_OVER_TIME
-				* LogConst.CHECK_CHANNEL_SAMPLE_COUNT * 12; // 所有超时
+		private static final long READ_IDEL_TIME_OUT = RouterConst.MAX_OVER_TIME
+				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 6; // 读超时
+		private static final long WRITE_IDEL_TIME_OUT = RouterConst.MAX_OVER_TIME
+				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 3; // 写超时
+		private static final long ALL_IDEL_TIME_OUT = RouterConst.MAX_OVER_TIME
+				* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT * 12; // 所有超时
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
@@ -281,12 +303,16 @@ public final class ChannelNode {
 	 * 
 	 */
 	public void startCheckResponseTime() {
+		if(!isActive){
+			//如果目前服务器没开启，就不用检查了
+			return;
+		}
 		synchronized (checkResponseLock) {
-			if(System.currentTimeMillis() - lastCheckResponse < LogConst.RECONNECT_DISTANCE){
+			if(System.currentTimeMillis() - lastCheckResponse < RouterConst.RECONNECT_DISTANCE){
 				//间隔时间心跳
 				return;
 			}
-			onCheckNodeActive = LogConst.CHECK_CHANNEL_SAMPLE_COUNT;
+			onCheckNodeActive = RouterConst.CHECK_CHANNEL_SAMPLE_COUNT;
 			startCheckTime = System.nanoTime();
 			endCheckTime = startCheckTime;
 			lastCheckResponse = System.currentTimeMillis();
@@ -300,7 +326,7 @@ public final class ChannelNode {
 	 * @param heartBitMsg
 	 */
 	private void sendHeartBitMessage(){
-		for (int i = 0; i < LogConst.CHECK_CHANNEL_SAMPLE_COUNT; i++){
+		for (int i = 0; i < RouterConst.CHECK_CHANNEL_SAMPLE_COUNT; i++){
 			try {
 				sendMessage(new IRequestData(){
 					@Override
@@ -326,8 +352,8 @@ public final class ChannelNode {
 				long responseTime = 0;
 				try {
 					for (int i = 0; i < SLEEPTIMES; i++) {
-						Thread.sleep(LogConst.MAX_OVER_TIME
-								* LogConst.CHECK_CHANNEL_SAMPLE_COUNT
+						Thread.sleep(RouterConst.MAX_OVER_TIME
+								* RouterConst.CHECK_CHANNEL_SAMPLE_COUNT
 								/ SLEEPTIMES);
 						if (onCheckNodeActive <= 0) break;
 					}
@@ -338,10 +364,10 @@ public final class ChannelNode {
 					responseTime = Long.MAX_VALUE; // 表示超时
 				}else{
 					responseTime = (endCheckTime - startCheckTime)
-							/ LogConst.CHECK_CHANNEL_SAMPLE_COUNT / 1000000l;
+							/ RouterConst.CHECK_CHANNEL_SAMPLE_COUNT / 1000000l;
 				}
-				System.out.println("当前平均响应时间(mm)：" + responseTime);
-				if (responseTime > LogConst.MAX_OVER_TIME){
+				if (responseTime > RouterConst.MAX_OVER_TIME){
+					System.out.println("当前平均响应时间(mm)：" + responseTime);
 					handleFailedQueue();
 				}
 			}
