@@ -34,6 +34,7 @@ import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.yaowanlog.YaoWanLogHandler;
+import com.rwbase.ServerType;
 import com.rwbase.ServerTypeMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
@@ -111,12 +112,14 @@ public class ChargeMgr {
 	}
 	
 	private void sendAllChargeCfg(Player player) {
-		List<ChargeCfgData> allCfgProtos = ChargeCfgDao.getInstance().getAllCfgProtos();
-		ChargeServiceCommonRspMsg.Builder builder = ChargeServiceCommonRspMsg.newBuilder();
-		builder.setReqType(RequestType.GetChargeCfg);
-		builder.setIsSuccess(true);
-		builder.addAllAllChargeCfgs(allCfgProtos);
-		player.SendMsg(Command.MSG_CHARGE_CFG_REQUEST, builder.build().toByteString());
+		if (ServerTypeMgr.getInstance().getServerType() == ServerType.IOS_YAOWAN) {
+			List<ChargeCfgData> allCfgProtos = ChargeCfgDao.getInstance().getAllCfgProtos();
+			ChargeServiceCommonRspMsg.Builder builder = ChargeServiceCommonRspMsg.newBuilder();
+			builder.setReqType(RequestType.GetChargeCfg);
+			builder.setIsSuccess(true);
+			builder.addAllAllChargeCfgs(allCfgProtos);
+			player.SendMsg(Command.MSG_CHARGE_CFG_REQUEST, builder.build().toByteString());
+		}
 	}
 
 	// 主要检测是不是测试订单，并且能不能使用测试订单
