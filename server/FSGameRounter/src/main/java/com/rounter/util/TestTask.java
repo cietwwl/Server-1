@@ -14,4 +14,10 @@ public class TestTask implements ICommonTask{
 		
 	}
 
+	public TestTask() {
+		System.out.println("---------------------");
+	}
+	
+	
+
 }

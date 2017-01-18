@@ -1,4 +1,4 @@
-package com.rw.gameRouterServer.data;
+package com.rw.routerServer.data;
 
 public enum ReqType {
 	HeartBit,

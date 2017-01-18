@@ -1,6 +1,5 @@
 package com.rounter.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rounter.client.node.ChannelNodeManager;
@@ -21,9 +20,6 @@ import com.rounter.util.JsonUtil;
 @Service
 public class UIServiceImpl implements IUCService{
 
-	@Autowired
-	private ServerChannelManager serverMgr;
-	
 	@Override
 	public IResponseData getRoleInfo(IRequestData request) {
 		ReqestObject reqObject = new ReqestObject();
@@ -31,7 +27,7 @@ public class UIServiceImpl implements IUCService{
 		ReqestParams param = new ReqestParams();
 		param.setAccountId(((ReqRoleInfo)request).getAccountId());
 		reqObject.setContent(JsonUtil.writeValue(param));
-		ChannelNodeManager channelMgr = serverMgr.getAreaNodeManager(request.requestId());
+		ChannelNodeManager channelMgr = ServerChannelManager.getInstance().getPlatformNodeManager(request.requestId());
 		IResponseData resData = new ResDataFromServer();
 		IResponseHandler handler = new IResponseHandler() {
 			
@@ -56,7 +52,6 @@ public class UIServiceImpl implements IUCService{
 		}else{
 			handler.handleSendFailResponse(resData);
 		}
-		
 		return resData;
 	}
 	
@@ -64,7 +59,7 @@ public class UIServiceImpl implements IUCService{
 	public IResponseData getAreasInfo(String platformId) {
 		ReqestObject reqObject = new ReqestObject();
 		reqObject.setType(ReqType.GetAreaInfo);
-		ChannelNodeManager channelMgr = serverMgr.getAreaNodeManager(platformId);
+		ChannelNodeManager channelMgr = ServerChannelManager.getInstance().getPlatformNodeManager(platformId);
 		IResponseData resData = new ResDataFromServer();
 		IResponseHandler handler = new IResponseHandler() {
 			

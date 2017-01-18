@@ -68,6 +68,16 @@ public class ChannelNodeManager {
 	}
 	
 	/**
+	 * 设置目标服务器的活跃状态
+	 * @param isActive
+	 */
+	public void close(){
+		for(ChannelNode node : nodeQueue){
+			node.closeNode();;
+		}
+	}
+	
+	/**
 	 * 当有多个连接的时候，随机查找一个合适的
 	 * @return
 	 * @throws NoCanUseNodeException

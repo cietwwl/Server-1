@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.rounter.client.config.NodeState;
@@ -54,14 +55,19 @@ public final class ChannelNode {
 	
 	private final String TARGET_ADDR;
 	private final int TARGET_PORT;
-	private boolean isActive = true;
+	private AtomicBoolean isActive = new AtomicBoolean(true);
 
-	public synchronized void setActiveState(boolean isActive){
-		if(!this.isActive && isActive){
+	public void setActiveState(boolean isActive){
+		if(!this.isActive.get() && isActive){
 			//从不活跃转为活跃，就创建连接
 			handleFailedQueue();
 		}
-		this.isActive = isActive;
+		this.isActive.set(isActive);
+	}
+	
+	public void closeNode(){
+		this.isActive.set(false);
+		cf.channel().close();
 	}
 	
 	public ChannelNode(EventLoopGroup senderGroup, String addr, int port){
@@ -80,7 +86,7 @@ public final class ChannelNode {
 				throw new CannotCreateNodeException("当前状态不可以创建ChannelNode");
 			}
 			cf.channel().close();
-			if (!isActive){
+			if (!isActive.get()){
 				throw new CannotCreateNodeException("目标状态不允许创建连接");
 			}
 		}
@@ -227,7 +233,6 @@ public final class ChannelNode {
 		@Override
 		protected void channelRead0(ChannelHandlerContext ctx, Object msg)
 				throws Exception {
-			System.out.println("@@@@@@@:" + msg);
 			msgBackSuccess(msg);
 		}
 
@@ -304,7 +309,7 @@ public final class ChannelNode {
 	 * 
 	 */
 	public void startCheckResponseTime() {
-		if(!isActive){
+		if(!isActive.get()){
 			//如果目前服务器没开启，就不用检查了
 			return;
 		}
