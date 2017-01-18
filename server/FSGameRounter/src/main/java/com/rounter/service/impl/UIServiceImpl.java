@@ -66,7 +66,7 @@ public class UIServiceImpl implements IUCService{
 					response.setStateCode(UCStateCode.STATE_OK.getId());
 					response.setData(jsObj);
 				}else{
-					response.setStateCode(UCStateCode.STATE_PARAM_ERROR.getId());
+					response.setStateCode(resObject.getResult().getUCStateCode().getId());
 				}
 			}
 			
@@ -135,7 +135,10 @@ public class UIServiceImpl implements IUCService{
 				public void handleServerResponse(Object msgBack, IResponseData response) {
 					RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
 					JSONObject jsObj = new JSONObject();
-					response.setStateCode(UCStateCode.STATE_OK.getId());
+					if(resObject.getResult() == ResultState.SUCCESS){
+						response.setStateCode(UCStateCode.STATE_OK.getId());
+					}
+			
 					if(resObject.getResult() == ResultState.SUCCESS){
 						jsObj.put("result", true);
 					}else{

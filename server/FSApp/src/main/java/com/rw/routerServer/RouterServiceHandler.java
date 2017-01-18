@@ -1,11 +1,10 @@
 package com.rw.routerServer;
 
-import com.bm.login.AccoutBM;
 import com.rw.fsutil.util.jackson.JsonUtil;
-import com.rw.routerServer.data.params.AllRolesInfo;
+import com.rw.routerServer.data.ResultState;
+import com.rw.routerServer.data.RouterRespObject;
 import com.rw.routerServer.data.params.ReqestParams;
-import com.rw.service.http.request.ResponseObject;
-import com.rwbase.dao.user.accountInfo.TableAccount;
+import com.rw.routerServer.giftManger.RouterGiftMgr;
 
 public class RouterServiceHandler {
 	
@@ -15,15 +14,15 @@ public class RouterServiceHandler {
 		return instance;
 	}
 	
-	public String getSelfAllRoles(String param){
-		ReqestParams paramObj = JsonUtil.readValue(param, ReqestParams.class);		
-		ResponseObject responseObj = new ResponseObject();
-		responseObj.setSuccess(true);
-		TableAccount tableAccount = AccoutBM.getInstance().getByAccountId(paramObj.getAccountId());
-		AllRolesInfo roles = new AllRolesInfo();
-		roles.setAccountId(paramObj.getAccountId());
-		roles.setRoles(tableAccount.getUserZoneInfoList());
-		responseObj.setResult(JsonUtil.writeValue(roles));
+	public String getGift(String param){
+		RouterRespObject responseObj = new RouterRespObject();
+		ReqestParams paramObj = JsonUtil.readValue(param, ReqestParams.class);	
+		if(null != paramObj){
+			ResultState result = RouterGiftMgr.getInstance().addGift(paramObj.getRoleId(), paramObj.getGiftId(), paramObj.getDate());
+			responseObj.setResult(result);
+		}else{
+			responseObj.setResult(ResultState.PARAM_ERROR);
+		}
 		return JsonUtil.writeValue(responseObj);
 	}
 }

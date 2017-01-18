@@ -7,6 +7,8 @@ public class ReqestParams {
 	private String roleId;
 	
 	private String giftId;
+	
+	private String date;
 
 	public String getAccountId() {
 		return accountId;
@@ -30,5 +32,13 @@ public class ReqestParams {
 
 	public void setGiftId(String giftId) {
 		this.giftId = giftId;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 }

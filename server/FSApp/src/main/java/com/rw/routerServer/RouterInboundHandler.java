@@ -6,8 +6,9 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.routerServer.data.ResultState;
 import com.rw.routerServer.data.RouterReqestObject;
-import com.rw.service.http.request.ResponseObject;
+import com.rw.routerServer.data.RouterRespObject;
 
 public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 
@@ -19,19 +20,17 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 		try{
 			switch (reqParam.getType()) {
 			case GetGift:
-				result = RouterServiceHandler.getInstance().getSelfAllRoles(reqParam.getContent());
+				result = RouterServiceHandler.getInstance().getGift(reqParam.getContent());
 				break;
 			default:
-				ResponseObject obj = new ResponseObject();
-				obj.setResult("游戏服找不到对应的协议");
-				obj.setSuccess(false);
+				RouterRespObject obj = new RouterRespObject();
+				obj.setResult(ResultState.PARAM_ERROR);
 				result = JsonUtil.writeValue(obj);
 				break;
 			}
 		}catch(Exception ex){
-			ResponseObject obj = new ResponseObject();
-			obj.setResult("游戏服数据异常");
-			obj.setSuccess(false);
+			RouterRespObject obj = new RouterRespObject();
+			obj.setResult(ResultState.EXCEPTION);
 			result = JsonUtil.writeValue(obj);
 		}
 		ByteBuf buf = Unpooled.copiedBuffer(((String)result + System.getProperty("line.separator")).getBytes("UTF-8"));
