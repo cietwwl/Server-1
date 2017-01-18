@@ -22,15 +22,6 @@ message MsgRankRequest{
 	optional string userId = 3;//玩家ID
 }
 
-message MsgRankResponse{
-	required ERankRequestType requestType = 1;
-	optional int32 rankType = 2;
-	optional ERankResultType resultType = 3;
-	optional RankInfo myRankInfo = 4;//玩家基本信息	
-	repeated RankInfo RankList = 5;//排行列表
-	optional BaseRankInfo baseRankInfo = 6;//个人排行基础信息
-}
-
 message RankInfo{
 	optional string heroUUID = 1;//英雄ID
 	optional int32 rankingLevel = 2;//排名
@@ -48,6 +39,26 @@ message RankInfo{
 	optional int32 popularity = 14;//人气值
 	optional int32 vip = 15;	//vip等级
 	optional int32 magicId = 16; //法宝id
+}
+
+message RankingHeroData{
+	required string heroId = 1;//ID
+	required int32 level = 2;//等级
+	required int32 starLevel = 3;//星级
+	required string quality = 4;//品质
+	required string heroHead = 5;//佣兵图像
+}
+
+message RankingMagicData{
+	required string magicImage = 1;//法宝图像
+	required int32 magicQuality = 2;//法宝品质
+	required int32 magicAttackType = 3;//法宝攻击类型
+	required int32 magicLevel = 4; //法宝等级
+}
+
+message RankingTeamData{
+	required RankingMagicData magicData = 1;//法宝数据
+	repeated RankingHeroData heroList = 2;//佣兵列表
 }
 
 message BaseRankInfo{
@@ -68,23 +79,12 @@ message BaseRankInfo{
 	optional int32 sex = 15;//显示时装需要性别，具体的值参见服务器ESex,客户端eSex
 }
 
-message RankingTeamData{
-	required RankingMagicData magicData = 1;//法宝数据
-	repeated RankingHeroData heroList = 2;//佣兵列表
-}
-
-message RankingHeroData{
-	required string heroId = 1;//ID
-	required int32 level = 2;//等级
-	required int32 starLevel = 3;//星级
-	required string quality = 4;//品质
-	required string heroHead = 5;//佣兵图像
-}
-
-message RankingMagicData{
-	required string magicImage = 1;//法宝图像
-	required int32 magicQuality = 2;//法宝品质
-	required int32 magicAttackType = 3;//法宝攻击类型
-	required int32 magicLevel = 4; //法宝等级
+message MsgRankResponse{
+	required ERankRequestType requestType = 1;
+	optional int32 rankType = 2;
+	optional ERankResultType resultType = 3;
+	optional RankInfo myRankInfo = 4;//玩家基本信息	
+	repeated RankInfo RankList = 5;//排行列表
+	optional BaseRankInfo baseRankInfo = 6;//个人排行基础信息
 }
 

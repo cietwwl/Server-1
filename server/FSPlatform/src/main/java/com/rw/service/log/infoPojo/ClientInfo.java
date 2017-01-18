@@ -63,13 +63,25 @@ public class ClientInfo {
 		return infoMap;
 	}
 	
-	public static ClientInfo fromJson(String json, String accountId){
+	public static ClientInfo fromJson(String json, String accountId, String openAccount){
 		
 		ClientInfo clientInfo = JsonUtil.readValue(json, ClientInfo.class);
-		if(clientInfo!=null){
-			clientInfo.setRegChannelId_uid(clientInfo.getChannelId()+"_"+accountId);
+		if (clientInfo != null) {
+			String uid = "";
+			if (!StringUtils.isEmpty(openAccount)) {
+				String[] split = openAccount.split("#");
+				if (split.length == 2) {
+					uid = split[1];
+				} else {
+					uid = accountId;
+				}
+			} else {
+				uid = accountId;
+			}
+
+			clientInfo.setRegChannelId_uid(clientInfo.getChannelId() + "_" + uid);
 			clientInfo.setAccountId(accountId);
-		}else{
+		} else {
 			clientInfo = new ClientInfo();
 		}
 		

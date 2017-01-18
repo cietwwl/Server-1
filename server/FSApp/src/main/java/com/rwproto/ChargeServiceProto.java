@@ -61,6 +61,14 @@ public final class ChargeServiceProto {
      * </pre>
      */
     SendFriendMonthCard(5, 6),
+    /**
+     * <code>GetChargeCfg = 7;</code>
+     *
+     * <pre>
+     * 获取充值配置
+     * </pre>
+     */
+    GetChargeCfg(6, 7),
     ;
 
     /**
@@ -111,6 +119,14 @@ public final class ChargeServiceProto {
      * </pre>
      */
     public static final int SendFriendMonthCard_VALUE = 6;
+    /**
+     * <code>GetChargeCfg = 7;</code>
+     *
+     * <pre>
+     * 获取充值配置
+     * </pre>
+     */
+    public static final int GetChargeCfg_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -123,6 +139,7 @@ public final class ChargeServiceProto {
         case 4: return TimeCard;
         case 5: return GetFriendMonthCardInfo;
         case 6: return SendFriendMonthCard;
+        case 7: return GetChargeCfg;
         default: return null;
       }
     }
@@ -1092,6 +1109,51 @@ public final class ChargeServiceProto {
      */
     com.google.protobuf.ByteString
         getTipMsgBytes();
+
+    // repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    java.util.List<com.rwproto.ChargeServiceProto.ChargeCfgData> 
+        getAllChargeCfgsList();
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    com.rwproto.ChargeServiceProto.ChargeCfgData getAllChargeCfgs(int index);
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    int getAllChargeCfgsCount();
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder> 
+        getAllChargeCfgsOrBuilderList();
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder getAllChargeCfgsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code chargeProto.ChargeServiceCommonRspMsg}
@@ -1165,6 +1227,14 @@ public final class ChargeServiceProto {
               tipMsg_ = input.readBytes();
               break;
             }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                allChargeCfgs_ = new java.util.ArrayList<com.rwproto.ChargeServiceProto.ChargeCfgData>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              allChargeCfgs_.add(input.readMessage(com.rwproto.ChargeServiceProto.ChargeCfgData.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1173,6 +1243,9 @@ public final class ChargeServiceProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          allChargeCfgs_ = java.util.Collections.unmodifiableList(allChargeCfgs_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1308,10 +1381,67 @@ public final class ChargeServiceProto {
       }
     }
 
+    // repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;
+    public static final int ALLCHARGECFGS_FIELD_NUMBER = 4;
+    private java.util.List<com.rwproto.ChargeServiceProto.ChargeCfgData> allChargeCfgs_;
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    public java.util.List<com.rwproto.ChargeServiceProto.ChargeCfgData> getAllChargeCfgsList() {
+      return allChargeCfgs_;
+    }
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder> 
+        getAllChargeCfgsOrBuilderList() {
+      return allChargeCfgs_;
+    }
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    public int getAllChargeCfgsCount() {
+      return allChargeCfgs_.size();
+    }
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    public com.rwproto.ChargeServiceProto.ChargeCfgData getAllChargeCfgs(int index) {
+      return allChargeCfgs_.get(index);
+    }
+    /**
+     * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+     *
+     * <pre>
+     * 所有的充值配置（reqType=GetChargeCfg时会发送）
+     * </pre>
+     */
+    public com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder getAllChargeCfgsOrBuilder(
+        int index) {
+      return allChargeCfgs_.get(index);
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.ChargeServiceProto.RequestType.Charge;
       isSuccess_ = false;
       tipMsg_ = "";
+      allChargeCfgs_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1325,6 +1455,12 @@ public final class ChargeServiceProto {
       if (!hasIsSuccess()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getAllChargeCfgsCount(); i++) {
+        if (!getAllChargeCfgs(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1341,6 +1477,9 @@ public final class ChargeServiceProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getTipMsgBytes());
+      }
+      for (int i = 0; i < allChargeCfgs_.size(); i++) {
+        output.writeMessage(4, allChargeCfgs_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1362,6 +1501,10 @@ public final class ChargeServiceProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getTipMsgBytes());
+      }
+      for (int i = 0; i < allChargeCfgs_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, allChargeCfgs_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1471,6 +1614,7 @@ public final class ChargeServiceProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAllChargeCfgsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1485,6 +1629,12 @@ public final class ChargeServiceProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (allChargeCfgsBuilder_ == null) {
+          allChargeCfgs_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          allChargeCfgsBuilder_.clear();
+        }
         return this;
       }
 
@@ -1525,6 +1675,15 @@ public final class ChargeServiceProto {
           to_bitField0_ |= 0x00000004;
         }
         result.tipMsg_ = tipMsg_;
+        if (allChargeCfgsBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            allChargeCfgs_ = java.util.Collections.unmodifiableList(allChargeCfgs_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.allChargeCfgs_ = allChargeCfgs_;
+        } else {
+          result.allChargeCfgs_ = allChargeCfgsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1552,6 +1711,32 @@ public final class ChargeServiceProto {
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
+        if (allChargeCfgsBuilder_ == null) {
+          if (!other.allChargeCfgs_.isEmpty()) {
+            if (allChargeCfgs_.isEmpty()) {
+              allChargeCfgs_ = other.allChargeCfgs_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureAllChargeCfgsIsMutable();
+              allChargeCfgs_.addAll(other.allChargeCfgs_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.allChargeCfgs_.isEmpty()) {
+            if (allChargeCfgsBuilder_.isEmpty()) {
+              allChargeCfgsBuilder_.dispose();
+              allChargeCfgsBuilder_ = null;
+              allChargeCfgs_ = other.allChargeCfgs_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              allChargeCfgsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAllChargeCfgsFieldBuilder() : null;
+            } else {
+              allChargeCfgsBuilder_.addAllMessages(other.allChargeCfgs_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1564,6 +1749,12 @@ public final class ChargeServiceProto {
         if (!hasIsSuccess()) {
           
           return false;
+        }
+        for (int i = 0; i < getAllChargeCfgsCount(); i++) {
+          if (!getAllChargeCfgs(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1786,6 +1977,318 @@ public final class ChargeServiceProto {
         return this;
       }
 
+      // repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;
+      private java.util.List<com.rwproto.ChargeServiceProto.ChargeCfgData> allChargeCfgs_ =
+        java.util.Collections.emptyList();
+      private void ensureAllChargeCfgsIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          allChargeCfgs_ = new java.util.ArrayList<com.rwproto.ChargeServiceProto.ChargeCfgData>(allChargeCfgs_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ChargeServiceProto.ChargeCfgData, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder, com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder> allChargeCfgsBuilder_;
+
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ChargeServiceProto.ChargeCfgData> getAllChargeCfgsList() {
+        if (allChargeCfgsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(allChargeCfgs_);
+        } else {
+          return allChargeCfgsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public int getAllChargeCfgsCount() {
+        if (allChargeCfgsBuilder_ == null) {
+          return allChargeCfgs_.size();
+        } else {
+          return allChargeCfgsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.ChargeCfgData getAllChargeCfgs(int index) {
+        if (allChargeCfgsBuilder_ == null) {
+          return allChargeCfgs_.get(index);
+        } else {
+          return allChargeCfgsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder setAllChargeCfgs(
+          int index, com.rwproto.ChargeServiceProto.ChargeCfgData value) {
+        if (allChargeCfgsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.set(index, value);
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder setAllChargeCfgs(
+          int index, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder builderForValue) {
+        if (allChargeCfgsBuilder_ == null) {
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder addAllChargeCfgs(com.rwproto.ChargeServiceProto.ChargeCfgData value) {
+        if (allChargeCfgsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.add(value);
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder addAllChargeCfgs(
+          int index, com.rwproto.ChargeServiceProto.ChargeCfgData value) {
+        if (allChargeCfgsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.add(index, value);
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder addAllChargeCfgs(
+          com.rwproto.ChargeServiceProto.ChargeCfgData.Builder builderForValue) {
+        if (allChargeCfgsBuilder_ == null) {
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.add(builderForValue.build());
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder addAllChargeCfgs(
+          int index, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder builderForValue) {
+        if (allChargeCfgsBuilder_ == null) {
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder addAllAllChargeCfgs(
+          java.lang.Iterable<? extends com.rwproto.ChargeServiceProto.ChargeCfgData> values) {
+        if (allChargeCfgsBuilder_ == null) {
+          ensureAllChargeCfgsIsMutable();
+          super.addAll(values, allChargeCfgs_);
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder clearAllChargeCfgs() {
+        if (allChargeCfgsBuilder_ == null) {
+          allChargeCfgs_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public Builder removeAllChargeCfgs(int index) {
+        if (allChargeCfgsBuilder_ == null) {
+          ensureAllChargeCfgsIsMutable();
+          allChargeCfgs_.remove(index);
+          onChanged();
+        } else {
+          allChargeCfgsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.ChargeCfgData.Builder getAllChargeCfgsBuilder(
+          int index) {
+        return getAllChargeCfgsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder getAllChargeCfgsOrBuilder(
+          int index) {
+        if (allChargeCfgsBuilder_ == null) {
+          return allChargeCfgs_.get(index);  } else {
+          return allChargeCfgsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder> 
+           getAllChargeCfgsOrBuilderList() {
+        if (allChargeCfgsBuilder_ != null) {
+          return allChargeCfgsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(allChargeCfgs_);
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.ChargeCfgData.Builder addAllChargeCfgsBuilder() {
+        return getAllChargeCfgsFieldBuilder().addBuilder(
+            com.rwproto.ChargeServiceProto.ChargeCfgData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.ChargeCfgData.Builder addAllChargeCfgsBuilder(
+          int index) {
+        return getAllChargeCfgsFieldBuilder().addBuilder(
+            index, com.rwproto.ChargeServiceProto.ChargeCfgData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .chargeProto.ChargeCfgData allChargeCfgs = 4;</code>
+       *
+       * <pre>
+       * 所有的充值配置（reqType=GetChargeCfg时会发送）
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ChargeServiceProto.ChargeCfgData.Builder> 
+           getAllChargeCfgsBuilderList() {
+        return getAllChargeCfgsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ChargeServiceProto.ChargeCfgData, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder, com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder> 
+          getAllChargeCfgsFieldBuilder() {
+        if (allChargeCfgsBuilder_ == null) {
+          allChargeCfgsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.ChargeServiceProto.ChargeCfgData, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder, com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder>(
+                  allChargeCfgs_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          allChargeCfgs_ = null;
+        }
+        return allChargeCfgsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:chargeProto.ChargeServiceCommonRspMsg)
     }
 
@@ -1795,6 +2298,3235 @@ public final class ChargeServiceProto {
     }
 
     // @@protoc_insertion_point(class_scope:chargeProto.ChargeServiceCommonRspMsg)
+  }
+
+  public interface ChargeCfgDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string key = 1;
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键字段
+     * </pre>
+     */
+    boolean hasKey();
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键字段
+     * </pre>
+     */
+    java.lang.String getKey();
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键字段
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getKeyBytes();
+
+    // required string id = 2;
+    /**
+     * <code>required string id = 2;</code>
+     *
+     * <pre>
+     * 唯一ID
+     * </pre>
+     */
+    boolean hasId();
+    /**
+     * <code>required string id = 2;</code>
+     *
+     * <pre>
+     * 唯一ID
+     * </pre>
+     */
+    java.lang.String getId();
+    /**
+     * <code>required string id = 2;</code>
+     *
+     * <pre>
+     * 唯一ID
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    // required int32 chargeType = 3;
+    /**
+     * <code>required int32 chargeType = 3;</code>
+     *
+     * <pre>
+     * 类型
+     * </pre>
+     */
+    boolean hasChargeType();
+    /**
+     * <code>required int32 chargeType = 3;</code>
+     *
+     * <pre>
+     * 类型
+     * </pre>
+     */
+    int getChargeType();
+
+    // required int32 slotWithCard = 4;
+    /**
+     * <code>required int32 slotWithCard = 4;</code>
+     *
+     * <pre>
+     * 有终身卡时优先级
+     * </pre>
+     */
+    boolean hasSlotWithCard();
+    /**
+     * <code>required int32 slotWithCard = 4;</code>
+     *
+     * <pre>
+     * 有终身卡时优先级
+     * </pre>
+     */
+    int getSlotWithCard();
+
+    // required int32 slotWithoutCard = 5;
+    /**
+     * <code>required int32 slotWithoutCard = 5;</code>
+     *
+     * <pre>
+     * 无终身卡时优先级
+     * </pre>
+     */
+    boolean hasSlotWithoutCard();
+    /**
+     * <code>required int32 slotWithoutCard = 5;</code>
+     *
+     * <pre>
+     * 无终身卡时优先级
+     * </pre>
+     */
+    int getSlotWithoutCard();
+
+    // required string icon = 6;
+    /**
+     * <code>required string icon = 6;</code>
+     *
+     * <pre>
+     * 图标
+     * </pre>
+     */
+    boolean hasIcon();
+    /**
+     * <code>required string icon = 6;</code>
+     *
+     * <pre>
+     * 图标
+     * </pre>
+     */
+    java.lang.String getIcon();
+    /**
+     * <code>required string icon = 6;</code>
+     *
+     * <pre>
+     * 图标
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getIconBytes();
+
+    // required string title = 7;
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     * 标题
+     * </pre>
+     */
+    boolean hasTitle();
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     * 标题
+     * </pre>
+     */
+    java.lang.String getTitle();
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     * 标题
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTitleBytes();
+
+    // required string productName = 8;
+    /**
+     * <code>required string productName = 8;</code>
+     *
+     * <pre>
+     * 商品名字
+     * </pre>
+     */
+    boolean hasProductName();
+    /**
+     * <code>required string productName = 8;</code>
+     *
+     * <pre>
+     * 商品名字
+     * </pre>
+     */
+    java.lang.String getProductName();
+    /**
+     * <code>required string productName = 8;</code>
+     *
+     * <pre>
+     * 商品名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getProductNameBytes();
+
+    // required string desc = 9;
+    /**
+     * <code>required string desc = 9;</code>
+     *
+     * <pre>
+     * 描述
+     * </pre>
+     */
+    boolean hasDesc();
+    /**
+     * <code>required string desc = 9;</code>
+     *
+     * <pre>
+     * 描述
+     * </pre>
+     */
+    java.lang.String getDesc();
+    /**
+     * <code>required string desc = 9;</code>
+     *
+     * <pre>
+     * 描述
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDescBytes();
+
+    // required string productDesc = 10;
+    /**
+     * <code>required string productDesc = 10;</code>
+     *
+     * <pre>
+     * 商品描述
+     * </pre>
+     */
+    boolean hasProductDesc();
+    /**
+     * <code>required string productDesc = 10;</code>
+     *
+     * <pre>
+     * 商品描述
+     * </pre>
+     */
+    java.lang.String getProductDesc();
+    /**
+     * <code>required string productDesc = 10;</code>
+     *
+     * <pre>
+     * 商品描述
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getProductDescBytes();
+
+    // required int32 recommend = 11;
+    /**
+     * <code>required int32 recommend = 11;</code>
+     *
+     * <pre>
+     * 是否推荐
+     * </pre>
+     */
+    boolean hasRecommend();
+    /**
+     * <code>required int32 recommend = 11;</code>
+     *
+     * <pre>
+     * 是否推荐
+     * </pre>
+     */
+    int getRecommend();
+
+    // required int32 goldCount = 12;
+    /**
+     * <code>required int32 goldCount = 12;</code>
+     *
+     * <pre>
+     * 充值钻石数量
+     * </pre>
+     */
+    boolean hasGoldCount();
+    /**
+     * <code>required int32 goldCount = 12;</code>
+     *
+     * <pre>
+     * 充值钻石数量
+     * </pre>
+     */
+    int getGoldCount();
+
+    // required int32 vipExp = 13;
+    /**
+     * <code>required int32 vipExp = 13;</code>
+     *
+     * <pre>
+     * vip经验
+     * </pre>
+     */
+    boolean hasVipExp();
+    /**
+     * <code>required int32 vipExp = 13;</code>
+     *
+     * <pre>
+     * vip经验
+     * </pre>
+     */
+    int getVipExp();
+
+    // required int32 moneyCount = 14;
+    /**
+     * <code>required int32 moneyCount = 14;</code>
+     *
+     * <pre>
+     * 充值金额
+     * </pre>
+     */
+    boolean hasMoneyCount();
+    /**
+     * <code>required int32 moneyCount = 14;</code>
+     *
+     * <pre>
+     * 充值金额
+     * </pre>
+     */
+    int getMoneyCount();
+
+    // required int32 extraGive = 15;
+    /**
+     * <code>required int32 extraGive = 15;</code>
+     *
+     * <pre>
+     * 额外赠送钻石
+     * </pre>
+     */
+    boolean hasExtraGive();
+    /**
+     * <code>required int32 extraGive = 15;</code>
+     *
+     * <pre>
+     * 额外赠送钻石
+     * </pre>
+     */
+    int getExtraGive();
+
+    // required int32 giveCount = 16;
+    /**
+     * <code>required int32 giveCount = 16;</code>
+     *
+     * <pre>
+     * 赠送次数
+     * </pre>
+     */
+    boolean hasGiveCount();
+    /**
+     * <code>required int32 giveCount = 16;</code>
+     *
+     * <pre>
+     * 赠送次数
+     * </pre>
+     */
+    int getGiveCount();
+
+    // required int32 daysDraw = 17;
+    /**
+     * <code>required int32 daysDraw = 17;</code>
+     *
+     * <pre>
+     * 每天领取
+     * </pre>
+     */
+    boolean hasDaysDraw();
+    /**
+     * <code>required int32 daysDraw = 17;</code>
+     *
+     * <pre>
+     * 每天领取
+     * </pre>
+     */
+    int getDaysDraw();
+
+    // required string extraGift = 18;
+    /**
+     * <code>required string extraGift = 18;</code>
+     *
+     * <pre>
+     * 额外赠送礼包
+     * </pre>
+     */
+    boolean hasExtraGift();
+    /**
+     * <code>required string extraGift = 18;</code>
+     *
+     * <pre>
+     * 额外赠送礼包
+     * </pre>
+     */
+    java.lang.String getExtraGift();
+    /**
+     * <code>required string extraGift = 18;</code>
+     *
+     * <pre>
+     * 额外赠送礼包
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getExtraGiftBytes();
+  }
+  /**
+   * Protobuf type {@code chargeProto.ChargeCfgData}
+   *
+   * <pre>
+   * 充值配置的数据
+   * </pre>
+   */
+  public static final class ChargeCfgData extends
+      com.google.protobuf.GeneratedMessage
+      implements ChargeCfgDataOrBuilder {
+    // Use ChargeCfgData.newBuilder() to construct.
+    private ChargeCfgData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChargeCfgData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChargeCfgData defaultInstance;
+    public static ChargeCfgData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChargeCfgData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChargeCfgData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              key_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              id_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              chargeType_ = input.readInt32();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              slotWithCard_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              slotWithoutCard_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              icon_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              title_ = input.readBytes();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000080;
+              productName_ = input.readBytes();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000100;
+              desc_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000200;
+              productDesc_ = input.readBytes();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              recommend_ = input.readInt32();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000800;
+              goldCount_ = input.readInt32();
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00001000;
+              vipExp_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00002000;
+              moneyCount_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00004000;
+              extraGive_ = input.readInt32();
+              break;
+            }
+            case 128: {
+              bitField0_ |= 0x00008000;
+              giveCount_ = input.readInt32();
+              break;
+            }
+            case 136: {
+              bitField0_ |= 0x00010000;
+              daysDraw_ = input.readInt32();
+              break;
+            }
+            case 146: {
+              bitField0_ |= 0x00020000;
+              extraGift_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ChargeServiceProto.internal_static_chargeProto_ChargeCfgData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ChargeServiceProto.internal_static_chargeProto_ChargeCfgData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ChargeServiceProto.ChargeCfgData.class, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChargeCfgData> PARSER =
+        new com.google.protobuf.AbstractParser<ChargeCfgData>() {
+      public ChargeCfgData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChargeCfgData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChargeCfgData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string key = 1;
+    public static final int KEY_FIELD_NUMBER = 1;
+    private java.lang.Object key_;
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键字段
+     * </pre>
+     */
+    public boolean hasKey() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键字段
+     * </pre>
+     */
+    public java.lang.String getKey() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          key_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string key = 1;</code>
+     *
+     * <pre>
+     * 关键字段
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getKeyBytes() {
+      java.lang.Object ref = key_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        key_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string id = 2;
+    public static final int ID_FIELD_NUMBER = 2;
+    private java.lang.Object id_;
+    /**
+     * <code>required string id = 2;</code>
+     *
+     * <pre>
+     * 唯一ID
+     * </pre>
+     */
+    public boolean hasId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string id = 2;</code>
+     *
+     * <pre>
+     * 唯一ID
+     * </pre>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          id_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string id = 2;</code>
+     *
+     * <pre>
+     * 唯一ID
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 chargeType = 3;
+    public static final int CHARGETYPE_FIELD_NUMBER = 3;
+    private int chargeType_;
+    /**
+     * <code>required int32 chargeType = 3;</code>
+     *
+     * <pre>
+     * 类型
+     * </pre>
+     */
+    public boolean hasChargeType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 chargeType = 3;</code>
+     *
+     * <pre>
+     * 类型
+     * </pre>
+     */
+    public int getChargeType() {
+      return chargeType_;
+    }
+
+    // required int32 slotWithCard = 4;
+    public static final int SLOTWITHCARD_FIELD_NUMBER = 4;
+    private int slotWithCard_;
+    /**
+     * <code>required int32 slotWithCard = 4;</code>
+     *
+     * <pre>
+     * 有终身卡时优先级
+     * </pre>
+     */
+    public boolean hasSlotWithCard() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 slotWithCard = 4;</code>
+     *
+     * <pre>
+     * 有终身卡时优先级
+     * </pre>
+     */
+    public int getSlotWithCard() {
+      return slotWithCard_;
+    }
+
+    // required int32 slotWithoutCard = 5;
+    public static final int SLOTWITHOUTCARD_FIELD_NUMBER = 5;
+    private int slotWithoutCard_;
+    /**
+     * <code>required int32 slotWithoutCard = 5;</code>
+     *
+     * <pre>
+     * 无终身卡时优先级
+     * </pre>
+     */
+    public boolean hasSlotWithoutCard() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 slotWithoutCard = 5;</code>
+     *
+     * <pre>
+     * 无终身卡时优先级
+     * </pre>
+     */
+    public int getSlotWithoutCard() {
+      return slotWithoutCard_;
+    }
+
+    // required string icon = 6;
+    public static final int ICON_FIELD_NUMBER = 6;
+    private java.lang.Object icon_;
+    /**
+     * <code>required string icon = 6;</code>
+     *
+     * <pre>
+     * 图标
+     * </pre>
+     */
+    public boolean hasIcon() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required string icon = 6;</code>
+     *
+     * <pre>
+     * 图标
+     * </pre>
+     */
+    public java.lang.String getIcon() {
+      java.lang.Object ref = icon_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          icon_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string icon = 6;</code>
+     *
+     * <pre>
+     * 图标
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getIconBytes() {
+      java.lang.Object ref = icon_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        icon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string title = 7;
+    public static final int TITLE_FIELD_NUMBER = 7;
+    private java.lang.Object title_;
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     * 标题
+     * </pre>
+     */
+    public boolean hasTitle() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     * 标题
+     * </pre>
+     */
+    public java.lang.String getTitle() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          title_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string title = 7;</code>
+     *
+     * <pre>
+     * 标题
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTitleBytes() {
+      java.lang.Object ref = title_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        title_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string productName = 8;
+    public static final int PRODUCTNAME_FIELD_NUMBER = 8;
+    private java.lang.Object productName_;
+    /**
+     * <code>required string productName = 8;</code>
+     *
+     * <pre>
+     * 商品名字
+     * </pre>
+     */
+    public boolean hasProductName() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>required string productName = 8;</code>
+     *
+     * <pre>
+     * 商品名字
+     * </pre>
+     */
+    public java.lang.String getProductName() {
+      java.lang.Object ref = productName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          productName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string productName = 8;</code>
+     *
+     * <pre>
+     * 商品名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getProductNameBytes() {
+      java.lang.Object ref = productName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        productName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string desc = 9;
+    public static final int DESC_FIELD_NUMBER = 9;
+    private java.lang.Object desc_;
+    /**
+     * <code>required string desc = 9;</code>
+     *
+     * <pre>
+     * 描述
+     * </pre>
+     */
+    public boolean hasDesc() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>required string desc = 9;</code>
+     *
+     * <pre>
+     * 描述
+     * </pre>
+     */
+    public java.lang.String getDesc() {
+      java.lang.Object ref = desc_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          desc_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string desc = 9;</code>
+     *
+     * <pre>
+     * 描述
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDescBytes() {
+      java.lang.Object ref = desc_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        desc_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string productDesc = 10;
+    public static final int PRODUCTDESC_FIELD_NUMBER = 10;
+    private java.lang.Object productDesc_;
+    /**
+     * <code>required string productDesc = 10;</code>
+     *
+     * <pre>
+     * 商品描述
+     * </pre>
+     */
+    public boolean hasProductDesc() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>required string productDesc = 10;</code>
+     *
+     * <pre>
+     * 商品描述
+     * </pre>
+     */
+    public java.lang.String getProductDesc() {
+      java.lang.Object ref = productDesc_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          productDesc_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string productDesc = 10;</code>
+     *
+     * <pre>
+     * 商品描述
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getProductDescBytes() {
+      java.lang.Object ref = productDesc_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        productDesc_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 recommend = 11;
+    public static final int RECOMMEND_FIELD_NUMBER = 11;
+    private int recommend_;
+    /**
+     * <code>required int32 recommend = 11;</code>
+     *
+     * <pre>
+     * 是否推荐
+     * </pre>
+     */
+    public boolean hasRecommend() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>required int32 recommend = 11;</code>
+     *
+     * <pre>
+     * 是否推荐
+     * </pre>
+     */
+    public int getRecommend() {
+      return recommend_;
+    }
+
+    // required int32 goldCount = 12;
+    public static final int GOLDCOUNT_FIELD_NUMBER = 12;
+    private int goldCount_;
+    /**
+     * <code>required int32 goldCount = 12;</code>
+     *
+     * <pre>
+     * 充值钻石数量
+     * </pre>
+     */
+    public boolean hasGoldCount() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>required int32 goldCount = 12;</code>
+     *
+     * <pre>
+     * 充值钻石数量
+     * </pre>
+     */
+    public int getGoldCount() {
+      return goldCount_;
+    }
+
+    // required int32 vipExp = 13;
+    public static final int VIPEXP_FIELD_NUMBER = 13;
+    private int vipExp_;
+    /**
+     * <code>required int32 vipExp = 13;</code>
+     *
+     * <pre>
+     * vip经验
+     * </pre>
+     */
+    public boolean hasVipExp() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>required int32 vipExp = 13;</code>
+     *
+     * <pre>
+     * vip经验
+     * </pre>
+     */
+    public int getVipExp() {
+      return vipExp_;
+    }
+
+    // required int32 moneyCount = 14;
+    public static final int MONEYCOUNT_FIELD_NUMBER = 14;
+    private int moneyCount_;
+    /**
+     * <code>required int32 moneyCount = 14;</code>
+     *
+     * <pre>
+     * 充值金额
+     * </pre>
+     */
+    public boolean hasMoneyCount() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>required int32 moneyCount = 14;</code>
+     *
+     * <pre>
+     * 充值金额
+     * </pre>
+     */
+    public int getMoneyCount() {
+      return moneyCount_;
+    }
+
+    // required int32 extraGive = 15;
+    public static final int EXTRAGIVE_FIELD_NUMBER = 15;
+    private int extraGive_;
+    /**
+     * <code>required int32 extraGive = 15;</code>
+     *
+     * <pre>
+     * 额外赠送钻石
+     * </pre>
+     */
+    public boolean hasExtraGive() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>required int32 extraGive = 15;</code>
+     *
+     * <pre>
+     * 额外赠送钻石
+     * </pre>
+     */
+    public int getExtraGive() {
+      return extraGive_;
+    }
+
+    // required int32 giveCount = 16;
+    public static final int GIVECOUNT_FIELD_NUMBER = 16;
+    private int giveCount_;
+    /**
+     * <code>required int32 giveCount = 16;</code>
+     *
+     * <pre>
+     * 赠送次数
+     * </pre>
+     */
+    public boolean hasGiveCount() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>required int32 giveCount = 16;</code>
+     *
+     * <pre>
+     * 赠送次数
+     * </pre>
+     */
+    public int getGiveCount() {
+      return giveCount_;
+    }
+
+    // required int32 daysDraw = 17;
+    public static final int DAYSDRAW_FIELD_NUMBER = 17;
+    private int daysDraw_;
+    /**
+     * <code>required int32 daysDraw = 17;</code>
+     *
+     * <pre>
+     * 每天领取
+     * </pre>
+     */
+    public boolean hasDaysDraw() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>required int32 daysDraw = 17;</code>
+     *
+     * <pre>
+     * 每天领取
+     * </pre>
+     */
+    public int getDaysDraw() {
+      return daysDraw_;
+    }
+
+    // required string extraGift = 18;
+    public static final int EXTRAGIFT_FIELD_NUMBER = 18;
+    private java.lang.Object extraGift_;
+    /**
+     * <code>required string extraGift = 18;</code>
+     *
+     * <pre>
+     * 额外赠送礼包
+     * </pre>
+     */
+    public boolean hasExtraGift() {
+      return ((bitField0_ & 0x00020000) == 0x00020000);
+    }
+    /**
+     * <code>required string extraGift = 18;</code>
+     *
+     * <pre>
+     * 额外赠送礼包
+     * </pre>
+     */
+    public java.lang.String getExtraGift() {
+      java.lang.Object ref = extraGift_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          extraGift_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string extraGift = 18;</code>
+     *
+     * <pre>
+     * 额外赠送礼包
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getExtraGiftBytes() {
+      java.lang.Object ref = extraGift_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extraGift_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      key_ = "";
+      id_ = "";
+      chargeType_ = 0;
+      slotWithCard_ = 0;
+      slotWithoutCard_ = 0;
+      icon_ = "";
+      title_ = "";
+      productName_ = "";
+      desc_ = "";
+      productDesc_ = "";
+      recommend_ = 0;
+      goldCount_ = 0;
+      vipExp_ = 0;
+      moneyCount_ = 0;
+      extraGive_ = 0;
+      giveCount_ = 0;
+      daysDraw_ = 0;
+      extraGift_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasChargeType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSlotWithCard()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSlotWithoutCard()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIcon()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTitle()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasProductName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDesc()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasProductDesc()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRecommend()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGoldCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasVipExp()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMoneyCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasExtraGive()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGiveCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDaysDraw()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasExtraGift()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getKeyBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, chargeType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, slotWithCard_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, slotWithoutCard_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getIconBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getTitleBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(8, getProductNameBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(9, getDescBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeBytes(10, getProductDescBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(11, recommend_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(12, goldCount_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(13, vipExp_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(14, moneyCount_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(15, extraGive_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeInt32(16, giveCount_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        output.writeInt32(17, daysDraw_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        output.writeBytes(18, getExtraGiftBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getKeyBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getIdBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, chargeType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, slotWithCard_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, slotWithoutCard_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getIconBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getTitleBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getProductNameBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getDescBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getProductDescBytes());
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(11, recommend_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, goldCount_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, vipExp_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, moneyCount_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, extraGive_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(16, giveCount_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(17, daysDraw_);
+      }
+      if (((bitField0_ & 0x00020000) == 0x00020000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(18, getExtraGiftBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ChargeServiceProto.ChargeCfgData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ChargeServiceProto.ChargeCfgData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code chargeProto.ChargeCfgData}
+     *
+     * <pre>
+     * 充值配置的数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ChargeServiceProto.ChargeCfgDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ChargeServiceProto.internal_static_chargeProto_ChargeCfgData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ChargeServiceProto.internal_static_chargeProto_ChargeCfgData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ChargeServiceProto.ChargeCfgData.class, com.rwproto.ChargeServiceProto.ChargeCfgData.Builder.class);
+      }
+
+      // Construct using com.rwproto.ChargeServiceProto.ChargeCfgData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        key_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        id_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        chargeType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        slotWithCard_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        slotWithoutCard_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        icon_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        title_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        productName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
+        desc_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        productDesc_ = "";
+        bitField0_ = (bitField0_ & ~0x00000200);
+        recommend_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        goldCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        vipExp_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        moneyCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        extraGive_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
+        giveCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00008000);
+        daysDraw_ = 0;
+        bitField0_ = (bitField0_ & ~0x00010000);
+        extraGift_ = "";
+        bitField0_ = (bitField0_ & ~0x00020000);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ChargeServiceProto.internal_static_chargeProto_ChargeCfgData_descriptor;
+      }
+
+      public com.rwproto.ChargeServiceProto.ChargeCfgData getDefaultInstanceForType() {
+        return com.rwproto.ChargeServiceProto.ChargeCfgData.getDefaultInstance();
+      }
+
+      public com.rwproto.ChargeServiceProto.ChargeCfgData build() {
+        com.rwproto.ChargeServiceProto.ChargeCfgData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ChargeServiceProto.ChargeCfgData buildPartial() {
+        com.rwproto.ChargeServiceProto.ChargeCfgData result = new com.rwproto.ChargeServiceProto.ChargeCfgData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.key_ = key_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.id_ = id_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.chargeType_ = chargeType_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.slotWithCard_ = slotWithCard_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.slotWithoutCard_ = slotWithoutCard_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.icon_ = icon_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.title_ = title_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.productName_ = productName_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.desc_ = desc_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.productDesc_ = productDesc_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.recommend_ = recommend_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.goldCount_ = goldCount_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.vipExp_ = vipExp_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.moneyCount_ = moneyCount_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.extraGive_ = extraGive_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.giveCount_ = giveCount_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00010000;
+        }
+        result.daysDraw_ = daysDraw_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00020000;
+        }
+        result.extraGift_ = extraGift_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ChargeServiceProto.ChargeCfgData) {
+          return mergeFrom((com.rwproto.ChargeServiceProto.ChargeCfgData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ChargeServiceProto.ChargeCfgData other) {
+        if (other == com.rwproto.ChargeServiceProto.ChargeCfgData.getDefaultInstance()) return this;
+        if (other.hasKey()) {
+          bitField0_ |= 0x00000001;
+          key_ = other.key_;
+          onChanged();
+        }
+        if (other.hasId()) {
+          bitField0_ |= 0x00000002;
+          id_ = other.id_;
+          onChanged();
+        }
+        if (other.hasChargeType()) {
+          setChargeType(other.getChargeType());
+        }
+        if (other.hasSlotWithCard()) {
+          setSlotWithCard(other.getSlotWithCard());
+        }
+        if (other.hasSlotWithoutCard()) {
+          setSlotWithoutCard(other.getSlotWithoutCard());
+        }
+        if (other.hasIcon()) {
+          bitField0_ |= 0x00000020;
+          icon_ = other.icon_;
+          onChanged();
+        }
+        if (other.hasTitle()) {
+          bitField0_ |= 0x00000040;
+          title_ = other.title_;
+          onChanged();
+        }
+        if (other.hasProductName()) {
+          bitField0_ |= 0x00000080;
+          productName_ = other.productName_;
+          onChanged();
+        }
+        if (other.hasDesc()) {
+          bitField0_ |= 0x00000100;
+          desc_ = other.desc_;
+          onChanged();
+        }
+        if (other.hasProductDesc()) {
+          bitField0_ |= 0x00000200;
+          productDesc_ = other.productDesc_;
+          onChanged();
+        }
+        if (other.hasRecommend()) {
+          setRecommend(other.getRecommend());
+        }
+        if (other.hasGoldCount()) {
+          setGoldCount(other.getGoldCount());
+        }
+        if (other.hasVipExp()) {
+          setVipExp(other.getVipExp());
+        }
+        if (other.hasMoneyCount()) {
+          setMoneyCount(other.getMoneyCount());
+        }
+        if (other.hasExtraGive()) {
+          setExtraGive(other.getExtraGive());
+        }
+        if (other.hasGiveCount()) {
+          setGiveCount(other.getGiveCount());
+        }
+        if (other.hasDaysDraw()) {
+          setDaysDraw(other.getDaysDraw());
+        }
+        if (other.hasExtraGift()) {
+          bitField0_ |= 0x00020000;
+          extraGift_ = other.extraGift_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasKey()) {
+          
+          return false;
+        }
+        if (!hasId()) {
+          
+          return false;
+        }
+        if (!hasChargeType()) {
+          
+          return false;
+        }
+        if (!hasSlotWithCard()) {
+          
+          return false;
+        }
+        if (!hasSlotWithoutCard()) {
+          
+          return false;
+        }
+        if (!hasIcon()) {
+          
+          return false;
+        }
+        if (!hasTitle()) {
+          
+          return false;
+        }
+        if (!hasProductName()) {
+          
+          return false;
+        }
+        if (!hasDesc()) {
+          
+          return false;
+        }
+        if (!hasProductDesc()) {
+          
+          return false;
+        }
+        if (!hasRecommend()) {
+          
+          return false;
+        }
+        if (!hasGoldCount()) {
+          
+          return false;
+        }
+        if (!hasVipExp()) {
+          
+          return false;
+        }
+        if (!hasMoneyCount()) {
+          
+          return false;
+        }
+        if (!hasExtraGive()) {
+          
+          return false;
+        }
+        if (!hasGiveCount()) {
+          
+          return false;
+        }
+        if (!hasDaysDraw()) {
+          
+          return false;
+        }
+        if (!hasExtraGift()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ChargeServiceProto.ChargeCfgData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ChargeServiceProto.ChargeCfgData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string key = 1;
+      private java.lang.Object key_ = "";
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键字段
+       * </pre>
+       */
+      public boolean hasKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键字段
+       * </pre>
+       */
+      public java.lang.String getKey() {
+        java.lang.Object ref = key_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          key_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键字段
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getKeyBytes() {
+        java.lang.Object ref = key_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          key_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键字段
+       * </pre>
+       */
+      public Builder setKey(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键字段
+       * </pre>
+       */
+      public Builder clearKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string key = 1;</code>
+       *
+       * <pre>
+       * 关键字段
+       * </pre>
+       */
+      public Builder setKeyBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string id = 2;
+      private java.lang.Object id_ = "";
+      /**
+       * <code>required string id = 2;</code>
+       *
+       * <pre>
+       * 唯一ID
+       * </pre>
+       */
+      public boolean hasId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string id = 2;</code>
+       *
+       * <pre>
+       * 唯一ID
+       * </pre>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string id = 2;</code>
+       *
+       * <pre>
+       * 唯一ID
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string id = 2;</code>
+       *
+       * <pre>
+       * 唯一ID
+       * </pre>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 2;</code>
+       *
+       * <pre>
+       * 唯一ID
+       * </pre>
+       */
+      public Builder clearId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string id = 2;</code>
+       *
+       * <pre>
+       * 唯一ID
+       * </pre>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 chargeType = 3;
+      private int chargeType_ ;
+      /**
+       * <code>required int32 chargeType = 3;</code>
+       *
+       * <pre>
+       * 类型
+       * </pre>
+       */
+      public boolean hasChargeType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 chargeType = 3;</code>
+       *
+       * <pre>
+       * 类型
+       * </pre>
+       */
+      public int getChargeType() {
+        return chargeType_;
+      }
+      /**
+       * <code>required int32 chargeType = 3;</code>
+       *
+       * <pre>
+       * 类型
+       * </pre>
+       */
+      public Builder setChargeType(int value) {
+        bitField0_ |= 0x00000004;
+        chargeType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 chargeType = 3;</code>
+       *
+       * <pre>
+       * 类型
+       * </pre>
+       */
+      public Builder clearChargeType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        chargeType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 slotWithCard = 4;
+      private int slotWithCard_ ;
+      /**
+       * <code>required int32 slotWithCard = 4;</code>
+       *
+       * <pre>
+       * 有终身卡时优先级
+       * </pre>
+       */
+      public boolean hasSlotWithCard() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 slotWithCard = 4;</code>
+       *
+       * <pre>
+       * 有终身卡时优先级
+       * </pre>
+       */
+      public int getSlotWithCard() {
+        return slotWithCard_;
+      }
+      /**
+       * <code>required int32 slotWithCard = 4;</code>
+       *
+       * <pre>
+       * 有终身卡时优先级
+       * </pre>
+       */
+      public Builder setSlotWithCard(int value) {
+        bitField0_ |= 0x00000008;
+        slotWithCard_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 slotWithCard = 4;</code>
+       *
+       * <pre>
+       * 有终身卡时优先级
+       * </pre>
+       */
+      public Builder clearSlotWithCard() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        slotWithCard_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 slotWithoutCard = 5;
+      private int slotWithoutCard_ ;
+      /**
+       * <code>required int32 slotWithoutCard = 5;</code>
+       *
+       * <pre>
+       * 无终身卡时优先级
+       * </pre>
+       */
+      public boolean hasSlotWithoutCard() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 slotWithoutCard = 5;</code>
+       *
+       * <pre>
+       * 无终身卡时优先级
+       * </pre>
+       */
+      public int getSlotWithoutCard() {
+        return slotWithoutCard_;
+      }
+      /**
+       * <code>required int32 slotWithoutCard = 5;</code>
+       *
+       * <pre>
+       * 无终身卡时优先级
+       * </pre>
+       */
+      public Builder setSlotWithoutCard(int value) {
+        bitField0_ |= 0x00000010;
+        slotWithoutCard_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 slotWithoutCard = 5;</code>
+       *
+       * <pre>
+       * 无终身卡时优先级
+       * </pre>
+       */
+      public Builder clearSlotWithoutCard() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        slotWithoutCard_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string icon = 6;
+      private java.lang.Object icon_ = "";
+      /**
+       * <code>required string icon = 6;</code>
+       *
+       * <pre>
+       * 图标
+       * </pre>
+       */
+      public boolean hasIcon() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required string icon = 6;</code>
+       *
+       * <pre>
+       * 图标
+       * </pre>
+       */
+      public java.lang.String getIcon() {
+        java.lang.Object ref = icon_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          icon_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string icon = 6;</code>
+       *
+       * <pre>
+       * 图标
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getIconBytes() {
+        java.lang.Object ref = icon_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          icon_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string icon = 6;</code>
+       *
+       * <pre>
+       * 图标
+       * </pre>
+       */
+      public Builder setIcon(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        icon_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string icon = 6;</code>
+       *
+       * <pre>
+       * 图标
+       * </pre>
+       */
+      public Builder clearIcon() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        icon_ = getDefaultInstance().getIcon();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string icon = 6;</code>
+       *
+       * <pre>
+       * 图标
+       * </pre>
+       */
+      public Builder setIconBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        icon_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string title = 7;
+      private java.lang.Object title_ = "";
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       * 标题
+       * </pre>
+       */
+      public boolean hasTitle() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       * 标题
+       * </pre>
+       */
+      public java.lang.String getTitle() {
+        java.lang.Object ref = title_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          title_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       * 标题
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTitleBytes() {
+        java.lang.Object ref = title_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          title_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       * 标题
+       * </pre>
+       */
+      public Builder setTitle(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        title_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       * 标题
+       * </pre>
+       */
+      public Builder clearTitle() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        title_ = getDefaultInstance().getTitle();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string title = 7;</code>
+       *
+       * <pre>
+       * 标题
+       * </pre>
+       */
+      public Builder setTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        title_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string productName = 8;
+      private java.lang.Object productName_ = "";
+      /**
+       * <code>required string productName = 8;</code>
+       *
+       * <pre>
+       * 商品名字
+       * </pre>
+       */
+      public boolean hasProductName() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required string productName = 8;</code>
+       *
+       * <pre>
+       * 商品名字
+       * </pre>
+       */
+      public java.lang.String getProductName() {
+        java.lang.Object ref = productName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          productName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string productName = 8;</code>
+       *
+       * <pre>
+       * 商品名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getProductNameBytes() {
+        java.lang.Object ref = productName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          productName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string productName = 8;</code>
+       *
+       * <pre>
+       * 商品名字
+       * </pre>
+       */
+      public Builder setProductName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        productName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string productName = 8;</code>
+       *
+       * <pre>
+       * 商品名字
+       * </pre>
+       */
+      public Builder clearProductName() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        productName_ = getDefaultInstance().getProductName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string productName = 8;</code>
+       *
+       * <pre>
+       * 商品名字
+       * </pre>
+       */
+      public Builder setProductNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        productName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string desc = 9;
+      private java.lang.Object desc_ = "";
+      /**
+       * <code>required string desc = 9;</code>
+       *
+       * <pre>
+       * 描述
+       * </pre>
+       */
+      public boolean hasDesc() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>required string desc = 9;</code>
+       *
+       * <pre>
+       * 描述
+       * </pre>
+       */
+      public java.lang.String getDesc() {
+        java.lang.Object ref = desc_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          desc_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string desc = 9;</code>
+       *
+       * <pre>
+       * 描述
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getDescBytes() {
+        java.lang.Object ref = desc_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          desc_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string desc = 9;</code>
+       *
+       * <pre>
+       * 描述
+       * </pre>
+       */
+      public Builder setDesc(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        desc_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string desc = 9;</code>
+       *
+       * <pre>
+       * 描述
+       * </pre>
+       */
+      public Builder clearDesc() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        desc_ = getDefaultInstance().getDesc();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string desc = 9;</code>
+       *
+       * <pre>
+       * 描述
+       * </pre>
+       */
+      public Builder setDescBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        desc_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string productDesc = 10;
+      private java.lang.Object productDesc_ = "";
+      /**
+       * <code>required string productDesc = 10;</code>
+       *
+       * <pre>
+       * 商品描述
+       * </pre>
+       */
+      public boolean hasProductDesc() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>required string productDesc = 10;</code>
+       *
+       * <pre>
+       * 商品描述
+       * </pre>
+       */
+      public java.lang.String getProductDesc() {
+        java.lang.Object ref = productDesc_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          productDesc_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string productDesc = 10;</code>
+       *
+       * <pre>
+       * 商品描述
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getProductDescBytes() {
+        java.lang.Object ref = productDesc_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          productDesc_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string productDesc = 10;</code>
+       *
+       * <pre>
+       * 商品描述
+       * </pre>
+       */
+      public Builder setProductDesc(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        productDesc_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string productDesc = 10;</code>
+       *
+       * <pre>
+       * 商品描述
+       * </pre>
+       */
+      public Builder clearProductDesc() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        productDesc_ = getDefaultInstance().getProductDesc();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string productDesc = 10;</code>
+       *
+       * <pre>
+       * 商品描述
+       * </pre>
+       */
+      public Builder setProductDescBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        productDesc_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 recommend = 11;
+      private int recommend_ ;
+      /**
+       * <code>required int32 recommend = 11;</code>
+       *
+       * <pre>
+       * 是否推荐
+       * </pre>
+       */
+      public boolean hasRecommend() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>required int32 recommend = 11;</code>
+       *
+       * <pre>
+       * 是否推荐
+       * </pre>
+       */
+      public int getRecommend() {
+        return recommend_;
+      }
+      /**
+       * <code>required int32 recommend = 11;</code>
+       *
+       * <pre>
+       * 是否推荐
+       * </pre>
+       */
+      public Builder setRecommend(int value) {
+        bitField0_ |= 0x00000400;
+        recommend_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 recommend = 11;</code>
+       *
+       * <pre>
+       * 是否推荐
+       * </pre>
+       */
+      public Builder clearRecommend() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        recommend_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 goldCount = 12;
+      private int goldCount_ ;
+      /**
+       * <code>required int32 goldCount = 12;</code>
+       *
+       * <pre>
+       * 充值钻石数量
+       * </pre>
+       */
+      public boolean hasGoldCount() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>required int32 goldCount = 12;</code>
+       *
+       * <pre>
+       * 充值钻石数量
+       * </pre>
+       */
+      public int getGoldCount() {
+        return goldCount_;
+      }
+      /**
+       * <code>required int32 goldCount = 12;</code>
+       *
+       * <pre>
+       * 充值钻石数量
+       * </pre>
+       */
+      public Builder setGoldCount(int value) {
+        bitField0_ |= 0x00000800;
+        goldCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 goldCount = 12;</code>
+       *
+       * <pre>
+       * 充值钻石数量
+       * </pre>
+       */
+      public Builder clearGoldCount() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        goldCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 vipExp = 13;
+      private int vipExp_ ;
+      /**
+       * <code>required int32 vipExp = 13;</code>
+       *
+       * <pre>
+       * vip经验
+       * </pre>
+       */
+      public boolean hasVipExp() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>required int32 vipExp = 13;</code>
+       *
+       * <pre>
+       * vip经验
+       * </pre>
+       */
+      public int getVipExp() {
+        return vipExp_;
+      }
+      /**
+       * <code>required int32 vipExp = 13;</code>
+       *
+       * <pre>
+       * vip经验
+       * </pre>
+       */
+      public Builder setVipExp(int value) {
+        bitField0_ |= 0x00001000;
+        vipExp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 vipExp = 13;</code>
+       *
+       * <pre>
+       * vip经验
+       * </pre>
+       */
+      public Builder clearVipExp() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        vipExp_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 moneyCount = 14;
+      private int moneyCount_ ;
+      /**
+       * <code>required int32 moneyCount = 14;</code>
+       *
+       * <pre>
+       * 充值金额
+       * </pre>
+       */
+      public boolean hasMoneyCount() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>required int32 moneyCount = 14;</code>
+       *
+       * <pre>
+       * 充值金额
+       * </pre>
+       */
+      public int getMoneyCount() {
+        return moneyCount_;
+      }
+      /**
+       * <code>required int32 moneyCount = 14;</code>
+       *
+       * <pre>
+       * 充值金额
+       * </pre>
+       */
+      public Builder setMoneyCount(int value) {
+        bitField0_ |= 0x00002000;
+        moneyCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 moneyCount = 14;</code>
+       *
+       * <pre>
+       * 充值金额
+       * </pre>
+       */
+      public Builder clearMoneyCount() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        moneyCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 extraGive = 15;
+      private int extraGive_ ;
+      /**
+       * <code>required int32 extraGive = 15;</code>
+       *
+       * <pre>
+       * 额外赠送钻石
+       * </pre>
+       */
+      public boolean hasExtraGive() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>required int32 extraGive = 15;</code>
+       *
+       * <pre>
+       * 额外赠送钻石
+       * </pre>
+       */
+      public int getExtraGive() {
+        return extraGive_;
+      }
+      /**
+       * <code>required int32 extraGive = 15;</code>
+       *
+       * <pre>
+       * 额外赠送钻石
+       * </pre>
+       */
+      public Builder setExtraGive(int value) {
+        bitField0_ |= 0x00004000;
+        extraGive_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 extraGive = 15;</code>
+       *
+       * <pre>
+       * 额外赠送钻石
+       * </pre>
+       */
+      public Builder clearExtraGive() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        extraGive_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 giveCount = 16;
+      private int giveCount_ ;
+      /**
+       * <code>required int32 giveCount = 16;</code>
+       *
+       * <pre>
+       * 赠送次数
+       * </pre>
+       */
+      public boolean hasGiveCount() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>required int32 giveCount = 16;</code>
+       *
+       * <pre>
+       * 赠送次数
+       * </pre>
+       */
+      public int getGiveCount() {
+        return giveCount_;
+      }
+      /**
+       * <code>required int32 giveCount = 16;</code>
+       *
+       * <pre>
+       * 赠送次数
+       * </pre>
+       */
+      public Builder setGiveCount(int value) {
+        bitField0_ |= 0x00008000;
+        giveCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 giveCount = 16;</code>
+       *
+       * <pre>
+       * 赠送次数
+       * </pre>
+       */
+      public Builder clearGiveCount() {
+        bitField0_ = (bitField0_ & ~0x00008000);
+        giveCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 daysDraw = 17;
+      private int daysDraw_ ;
+      /**
+       * <code>required int32 daysDraw = 17;</code>
+       *
+       * <pre>
+       * 每天领取
+       * </pre>
+       */
+      public boolean hasDaysDraw() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>required int32 daysDraw = 17;</code>
+       *
+       * <pre>
+       * 每天领取
+       * </pre>
+       */
+      public int getDaysDraw() {
+        return daysDraw_;
+      }
+      /**
+       * <code>required int32 daysDraw = 17;</code>
+       *
+       * <pre>
+       * 每天领取
+       * </pre>
+       */
+      public Builder setDaysDraw(int value) {
+        bitField0_ |= 0x00010000;
+        daysDraw_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 daysDraw = 17;</code>
+       *
+       * <pre>
+       * 每天领取
+       * </pre>
+       */
+      public Builder clearDaysDraw() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        daysDraw_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string extraGift = 18;
+      private java.lang.Object extraGift_ = "";
+      /**
+       * <code>required string extraGift = 18;</code>
+       *
+       * <pre>
+       * 额外赠送礼包
+       * </pre>
+       */
+      public boolean hasExtraGift() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>required string extraGift = 18;</code>
+       *
+       * <pre>
+       * 额外赠送礼包
+       * </pre>
+       */
+      public java.lang.String getExtraGift() {
+        java.lang.Object ref = extraGift_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          extraGift_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string extraGift = 18;</code>
+       *
+       * <pre>
+       * 额外赠送礼包
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getExtraGiftBytes() {
+        java.lang.Object ref = extraGift_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extraGift_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string extraGift = 18;</code>
+       *
+       * <pre>
+       * 额外赠送礼包
+       * </pre>
+       */
+      public Builder setExtraGift(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00020000;
+        extraGift_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string extraGift = 18;</code>
+       *
+       * <pre>
+       * 额外赠送礼包
+       * </pre>
+       */
+      public Builder clearExtraGift() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        extraGift_ = getDefaultInstance().getExtraGift();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string extraGift = 18;</code>
+       *
+       * <pre>
+       * 额外赠送礼包
+       * </pre>
+       */
+      public Builder setExtraGiftBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00020000;
+        extraGift_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:chargeProto.ChargeCfgData)
+    }
+
+    static {
+      defaultInstance = new ChargeCfgData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:chargeProto.ChargeCfgData)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -1807,6 +5539,11 @@ public final class ChargeServiceProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_chargeProto_ChargeServiceCommonRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_chargeProto_ChargeCfgData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_chargeProto_ChargeCfgData_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1819,14 +5556,24 @@ public final class ChargeServiceProto {
       "\n\023ChargeService.proto\022\013chargeProto\"n\n\031Ch" +
       "argeServiceCommonReqMsg\022)\n\007reqType\030\001 \002(\016" +
       "2\030.chargeProto.RequestType\022\024\n\014chargeItem" +
-      "Id\030\002 \001(\t\022\020\n\010friendId\030\003 \001(\t\"i\n\031ChargeServ" +
-      "iceCommonRspMsg\022)\n\007reqType\030\001 \002(\0162\030.charg" +
-      "eProto.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n" +
-      "\006tipMsg\030\003 \001(\t*\203\001\n\013RequestType\022\n\n\006Charge\020" +
-      "\001\022\025\n\021FirstChargeReward\020\002\022\016\n\nBuyVipGift\020\003" +
-      "\022\014\n\010TimeCard\020\004\022\032\n\026GetFriendMonthCardInfo" +
-      "\020\005\022\027\n\023SendFriendMonthCard\020\006B!\n\013com.rwpro",
-      "toB\022ChargeServiceProto"
+      "Id\030\002 \001(\t\022\020\n\010friendId\030\003 \001(\t\"\234\001\n\031ChargeSer" +
+      "viceCommonRspMsg\022)\n\007reqType\030\001 \002(\0162\030.char" +
+      "geProto.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016" +
+      "\n\006tipMsg\030\003 \001(\t\0221\n\rallChargeCfgs\030\004 \003(\0132\032." +
+      "chargeProto.ChargeCfgData\"\325\002\n\rChargeCfgD" +
+      "ata\022\013\n\003key\030\001 \002(\t\022\n\n\002id\030\002 \002(\t\022\022\n\nchargeTy" +
+      "pe\030\003 \002(\005\022\024\n\014slotWithCard\030\004 \002(\005\022\027\n\017slotWi",
+      "thoutCard\030\005 \002(\005\022\014\n\004icon\030\006 \002(\t\022\r\n\005title\030\007" +
+      " \002(\t\022\023\n\013productName\030\010 \002(\t\022\014\n\004desc\030\t \002(\t\022" +
+      "\023\n\013productDesc\030\n \002(\t\022\021\n\trecommend\030\013 \002(\005\022" +
+      "\021\n\tgoldCount\030\014 \002(\005\022\016\n\006vipExp\030\r \002(\005\022\022\n\nmo" +
+      "neyCount\030\016 \002(\005\022\021\n\textraGive\030\017 \002(\005\022\021\n\tgiv" +
+      "eCount\030\020 \002(\005\022\020\n\010daysDraw\030\021 \002(\005\022\021\n\textraG" +
+      "ift\030\022 \002(\t*\225\001\n\013RequestType\022\n\n\006Charge\020\001\022\025\n" +
+      "\021FirstChargeReward\020\002\022\016\n\nBuyVipGift\020\003\022\014\n\010" +
+      "TimeCard\020\004\022\032\n\026GetFriendMonthCardInfo\020\005\022\027" +
+      "\n\023SendFriendMonthCard\020\006\022\020\n\014GetChargeCfg\020",
+      "\007B!\n\013com.rwprotoB\022ChargeServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1844,7 +5591,13 @@ public final class ChargeServiceProto {
           internal_static_chargeProto_ChargeServiceCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_chargeProto_ChargeServiceCommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "AllChargeCfgs", });
+          internal_static_chargeProto_ChargeCfgData_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_chargeProto_ChargeCfgData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_chargeProto_ChargeCfgData_descriptor,
+              new java.lang.String[] { "Key", "Id", "ChargeType", "SlotWithCard", "SlotWithoutCard", "Icon", "Title", "ProductName", "Desc", "ProductDesc", "Recommend", "GoldCount", "VipExp", "MoneyCount", "ExtraGive", "GiveCount", "DaysDraw", "ExtraGift", });
           return null;
         }
       };

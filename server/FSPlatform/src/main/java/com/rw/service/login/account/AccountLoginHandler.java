@@ -145,7 +145,7 @@ public class AccountLoginHandler {
 		}
 
 		try {
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId, userAccount.getOpenAccount());
 			ILog log = LogService.getInstance().getLogByType(logType);
 			log.parseLog(phoneInfo);
 			if (log != null) {
@@ -191,7 +191,7 @@ public class AccountLoginHandler {
 			TableAccount newAccount = AccoutBM.getInstance().createAccount(accountId, password, openAccountId);
 			if (newAccount != null) {
 				response.setResultType(eLoginResultType.SUCCESS);
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId, openAccountId);
 				RegLog regLog = RegLog.fromJson(phoneInfo);
 				newAccount.setChannelId(clientInfo.getChannelId());
 				ILog log = processRegLog(logType, phoneInfo, accountId, clientInfo);
@@ -205,7 +205,7 @@ public class AccountLoginHandler {
 				}
 				BILogMgr.getInstance().logAccountReg(clientInfo, newAccount.getRegisterTime(), regLog, true);
 			} else {
-				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+				ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId, openAccountId);
 				RegLog regLog = RegLog.fromJson(phoneInfo);
 				BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog, false);
 			}
@@ -213,7 +213,7 @@ public class AccountLoginHandler {
 			response.setError("未知错误，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId, openAccountId);
 			RegLog regLog = RegLog.fromJson(phoneInfo);
 			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog, false);
 		}
@@ -227,7 +227,7 @@ public class AccountLoginHandler {
 			accountId = newAccount.getAccount();
 			account.setAccountId(accountId);
 			password = newAccount.getPassword();
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId, openAccountId);
 			RegLog regLog = RegLog.fromJson(phoneInfo);
 
 			newAccount.setChannelId(clientInfo.getChannelId());
@@ -251,7 +251,7 @@ public class AccountLoginHandler {
 			response.setError("生成账号失败，请重新注册！");
 			response.setResultType(eLoginResultType.FAIL);
 
-			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId);
+			ClientInfo clientInfo = ClientInfo.fromJson(clientInfoJson, accountId, openAccountId);
 			RegLog regLog = RegLog.fromJson(phoneInfo);
 			BILogMgr.getInstance().logAccountReg(clientInfo, System.currentTimeMillis(), regLog, false);
 		}

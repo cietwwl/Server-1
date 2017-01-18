@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.netty.ServerConfig;
@@ -55,7 +56,7 @@ public class ZoneRegInfo {
 		return infoMap;
 	}
 
-	public static ZoneRegInfo fromClientInfo(ClientInfo clientInfo,String accountId){
+	public static ZoneRegInfo fromClientInfo(ClientInfo clientInfo, String accountId, String openAccount) {
 		ZoneRegInfo zoneRegInfo = new ZoneRegInfo();
 		TableZoneInfo serveZoneInfo = ServerConfig.getInstance().getServeZoneInfo();
 		zoneRegInfo.setZoneCreatedTime(serveZoneInfo.getOpenTime());
@@ -65,7 +66,18 @@ public class ZoneRegInfo {
 		zoneRegInfo.setRegSubChannelId(clientInfo.getSubChannelId());
 		zoneRegInfo.setRegClientPlatForm(clientInfo.getClientPlatForm());
 		zoneRegInfo.setPhoneOp(clientInfo.getPhoneOp());
-		zoneRegInfo.setRegChannelId_uid(clientInfo.getChannelId()+"_"+accountId);
+		String uid = "";
+		if (!StringUtils.isEmpty(openAccount)) {
+			String[] split = openAccount.split("#");
+			if (split.length == 2) {
+				uid = split[1];
+			} else {
+				uid = accountId;
+			}
+		} else {
+			uid = accountId;
+		}
+		zoneRegInfo.setRegChannelId_uid(clientInfo.getChannelId() + "_" + uid);
 		return zoneRegInfo;
 	}
 	

@@ -429,6 +429,7 @@
 	<bean class="com.rw.routerServer.cfg.UCGiftCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupPrayCfgDAO" init-method="init" />
+	<bean class="com.rw.service.dropitem.DropGuaranteeCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

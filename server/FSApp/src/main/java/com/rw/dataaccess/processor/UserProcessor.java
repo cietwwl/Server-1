@@ -26,7 +26,7 @@ public class UserProcessor implements PlayerCoreCreation<User>{
 		String clientInfoJson = param.getClientInfoJson();
 		if (StringUtils.isNotBlank(clientInfoJson)) {
 			ClientInfo clienInfo = ClientInfo.fromJson(clientInfoJson);
-			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId));
+			baseInfo.setZoneRegInfo(ZoneRegInfo.fromClientInfo(clienInfo, accountId, param.getOpenAccount()));
 		}
 		return baseInfo;
 	}

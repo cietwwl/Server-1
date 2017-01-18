@@ -12,11 +12,24 @@ enum FashionEventType {
 	off = 5;//脱下请求 传入fashionId
 }
 
+enum FashionType{
+	Wing = 0;//翅膀
+	Pet = 1;//宠物
+	Suit = 2;//服饰
+}
+
 message FashionRequest {
 	required FashionEventType eventType = 1;
 	optional int32 fashionId = 2;//策划配表(FashionCommonCfg)的ID
 	optional string buyRenewPlanId = 3;//购买或者续费方案ID
 	optional bool wearNow = 4;//购买的时候允许马上穿上
+}
+
+message FashionUsed{//穿在身上的时装，当不传送某个值的时候表示不存在！
+	optional int32 SuitId = 1;//服饰Id
+	optional int32 WingId = 2;//翅膀Id
+	optional int32 PetId = 3;//宠物Id
+	optional int32 SpecialEffectId = 4;//特殊增益效果Id
 }
 
 message FashionCommon{
@@ -30,13 +43,6 @@ message FashionResponse {
 	required ErrorService.ErrorType error = 3;
 	optional string tips = 4;//成功或者失败的提示信息，一般用于客户端调试之用，也可用于提示玩家
 	optional FashionCommon fashionCommon = 5;//
-}
-
-message FashionUsed{//穿在身上的时装，当不传送某个值的时候表示不存在！
-	optional int32 SuitId = 1;//服饰Id
-	optional int32 WingId = 2;//翅膀Id
-	optional int32 PetId = 3;//宠物Id
-	optional int32 SpecialEffectId = 4;//特殊增益效果Id
 }
 
 message PayCfg{
@@ -54,10 +60,4 @@ message FashionBuyRenew{
 
 message FashionBuyRenewCfg{
 	repeated FashionBuyRenew buyRenewList=1;//购买和续费的配置
-}
-
-enum FashionType{
-	Wing = 0;//翅膀
-	Pet = 1;//宠物
-	Suit = 2;//服饰
 }
