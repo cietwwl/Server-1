@@ -3,8 +3,11 @@ package com.rounter.client.node;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.springframework.stereotype.Service;
@@ -40,7 +43,7 @@ public class ServerChannelManager {
 	//区服务器信息(第一个key是登录服id，第二个key是区id)
 	private HashMap<String, HashMap<String, ServerInfo>> serverMap = new HashMap<String, HashMap<String,ServerInfo>>();
 	//登录服信息
-	private HashMap<String, ServerInfo> platformMap = new HashMap<String, ServerInfo>();	
+	private HashMap<String, ServerInfo> platformMap = new HashMap<String, ServerInfo>();
 	
 	public ChannelNodeManager getAreaNodeManager(String platformId, String areaId){
 		HashMap<String, ChannelNodeManager> platformAreas = areaMgrMap.get(platformId);
@@ -52,6 +55,29 @@ public class ServerChannelManager {
 	
 	public ChannelNodeManager getPlatformNodeManager(String platformId){
 		return platformMgrMap.get(platformId);
+	}
+	
+	public ServerInfo getAreaInfo(String platformId, String areaId){
+		HashMap<String, ServerInfo> platformAreas = serverMap.get(platformId);
+		if(null != platformAreas){
+			return platformAreas.get(areaId);
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取某个登录服下的所有区信息
+	 * @param platformId
+	 * @return
+	 */
+	public List<ServerInfo> getAllAreas(String platformId){
+		HashMap<String, ServerInfo> platformAreas = serverMap.get(platformId);
+		if(null != platformAreas){
+			ArrayList<ServerInfo> result = new ArrayList<ServerInfo>(platformAreas.values());
+			Collections.sort(result);
+			return result;
+		}
+		return null;
 	}
 
 	public void refreshPlatformChannel(){

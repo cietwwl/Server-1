@@ -4,13 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 
 public interface IResponseData {
 	
-	public long getId();
-	
 	/**
 	 * 获取返回数据的json字符串
 	 * @return
 	 */
 	public JSONObject getData();
+	
+	public void setData(JSONObject jsObj);
 	
 	
 	/**
@@ -18,4 +18,6 @@ public interface IResponseData {
 	 * @return
 	 */
 	public int getStateCode();
+	
+	public void setStateCode(int state);
 }

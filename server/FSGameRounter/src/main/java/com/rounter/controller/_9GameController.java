@@ -17,11 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
-import com.rounter.controller.ucParam.ReqRoleInfo;
 import com.rounter.controller.ucParam.Request9Game;
 import com.rounter.controller.ucParam.Response9Game;
 import com.rounter.param.IResponseData;
-import com.rounter.service.IUCService;
+import com.rounter.service.impl.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
 import com.rounter.util.Utils;
@@ -44,21 +43,13 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	@RequestMapping(value="roleinfo", method={RequestMethod.POST})
 	@ResponseBody
 	public String getRoleInfo(@RequestBody Request9Game request){
-//		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
-//		UCStateCode stateCode = beforeOpt.getKey();
-//		String t2 = beforeOpt.getValue();
-////		if(stateCode != UCStateCode.STATE_OK){
-////			return t2;
-////		}
-		
-		//ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
-		ReqRoleInfo roleInfo = new ReqRoleInfo();
-		roleInfo.setServerId("1001");
-		roleInfo.setAccountId("12306");
-		roleInfo.setGameId(2323);
-		roleInfo.setPlatform(3256);
-		IResponseData responseData = ucService.getRoleInfo(roleInfo);
-		
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+		UCStateCode stateCode = beforeOpt.getKey();
+		String t2 = beforeOpt.getValue();
+		if(stateCode != UCStateCode.STATE_OK){
+			return t2;
+		}
+		IResponseData responseData = ucService.getRoleInfo("1001", "12306");
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
@@ -72,14 +63,12 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	@RequestMapping(value="areainfo", method={RequestMethod.POST})
 	@ResponseBody
 	public String getAreasInfoInfo(@RequestBody Request9Game request){
-//		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
-//		UCStateCode stateCode = beforeOpt.getKey();
-//		String t2 = beforeOpt.getValue();
-////		if(stateCode != UCStateCode.STATE_OK){
-////			return t2;
-////		}
-		
-		//ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+		UCStateCode stateCode = beforeOpt.getKey();
+		String t2 = beforeOpt.getValue();
+		if(stateCode != UCStateCode.STATE_OK){
+			return t2;
+		}
 		IResponseData responseData = ucService.getAreasInfo("1001");
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
@@ -190,5 +179,4 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		logger.info("Response role info to 9game:{}", returnStr);
 		return MutablePair.of(respCode, returnStr);
 	}
-
 }

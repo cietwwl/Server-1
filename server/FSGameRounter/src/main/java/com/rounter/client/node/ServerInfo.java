@@ -1,6 +1,6 @@
 package com.rounter.client.node;
 
-public class ServerInfo {
+public class ServerInfo implements Comparable<ServerInfo>{
 	
 	private String ip;
 	
@@ -50,5 +50,10 @@ public class ServerInfo {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int compareTo(ServerInfo o) {
+		return Integer.valueOf(id) - Integer.valueOf(o.id);
 	}
 }
