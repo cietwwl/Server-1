@@ -44,16 +44,43 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	@RequestMapping(value="roleinfo", method={RequestMethod.POST})
 	@ResponseBody
 	public String getRoleInfo(@RequestBody Request9Game request){
-		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
-		UCStateCode stateCode = beforeOpt.getKey();
-		String t2 = beforeOpt.getValue();
-		if(stateCode != UCStateCode.STATE_OK){
-			return t2;
-		}
+//		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+//		UCStateCode stateCode = beforeOpt.getKey();
+//		String t2 = beforeOpt.getValue();
+////		if(stateCode != UCStateCode.STATE_OK){
+////			return t2;
+////		}
 		
-		ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
+		//ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
+		ReqRoleInfo roleInfo = new ReqRoleInfo();
+		roleInfo.setServerId("1001");
+		roleInfo.setAccountId("12306");
+		roleInfo.setGameId(2323);
+		roleInfo.setPlatform(3256);
 		IResponseData responseData = ucService.getRoleInfo(roleInfo);
 		
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		logger.info("response role info msg :{}", afterOpt.getValue());
+		return afterOpt.getValue();
+	}
+	
+	/**
+	 * 获取用户在指定区服的角色列表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="areainfo", method={RequestMethod.POST})
+	@ResponseBody
+	public String getAreasInfoInfo(@RequestBody Request9Game request){
+//		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+//		UCStateCode stateCode = beforeOpt.getKey();
+//		String t2 = beforeOpt.getValue();
+////		if(stateCode != UCStateCode.STATE_OK){
+////			return t2;
+////		}
+		
+		//ReqRoleInfo roleInfo = JsonUtil.readValue(t2, ReqRoleInfo.class);
+		IResponseData responseData = ucService.getAreasInfo("1001");
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();

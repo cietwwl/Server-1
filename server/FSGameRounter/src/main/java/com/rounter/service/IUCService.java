@@ -13,4 +13,6 @@ public interface IUCService {
 
 	IResponseData getRoleInfo(IRequestData request);
 	
+	IResponseData getAreasInfo(String platformId);
+	
 }

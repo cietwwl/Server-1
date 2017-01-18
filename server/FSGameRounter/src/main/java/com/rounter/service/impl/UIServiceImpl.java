@@ -5,8 +5,12 @@ import org.springframework.stereotype.Service;
 
 import com.rounter.client.node.ChannelNodeManager;
 import com.rounter.client.node.ServerChannelManager;
+import com.rounter.controller.ucParam.ReqRoleInfo;
 import com.rounter.innerParam.ReqType;
 import com.rounter.innerParam.ReqestObject;
+import com.rounter.innerParam.ResponseObject;
+import com.rounter.innerParam.jsonParam.AllAreasInfo;
+import com.rounter.innerParam.jsonParam.ReqestParams;
 import com.rounter.param.IRequestData;
 import com.rounter.param.IResponseData;
 import com.rounter.param.impl.ResDataFromServer;
@@ -24,22 +28,23 @@ public class UIServiceImpl implements IUCService{
 	public IResponseData getRoleInfo(IRequestData request) {
 		ReqestObject reqObject = new ReqestObject();
 		reqObject.setType(ReqType.GetSelfRoles);
-		reqObject.setContent(JsonUtil.writeValue(request));
+		ReqestParams param = new ReqestParams();
+		param.setAccountId(((ReqRoleInfo)request).getAccountId());
+		reqObject.setContent(JsonUtil.writeValue(param));
 		ChannelNodeManager channelMgr = serverMgr.getAreaNodeManager(request.requestId());
 		IResponseData resData = new ResDataFromServer();
 		IResponseHandler handler = new IResponseHandler() {
 			
 			@Override
 			public void handleServerResponse(Object msgBack, IResponseData response) {
-				// TODO Auto-generated method stub
-				
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@:" + msgBack);
 			}
 			
 			@Override
 			public void handleSendFailResponse(IResponseData response) {
-				// TODO Auto-generated method stub
-				
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@: send fail");
 			}
+			
 		};
 		if(null != channelMgr){
 			try {
@@ -52,6 +57,42 @@ public class UIServiceImpl implements IUCService{
 			handler.handleSendFailResponse(resData);
 		}
 		
+		return resData;
+	}
+	
+	@Override
+	public IResponseData getAreasInfo(String platformId) {
+		ReqestObject reqObject = new ReqestObject();
+		reqObject.setType(ReqType.GetAreaInfo);
+		ChannelNodeManager channelMgr = serverMgr.getAreaNodeManager(platformId);
+		IResponseData resData = new ResDataFromServer();
+		IResponseHandler handler = new IResponseHandler() {
+			
+			@Override
+			public void handleServerResponse(Object msgBack, IResponseData response) {
+				ResponseObject resObject = JsonUtil.readValue((String)msgBack, ResponseObject.class);
+				if(resObject.isSuccess()){
+					AllAreasInfo areas = JsonUtil.readValue(resObject.getResult(), AllAreasInfo.class);
+					System.out.println("areas size: " + areas.getZoneList().size());
+				}
+			}
+			
+			@Override
+			public void handleSendFailResponse(IResponseData response) {
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@: send fail");
+			}
+			
+		};
+		if(null != channelMgr){
+			try {
+				channelMgr.sendMessage(reqObject, handler, resData);
+			} catch (Exception e) {
+				handler.handleSendFailResponse(resData);
+				e.printStackTrace();
+			}
+		}else{
+			handler.handleSendFailResponse(resData);
+		}
 		return resData;
 	}
 }

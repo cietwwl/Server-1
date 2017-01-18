@@ -1,7 +1,6 @@
 package com.rw.account;
 
 import com.rw.platform.PlatformFactory;
-import com.rw.platform.PlatformService;
 import com.rwbase.common.enu.EServerStatus;
 import com.rwbase.dao.zone.TableZoneInfo;
 

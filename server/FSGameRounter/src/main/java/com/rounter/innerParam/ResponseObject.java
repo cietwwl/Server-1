@@ -2,23 +2,25 @@ package com.rounter.innerParam;
 
 public class ResponseObject {
 	
-	private int code;
+	private String result;
 	
-	private String content;
+	private boolean success;
 
-	public int getCode() {
-		return code;
+	public String getResult() {
+		return result;
 	}
 
-	public void setCode(int code) {
-		this.code = code;
+	public void setResult(String result) {
+		this.result = result;
 	}
 
-	public String getContent() {
-		return content;
+	public boolean isSuccess() {
+		return success;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
+
+	
 }

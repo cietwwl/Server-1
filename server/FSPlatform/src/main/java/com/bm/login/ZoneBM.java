@@ -2,8 +2,6 @@ package com.bm.login;
 
 import java.util.List;
 
-import org.springframework.util.CollectionUtils;
-
 import com.rw.platform.PlatformService;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.dao.zone.TableZoneInfoDAO;

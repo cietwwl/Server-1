@@ -118,8 +118,7 @@ public final class ChannelNode {
 			throw new NullPointerException("链接还未建立");
 		}
 		final NodeData nodeData = new NodeData(resData, resHandler);
-		final String sendeMsg = JsonUtil.writeValue(reqData);
-		
+		final String sendeMsg = JsonUtil.writeValue(reqData) + System.getProperty("line.separator");
 		final ByteBuf buf = Unpooled.copiedBuffer(sendeMsg.getBytes("UTF-8"));
 		cf.channel().eventLoop().execute(new Runnable() {
 			public void run() {
@@ -228,6 +227,7 @@ public final class ChannelNode {
 		@Override
 		protected void channelRead0(ChannelHandlerContext ctx, Object msg)
 				throws Exception {
+			System.out.println("@@@@@@@:" + msg);
 			msgBackSuccess(msg);
 		}
 
@@ -289,7 +289,7 @@ public final class ChannelNode {
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
-			ch.pipeline().addLast(new LineBasedFrameDecoder(1024));
+			ch.pipeline().addLast(new LineBasedFrameDecoder(10240));
 			ch.pipeline().addLast(new StringDecoder());
 			ch.pipeline().addLast(
 					new IdleStateHandler(READ_IDEL_TIME_OUT,
@@ -367,6 +367,8 @@ public final class ChannelNode {
 				if (responseTime > RouterConst.MAX_OVER_TIME){
 					System.out.println("当前平均响应时间(mm)：" + responseTime);
 					handleFailedQueue();
+				}else{
+					nodeState = NodeState.Normal;
 				}
 			}
 		}).start();

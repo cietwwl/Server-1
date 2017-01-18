@@ -1,5 +1,17 @@
 package com.rw.routerServer;
 
+import java.util.List;
+
+import com.bm.login.AccoutBM;
+import com.bm.login.ZoneBM;
+import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.routerServer.data.params.AllAreasInfo;
+import com.rw.routerServer.data.params.AllRolesInfo;
+import com.rw.routerServer.data.params.ReqestParams;
+import com.rw.service.http.request.ResponseObject;
+import com.rwbase.dao.user.accountInfo.TableAccount;
+import com.rwbase.dao.zone.TableZoneInfo;
+
 public class RouterServiceHandler {
 	
 	private static RouterServiceHandler instance = new RouterServiceHandler();
@@ -8,7 +20,25 @@ public class RouterServiceHandler {
 		return instance;
 	}
 	
-	public String getGift(String param){
-		return "{}";
+	public String getSelfAllRoles(String param){
+		ReqestParams paramObj = JsonUtil.readValue(param, ReqestParams.class);		
+		ResponseObject responseObj = new ResponseObject();
+		responseObj.setSuccess(true);
+		TableAccount tableAccount = AccoutBM.getInstance().getByAccountId(paramObj.getAccountId());
+		AllRolesInfo roles = new AllRolesInfo();
+		roles.setAccountId(paramObj.getAccountId());
+		roles.setRoles(tableAccount.getUserZoneInfoList());
+		responseObj.setResult(JsonUtil.writeValue(roles));
+		return JsonUtil.writeValue(responseObj);
+	}
+	
+	public String getAllAreas(){
+		List<TableZoneInfo> zoneList = ZoneBM.getInstance().getAllZoneCfg();
+		AllAreasInfo areas = new AllAreasInfo();
+		areas.setZoneList(zoneList);
+		ResponseObject responseObj = new ResponseObject();
+		responseObj.setResult(JsonUtil.writeValue(areas));
+		responseObj.setSuccess(true);
+		return JsonUtil.writeValue(responseObj);
 	}
 }

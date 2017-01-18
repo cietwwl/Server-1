@@ -8,11 +8,22 @@ import java.util.HashMap;
 import org.springframework.stereotype.Service;
 
 import com.rounter.client.config.RouterConst;
+import com.rounter.innerParam.ReqType;
+import com.rounter.innerParam.ReqestObject;
+import com.rounter.innerParam.ResponseObject;
+import com.rounter.innerParam.jsonParam.AllAreasInfo;
+import com.rounter.param.IResponseData;
+import com.rounter.param.impl.ResDataFromServer;
+import com.rounter.service.IResponseHandler;
+import com.rounter.util.JsonUtil;
 
 @Service
 public class ServerChannelManager {
 	
 	private EventLoopGroup senderGroup = new NioEventLoopGroup(RouterConst.MAX_THREAD_COUNT);
+	
+	private HashMap<String, HashMap<String, ChannelNodeManager>> areaMgrMap2 = new HashMap<String, HashMap<String,ChannelNodeManager>>();
+	
 	
 	private HashMap<String, ChannelNodeManager> areaMgrMap = new HashMap<String, ChannelNodeManager>();	//游戏区连接管理
 	private HashMap<String, ChannelNodeManager> platformMgrMap = new HashMap<String, ChannelNodeManager>();	//登录服连接管理
@@ -70,5 +81,59 @@ public class ServerChannelManager {
 	private void refreshServerInfoMap(ChannelNodeManager platformNodeMgr){
 		final HashMap<String, ServerInfo> serverMap = new HashMap<String, ServerInfo>();
 		//platformNodeMgr.sendMessage(reqData, resHandler, resData);
+	}
+	
+	public void getAreasInfo(String platformId) {
+		ReqestObject reqObject = new ReqestObject();
+		reqObject.setType(ReqType.GetAreaInfo);
+		ServerInfo platform = platformMap.get(platformId);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			IResponseData resData = new ResDataFromServer();
+			IResponseHandler handler = new IResponseHandler() {
+				
+				@Override
+				public void handleServerResponse(Object msgBack, IResponseData response) {
+					ResponseObject resObject = JsonUtil.readValue((String)msgBack, ResponseObject.class);
+					if(resObject.isSuccess()){
+						AllAreasInfo areas = JsonUtil.readValue(resObject.getResult(), AllAreasInfo.class);
+						System.out.println("areas size: " + areas.getZoneList().size());
+					}
+				}
+				
+				@Override
+				public void handleSendFailResponse(IResponseData response) {
+					System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@: send fail");
+				}
+				
+			};
+			if(null != channelMgr){
+				try {
+					channelMgr.sendMessage(reqObject, handler, resData);
+				} catch (Exception e) {
+					handler.handleSendFailResponse(resData);
+					e.printStackTrace();
+				}
+			}else{
+				handler.handleSendFailResponse(resData);
+			}
+			return resData;
+		}
 	}
 }
