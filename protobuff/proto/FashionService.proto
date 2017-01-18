@@ -32,10 +32,6 @@ message FashionUsed{//穿在身上的时装，当不传送某个值的时候表�
 	optional int32 SpecialEffectId = 4;//特殊增益效果Id
 }
 
-message FashionBuyRenewCfg{
-	repeated FashionBuyRenew buyRenewList=1;//购买和续费的配置
-}
-
 message FashionCommon{
 	optional FashionUsed usedFashion = 1;
 	optional FashionBuyRenewCfg buyRenewCfg = 2;
@@ -60,4 +56,8 @@ message FashionBuyRenew{
 	required int32 fashionId = 1;//策划配表(FashionCommonCfg)的ID
 	repeated PayCfg buyCfg = 2;//购买方案
 	repeated PayCfg renewPlan = 3;//续费方案
+}
+
+message FashionBuyRenewCfg{
+	repeated FashionBuyRenew buyRenewList=1;//购买和续费的配置
 }
