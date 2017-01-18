@@ -1,8 +1,10 @@
 package com.server.controller;
 
-import org.springframework.http.HttpRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +12,7 @@ import com.server.beans.User;
 import com.server.paramers.RESTResponse;
 
 @RestController
+@RequestMapping("/user")
 public class HomeController {
 
 	/**
@@ -17,7 +20,7 @@ public class HomeController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping("/user/login")
+	@RequestMapping("login")
 	public @ResponseBody RESTResponse showHomePage(@RequestBody User user){
 		
 		return new RESTResponse().success();
@@ -29,8 +32,8 @@ public class HomeController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping("/user/register")
-	public @ResponseBody RESTResponse register(HttpRequest request){
+	@RequestMapping(value="register", method={RequestMethod.POST})
+	public @ResponseBody RESTResponse register(HttpServletRequest request){
 		return new RESTResponse().success();
 	}
 }

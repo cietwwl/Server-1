@@ -6,6 +6,8 @@ public class User {
     private String account;
 
     private String password;
+    
+    private boolean remember;
 
     private Date lastlogintime;
 
@@ -32,4 +34,14 @@ public class User {
     public void setLastlogintime(Date lastlogintime) {
         this.lastlogintime = lastlogintime;
     }
+
+	public boolean isRemember() {
+		return remember;
+	}
+
+	public void setRemember(boolean remember) {
+		this.remember = remember;
+	}
+    
+    
 }

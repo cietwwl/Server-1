@@ -18,7 +18,7 @@ var Login = function() {
             },
 
             messages : {
-                loginName : {
+            	username : {
                     required : "用户名不能为空."
                 },
                 password : {
@@ -52,18 +52,17 @@ var Login = function() {
             },
 
             submitHandler : function(form) {
-            	var account = $('#username').val();
-                var passwordInput = $('[name="password"]');
-
-                passwordInput.val(sha256_digest(passwordInput.val()));
-
+            	var account = $('#account').val();
+            	var passwordInput = $('#password').val();
+            	var pwd = sha256_digest(passwordInput);
+            	var remember = $('remember').val();
                 //在此执行提交
                 $.ajax({
                 	type:'post',
-                	url:'/user/login',
+                	url:'user/login',
                 	contentType:'application/json',
                 	dataType:'json',//可能返回的参数
-                	data:{username:account,password:passwordInput.val()},
+                	data:{username:account,password:pwd, remember:remember},
                 	success:function(response){
                 		if(response.meta.success){
                 			//登录成功,保存cookie
@@ -206,22 +205,22 @@ var Login = function() {
             ignore : "",
             rules : {
 
-                fullname : {
-                    required : true
-                },
-                email : {
-                    required : true,
-                    email : true
-                },
-                address : {
-                    required : true
-                },
-                city : {
-                    required : true
-                },
-                country : {
-                    required : true
-                },
+//                fullname : {
+//                    required : true
+//                },
+//                email : {
+//                    required : true,
+//                    email : true
+//                },
+//                address : {
+//                    required : true
+//                },
+//                city : {
+//                    required : true
+//                },
+//                country : {
+//                    required : true
+//                },
 
                 username : {
                     required : true
@@ -230,18 +229,18 @@ var Login = function() {
                     required : true
                 },
                 rpassword : {
-                    equalTo : "#register_password"
+                    equalTo : "#registerPwd"
                 },
 
-                tnc : {
-                    required : true
-                }
+//                tnc : {
+//                    required : true
+//                }
             },
 
             messages : { // custom messages for radio buttons and checkboxes
-                tnc : {
-                    required : "Please accept TNC first."
-                }
+//                tnc : {
+//                    required : "Please accept TNC first."
+//                }
             },
 
             invalidHandler : function(event, validator) { // display error
@@ -279,17 +278,16 @@ var Login = function() {
 
             submitHandler : function(form) {
             	var account = $('#account').val();
-                var passwordInput = $('[name="password"]');
-
-                passwordInput.val(sha256_digest(passwordInput.val()));
+            	var passwordInput = $('#registerPwd').val();
+            	var pwd = sha256_digest(passwordInput);
 
                 //在此执行提交
                 $.ajax({
                 	type:'post',
-                	url:'/user/register',
+                	url:'user/register',
                 	contentType:'application/json',
                 	dataType:'json',//可能返回的参数
-                	data:{username:account,password:passwordInput.val()},
+                	data:{username:account,password:pwd},
                 	success:function(response){
                 		if(response.meta.success){
                 			//登录成功,保存cookie
