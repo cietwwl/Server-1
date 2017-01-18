@@ -31,7 +31,7 @@ import com.rounter.client.exception.CannotCreateNodeException;
 import com.rounter.client.exception.NodeMsgQueueDisorderException;
 import com.rounter.client.exception.ParamInvalidException;
 import com.rounter.innerParam.ReqType;
-import com.rounter.innerParam.ReqestObject;
+import com.rounter.innerParam.RouterReqestObject;
 import com.rounter.param.IResponseData;
 import com.rounter.service.IResponseHandler;
 import com.rounter.util.JsonUtil;
@@ -115,7 +115,7 @@ public final class ChannelNode {
 		return cf != null && cf.channel().isActive();
 	}
 
-	public void sendMessage(final ReqestObject reqData, IResponseHandler resHandler, IResponseData resData)
+	public void sendMessage(final RouterReqestObject reqData, IResponseHandler resHandler, IResponseData resData)
 			throws UnsupportedEncodingException, InterruptedException, ParamInvalidException {
 		if (queueMemCount.incrementAndGet() >= RouterConst.NODE_MAX_QUEUE_SIZE){
 			nodeState = NodeState.Busy;
@@ -334,7 +334,7 @@ public final class ChannelNode {
 	private void sendHeartBitMessage(){
 		for (int i = 0; i < RouterConst.CHECK_CHANNEL_SAMPLE_COUNT; i++){
 			try {
-				ReqestObject reqObj = new ReqestObject();
+				RouterReqestObject reqObj = new RouterReqestObject();
 				reqObj.setType(ReqType.HeartBit);
 				sendMessage(reqObj, null, null);
 			} catch (Exception e) {

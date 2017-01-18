@@ -1,6 +1,6 @@
 package com.rounter.innerParam;
 
-public class ReqestObject{
+public class RouterReqestObject{
 	
 	private ReqType type;
 	

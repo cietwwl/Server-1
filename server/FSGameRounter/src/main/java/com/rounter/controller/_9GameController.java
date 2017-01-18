@@ -69,7 +69,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		if(stateCode != UCStateCode.STATE_OK){
 			return t2;
 		}
-		IResponseData responseData = ucService.getAreasInfo("1001");
+		IResponseData responseData = ucService.getAreasInfo("1001", 1, 10);
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();

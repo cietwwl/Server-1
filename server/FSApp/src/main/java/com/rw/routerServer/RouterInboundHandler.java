@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 import com.rw.fsutil.util.jackson.JsonUtil;
-import com.rw.routerServer.data.ReqestObject;
+import com.rw.routerServer.data.RouterReqestObject;
 import com.rw.service.http.request.ResponseObject;
 
 public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
@@ -14,7 +14,7 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		System.out.println("channelRead:" + msg);
-		ReqestObject reqParam = JsonUtil.readValue((String)msg, ReqestObject.class);
+		RouterReqestObject reqParam = JsonUtil.readValue((String)msg, RouterReqestObject.class);
 		String result = null;
 		try{
 			switch (reqParam.getType()) {

@@ -1,9 +1,8 @@
 package com.rw.service.http.request;
 
 public class ResponseObject {
-	
-	private String result;
-	private boolean success;
+	String result;
+	boolean success;
 
 	public boolean isSuccess() {
 		return success;
@@ -20,4 +19,6 @@ public class ResponseObject {
 	public void setResult(String result) {
 		this.result = result;
 	}
+	
+	
 }

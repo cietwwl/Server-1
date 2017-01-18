@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.rounter.client.config.RouterConst;
 import com.rounter.innerParam.ReqType;
-import com.rounter.innerParam.ReqestObject;
-import com.rounter.innerParam.ResponseObject;
+import com.rounter.innerParam.RouterReqestObject;
+import com.rounter.innerParam.RouterRespObject;
+import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.jsonParam.AllAreasInfo;
 import com.rounter.innerParam.jsonParam.TableZoneInfo;
 import com.rounter.param.IResponseData;
@@ -49,6 +50,16 @@ public class ServerChannelManager {
 		HashMap<String, ChannelNodeManager> platformAreas = areaMgrMap.get(platformId);
 		if(null != platformAreas){
 			return platformAreas.get(areaId);
+		}
+		return null;
+	}
+	
+	public ChannelNodeManager getAreaNodeManager(String areaId){
+		for(String platformId : areaMgrMap.keySet()){
+			ChannelNodeManager nodeMgr = getAreaNodeManager(platformId, areaId);
+			if(null != nodeMgr){
+				return nodeMgr;
+			}
 		}
 		return null;
 	}
@@ -188,7 +199,7 @@ public class ServerChannelManager {
 	 * @return
 	 */
 	private HashMap<String, ServerInfo> getAreasInfo(ChannelNodeManager platformNodeMgr) {
-		ReqestObject reqObject = new ReqestObject();
+		RouterReqestObject reqObject = new RouterReqestObject();
 		reqObject.setType(ReqType.GetAreaInfo);	
 		final HashMap<String, ServerInfo> platformAreas = new HashMap<String, ServerInfo>();
 		IResponseData resData = new ResDataFromServer();
@@ -196,10 +207,10 @@ public class ServerChannelManager {
 			
 			@Override
 			public void handleServerResponse(Object msgBack, IResponseData response) {
-				ResponseObject resObject = JsonUtil.readValue((String)msgBack, ResponseObject.class);
-				if(resObject.isSuccess()){
+				RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
+				if(resObject.getResult() == ResultState.SUCCESS){
 					
-					AllAreasInfo areas = JsonUtil.readValue(resObject.getResult(), AllAreasInfo.class);
+					AllAreasInfo areas = JsonUtil.readValue(resObject.getContent(), AllAreasInfo.class);
 					if(null != areas && null != areas.getZoneList()){
 						for(TableZoneInfo zoneInfo : areas.getZoneList()){
 							ServerInfo area = new ServerInfo();

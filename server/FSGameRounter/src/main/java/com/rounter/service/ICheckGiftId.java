@@ -3,7 +3,7 @@ package com.rounter.service;
 import com.rounter.param.IResponseData;
 
 
-public interface IGetAreaService {
+public interface ICheckGiftId {
 	
 	/**
 	 * 请求服务器列表
@@ -12,6 +12,6 @@ public interface IGetAreaService {
 	 * @param count 每页数量
 	 * @return
 	 */
-	IResponseData getAreasInfo(String platformId, int page, int count);
+	IResponseData checkGiftId(String giftId);
 	
 }

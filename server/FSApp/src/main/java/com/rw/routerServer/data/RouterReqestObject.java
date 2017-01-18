@@ -1,7 +1,7 @@
 package com.rw.routerServer.data;
 
 
-public class ReqestObject{
+public class RouterReqestObject{
 	
 	private ReqType type;
 	

@@ -10,8 +10,9 @@ import com.rounter.client.node.ChannelNodeManager;
 import com.rounter.client.node.ServerChannelManager;
 import com.rounter.client.node.ServerInfo;
 import com.rounter.innerParam.ReqType;
-import com.rounter.innerParam.ReqestObject;
-import com.rounter.innerParam.ResponseObject;
+import com.rounter.innerParam.RouterReqestObject;
+import com.rounter.innerParam.RouterRespObject;
+import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.jsonParam.AllRolesInfo;
 import com.rounter.innerParam.jsonParam.ReqestParams;
 import com.rounter.innerParam.jsonParam.UserZoneInfo;
@@ -26,7 +27,7 @@ public class UIServiceImpl implements IUCService{
 
 	@Override
 	public IResponseData getRoleInfo(final String platformId, String accountId) {
-		ReqestObject reqObject = new ReqestObject();
+		RouterReqestObject reqObject = new RouterReqestObject();
 		reqObject.setType(ReqType.GetSelfRoles);
 		ReqestParams param = new ReqestParams();
 		param.setAccountId(accountId);
@@ -37,9 +38,9 @@ public class UIServiceImpl implements IUCService{
 			
 			@Override
 			public void handleServerResponse(Object msgBack, IResponseData response) {
-				ResponseObject resObject = JsonUtil.readValue((String)msgBack, ResponseObject.class);
-				if(resObject.isSuccess()){
-					AllRolesInfo roles = JsonUtil.readValue((String)msgBack, AllRolesInfo.class);
+				RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
+				if(resObject.getResult() == ResultState.SUCCESS){
+					AllRolesInfo roles = JsonUtil.readValue((String)resObject.getContent(), AllRolesInfo.class);
 					JSONObject jsObj = new JSONObject();
 					if(null != roles){
 						jsObj.put("accountId", roles.getAccountId());
@@ -89,19 +90,85 @@ public class UIServiceImpl implements IUCService{
 	}
 	
 	@Override
-	public IResponseData getAreasInfo(String platformId) {
-		IResponseData resData = new ResDataFromServer();
+	public IResponseData getAreasInfo(String platformId, int page, int count) {
+		IResponseData response = new ResDataFromServer();
 		List<ServerInfo> servers = ServerChannelManager.getInstance().getAllAreas(platformId);
-		if(null == servers){
-			resData.setStateCode(UCStateCode.STATE_OK.getId());
+		if(null != servers){
+			JSONObject jsObj = new JSONObject();
+			int size = servers.size();
+			jsObj.put("recordCount", size);
+			JSONArray jsArray = new JSONArray();
+			jsObj.put("list", jsArray);
+			if(size <= page * count){
+				page = 1;
+			}
+			for(int i = (page -1) * count; i < size && i < page * count; i++){
+				ServerInfo info = servers.get(i);
+				JSONObject jsServer = new JSONObject();
+				jsServer.put("serverId", info.getId());
+				jsServer.put("serverName", info.getName());
+				jsArray.add(jsServer);
+			}
+			response.setStateCode(UCStateCode.STATE_OK.getId());
+			response.setData(jsObj);
 		}else{
-			resData.setStateCode(UCStateCode.STATE_PARAM_ERROR.getId());
+			response.setStateCode(UCStateCode.STATE_PARAM_ERROR.getId());
 		}
-		return resData;
+		return response;
 	}
 
 	@Override
-	public IResponseData getGift(String platformId, String userId, String giftId) {
-		return null;
+	public IResponseData getGift(String areaId, String userId, String giftId, String getDate) {
+		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(areaId);
+		IResponseData response = new ResDataFromServer();
+		if(null != nodeMgr && nodeMgr.isActive()){
+			RouterReqestObject reqObject = new RouterReqestObject();
+			reqObject.setType(ReqType.GetGift);
+			ReqestParams param = new ReqestParams();
+			param.setRoleId(userId);
+			param.setGiftId(giftId);
+			param.setDate(getDate);
+			reqObject.setContent(JsonUtil.writeValue(param));
+			IResponseHandler handler = new IResponseHandler() {
+				
+				@Override
+				public void handleServerResponse(Object msgBack, IResponseData response) {
+					RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
+					JSONObject jsObj = new JSONObject();
+					response.setStateCode(UCStateCode.STATE_OK.getId());
+					if(resObject.getResult() == ResultState.SUCCESS){
+						jsObj.put("result", true);
+					}else{
+						jsObj.put("result", false);
+					}
+					response.setData(jsObj);
+				}
+				
+				@Override
+				public void handleSendFailResponse(IResponseData response) {
+					response.setStateCode(UCStateCode.STATE_SERVER_ERROR.getId());
+				}
+				
+			};
+			try {
+				nodeMgr.sendMessage(reqObject, handler, response);
+			} catch (Exception e) {
+				handler.handleSendFailResponse(response);
+				e.printStackTrace();
+			}
+		}else{
+			response.setStateCode(UCStateCode.STATE_SERVER_ERROR.getId());
+		}
+		return response;
+	}
+
+	@Override
+	public IResponseData checkGiftId(String giftId) {
+		IResponseData response = new ResDataFromServer();
+		JSONObject jsObj = new JSONObject();
+		jsObj.put("result", true);
+		response.setData(jsObj);
+		response.setStateCode(UCStateCode.STATE_OK.getId());
+		return response;
 	}
 }

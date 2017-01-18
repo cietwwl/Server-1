@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.rounter.client.config.RouterConst;
 import com.rounter.client.exception.NoCanUseNodeException;
 import com.rounter.client.exception.ParamInvalidException;
-import com.rounter.innerParam.ReqestObject;
+import com.rounter.innerParam.RouterReqestObject;
 import com.rounter.param.IResponseData;
 import com.rounter.service.IResponseHandler;
 
@@ -45,7 +45,7 @@ public class ChannelNodeManager {
 		return result;
 	}
 	
-	public void sendMessage(ReqestObject reqData, IResponseHandler resHandler, IResponseData resData) throws UnsupportedEncodingException, InterruptedException, ParamInvalidException, NoCanUseNodeException, URISyntaxException{
+	public void sendMessage(RouterReqestObject reqData, IResponseHandler resHandler, IResponseData resData) throws UnsupportedEncodingException, InterruptedException, ParamInvalidException, NoCanUseNodeException, URISyntaxException{
 		try {
 			getProperChannelNode().sendMessage(reqData, resHandler, resData);
 		} catch (Exception e) {
@@ -67,13 +67,22 @@ public class ChannelNodeManager {
 		}
 	}
 	
+	public boolean isActive(){
+		for(ChannelNode node : nodeQueue){
+			if(node.isChannelActive()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * 设置目标服务器的活跃状态
 	 * @param isActive
 	 */
 	public void close(){
 		for(ChannelNode node : nodeQueue){
-			node.closeNode();;
+			node.closeNode();
 		}
 	}
 	
