@@ -278,7 +278,30 @@ var Login = function() {
             },
 
             submitHandler : function(form) {
-                form.submit();
+            	var account = $('#account').val();
+                var passwordInput = $('[name="password"]');
+
+                passwordInput.val(sha256_digest(passwordInput.val()));
+
+                //在此执行提交
+                $.ajax({
+                	type:'post',
+                	url:'/user/register',
+                	contentType:'application/json',
+                	dataType:'json',//可能返回的参数
+                	data:{username:account,password:passwordInput.val()},
+                	success:function(response){
+                		if(response.meta.success){
+                			//登录成功,保存cookie
+                			$.cookie(Cookie.TOKEN,response.data.token);
+                			$.cookie(Cookie.USERNAME,response.data.username)
+                			location.href='/view/main.html';
+                		}else{
+                			alert(response.meta.message);
+                		}
+                	}
+                })
+                
             }
         });
 

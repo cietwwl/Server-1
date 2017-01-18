@@ -85,15 +85,16 @@
 		</form>
 
 		<!-- END LOGIN FORM -->
-		<!-- BEGIN REGISTRATION FORM -->
-		<form class="register-form" action="user/registerUser" method="post">
+		<!-- BEGIN REGISTRATION FORM 
+		<form class="register-form" action="register" method="post">-->
+		<form class="register-form">
 			<h3>注 册</h3>
 			<p>请输入账号信息:</p>
 			<div class="form-group">
 				<label class="control-label visible-ie8 visible-ie9">用户名</label>
 				<div class="input-icon">
 					<i class="fa fa-user"></i> <input
-						class="form-control placeholder-no-fix" type="text"
+						class="form-control placeholder-no-fix" type="text" id="account"
 						autocomplete="off" placeholder="用户名" name="username" />
 				</div>
 			</div>
@@ -101,7 +102,7 @@
 				<label class="control-label visible-ie8 visible-ie9">密码</label>
 				<div class="input-icon">
 					<i class="fa fa-lock"></i> <input
-						class="form-control placeholder-no-fix" type="password"
+						class="form-control placeholder-no-fix" type="password" id="registerPwd"
 						autocomplete="off" id="register_password" placeholder="密码"
 						name="password" />
 				</div>

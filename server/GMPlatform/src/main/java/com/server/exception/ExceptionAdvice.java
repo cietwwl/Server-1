@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.server.paramers.RESTRespone;
+import com.server.paramers.RESTResponse;
 
 /**
  * 自定义的异常处理类型，这里面只是定义了一部分，如果还有其他的类型再添加 
@@ -30,9 +30,9 @@ public class ExceptionAdvice {
 	 */
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	public RESTRespone handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
+	public RESTResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException e){
 		logger.error("参数解析失败", e);
-		return new RESTRespone().failure("could not read message");
+		return new RESTResponse().failure("could not read message");
 	}
 	
 	
@@ -43,9 +43,9 @@ public class ExceptionAdvice {
 	 */
 	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public RESTRespone handleHttpMessageNotSupportException(HttpRequestMethodNotSupportedException e){
+	public RESTResponse handleHttpMessageNotSupportException(HttpRequestMethodNotSupportedException e){
 		logger.error("不支持当前请求方法", e);
-		return new RESTRespone().failure("request method not support");
+		return new RESTResponse().failure("request method not support");
 	}
 	
 	/**
@@ -55,9 +55,9 @@ public class ExceptionAdvice {
 	 */
 	@ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
 	@ExceptionHandler(HttpMediaTypeNotSupportedException.class)
-	public RESTRespone handleHttpMediaTypeNotSupportException(HttpMediaTypeNotSupportedException e){
+	public RESTResponse handleHttpMediaTypeNotSupportException(HttpMediaTypeNotSupportedException e){
 		logger.error("不支持当前媒体类型", e);
-		return new RESTRespone().failure("content type not support");
+		return new RESTResponse().failure("content type not support");
 	}
 	
 	
@@ -68,8 +68,8 @@ public class ExceptionAdvice {
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
-	public RESTRespone handleException(Exception e){
+	public RESTResponse handleException(Exception e){
 		logger.error("服务器内部异常", e);
-		return new RESTRespone().failure(e.getMessage());
+		return new RESTResponse().failure(e.getMessage());
 	}
 }

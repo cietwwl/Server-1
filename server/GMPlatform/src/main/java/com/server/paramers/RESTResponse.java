@@ -5,7 +5,7 @@ package com.server.paramers;
  * @author Alex
  * 2017年1月13日 下午5:38:37
  */
-public class RESTRespone {
+public class RESTResponse {
 
 	
 	private static final String OK = "ok";
@@ -14,30 +14,30 @@ public class RESTRespone {
 	private Meta meta;
 	private Object data;
 	
-	public RESTRespone success(){
+	public RESTResponse success(){
 		this.meta = new Meta(true, OK);
 		return this;
 	}
 	
 	
-	public RESTRespone success(Object data){
+	public RESTResponse success(Object data){
 		this.meta = new Meta(true, OK);
 		this.data = data;
 		return this;
 	}
 	
 	
-	public RESTRespone failure(){
+	public RESTResponse failure(){
 		this.meta = new Meta(false, ERROR);
 		return this;
 	}
 	
-	public RESTRespone failure(String message){
+	public RESTResponse failure(String message){
 		this.meta = new Meta(false, message);
 		return this;
 	}
 	
-	public RESTRespone failure(Object data){
+	public RESTResponse failure(Object data){
 		this.data = data;
 		this.meta = new Meta(false, ERROR);
 		return this;
