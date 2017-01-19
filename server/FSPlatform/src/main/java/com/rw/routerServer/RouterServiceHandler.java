@@ -11,6 +11,8 @@ import com.rw.routerServer.data.params.AllAreasInfo;
 import com.rw.routerServer.data.params.AllRolesInfo;
 import com.rw.routerServer.data.params.ReqestParams;
 import com.rwbase.dao.user.accountInfo.TableAccount;
+import com.rwbase.dao.user.accountInfo.UserMappingDAO;
+import com.rwbase.dao.user.accountInfo.UserMappingInfo;
 import com.rwbase.dao.zone.TableZoneInfo;
 
 public class RouterServiceHandler {
@@ -26,14 +28,26 @@ public class RouterServiceHandler {
 		RouterRespObject responseObj = new RouterRespObject();
 		responseObj.setResult(ResultState.SUCCESS);
 		//System.out.println("apply role info, openAccountId:"+ paramObj.getAccountId());
-		TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(paramObj.getAccountId());
-		if(null == tableAccount){
-			//System.out.println("-------no role data!!!");
+//		TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(paramObj.getAccountId());
+//		if(null == tableAccount){
+//			//System.out.println("-------no role data!!!");
+//			responseObj.setResult(ResultState.NO_ACCOUNT);
+//		}else{
+//			AllRolesInfo roles = new AllRolesInfo();
+//			roles.setAccountId(paramObj.getAccountId());
+//			roles.setRoles(tableAccount.getUserZoneInfoList());
+//			responseObj.setContent(JsonUtil.writeValue(roles));
+//			responseObj.setResult(ResultState.SUCCESS);
+//		}
+		
+		
+		List<UserMappingInfo> userZone = UserMappingDAO.getInstance().getUserZone(paramObj.getAccountId());
+		if(userZone == null || userZone.isEmpty()){
 			responseObj.setResult(ResultState.NO_ACCOUNT);
 		}else{
 			AllRolesInfo roles = new AllRolesInfo();
 			roles.setAccountId(paramObj.getAccountId());
-			roles.setRoles(tableAccount.getUserZoneInfoList());
+			roles.setRoles(userZone);
 			responseObj.setContent(JsonUtil.writeValue(roles));
 			responseObj.setResult(ResultState.SUCCESS);
 		}
