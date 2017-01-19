@@ -25,6 +25,7 @@ import com.rounter.loginServer.LoginServerInfo;
 import com.rounter.param.IResponseData;
 import com.rounter.param.impl.ResDataFromServer;
 import com.rounter.service.IResponseHandler;
+import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
 
 @Service
@@ -200,7 +201,7 @@ public class ServerChannelManager {
 		RouterReqestObject reqObject = new RouterReqestObject();
 		reqObject.setType(ReqType.GetAreaInfo);	
 		final HashMap<String, ServerInfo> platformAreas = new HashMap<String, ServerInfo>();
-		IResponseData resData = new ResDataFromServer();
+		IResponseData resData = new ResDataFromServer(UCStateCode.STATE_SERVER_ERROR.getId());
 		IResponseHandler handler = new IResponseHandler() {
 			
 			@Override
