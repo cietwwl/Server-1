@@ -24,8 +24,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 	private static AtomicInteger platformVersion = new AtomicInteger(0);
 	private static boolean OPENED_TIMER = false;
 	private EnumMap<ServerType, HashMap<Integer, List<SingleActTime>>> serTypeMap = new EnumMap<ServerType, HashMap<Integer, List<SingleActTime>>>(ServerType.class);
-	private HashMap<Integer, List<SingleActTime>> actCfgMap = new HashMap<Integer, List<SingleActTime>>();
-	private HashMap<Integer, List<SingleActTime>> actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
+	private EnumMap<ServerType, HashMap<Integer, List<SingleActTime>>> serTypeTmpMap = null;
 	
 	public static ActivitySpecialTimeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivitySpecialTimeCfgDAO.class);
@@ -35,7 +34,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 	public Map<String, ActivitySpecialTimeCfg> initJsonCfg() {
 		int tmpVersion = -1;
 		Map<String, ActivitySpecialTimeCfg> tmpMap = CfgCsvHelper.readCsv2Map("Activity/ActivitySpecialTimeCfg.csv", ActivitySpecialTimeCfg.class);
-		actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
+		serTypeTmpMap = new EnumMap<ServerType, HashMap<Integer, List<SingleActTime>>>(ServerType.class);
 		for(ActivitySpecialTimeCfg cfgTmp : tmpMap.values()){
 			decodeActivityZone(cfgTmp);
 			if(cfgTmp.getId() == 1) {
@@ -60,7 +59,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 			}, 0, 10, TimeUnit.SECONDS);
 		}
 		cfgCacheMap = tmpMap;
-		actCfgMap = actCfgTmpMap;
+		serTypeMap = serTypeTmpMap;
 		if(-1 != tmpVersion){
 			platformVersion.set(tmpVersion);
 		}
@@ -76,7 +75,7 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		if(LAST_MODIFY_TIME != cfgFile.lastModified()){
 			reload();
 			LAST_MODIFY_TIME = cfgFile.lastModified();
-		}
+		}	
 	}
 	
 	public ActCfgInfo getZoneAct(int zoneId, int version, ServerType serType){
@@ -84,12 +83,20 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		int thisVersion = platformVersion.get();
 		actInfo.setPlatformVersion(thisVersion);
 		if(version < thisVersion){
-			actInfo.setActList(actCfgMap.get(zoneId));
+			HashMap<Integer, List<SingleActTime>> actCfgMap = serTypeMap.get(serType);
+			if(null != actCfgMap){
+				actInfo.setActList(actCfgMap.get(zoneId));
+			}
 		}
 		return actInfo;
 	}
 	
 	private void decodeActivityZone(ActivitySpecialTimeCfg timeCfg){
+		HashMap<Integer, List<SingleActTime>> actCfgMap = serTypeTmpMap.get(timeCfg.getSerType());
+		if(null == actCfgMap){
+			actCfgMap = new HashMap<Integer, List<SingleActTime>>();
+			serTypeTmpMap.put(timeCfg.getSerType(), actCfgMap);
+		}
 		String[] zoneSections = timeCfg.getZoneId().split(",");
 		for(String section : zoneSections){
 			int startZoneId = 0;
@@ -106,10 +113,10 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 				continue;
 			}
 			for(int i = startZoneId; i <= endZoneId; i++){
-				List<SingleActTime> cfgList = actCfgTmpMap.get(i);
+				List<SingleActTime> cfgList = actCfgMap.get(i);
 				if(null == cfgList){
 					cfgList = new ArrayList<SingleActTime>();
-					actCfgTmpMap.put(i, cfgList);
+					actCfgMap.put(i, cfgList);
 				}
 				cfgList.add(buildSingleActTime(timeCfg));
 			}

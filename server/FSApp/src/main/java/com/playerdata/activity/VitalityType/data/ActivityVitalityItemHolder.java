@@ -1,102 +1,168 @@
 package com.playerdata.activity.VitalityType.data;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Collections;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
-import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
+import com.playerdata.activityCommon.ActivityDetector;
+import com.playerdata.activityCommon.UserActivityChecker;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
-import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class ActivityVitalityItemHolder{
+public class ActivityVitalityItemHolder extends UserActivityChecker<ActivityVitalityTypeItem>{
 	
 	private static ActivityVitalityItemHolder instance = new ActivityVitalityItemHolder();
 	
 	public static ActivityVitalityItemHolder getInstance(){
 		return instance;
 	}
-
-	final private eSynType synType = eSynType.ActivityVitalityType;
-	
-	/*
-	 * 活跃之王的活动项
-	 */
-	public List<ActivityVitalityTypeItem> getItemList(String userId){	
-		List<ActivityVitalityTypeItem> itemList = new ArrayList<ActivityVitalityTypeItem>();
-		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
-		while (mapEnum.hasMoreElements()) {
-			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();	
-			if(ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
-				continue;
-			}
-			itemList.add(item);
-		}
-		return itemList;
-	}
-	
-	public void removeItem(Player player, ActivityVitalityTypeItem item){
-		getItemStore(player.getUserId()).removeItem(item.getId());
-	}
-	
-	public void updateItem(Player player, ActivityVitalityTypeItem item){
-		getItemStore(player.getUserId()).update(item.getId());
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
-	}
 	
 	public ActivityVitalityTypeItem getItem(String userId, ActivityVitalityTypeEnum acVitalityTypeEnum){
-//		String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
 		int id = Integer.parseInt(acVitalityTypeEnum.getCfgId());
 		return getItemStore(userId).get(id);
-	}	
-
-	public boolean addItem(Player player, ActivityVitalityTypeItem item){
-	
-		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		if(addSuccess){
-			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
-		}
-		return addSuccess;
 	}
 	
-	public boolean addItemList(Player player, List<ActivityVitalityTypeItem> itemList){
-		try {
-			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
+	public List<ActivityVitalityTypeItem> getItemList(String userId){
+		return refreshActivity(userId);
+	}
+	
+	/**
+	 * 增加的活动
+	 * @param userId
+	 * @return 新添加的活动
+	 */
+	@SuppressWarnings("unchecked")
+	protected List<ActivityVitalityTypeItem> addNewActivity(String userId){
+		List<? extends ActivityCfgIF> activeDailyList = ActivityDetector.getInstance().getAllActivityOfType(getActivityType());
+		List<ActivityVitalityTypeItem> newAddItems = new ArrayList<ActivityVitalityTypeItem>();
+		RoleExtPropertyStore<ActivityVitalityTypeItem> itemStore = getItemStore(userId);
+		Player player = PlayerMgr.getInstance().find(userId);
+		if(null == player){
+			return newAddItems;
+		}
+		int playerLevel = player.getLevel();
+		int playerVip = player.getVip();
+		for(ActivityCfgIF cfg : activeDailyList){
+			if(playerLevel < cfg.getLevelLimit() || playerVip < cfg.getVipLimit()){
+				continue;
 			}
-			return addSuccess;
-		} catch (DuplicatedKeyException e) {
-			//handle..
-			e.printStackTrace();
-			return false;
+			ActivityVitalityTypeItem item = itemStore.get(cfg.getId());
+			if(null == item || Integer.parseInt(item.getCfgId()) != cfg.getCfgId()){
+				if(null != item){
+					itemStore.removeItem(cfg.getId());
+				}
+				// 有新增的活动
+				item = new ActivityVitalityTypeItem();
+				if(null != item){
+					item.setId(cfg.getId());
+					item.setCfgId(String.valueOf(cfg.getCfgId()));
+					item.setUserId(userId);
+					item.setVersion(cfg.getVersion());
+					item.setCanGetReward(((ActivityVitalityCfg)cfg).isCanGetReward());
+					item.setSubItemList(newSubItemList(String.valueOf(cfg.getCfgId())));
+					item.setSubBoxItemList(newSubBoxItemList(String.valueOf(cfg.getCfgId())));
+					newAddItems.add(item);
+				}
+			}
 		}
-	}	
-
-	public void synAllData(Player player){
-		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());	
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+		try {
+			itemStore.addItem(newAddItems);
+		} catch (DuplicatedKeyException e) {
+			e.printStackTrace();
+		}
+		return newAddItems;
 	}
 
-	
-	public RoleExtPropertyStore<ActivityVitalityTypeItem> getItemStore(String userId) {
-		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
-		try {
-			return cach.getStore(userId);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@Override
+	public List<ActivityVitalityTypeSubItem> newSubItemList(String cfgId) {
+		ActivityVitalityCfg vitalityCfg = ActivityVitalityCfgDAO.getInstance().getCfgById(cfgId);
+		if(null == vitalityCfg){
+			return Collections.emptyList();
 		}
-		return null;
+		List<ActivityVitalityTypeSubItem> subItemList = new ArrayList<ActivityVitalityTypeSubItem>();
+		List<String> todaySubs = getTodaySubActivity(cfgId);
+		ActivityVitalitySubCfgDAO subDao = ActivityVitalitySubCfgDAO.getInstance();
+		for(String subCfgId : todaySubs){
+			ActivityVitalitySubCfg subCfg = subDao.getCfgById(subCfgId);
+			ActivityVitalityTypeSubItem subItem = new ActivityVitalityTypeSubItem();
+			subItem.setCfgId(String.valueOf(subCfg.getId()));
+			subItem.setCount(0);
+			subItem.setTaken(false);
+			subItem.setGiftId(subCfg.getGiftId());
+			subItem.setType(String.valueOf(subCfg.getActiveType()));
+			subItemList.add(subItem);
+		}
+		return subItemList;
+	}
+	
+	/**
+	 * 获取对应活动的箱子奖励实体
+	 * @param cfgId
+	 * @return
+	 */
+	private List<ActivityVitalityTypeSubBoxItem> newSubBoxItemList(String cfgId){
+		List<ActivityVitalityTypeSubBoxItem> subItemList = new ArrayList<ActivityVitalityTypeSubBoxItem>();
+		List<ActivityVitalityRewardCfg> boxCfgs = getTodaySubBoxItemCfgs(cfgId);
+		if(boxCfgs.isEmpty()){
+			return subItemList;
+		}
+		for(ActivityVitalityRewardCfg activityVitalityRewardCfg : boxCfgs){		
+			ActivityVitalityTypeSubBoxItem subitem = new ActivityVitalityTypeSubBoxItem();
+			subitem.setCfgId(activityVitalityRewardCfg.getId());
+			subitem.setCount(activityVitalityRewardCfg.getActivecount());
+			subitem.setTaken(false);
+			subitem.setGiftId(activityVitalityRewardCfg.getGiftId());
+			subItemList.add(subitem);
+		}
+		return subItemList;
+	}
+	
+	/**
+	 * 获取对应活动的箱子奖励配置
+	 * @param cfgID
+	 * @return
+	 */
+	private List<ActivityVitalityRewardCfg> getTodaySubBoxItemCfgs(String cfgID){
+		List<ActivityVitalityRewardCfg> todaySubs = new ArrayList<ActivityVitalityRewardCfg>();
+		ActivityVitalityCfg cfg = ActivityVitalityCfgDAO.getInstance().getCfgById(cfgID);
+		if(null == cfg) return todaySubs;
+		List<ActivityVitalityRewardCfg> allCfgs = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();
+		if(!ActivityDetector.getInstance().isActive(cfg)) return todaySubs;
+		for(ActivityVitalityRewardCfg subCfg : allCfgs){
+			if(subCfg.getActiveType() == cfg.getCfgId()){
+				todaySubs.add(subCfg);
+			}
+		}
+		return todaySubs;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public ActivityType getActivityType() {
+		return ActivityTypeFactory.VitalityType;
+	}
+
+	@Override
+	protected PlayerExtPropertyType getExtPropertyType() {
+		return PlayerExtPropertyType.ACTIVITY_VITALITY;
+	}
+
+	@Override
+	protected eSynType getSynType() {
+		return eSynType.ActivityVitalityType;
 	}
 }

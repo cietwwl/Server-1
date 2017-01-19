@@ -2,8 +2,6 @@ package com.rw.dataaccess.attachment.creator;
 
 import java.util.List;
 
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
