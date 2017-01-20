@@ -59,7 +59,7 @@ public class UIServiceImpl implements IUCService{
 						List<UserMappingInfo> list = roles.getRoles();
 						
 						for (UserMappingInfo uif : list) {
-							IResponseData rs = getRoleDataFromGS(String.valueOf(uif.getZone_id()), uif.getUser_id());
+							IResponseData rs = getRoleDataFromGS(String.valueOf(uif.getZone_id()), uif.getUser_id(), platformId);
 							if(rs.getStateCode() != UCStateCode.STATE_OK.getId()){
 								stateCode = rs.getStateCode();
 								break;
@@ -147,8 +147,8 @@ public class UIServiceImpl implements IUCService{
 	}
 
 	@Override
-	public IResponseData getGift(String areaId, String userId, String giftId, String getDate) {
-		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(areaId);
+	public IResponseData getGift(String areaId, String userId, String giftId, String getDate, String platformID) {
+		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(platformID,areaId);
 		IResponseData response = new ResDataFromServer(UCStateCode.STATE_SERVER_ERROR.getId());
 		if(null != nodeMgr && nodeMgr.isActive()){
 			RouterReqestObject reqObject = new RouterReqestObject();
@@ -215,8 +215,8 @@ public class UIServiceImpl implements IUCService{
 	 * @param userId
 	 * @return
 	 */
-	private IResponseData getRoleDataFromGS(String areaId, String userId) {
-		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(areaId);
+	private IResponseData getRoleDataFromGS(String areaId, String userId, String platformID) {
+		ChannelNodeManager nodeMgr = ServerChannelManager.getInstance().getAreaNodeManager(platformID, areaId);
 		IResponseData response = new ResDataFromServer(UCStateCode.STATE_SERVER_ERROR.getId());
 		if(null != nodeMgr && nodeMgr.isActive()){
 			RouterReqestObject reqObject = new RouterReqestObject();

@@ -155,7 +155,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 			return responseString(UCStateCode.STATE_PARAM_ERROR, req.getId(), null);
 		}
 		
-		IResponseData responseData = ucService.getGift(areaId, roleID, giftId, recvDate);
+		IResponseData responseData = ucService.getGift(areaId, roleID, giftId, recvDate, LoginServerEnum.UC_ANDRIOD.name());
 		logger.info("请求发送礼包：{},接收角色id:{},所在区id:{},状态：{}",giftId, roleID,areaId,UCStateCode.getCodeByID(responseData.getStateCode()));
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, req.getId());
 		logger.debug("response role info msg :{}", afterOpt.getValue());
