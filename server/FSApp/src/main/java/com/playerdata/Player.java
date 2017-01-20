@@ -48,6 +48,7 @@ import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
+import com.rw.routerServer.giftManger.RouterGiftMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.Privilege.IPrivilegeManager;
@@ -455,6 +456,7 @@ public class Player implements PlayerIF {
 			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 			
 			WBMgr.getInstance().onPlayerLogin(this);
+			RouterGiftMgr.getInstance().takeGift(userId);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}
