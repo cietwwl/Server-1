@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+option java_package = "com.rwproto";
+option java_outer_classname = "PveServiceProtos";
+
+message PveActivity{
+	required int32 copyTpe = 1;//pve副本类型
+	required int32 remainSeconds = 2;//剩余挑战时间
+	required int32 remainTimes = 3;//剩余挑战次数
+}
+
+message PveServiceResponse{
+	repeated PveActivity pveActivityList = 1;//pve活动列表
+}
