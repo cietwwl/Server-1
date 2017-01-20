@@ -8,12 +8,16 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
+import com.playerdata.charge.ChargeMgr;
+import com.playerdata.charge.dao.ChargeInfo;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.routerServer.cfg.UCGiftCfg;
 import com.rw.routerServer.cfg.UCGiftCfgDAO;
 import com.rw.routerServer.data.ResultState;
 import com.rw.service.Email.EmailUtils;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 
 public class RouterGiftMgr {
 	
@@ -55,21 +59,28 @@ public class RouterGiftMgr {
 	}
 	
 	/**
-	 * 检查是否可以领取奖励 这个后面要重构
+	 * 检查是否可以领取奖励 
 	 * @param giftItem
 	 * @param cfg
 	 */
 	private ResultState checkGiftType(RouterGiftDataItem giftItem, UCGiftCfg cfg, String date) {
 		if(cfg.getType() == RounterGiftType.TYPE_DAILY.getType() && StringUtils.equals(giftItem.getBelongTime(), date)){
 			return ResultState.REPEAT_GET;
-		}else if(cfg.getType() == RounterGiftType.TYPE_CHARGE.getType() ||
-				cfg.getType() == RounterGiftType.TYPE_LEVEL.getType()){
+		}else if(cfg.getType() == RounterGiftType.TYPE_LEVEL.getType()){
 			return ResultState.REPEAT_GET;
 		}else if(cfg.getType() == RounterGiftType.TYPE_WEEK.getType()){
 			//检查当周有没有记录
 			boolean sameWeek = checkWeek(giftItem.getBelongTime());
 			if(sameWeek){
 				return ResultState.REPEAT_GET;
+			}
+		}else if(cfg.getType() == RounterGiftType.TYPE_CHARGE.getType()){
+			ChargeInfo chargeInfo = ChargeMgr.getInstance().getChargeInfo(giftItem.getUserId());
+			if(chargeInfo == null){
+				return ResultState.PARAM_ERROR;
+			}
+			if((chargeInfo.getTotalChargeMoney()/100) < Integer.parseInt(cfg.getCondition())){
+				return ResultState.PARAM_ERROR;//充值金额没有达到
 			}
 		}
 		//其他情况直接加1
