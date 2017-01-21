@@ -21,13 +21,13 @@ import com.rwbase.gameworld.GameWorldKey;
 import com.rwproto.DataSynProtos.eSynOpType;
 
 
-public class ActivityGrowthFundItemHolderHotfix extends ActivityGrowthFundItemHolder{
+public class ActivityGrowthFundItemHolderReHF extends ActivityGrowthFundItemHolder{
 	
 	private static GrowthFundSubItemComparator _comparator = new GrowthFundSubItemComparator();
 	
 	private GrowthFundGlobalData _globalData;
 	
-	public ActivityGrowthFundItemHolderHotfix(){
+	public ActivityGrowthFundItemHolderReHF(){
 		_globalData = ActivityGrowthFundItemHolder.getInstance().getGlobalData();
 	}
 	
