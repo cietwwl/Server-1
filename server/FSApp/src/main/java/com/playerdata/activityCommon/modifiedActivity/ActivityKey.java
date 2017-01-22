@@ -34,6 +34,8 @@ public enum ActivityKey {
 	ACTIVITY_DISCOUNT(8, GameWorldKey.ACTIVITY_DISCOUNT, ActivityTypeFactory.DailyDiscount),
 	/**--	招财猫	--*/
 	ACTIVITY_FORTUNECAT(9, GameWorldKey.ACTIVITY_FORTUNECAT, ActivityTypeFactory.FortuneCat),
+	/**--	每日福利	--*/
+	ACTIVITY_DAILY_COUNT(10, GameWorldKey.ACTIVITY_DAILY_COUNT, ActivityTypeFactory.DailyCount),
 	;
 	
 	@SuppressWarnings("rawtypes")

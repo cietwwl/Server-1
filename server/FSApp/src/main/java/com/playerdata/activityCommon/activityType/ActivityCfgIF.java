@@ -18,6 +18,8 @@ public interface ActivityCfgIF {
 	
 	public boolean isDailyRefresh();
 	
+	public boolean isEveryDaySame();
+	
 	public void setStartTime(String startTime);
 	
 	public void setEndTime(String endTime);

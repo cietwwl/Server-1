@@ -1,5 +1,6 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
@@ -19,13 +20,13 @@ public class ActivityDailyTypeCfg implements ActivityCfgIF{
 	
 	private int levelLimit;
 	
-	private String enumId;
+	private int enumId;
 	
-	public String getEnumId() {
+	public int getEnumId() {
 		return enumId;
 	}
 
-	public void setEnumId(String enumId) {
+	public void setEnumId(int enumId) {
 		this.enumId = enumId;
 	}
 
@@ -43,7 +44,7 @@ public class ActivityDailyTypeCfg implements ActivityCfgIF{
 
 
 	public int getId() {
-		return id;
+		return enumId;
 	}
 
 	public long getEndTime() {
@@ -91,7 +92,7 @@ public class ActivityDailyTypeCfg implements ActivityCfgIF{
 
 	@Override
 	public int getCfgId() {
-		return 0;
+		return id;
 	}
 
 	@Override
@@ -113,16 +114,26 @@ public class ActivityDailyTypeCfg implements ActivityCfgIF{
 	public boolean isDailyRefresh() {
 		return true;
 	}
+	
+	@Override
+	public boolean isEveryDaySame() {
+		return true;
+	}
+
+ 	public void ExtraInitAfterLoad() {
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+ 	}
 
 	@Override
-	public void setStartTime(String startTime) {
-		// TODO Auto-generated method stub
-		
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
 	}
 
 	@Override
-	public void setEndTime(String endTime) {
-		// TODO Auto-generated method stub
-		
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
 	}
 }

@@ -92,6 +92,12 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 	public boolean isDailyRefresh() {
 		return false;
 	}
+	
+
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
 
 	@Override
  	public void ExtraInitAfterLoad() {

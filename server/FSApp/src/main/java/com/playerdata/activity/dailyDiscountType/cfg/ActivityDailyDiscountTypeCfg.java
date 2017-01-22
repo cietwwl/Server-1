@@ -114,6 +114,11 @@ public class ActivityDailyDiscountTypeCfg extends BaseConfig implements Activity
 	public boolean isDailyRefresh() {
 		return isRefresh == 1;
 	}
+	
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
 
 	@Override
  	public void ExtraInitAfterLoad() {

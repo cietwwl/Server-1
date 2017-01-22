@@ -100,6 +100,11 @@ public class ActivityRankTypeCfg implements ActivityCfgIF{
 	public boolean isDailyRefresh() {
 		return false;
 	}
+	
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
 
 	@Override
 	public void setStartTime(String startTimeStr) {

@@ -73,6 +73,11 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
 	}
 	
 	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+	
+	@Override
  	public void ExtraInitAfterLoad() {
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);

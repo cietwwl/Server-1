@@ -72,6 +72,12 @@ public class EvilBaoArriveCfg extends BaseConfig implements ActivityCfgIF{
 		return isAutoRefresh == 1;
 	}
 	
+
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+	
 	@Override
  	public void ExtraInitAfterLoad() {
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);

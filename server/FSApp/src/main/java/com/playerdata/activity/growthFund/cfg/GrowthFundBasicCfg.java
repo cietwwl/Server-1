@@ -65,6 +65,11 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	public boolean isDailyRefresh() {
 		return false;
 	}
+	
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
 
 	public int getType() {
 		return type;

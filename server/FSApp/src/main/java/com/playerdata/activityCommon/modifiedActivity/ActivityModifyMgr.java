@@ -59,7 +59,7 @@ public class ActivityModifyMgr {
 			}
 		}
 		if(!modifiedList.isEmpty()){
-			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
+			//ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
 		}
 	}
 	

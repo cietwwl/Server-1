@@ -8,9 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
@@ -20,12 +17,6 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
-import com.rw.dataaccess.attachment.PlayerExtPropertyType;
-import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.util.DateUtils;
 
 public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeItem>{
 
@@ -40,77 +31,60 @@ public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeI
 		return instance;
 	}
 
-	private void sendEmailIfGiftNotTaken(Player player, List<ActivityDailyTypeSubItem> subItemList) {
-		ActivityDailyTypeSubCfgDAO activityDailyTypeSubCfgDAO = ActivityDailyTypeSubCfgDAO.getInstance();
-		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
-		for (ActivityDailyTypeSubItem subItem : subItemList) {// 配置表里的每种奖励
-			ActivityDailyTypeSubCfg subItemCfg = activityDailyTypeSubCfgDAO.getById(subItem.getCfgId());
-			if (subItemCfg == null) {
-				return;
-			}
-			if (subItem.getCount() >= subItemCfg.getCount() && !subItem.isTaken()) {
-				comGiftMgr.addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "", subItemCfg.getEmailTitle());
-				subItem.setTaken(true);
-			}
-		}
-	}
-
 	public void addCount(Player player, ActivityDailyTypeEnum countType, int countadd) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-		ActivityDailyTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		if (dataItem == null) {
+		List<ActivityDailyTypeItem> dataItems = dataHolder.getItemList(player.getUserId());
+		if (dataItems == null || dataItems.isEmpty()) {
 			return;
 		}
+		for(ActivityDailyTypeItem dataItem : dataItems){
+			addCount(player, dataItem, countType, countadd);
+		}
+		dataHolder.updateItem(player, dataItems);
+	}
+	
+	private void addCount(Player player, ActivityDailyTypeItem dataItem, ActivityDailyTypeEnum countType, int countadd) {
 		ActivityDailyTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);
 		if (subItem == null) {
 			return;
 		}
 		subItem.setCount(subItem.getCount() + countadd);
-		dataHolder.updateItem(player, dataItem);
 	}
 
 	public ActivityDailyTypeSubItem getbyDailyCountTypeEnum(Player player, ActivityDailyTypeEnum typeEnum, ActivityDailyTypeItem dataItem) {
-		ActivityDailyTypeSubCfgDAO activityDailyTypeSubCfgDAO = ActivityDailyTypeSubCfgDAO.getInstance();
-		ActivityDailyTypeSubItem subItem = null;
 		ActivityDailyTypeSubCfg cfg = null;
 		List<ActivityDailyTypeSubCfg> subcfglist = ActivityDailyTypeSubCfgDAO.getInstance().getAllCfg();
 		for (ActivityDailyTypeSubCfg subcfg : subcfglist) {
-			if (StringUtils.equals(subcfg.getEnumId(), typeEnum.getCfgId()) && activityDailyTypeSubCfgDAO.isOpen(subcfg)) {
+			if (StringUtils.equals(subcfg.getEnumId(), typeEnum.getCfgId()) && subcfg.getType() == Integer.parseInt(dataItem.getCfgId())) {
 				cfg = subcfg;
+				break;
 			}
 		}
-
 		if (cfg == null) {
-			return subItem;
+			return null;
 		}
-
+		ActivityDailyTypeSubItem subItem = null;
 		if (dataItem != null) {
 			List<ActivityDailyTypeSubItem> sublist = dataItem.getSubItemList();
 			for (ActivityDailyTypeSubItem subitem : sublist) {
-				if (StringUtils.equals(cfg.getId(), subitem.getCfgId())) {
+				if (StringUtils.equals(String.valueOf(cfg.getId()), subitem.getCfgId())) {
 					subItem = subitem;
 					break;
 				}
 			}
-
 		}
-
 		return subItem;
 	}
 
-	public ActivityComResult takeGift(Player player, ActivityDailyTypeEnum countType, String subItemId) {
+	public ActivityComResult takeGift(Player player, int actEnumId, String subItemId) {
 		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
-
-		ActivityDailyTypeItem dataItem = dataHolder.getItem(player.getUserId());
+		ActivityDailyTypeItem dataItem = dataHolder.getItem(player.getUserId(), String.valueOf(actEnumId));
 		ActivityComResult result = ActivityComResult.newInstance(false);
-
 		// 未激活
 		if (dataItem == null) {
 			result.setReason("活动尚未开启");
-
 		} else {
 			ActivityDailyTypeSubItem targetItem = null;
-
 			List<ActivityDailyTypeSubItem> subItemList = dataItem.getSubItemList();
 			for (ActivityDailyTypeSubItem itemTmp : subItemList) {
 				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
@@ -123,20 +97,59 @@ public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeI
 				result.setSuccess(true);
 				dataHolder.updateItem(player, dataItem);
 			}
-
 		}
-
 		return result;
 	}
 
+	/**
+	 * 领取奖励
+	 * @param player
+	 * @param targetItem
+	 */
 	private void takeGift(Player player, ActivityDailyTypeSubItem targetItem) {
-		ActivityDailyTypeSubCfg subCfg = ActivityDailyTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
-		if (subCfg == null) {
+		ActivityDailyTypeSubCfg subCfg = ActivityDailyTypeSubCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+		if (null == subCfg) {
 			return;
 		}
-		targetItem.setTaken(true);
-		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
-
+		if (!targetItem.isTaken() && targetItem.getCount() >= subCfg.getCount()) {
+			targetItem.setTaken(true);
+			ComGiftMgr.getInstance().addGiftTOEmailById(player, subCfg.getGiftId(), MAKEUPEMAIL + "", subCfg.getEmailTitle());
+		}
+	}
+	
+	/**
+	 * 邮件补发过期未领取的奖励
+	 * 
+	 * @param player
+	 * @param item
+	 */
+	@Override
+	public void expireActivityHandler(Player player, ActivityDailyTypeItem item) {
+		List<ActivityDailyTypeSubItem> subItems = item.getSubItemList();
+		ActivityDailyTypeCfg cfg = ActivityDailyTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+		if (isLevelEnough(player, cfg)) {
+			for (ActivityDailyTypeSubItem subItem : subItems) {
+				takeGift(player, subItem);
+			}
+		}
+		item.reset();
+	}
+	
+	@Override
+	protected List<String> checkRedPoint(Player player, ActivityDailyTypeItem item) {
+		List<String> redPointList = new ArrayList<String>();
+		ActivityDailyTypeSubCfgDAO subCfgDao = ActivityDailyTypeSubCfgDAO.getInstance();
+		List<ActivityDailyTypeSubItem> subItems = item.getSubItemList();
+		for (ActivityDailyTypeSubItem subItem : subItems) {
+			ActivityDailyTypeSubCfg subCfg = subCfgDao.getCfgById(subItem.getCfgId());
+			if (null == subCfg)
+				continue;
+			if ((subCfg.getCount() <= subItem.getCount() && !subItem.isTaken()) || !item.isHasViewed()) {
+				redPointList.add(String.valueOf(item.getCfgId()));
+				break;
+			}
+		}
+		return redPointList;
 	}
 
 	@Override

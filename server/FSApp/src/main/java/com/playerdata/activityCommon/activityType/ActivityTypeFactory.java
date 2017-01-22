@@ -19,6 +19,11 @@ import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO;
@@ -56,6 +61,7 @@ public class ActivityTypeFactory {
 	public static final ActivityType ActRankType;	//竞技之王
 	public static final ActivityType DailyDiscount;	//折扣活动
 	public static final ActivityType FortuneCat;	//招财猫
+	public static final ActivityType DailyCount;	//每日福利
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -77,6 +83,8 @@ public class ActivityTypeFactory {
 				ActivityDailyDiscountTypeSubCfgDAO.class, ActivityDailyDiscountTypeSubItem.class, ActivityDailyDiscountTypeMgr.getInstance());
 		FortuneCat = new ActivityType(1009, ActivityFortuneCatTypeCfgDAO.class, ActivityFortuneCatTypeItem.class,
 				ActivityFortuneCatTypeSubCfgDAO.class, ActivityFortuneCatTypeSubItem.class, ActivityFortuneCatTypeMgr.getInstance());
+		DailyCount = new ActivityType(1010, ActivityDailyTypeCfgDAO.class, ActivityDailyTypeItem.class,
+				ActivityDailyTypeSubCfgDAO.class, ActivityDailyTypeSubItem.class, ActivityDailyTypeMgr.getInstance());
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -88,6 +96,7 @@ public class ActivityTypeFactory {
 		addType(ActRankType);
 		addType(DailyDiscount);
 		addType(FortuneCat);
+		addType(DailyCount);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

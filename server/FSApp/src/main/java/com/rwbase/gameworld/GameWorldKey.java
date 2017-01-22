@@ -134,6 +134,10 @@ public enum GameWorldKey {
 	 */
 	ACTIVITY_FORTUNECAT("ACTIVITY_FORTUNECAT"),
 	/**
+	 * 活动:每日福利
+	 */
+	ACTIVITY_DAILY_COUNT("ACTIVITY_DAILY_COUNT"),
+	/**
 	 * 热更记录
 	 */
 	HOTFIX_HISTORY("HOTFIX_HISTORY"),

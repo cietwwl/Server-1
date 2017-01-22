@@ -1,5 +1,6 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
 
@@ -13,6 +14,7 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 	
 	//计数
 	private int count;
+	
 	//计数奖励
 	private String giftId;	
 
@@ -27,6 +29,8 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 	private String endTimeStr;
 	
 	private String version;
+	
+	private String day = "1";
 	
 	public String getEnumId() {
 		return enumId;
@@ -118,7 +122,7 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 
 	@Override
 	public String getDay() {
-		return "1";
+		return day;
 	}
 
 	@Override
@@ -128,6 +132,21 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 
 	@Override
 	public void setCfgReward(String reward) {
-		
+		this.giftId = reward;
+	}
+	
+	public void ExtraInitAfterLoad() {
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+ 	}
+
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
+	}
+	
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
 	}
 }

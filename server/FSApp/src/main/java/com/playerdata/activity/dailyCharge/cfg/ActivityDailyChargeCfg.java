@@ -72,6 +72,11 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	}
 	
 	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+	
+	@Override
 	public int getVipLimit() {
 		return 0;
 	}

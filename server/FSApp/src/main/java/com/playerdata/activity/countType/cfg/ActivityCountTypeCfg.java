@@ -151,6 +151,11 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	}
 	
 	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+	
+	@Override
 	public int getVipLimit() {
 		return 0;
 	}
