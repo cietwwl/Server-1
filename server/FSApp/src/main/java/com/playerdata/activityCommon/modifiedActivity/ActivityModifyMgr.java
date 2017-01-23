@@ -54,7 +54,7 @@ public class ActivityModifyMgr {
 		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
 		for(ActivityKey actKey : ActivityKey.values()){
 			ActivityModifyGlobleData modiData = getModifiedActivity(actKey);
-			if(null != modiData){
+			if(null != modiData && !modiData.getItems().isEmpty()){
 				modifiedList.add(modiData);
 			}
 		}
