@@ -52,25 +52,26 @@ var Login = function() {
             },
 
             submitHandler : function(form) {
-            	var account = $('#account').val();
+            	var account = $('#username').val();
             	var passwordInput = $('#password').val();
             	var pwd = sha256_digest(passwordInput);
-            	var remember = $('remember').val();
+            	var remember = $('#remember').val();
+            	var data = {"account":account,"password":pwd, "remember":remember};
                 //在此执行提交
                 $.ajax({
                 	type:'post',
                 	url:'user/login',
                 	contentType:'application/json',
                 	dataType:'json',//可能返回的参数
-                	data:{username:account,password:pwd, remember:remember},
+                	data:JSON.stringify(data),
                 	success:function(response){
                 		if(response.meta.success){
                 			//登录成功,保存cookie
-                			$.cookie(Cookie.TOKEN,response.data.token);
-                			$.cookie(Cookie.USERNAME,response.data.username)
-                			location.href='/view/main.html';
+                			//$.cookie(Cookie.TOKEN,response.data.token);
+                			//$.cookie(Cookie.USERNAME,response.data.account);
+                			location.href='view/main.html';
                 		}else{
-                			alert(response.meta.message);
+                			alert(response.meta.msg);
                 		}
                 	}
                 })
@@ -280,22 +281,23 @@ var Login = function() {
             	var account = $('#account').val();
             	var passwordInput = $('#registerPwd').val();
             	var pwd = sha256_digest(passwordInput);
-
+            	var data = {"account":account,"password":pwd};
                 //在此执行提交
                 $.ajax({
                 	type:'post',
                 	url:'user/register',
                 	contentType:'application/json',
                 	dataType:'json',//可能返回的参数
-                	data:{username:account,password:pwd},
+                	data:JSON.stringify(data),
                 	success:function(response){
+                		//var resData = JSON.parse(response)
                 		if(response.meta.success){
                 			//登录成功,保存cookie
-                			$.cookie(Cookie.TOKEN,response.data.token);
-                			$.cookie(Cookie.USERNAME,response.data.username)
-                			location.href='/view/main.html';
+                			//$.cookie(Cookie.TOKEN,response.data.token);
+                			$.cookie(Cookie.USERNAME,response.data.account)
+                			location.href='view/main.html';
                 		}else{
-                			alert(response.meta.message);
+                			alert(response.meta.msg);
                 		}
                 	}
                 })

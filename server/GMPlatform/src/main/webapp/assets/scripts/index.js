@@ -609,7 +609,7 @@ var Index = function () {
                 var time_str = time.toString('MMM dd, yyyy hh:mm');
                 var tpl = '';
                 tpl += '<li class="out">';
-                tpl += '<img class="avatar" alt="" src="assets/img/avatar1.jpg"/>';
+                tpl += '<img class="avatar" alt="" src="../assets/img/avatar1.jpg"/>';
                 tpl += '<div class="message">';
                 tpl += '<span class="arrow"></span>';
                 tpl += '<a href="#" class="name">Bob Nilson</a>&nbsp;';
@@ -657,7 +657,7 @@ var Index = function () {
                 startDate: moment().subtract('days', 29),
                 endDate: moment(),
                 minDate: '01/01/2012',
-                maxDate: '12/31/2014',
+                maxDate: '12/31/2020',
                 dateLimit: {
                     days: 60
                 },
@@ -739,7 +739,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'Metronic comes with a huge collection of reusable and easy customizable UI components and plugins. Buy Metronic today!',
                     // (string | optional) the image to display on the left
-                    image: './assets/img/avatar1.jpg',
+                    image: '../assets/img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -775,7 +775,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'Metronic allows you to easily customize the theme colors and layout settings.',
                     // (string | optional) the image to display on the left
-                    image1: './assets/img/avatar1.png',
+                    image1: '../assets/img/avatar1.png',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -810,7 +810,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'You have 3 new notifications.',
                     // (string | optional) the image to display on the left
-                    image1: './assets/img/image1.jpg',
+                    image1: '../assets/img/image1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out
@@ -853,7 +853,7 @@ var Index = function () {
                     // (string | mandatory) the text inside the notification
                     text: 'You have 2 new messages in your inbox.',
                     // (string | optional) the image to display on the left
-                    image1: './assets/img/avatar1.jpg',
+                    image1: '../assets/img/avatar1.jpg',
                     // (bool | optional) if you want it to fade out on its own or just sit there
                     sticky: true,
                     // (int | optional) the time you want it to be alive for before fading out

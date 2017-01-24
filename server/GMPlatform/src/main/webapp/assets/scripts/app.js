@@ -63,7 +63,7 @@ var App = function() {
          Also, note that if you're using inputs in your modal – iOS has a rendering bug which doesn't
          update the position of fixed elements when the virtual keyboard is triggered
          */
-        var deviceAgent = navigator.userAgent.toLowerCase();
+        var deviceAgent = navigator.userAgent.toLowerCase();//获取浏览器信息
         if (deviceAgent.match(/(iphone|ipod|ipad)/)) {
             $(document).on('focus', 'input, textarea', function() {
                 $('.header').hide();
@@ -873,7 +873,7 @@ var App = function() {
             $('#style_color').attr("href", "assets/css/themes/" + color_ + ".css");
             $.cookie('style_color', color);
         }
-
+        
         $('.toggler', panel).click(function() {
             $('.toggler').hide();
             $('.toggler-close').show();
@@ -1029,7 +1029,7 @@ var App = function() {
                 centerY = true;
             }
             el.block({
-                message : '<img src="./assets/img/ajax-loading.gif" align="">',
+                message : '<img src="../assets/img/ajax-loading.gif" align="">',
                 centerY : centerY != undefined ? centerY : true,
                 css : {
                     top : '10%',
@@ -1134,7 +1134,8 @@ var App = function() {
             } else {
                 return '';
             }
-        }
+        },
+        
     };
 
 }();

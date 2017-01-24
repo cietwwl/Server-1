@@ -76,7 +76,10 @@
 		<!-- 拦截所有/rest/* 的请求,交给DispatcherServlet处理,性能最好 这个参数设置的规则是什么？ “/” 是用来定义默认 
 			servlet 映射的。也可以如“*.html”表示拦截所有以 html 为扩展名的请求。 匹配逻辑： 1.精确匹配， 2.前缀匹配 3.后缀匹配，（扩展名） -->
 		<!-- <url-pattern>/rest/*</url-pattern> -->
+		<url-pattern>/</url-pattern>
+		<!-- 
 		<url-pattern>/view/*</url-pattern>
+		 -->
 	</servlet-mapping>
 
 

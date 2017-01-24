@@ -6,11 +6,13 @@ public class User {
     private String account;
 
     private String password;
-    
-    private boolean remember;
 
     private Date lastlogintime;
 
+    private Date createtime;
+
+    private boolean remember;
+    
     public String getAccount() {
         return account;
     }
@@ -33,6 +35,14 @@ public class User {
 
     public void setLastlogintime(Date lastlogintime) {
         this.lastlogintime = lastlogintime;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
 	public boolean isRemember() {

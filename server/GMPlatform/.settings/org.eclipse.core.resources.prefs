@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/view/mail_check.html=UTF-8
+encoding//src/main/webapp/view/mail_send.html=UTF-8
+encoding//src/main/webapp/view/main_content.html=UTF-8
 encoding/<project>=UTF-8

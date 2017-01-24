@@ -10,8 +10,15 @@
                         http://www.springframework.org/schema/mvc  
                         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<mvc:resources mapping="*/assets/**" location="*/assets/*" /><!-- 处理静态资源请求 -->
-
+	<!-- 处理静态资源请求 
+	<mvc:resources mapping="*/assets/**" location="*/assets/*" />
+	<mvc:resources mapping="*/page/*" location="*/page/*" />
+	<mvc:resources mapping="*/view/*" location="*/view/*" />
+	<mvc:resources mapping="*/app/*" location="*/app/*" />
+	-->
+	
+	<mvc:default-servlet-handler /><!-- 将静态资源交回web应用服务器处理 -->
+	
 	<context:annotation-config />
 	<context:component-scan base-package="com.server.*" />
 	
@@ -19,14 +26,24 @@
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />  
             <bean class="org.springframework.http.converter.StringHttpMessageConverter" />  
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
             <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>  
 		</mvc:message-converters>
-	</mvc:annotation-driven>	
+	</mvc:annotation-driven>
+	
+	<!-- 设置拦截器，拦截所有url中包含view的请求 -->	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/view/**" />
+			<bean class="com.server.security.AuthInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
 	
 	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
 	 <!-- 启动Spring MVC的注解功能,设置编码方式，防止乱码 -->  
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
         <property name="messageConverters">  
             <list>  
                 <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />  

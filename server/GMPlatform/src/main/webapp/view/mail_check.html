@@ -1,0 +1,265 @@
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+	<div class="col-md-12">
+		<!-- BEGIN PAGE TITLE & BREADCRUMB-->
+		<h3 class="page-title">
+		飞雨游戏 <small>运营平台</small>
+		</h3>
+		<ul class="page-breadcrumb breadcrumb">
+			<li>
+				<i class="fa fa-home"></i>
+				<a href="index.html">首页</a>
+				<i class="fa fa-angle-right"></i>
+			</li>
+			<li>
+				<i class="fa fa-envelope"></i>
+				<a href="#">GM邮件</a>
+				<i class="fa fa-angle-right"></i>
+			</li>
+			<li>
+				<a href="mail_check.html">邮件查询</a>
+			</li>
+			<li class="pull-right">
+				<div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+					<i class="fa fa-calendar"></i>
+					<span>
+					</span>
+					<i class="fa fa-angle-down"></i>
+				</div>
+			</li>
+		</ul>
+		<!-- END PAGE TITLE & BREADCRUMB-->
+	</div>
+</div>
+<!-- END PAGE HEADER-->	
+<div class="clearfix"></div>
+<div class="row">
+	<div class="col-md-6 col-sm-6">
+		<!-- BEGIN PORTLET-->
+		<div class="portlet solid bordered light-grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-bar-chart-o"></i>当月arpu
+				</div>
+				<div class="tools">
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn default btn-sm active">
+						<input type="radio" name="options" class="toggle" id="option1">Users </label>
+						<label class="btn default btn-sm">
+						<input type="radio" name="options" class="toggle" id="option2">Feedbacks </label>
+					</div>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div id="site_statistics_loading">
+					<img src="../assets/img/loading.gif" alt="loading"/>
+				</div>
+				<div id="site_statistics_content" class="display-none">
+					<div id="site_statistics" class="chart">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PORTLET-->
+	</div>
+	<div class="col-md-6 col-sm-6">
+		<!-- BEGIN PORTLET-->
+		<div class="portlet solid light-grey bordered">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-bullhorn"></i>活跃
+				</div>
+				<div class="tools">
+					<div class="btn-group pull-right" data-toggle="buttons">
+						<a href="" class="btn blue btn-sm active">Users</a>
+						<a href="" class="btn blue btn-sm">Orders</a>
+					</div>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div id="site_activities_loading">
+					<img src="../assets/img/loading.gif" alt="loading"/>
+				</div>
+				<div id="site_activities_content" class="display-none">
+					<div id="site_activities" style="height: 100px;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PORTLET-->
+		<!-- BEGIN PORTLET-->
+		<div class="portlet solid bordered light-grey">
+			<div class="portlet-title">
+				<div class="caption">
+					<i class="fa fa-signal"></i>服务器内存状态
+				</div>
+				<div class="tools">
+					<div class="btn-group pull-right" data-toggle="buttons">
+						<a href="" class="btn red btn-sm active">Database</a>
+						<a href="" class="btn red btn-sm">Web</a>
+					</div>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div id="load_statistics_loading">
+					<img src="../assets/img/loading.gif" alt="loading"/>
+				</div>
+				<div id="load_statistics_content" class="display-none">
+					<div id="load_statistics" style="height: 108px;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PORTLET-->
+	</div>
+</div>
+<div class="clearfix">
+</div>
+<div class="row ">
+	<div class="col-md-6 col-sm-6">
+		<!-- BEGIN PORTLET-->
+		<div class="portlet">
+			<div class="portlet-title line">
+				<div class="caption">
+					<i class="fa fa-comments"></i>聊天
+				</div>
+				<div class="tools">
+					<a href="" class="collapse"></a>
+					<a href="#portlet-config" data-toggle="modal" class="config"></a>
+					<a href="" class="reload"></a>
+					<a href="" class="remove"></a>
+				</div>
+			</div>
+			<div class="portlet-body" id="chats">
+				<div class="scroller" style="height: 435px;" data-always-visible="1" data-rail-visible1="1">
+					<ul class="chats">
+						<li class="in">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar1.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Bob Nilson</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="out">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar2.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Lisa Wong</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="in">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar1.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Bob Nilson</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="out">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar3.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Richard Doe</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="in">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar3.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Richard Doe</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="out">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar1.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Bob Nilson</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="in">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar3.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Richard Doe</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+								</span>
+							</div>
+						</li>
+						<li class="out">
+							<img class="avatar img-responsive" alt="" src="../assets/img/avatar1.jpg"/>
+							<div class="message">
+								<span class="arrow">
+								</span>
+								<a href="#" class="name">Bob Nilson</a>
+								<span class="datetime">
+									at Jul 25, 2012 11:09
+								</span>
+								<span class="body">
+									 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. sed diam nonummy nibh euismod tincidunt ut laoreet.
+								</span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="chat-form">
+					<div class="input-cont">
+						<input class="form-control" type="text" placeholder="Type a message here..."/>
+					</div>
+					<div class="btn-cont">
+						<span class="arrow">
+						</span>
+						<a href="" class="btn blue icn-only"><i class="fa fa-check icon-white"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END PORTLET-->
+	</div>
+	
+</div>
