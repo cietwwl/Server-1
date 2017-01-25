@@ -3,6 +3,8 @@ package com.playerdata.activityCommon.activityType;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.chargeRank.ActivityChargeRankMgr;
 import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO;
 import com.playerdata.activity.chargeRank.data.ActivityChargeRankItem;
@@ -34,6 +36,8 @@ import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO;
 import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
 import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveSubItem;
+import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO;
@@ -44,9 +48,15 @@ import com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO;
 import com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
+import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activityCommon.activityType.exception.RepeatedActivityTypeException;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -62,6 +72,12 @@ public class ActivityTypeFactory {
 	public static final ActivityType DailyDiscount;	//折扣活动
 	public static final ActivityType FortuneCat;	//招财猫
 	public static final ActivityType DailyCount;	//每日福利
+	public static final ActivityType ExChangeType;	//交换活动
+	public static final ActivityType LimitHeroType;	//限时英雄
+	public static final ActivityType RateType;	//双倍活动
+	public static final ActivityType RedEnvelopeType;	//红包活动
+	public static final ActivityType VitalityType;	//活跃之王
+	
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -85,6 +101,12 @@ public class ActivityTypeFactory {
 				ActivityFortuneCatTypeSubCfgDAO.class, ActivityFortuneCatTypeSubItem.class, ActivityFortuneCatTypeMgr.getInstance());
 		DailyCount = new ActivityType(1010, ActivityDailyTypeCfgDAO.class, ActivityDailyTypeItem.class,
 				ActivityDailyTypeSubCfgDAO.class, ActivityDailyTypeSubItem.class, ActivityDailyTypeMgr.getInstance());
+		ExChangeType = new ActivityType(1011, ActivityExchangeTypeCfgDAO.class, ActivityExchangeTypeMgr.getInstance());
+		LimitHeroType = new ActivityType(1012, ActivityLimitHeroCfgDAO.class, ActivityLimitHeroTypeMgr.getInstance());
+		RateType = new ActivityType(1013, ActivityRateTypeCfgDAO.class, ActivityRateTypeMgr.getInstance());
+		RedEnvelopeType = new ActivityType(1014, ActivityRedEnvelopeTypeCfgDAO.class, ActivityRedEnvelopeTypeMgr.getInstance());
+		VitalityType = new ActivityType(1015, ActivityVitalityCfgDAO.class, ActivityVitalityTypeMgr.getInstance());
+		
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -97,6 +119,11 @@ public class ActivityTypeFactory {
 		addType(DailyDiscount);
 		addType(FortuneCat);
 		addType(DailyCount);
+		addType(ExChangeType);
+		addType(LimitHeroType);
+		addType(RateType);
+		addType(RedEnvelopeType);
+		addType(VitalityType);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

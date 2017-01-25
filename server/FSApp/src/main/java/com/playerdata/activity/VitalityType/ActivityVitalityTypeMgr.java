@@ -20,7 +20,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-
+import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -28,7 +28,10 @@ import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
 
-public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
+public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRankJudgeIF{
+	
+	private static final int ACTIVITY_INDEX_BEGIN = 50000;
+	private static final int ACTIVITY_INDEX_END = 60000;
 
 	private static ActivityVitalityTypeMgr instance = new ActivityVitalityTypeMgr();
 
@@ -85,7 +88,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 				// 活动未开启
 				continue;
 			}
-			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());
+			ActivityVitalityTypeEnum acVitalityTypeEnum = ActivityVitalityTypeEnum.getById(String.valueOf(cfg.getEnumID()));
 			if (acVitalityTypeEnum == null) {
 				continue;
 			}
@@ -147,7 +150,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityVitalityTypeItem freshItem = null;
 			for(ActivityVitalityTypeItem item : itemList){
-				if(StringUtils.equals(item.getEnumId(), cfg.getEnumID())&&!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+				if(StringUtils.equals(item.getEnumId(), String.valueOf(cfg.getEnumID()))&&!StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))){
 					freshItem = item;
 				}
 			}
@@ -185,7 +188,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			if(!isOpen(cfg)){
 				continue;
 			}
-			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), cfg.getEnumID())){
+			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), String.valueOf(cfg.getEnumID()))){
 				continue;
 			}
 			if(itemList == null){
@@ -193,7 +196,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityVitalityTypeItem freshItem = null;
 			for(ActivityVitalityTypeItem item : itemList){
-				if(StringUtils.equals(item.getEnumId(), cfg.getEnumID())&&StringUtils.equals(item.getVersion(), cfg.getVersion())){
+				if(StringUtils.equals(item.getEnumId(), String.valueOf(cfg.getEnumID()))&&StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))){
 					freshItem = item;
 				}
 			}
@@ -231,7 +234,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityVitalityTypeItem closeItem = null;
 			for(ActivityVitalityTypeItem item : itemList){
-				if(StringUtils.equals(item.getEnumId(), cfg.getEnumID())&&StringUtils.equals(item.getVersion(), cfg.getVersion())){
+				if(StringUtils.equals(item.getEnumId(), String.valueOf(cfg.getEnumID()))&&StringUtils.equals(item.getVersion(), String.valueOf(cfg.getVersion()))){
 					closeItem = item;
 					break;
 				}			
@@ -313,7 +316,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 		ActivityVitalityCfg vitalityCfg = null;
 		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		for (ActivityVitalityCfg cfg : cfgList) {
-			if (!StringUtils.equals(eNum.getCfgId(), cfg.getEnumID())) {
+			if (!StringUtils.equals(eNum.getCfgId(), String.valueOf(cfg.getEnumID()))) {
 				continue;
 			}
 			if (!isOpen(cfg)) {
@@ -456,7 +459,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 		if (cfg == null) {
 			return;
 		}
-		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());// cfg
+		ActivityVitalityTypeEnum vitalityEnum = ActivityVitalityTypeEnum.getById(String.valueOf(cfg.getEnumID()));// cfg
 		if (vitalityEnum == null) {
 			return;
 		}
@@ -512,7 +515,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityVitalityTypeItem item = null;
 			for(ActivityVitalityTypeItem temp : vitalityItemList){
-				if(StringUtils.equals(temp.getId()+"", cfg.getEnumID())){
+				if(temp.getId() == cfg.getEnumID()){
 					item = temp ;
 					break;
 				}
@@ -565,5 +568,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean isThisActivityIndex(int index) {
+		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

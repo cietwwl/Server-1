@@ -24,5 +24,9 @@ public interface ActivityCfgIF {
 	
 	public void setEndTime(String endTime);
 	
+	public String getStartTimeStr();
+	
+	public String getEndTimeStr();
+	
 	public void setVersion(int version);
 }

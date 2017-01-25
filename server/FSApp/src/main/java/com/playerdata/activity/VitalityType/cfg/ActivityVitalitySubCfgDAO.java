@@ -84,7 +84,7 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		for (ActivityVitalitySubCfg subcfg : subCfgListByType) {
 			if (StringUtils.equals(subcfg.getType(), subId)
 					&& subcfg.getDay() == day
-					&& StringUtils.equals(cfg.getId(), subcfg.getActiveType()
+					&& StringUtils.equals(String.valueOf(cfg.getId()), subcfg.getActiveType()
 							+ "")) {
 				target = subcfg;
 				break;
@@ -125,7 +125,7 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 			if(subcfg.getDay() != -1){
 				continue;
 			}
-			if(!StringUtils.equals(cfg.getId(), subcfg.getActiveType()+ "")){
+			if(cfg.getId() != subcfg.getActiveType()){
 				continue;
 			}			
 			target = subcfg;

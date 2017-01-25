@@ -50,7 +50,7 @@ public class ActivityCollector implements RedPointCollector {
 			if (!activityRateTypeMgr.isLevelEnough(player, cfg)) {
 				continue;
 			}
-			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(cfg.getEnumId());
+			ActivityRateTypeEnum typeEnum = ActivityRateTypeEnum.getById(String.valueOf(cfg.getEnumId()));
 			if (typeEnum == null) {
 				// 枚举没有配置
 				continue;
@@ -61,7 +61,7 @@ public class ActivityCollector implements RedPointCollector {
 				continue;
 			}
 			if (!rateItem.isTouchRedPoint()) {
-				activityList.add(cfg.getId());
+				activityList.add(String.valueOf(cfg.getId()));
 				continue;
 			}
 		}
@@ -132,7 +132,7 @@ public class ActivityCollector implements RedPointCollector {
 					if (targetItem.getHistoryRedPoint().contains(subitem.getCfgId())) {
 						continue;
 					}
-					activityList.add(cfg.getId());
+					activityList.add(String.valueOf(cfg.getId()));
 					break;
 				}
 			}

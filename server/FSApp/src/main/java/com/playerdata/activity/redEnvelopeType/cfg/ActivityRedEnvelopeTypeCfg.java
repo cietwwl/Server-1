@@ -1,9 +1,13 @@
 package com.playerdata.activity.redEnvelopeType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
 
-public class ActivityRedEnvelopeTypeCfg {
 
-	private String id;
+public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF{
+
+	private int id;
 
 	private long startTime;
 
@@ -15,18 +19,13 @@ public class ActivityRedEnvelopeTypeCfg {
 
 	private int levelLimit;
 
-	private String version;
+	private int version;
 	
 	private String getRewardsTimeStr;
 	
 	private long getRewardsTime;
 	
 	private String emailTitle;
-
-
-	public String getId() {
-		return id;
-	}
 
 	public int getLevelLimit() {
 		return levelLimit;
@@ -35,28 +34,13 @@ public class ActivityRedEnvelopeTypeCfg {
 	public void setLevelLimit(int levelLimit) {
 		this.levelLimit = levelLimit;
 	}
-
 	
-
-
 	public String getEmailTitle() {
 		return emailTitle;
 	}
 
 	public void setEmailTitle(String emailTitle) {
 		this.emailTitle = emailTitle;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public void setStartTimeStr(String startTimeStr) {
@@ -107,7 +91,77 @@ public class ActivityRedEnvelopeTypeCfg {
 		this.getRewardsTime = getRewardsTime;
 	}
 
-	
-	
-	
+	@Override
+	public String getExStartTime() {
+		return startTimeStr;
+	}
+
+	@Override
+	public String getExEndTime() {
+		return getRewardsTimeStr;
+	}
+
+	@Override
+	public void setExStartTime(String startExTime) {
+		setStartTime(startExTime);
+	}
+
+	@Override
+	public void setExEndTime(String endExTime) {
+		getRewardsTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endExTime);
+		getRewardsTimeStr = endExTime;
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public int getCfgId() {
+		return id;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return true;
+	}
+
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+
+	public void ExtraInitAfterLoad() {
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+		getRewardsTime = ActivityTimeHelper.cftEndTimeToLong(startTime, getRewardsTimeStr);
+ 	}
+
+	@Override
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
+	}
+
+	@Override
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }

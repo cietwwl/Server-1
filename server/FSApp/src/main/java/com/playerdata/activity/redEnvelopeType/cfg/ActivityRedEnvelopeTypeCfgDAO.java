@@ -15,7 +15,6 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
@@ -34,25 +33,10 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public Map<String, ActivityRedEnvelopeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRedEnvelopeTypeCfg.csv", ActivityRedEnvelopeTypeCfg.class);
 		for (ActivityRedEnvelopeTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);			
+			cfgTmp.ExtraInitAfterLoad();		
 		}
-		
 		return cfgCacheMap;
 	}
-	
-	private void parseTime(ActivityRedEnvelopeTypeCfg cfg){
-		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getStartTimeStr());
-		cfg.setStartTime(startTime);
-		
-		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getEndTimeStr());
-		cfg.setEndTime(endTime);
-		
-		long getRewardsTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getGetRewardsTimeStr());
-		cfg.setGetRewardsTime(getRewardsTime);
-		
-	}
-	
-	
 	
 	public ActivityRedEnvelopeTypeCfg getConfig(String id){
 		ActivityRedEnvelopeTypeCfg cfg = getCfgById(id);
@@ -67,8 +51,8 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 			int id = Integer.parseInt(ActivityRedEnvelopeTypeEnum.redEnvelope.getCfgId());
 			item.setId(id);
 			item.setUserId(userid);
-			item.setCfgId(cfgById.getId());
-			item.setVersion(cfgById.getVersion());
+			item.setCfgId(String.valueOf(cfgById.getId()));
+			item.setVersion(String.valueOf(cfgById.getVersion()));
 			item.setLastTime(System.currentTimeMillis());
 			int day = ActivityTypeHelper.getDayBy5Am(cfgById.getStartTime());
 			item.setDay(day);
@@ -82,12 +66,12 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	public List<ActivityRedEnvelopeTypeSubItem> getSubList(ActivityRedEnvelopeTypeCfg cfg) {
 		List<ActivityRedEnvelopeTypeSubItem> subItemList = new ArrayList<ActivityRedEnvelopeTypeSubItem>();
 		ActivityRedEnvelopeTypeSubCfgDAO activityRedEnvelopeTypeSubCfgDAO = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();
-		List<ActivityRedEnvelopeTypeSubCfg> subList = activityRedEnvelopeTypeSubCfgDAO.getSubCfgListByParentID(cfg.getId());
+		List<ActivityRedEnvelopeTypeSubCfg> subList = activityRedEnvelopeTypeSubCfgDAO.getSubCfgListByParentID(String.valueOf(cfg.getId()));
 		if(subList == null){
 			return subItemList;
 		}
 		for(ActivityRedEnvelopeTypeSubCfg subCfg : subList){
-			if(!StringUtils.equals(cfg.getId(), subCfg.getParantid())){
+			if(!StringUtils.equals(String.valueOf(cfg.getId()), subCfg.getParantid())){
 				continue;
 			}
 			ActivityRedEnvelopeTypeSubItem subItem = new ActivityRedEnvelopeTypeSubItem();
@@ -105,7 +89,7 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 		List<ActivityRedEnvelopeTypeCfg> cfgOfOpen = new ArrayList<ActivityRedEnvelopeTypeCfg>();
 		ActivityRedEnvelopeTypeMgr activityRedEnvelopeTypeMgr = ActivityRedEnvelopeTypeMgr.getInstance();				
 		for(ActivityRedEnvelopeTypeCfg cfg : allCfg){
-			if(!StringUtils.equals(item.getCfgId(), cfg.getId())&&activityRedEnvelopeTypeMgr.isOpen(cfg)){
+			if(!StringUtils.equals(item.getCfgId(), String.valueOf(cfg.getId()))&&activityRedEnvelopeTypeMgr.isOpen(cfg)){
 				cfgOfOpen.add(cfg);
 			}
 		}

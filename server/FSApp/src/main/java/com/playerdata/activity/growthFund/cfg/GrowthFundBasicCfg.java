@@ -98,4 +98,14 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 	}
+
+	@Override
+	public String getStartTimeStr() {
+		return "197012120500";
+	}
+
+	@Override
+	public String getEndTimeStr() {
+		return "300012120500";
+	}
 }

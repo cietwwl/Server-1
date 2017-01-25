@@ -24,7 +24,9 @@ public class ActivityMgrHelper {
 	public void synActivityData(Player player){
 		ActivityModifyMgr.getInstance().synModifiedActivity(player);
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().synDataWithoutEmpty(player);
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().synDataWithoutEmpty(player);
+			}
 		}
 	}
 	
@@ -33,8 +35,10 @@ public class ActivityMgrHelper {
 	 * @param player
 	 */
 	public void checkActivity(Player player){
-		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().checkActivityOpen(player);
+		for(ActivityType type : ActivityTypeFactory.getAllTypes()){	
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().checkActivityOpen(player);
+			}
 		}
 	}
 	
@@ -46,7 +50,9 @@ public class ActivityMgrHelper {
 	public List<String> haveRedPoint(Player player){
 		List<String> redPointList = new ArrayList<String>();
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			redPointList.addAll(type.getActivityMgr().haveRedPoint(player));
+			if(null != type.getActivityMgr()){
+				redPointList.addAll(type.getActivityMgr().haveRedPoint(player));
+			}
 		}
 		return redPointList;
 	}
@@ -57,7 +63,9 @@ public class ActivityMgrHelper {
 	 */
 	public void dailyRefreshNewDaySubActivity(Player player) {
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().dailyRefreshNewDaySubActivity(player);
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().dailyRefreshNewDaySubActivity(player);
+			}
 		}
 	}
 	
@@ -66,7 +74,9 @@ public class ActivityMgrHelper {
 	 */
 	public void updateRedPoint(Player player, String eNum) {
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().updateRedPoint(player, eNum);
+			if(null != type.getActivityMgr()){
+				type.getActivityMgr().updateRedPoint(player, eNum);
+			}
 		}
 	}
 }

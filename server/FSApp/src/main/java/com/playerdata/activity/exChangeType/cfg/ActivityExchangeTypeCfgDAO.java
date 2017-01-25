@@ -29,7 +29,7 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	public Map<String, ActivityExchangeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityExchangeTypeCfg.csv", ActivityExchangeTypeCfg.class);
 		for (ActivityExchangeTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
+			cfgTmp.ExtraInitAfterLoad();
 		}
 		HashMap<String, List<ActivityExchangeTypeCfg>> cfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeCfg>>();
 		for (ActivityExchangeTypeCfg cfg : cfgCacheMap.values()) {
@@ -60,7 +60,7 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 			return null;
 		}
 		for (ActivityExchangeTypeCfg cfg : cfgList) {
-			if (!StringUtils.equals(id, cfg.getId()) && activityExchangeTypeMgr.isOpen(cfg)) {
+			if (!StringUtils.equals(id, String.valueOf(cfg.getId())) && activityExchangeTypeMgr.isOpen(cfg)) {
 				cfgListByItem.add(cfg);
 			}
 		}
@@ -82,7 +82,7 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	
 	public List<ActivityExchangeTypeSubItem> newItemList(ActivityExchangeTypeCfg cfgById) {
 		List<ActivityExchangeTypeSubItem> subItemList = new ArrayList<ActivityExchangeTypeSubItem>();
-		List<ActivityExchangeTypeSubCfg> subItemCfgList = ActivityExchangeTypeSubCfgDAO.getInstance().getByParentCfgId(cfgById.getId());
+		List<ActivityExchangeTypeSubCfg> subItemCfgList = ActivityExchangeTypeSubCfgDAO.getInstance().getByParentCfgId(String.valueOf(cfgById.getId()));
 
 		if (subItemCfgList == null) {
 			return subItemList;

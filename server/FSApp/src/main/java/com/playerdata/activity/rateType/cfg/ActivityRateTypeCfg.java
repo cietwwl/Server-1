@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
-public class ActivityRateTypeCfg {
 
-	private String id;	
+public class ActivityRateTypeCfg implements ActivityCfgIF{
+
+	private int id;	
 	
 	private long startTime;
 	
@@ -26,6 +29,8 @@ public class ActivityRateTypeCfg {
 	
 	private int levelLimit;
 	
+	private int vipLimit;
+	
 	/**
 	 * 多倍的副本类型和产出类型组合，类型_产出类型#产出类型,类型_产出类型
 	 */
@@ -33,13 +38,29 @@ public class ActivityRateTypeCfg {
 	
 	private Map<Integer, List<Integer>> copyTypeMap = new HashMap<Integer, List<Integer>>();
 	
-	private String enumId;	
+	private int enumId;
 	
-	public String getEnumId() {
+	private String title;
+	
+	private String titleBG;
+	
+	private String desc;
+	
+	private int sortNum;
+	
+	private float rate;
+
+	private int version;
+	
+	private int multiple;
+	
+	private int isAutoRefresh;
+	
+	public int getEnumId() {
 		return enumId;
 	}
 
-	public void setEnumId(String enumId) {
+	public void setEnumId(int enumId) {
 		this.enumId = enumId;
 	}
 
@@ -69,22 +90,6 @@ public class ActivityRateTypeCfg {
 		this.startAndEnd = startAndEnd;
 	}
 
-	private String title;
-	
-	private String titleBG;
-	
-	private String desc;
-	
-	private int sortNum;
-	
-	private float rate;
-
-	private String version;
-	
-	private int multiple;
-	
-	
-
 	public int getLevelLimit() {
 		return levelLimit;
 	}
@@ -99,18 +104,6 @@ public class ActivityRateTypeCfg {
 
 	public void setMultiple(int multiple) {
 		this.multiple = multiple;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public String getCion() {
@@ -161,8 +154,6 @@ public class ActivityRateTypeCfg {
 		this.endTime = endTime;
 	}
 
-
-
 	public String getTimeStr() {
 		return timeStr;
 	}
@@ -171,11 +162,55 @@ public class ActivityRateTypeCfg {
 		this.timeStr = timeStr;
 	}
 
+	@Override
+	public int getId() {
+		return enumId;
+	}
 
+	@Override
+	public int getCfgId() {
+		return id;
+	}
 
-	
-	
-	
-	
-	
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return vipLimit;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return isAutoRefresh == 1;
+	}
+
+	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+
+ 	public void ExtraInitAfterLoad() {
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+ 	}
+
+	@Override
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
+	}
+
+	@Override
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }

@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
@@ -47,19 +48,46 @@ public class ActivityModifyMgr {
 	}
 	
 	/**
-	 * 给玩家同步修改过的活动配置
+	 * 给玩家同步服务端的活动配置
 	 * @param player
 	 */
 	public void synModifiedActivity(Player player){
 		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
 		for(ActivityKey actKey : ActivityKey.values()){
-			ActivityModifyGlobleData modiData = getModifiedActivity(actKey);
-			if(null != modiData && !modiData.getItems().isEmpty()){
-				modifiedList.add(modiData);
+			List<ActivityCfgIF> cfgs = actKey.getActivityType().getActivityDao().getAllCfg();
+			if(null != cfgs){
+				ActivityModifyGlobleData globleData = new ActivityModifyGlobleData();
+				for(ActivityCfgIF cfg : cfgs){
+					ActivityModifyItem item = new ActivityModifyItem();
+					item.setId(cfg.getCfgId());
+					item.setStartTime(cfg.getStartTimeStr());
+					item.setEndTime(cfg.getEndTimeStr());
+					item.setVersion(cfg.getVersion());
+					globleData.getItems().put(item.getId(), item);
+				}
+				if(!globleData.getItems().isEmpty()){
+					modifiedList.add(globleData);
+				}
 			}
 		}
 		if(!modifiedList.isEmpty()){
 			//ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
+		}
+	}
+
+	
+	/**
+	 * 给玩家同步变化的活动配置
+	 * @param data
+	 */
+	private void synSingalModifiedActivity(ActivityModifyGlobleData data){
+		List<ActivityModifyGlobleData> dataList = new ArrayList<ActivityModifyGlobleData>();
+		dataList.add(data);
+		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
+		for(Player player : onlinePlayers){
+			if(null != dataList && dataList.isEmpty()){				
+				ClientDataSynMgr.synDataList(player, dataList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_PART_LIST);
+			}
 		}
 	}
 	
@@ -167,6 +195,7 @@ public class ActivityModifyMgr {
 				globleData = new ActivityModifyGlobleData();
 			}
 			globleData.getItems().put(item.getId(), item);
+			synSingalModifiedActivity(globleData);
 			GameWorldFactory.getGameWorld().updateAttribute(activityKey.getGameWorldKey(), JsonUtil.writeValue(globleData));
 		}else if(isDropOld){
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
