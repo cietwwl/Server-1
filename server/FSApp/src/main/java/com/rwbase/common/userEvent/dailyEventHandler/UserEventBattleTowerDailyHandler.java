@@ -31,7 +31,7 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler {
 				List<ActivityDailyTypeItem> dataItems = dataHolder.getItemList(player.getUserId());
 				for(ActivityDailyTypeItem dataItem : dataItems){
 					ActivityDailyTypeSubItem subItem = ActivityDailyTypeMgr
-							.getInstance().getbyDailyCountTypeEnum(player,
+							.getInstance().getByDailyCountTypeEnum(player,
 									ActivityDailyTypeEnum.BattleTowerDaily,
 									dataItem);
 					if (subItem != null) {

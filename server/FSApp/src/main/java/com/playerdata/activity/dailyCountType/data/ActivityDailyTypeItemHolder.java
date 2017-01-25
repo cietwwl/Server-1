@@ -19,10 +19,6 @@ public class ActivityDailyTypeItemHolder extends UserActivityChecker<ActivityDai
 		return instance;
 	}
 	
-	public List<ActivityDailyTypeItem> getItemList(String userId){
-		return refreshActivity(userId);
-	}
-	
 	@Override
 	public List<ActivityDailyTypeSubItem> newSubItemList(String cfgId) {
 		List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();

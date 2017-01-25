@@ -38,20 +38,16 @@ public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeI
 			return;
 		}
 		for(ActivityDailyTypeItem dataItem : dataItems){
-			addCount(player, dataItem, countType, countadd);
+			ActivityDailyTypeSubItem subItem = getByDailyCountTypeEnum(player, countType, dataItem);
+			if (subItem == null) {
+				return;
+			}
+			subItem.setCount(subItem.getCount() + countadd);
 		}
 		dataHolder.updateItem(player, dataItems);
 	}
-	
-	private void addCount(Player player, ActivityDailyTypeItem dataItem, ActivityDailyTypeEnum countType, int countadd) {
-		ActivityDailyTypeSubItem subItem = getbyDailyCountTypeEnum(player, countType, dataItem);
-		if (subItem == null) {
-			return;
-		}
-		subItem.setCount(subItem.getCount() + countadd);
-	}
 
-	public ActivityDailyTypeSubItem getbyDailyCountTypeEnum(Player player, ActivityDailyTypeEnum typeEnum, ActivityDailyTypeItem dataItem) {
+	public ActivityDailyTypeSubItem getByDailyCountTypeEnum(Player player, ActivityDailyTypeEnum typeEnum, ActivityDailyTypeItem dataItem) {
 		ActivityDailyTypeSubCfg cfg = null;
 		List<ActivityDailyTypeSubCfg> subcfglist = ActivityDailyTypeSubCfgDAO.getInstance().getAllCfg();
 		for (ActivityDailyTypeSubCfg subcfg : subcfglist) {
