@@ -71,7 +71,7 @@ public class ActivityModifyMgr {
 			}
 		}
 		if(!modifiedList.isEmpty()){
-			//ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class ActivityModifyMgr {
 		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
 		for(Player player : onlinePlayers){
 			if(null != dataList && dataList.isEmpty()){				
-				//ClientDataSynMgr.synDataList(player, dataList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_PART_LIST);
+				ClientDataSynMgr.synDataList(player, dataList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_PART_LIST);
 			}
 		}
 	}
