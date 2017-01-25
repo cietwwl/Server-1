@@ -108,8 +108,8 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 
 	@Override
 	public void setExEndTime(String endExTime) {
-		getRewardsTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endExTime);
-		getRewardsTimeStr = endExTime;
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endExTime);
+		this.endTimeStr = endExTime;
 	}
 
 	@Override
@@ -156,8 +156,8 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 
 	@Override
 	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
-		this.endTimeStr = endTimeStr;
+		getRewardsTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		getRewardsTimeStr = endTimeStr;
 	}
 
 	@Override
