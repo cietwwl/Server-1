@@ -13,6 +13,17 @@ public class ActivityTimeHelper {
 	private static long ONE_DAY_MS = 24 * 60 * 60 * 1000;
 	
 	private static int RESET_HOUR = 5;	//活动的重置时间
+	private static long openTime = DateUtils.getHour(GameManager.getOpenTime(), RESET_HOUR);	//五点为重置时间
+	
+	
+	public static TimePair transToAbsoluteTime(String startTime, String endTime){
+		long startMil = cftStartTimeToLong(startTime);
+		long endMil = cftEndTimeToLong(startMil, endTime);
+		TimePair tp = new TimePair();
+		tp.setStartMil(startMil);
+		tp.setEndMil(endMil);
+		return tp;
+	}
 	
 	public static long cftStartTimeToLong(String startTime){
 		if(StringUtils.isBlank(startTime)) return 0;
@@ -21,8 +32,7 @@ public class ActivityTimeHelper {
 			result = DateUtils.YyyymmddhhmmToMillionseconds(startTime);
 		}else if(startTime.length() <= MAX_DAYS_SIZE){
 			int afterOpenServerDay = Integer.parseInt(startTime);
-			result = GameManager.getOpenTime() + afterOpenServerDay * ONE_DAY_MS;
-			result = DateUtils.getHour(result, RESET_HOUR);   //五点为重置时间
+			result = openTime + afterOpenServerDay * ONE_DAY_MS;
 		}
 		return result;
 	}
@@ -54,5 +64,39 @@ public class ActivityTimeHelper {
 			}
 		}
 		return null;
+	}
+	
+	public static class TimePair{
+		
+		private String startTime;
+		private String endTime;
+		private long startMil;
+		private long endMil;
+		
+		public String getStartTime() {
+			return startTime;
+		}
+		
+		public String getEndTime() {
+			return endTime;
+		}
+
+		public long getStartMil() {
+			return startMil;
+		}
+
+		public void setStartMil(long startMil) {
+			this.startMil = startMil;
+			this.startTime = DateUtils.getDateTimeFormatString(startMil, "yyyyMMddHHmm");
+		}
+
+		public long getEndMil() {
+			return endMil;
+		}
+
+		public void setEndMil(long endMil) {
+			this.endMil = endMil;
+			this.endTime = DateUtils.getDateTimeFormatString(endMil, "yyyyMMddHHmm");
+		}
 	}
 }

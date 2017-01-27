@@ -3,6 +3,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.common.BaseConfig;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
@@ -95,10 +96,13 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
 		if(StringUtils.isNotBlank(tmpEndStr)){
 			endTimeStr = tmpEndStr;
 		}
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
  	}
-
+	
 	@Override
 	public void setStartTime(String startTimeStr) {
 		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
