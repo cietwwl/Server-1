@@ -11,6 +11,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
 import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
@@ -141,11 +142,12 @@ public class ActivityModifyMgr {
 			return;
 		}
 		long current = System.currentTimeMillis();
-		long start = ActivityTimeHelper.cftStartTimeToLong(startTime);
+		TimePair time = ActivityTimeHelper.transToAbsoluteTime(startTime, endTime);
+		long start = time.getStartMil();
 		if(Math.abs(current - start) > THREE_MONTH_MS){
 			return;
 		}
-		long end = ActivityTimeHelper.cftEndTimeToLong(start, endTime);
+		long end = time.getEndMil();
 		if(Math.abs(current - end) > THREE_MONTH_MS){
 			return;
 		}
@@ -259,18 +261,14 @@ public class ActivityModifyMgr {
 			return false;
 		}
 		if(cfg.getVersion() <= item.getVersion()){
-			if(StringUtils.isNotBlank(item.getStartTime())){
-				cfg.setStartTime(item.getStartTime());
-			}
-			if(StringUtils.isNotBlank(item.getEndTime())){
-				cfg.setEndTime(item.getEndTime());
+			if(StringUtils.isNotBlank(item.getStartTime()) && StringUtils.isNotBlank(item.getEndTime())){
+				cfg.setStartAndEndTime(item.getStartTime(), item.getEndTime());
 			}
 			cfg.setVersion(item.getVersion());
 			if(StringUtils.isNotBlank(item.getStartViceTime()) 
 					&& StringUtils.isNotBlank(item.getEndViceTime()) 
 					&& cfg instanceof ActivityExtendTimeIF){
-				((ActivityExtendTimeIF) cfg).setViceStartTime(item.getStartViceTime());
-				((ActivityExtendTimeIF) cfg).setViceEndTime(item.getEndViceTime());
+				((ActivityExtendTimeIF) cfg).setViceStartAndEndTime(item.getStartViceTime(), item.getEndViceTime());
 			}
 			if(StringUtils.isNotBlank(item.getRangeTime()) 
 					&& cfg instanceof ActivityRangeTimeIF){

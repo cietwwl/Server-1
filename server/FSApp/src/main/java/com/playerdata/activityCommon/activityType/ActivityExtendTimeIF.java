@@ -6,8 +6,6 @@ public interface ActivityExtendTimeIF {
 	
 	public String getViceEndTime();
 	
-	public void setViceStartTime(String startExTime);
-	
-	public void setViceEndTime(String endExTime);
+	public void setViceStartAndEndTime(String startViceTime, String endViceTime);
 
 }

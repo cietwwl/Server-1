@@ -5,9 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
 import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
@@ -63,11 +62,6 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	private int multiple;
 	
 	private int isAutoRefresh;
-	
-	private String totalStartTimeStr;
-	private String totalEndTimeStr;
-	private String totalAdStartTimeStr;
-	private String totalAdEndTimeStr;
 	
 	public int getEnumId() {
 		return enumId;
@@ -189,37 +183,6 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 		return false;
 	}
 
- 	public void ExtraInitAfterLoad() {
- 		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
-		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
-		String tmpAdStartStr = ActivityTimeHelper.getThisZoneTime(totalAdStartTimeStr);
-		String tmpAdEndStr = ActivityTimeHelper.getThisZoneTime(totalAdEndTimeStr);
-		if(StringUtils.isNotBlank(tmpStartStr)){
-			startTimeStr = tmpStartStr;
-		}
-		if(StringUtils.isNotBlank(tmpEndStr)){
-			endTimeStr = tmpEndStr;
-		}
-		if(StringUtils.isNotBlank(tmpAdStartStr)){
-			adStartTimeStr = tmpStartStr;
-		}
-		if(StringUtils.isNotBlank(tmpAdEndStr)){
-			adEndTimeStr = tmpEndStr;
-		}
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
- 	}
-
-	@Override
-	public void setStartTime(String startTimeStr) {
-		this.adStartTimeStr = startTimeStr;
-	}
-
-	@Override
-	public void setEndTime(String endTimeStr) {
-		this.adEndTimeStr = endTimeStr;
-	}
-
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
@@ -241,18 +204,6 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	}
 
 	@Override
-	public void setViceStartTime(String startExTime) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startExTime);
-		this.startTimeStr = startExTime;
-	}
-
-	@Override
-	public void setViceEndTime(String endExTime) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endExTime);
-		this.endTimeStr = endExTime;
-	}
-
-	@Override
 	public void setRangeTime(String rangeTime) {
 		timeStr = rangeTime;
 	}
@@ -260,5 +211,26 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	@Override
 	public String getRangeTime() {
 		return timeStr;
+	}
+	
+	public void ExtraInitViceAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
+	
+	@Override
+	public void setStartAndEndTime(String adStartTimeStr, String adEndTimeStr) {
+		this.adStartTimeStr = adStartTimeStr;
+		this.adEndTimeStr = adEndTimeStr;
+	}
+	
+	@Override
+	public void setViceStartAndEndTime(String startTimeStr, String endTimeStr) {
+		this.startTimeStr = startTimeStr;
+		this.endTimeStr = endTimeStr;
+		ExtraInitViceAfterLoad();
 	}
 }

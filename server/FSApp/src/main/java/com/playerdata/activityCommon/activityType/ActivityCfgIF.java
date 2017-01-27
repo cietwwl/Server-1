@@ -20,9 +20,7 @@ public interface ActivityCfgIF {
 	
 	public boolean isEveryDaySame();
 	
-	public void setStartTime(String startTime);
-	
-	public void setEndTime(String endTime);
+	public void setStartAndEndTime(String startTime, String endTime);
 	
 	public String getStartTimeStr();
 	

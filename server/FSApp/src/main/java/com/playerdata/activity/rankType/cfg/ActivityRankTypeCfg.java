@@ -1,6 +1,7 @@
 package com.playerdata.activity.rankType.cfg;
 
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
@@ -109,16 +110,19 @@ public class ActivityRankTypeCfg implements ActivityCfgIF{
 		return false;
 	}
 
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
+	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		this.startTimeStr = startTimeStr;
-	}
-
-	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
 	}
 	
 	@Override

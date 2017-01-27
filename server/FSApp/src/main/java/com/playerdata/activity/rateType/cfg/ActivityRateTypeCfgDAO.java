@@ -36,7 +36,7 @@ public final class ActivityRateTypeCfgDAO extends
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(
 				"Activity/ActivityRateTypeCfg.csv", ActivityRateTypeCfg.class);
 		for (ActivityRateTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
+			cfgTmp.ExtraInitViceAfterLoad();
 			parseTimeByHour(cfgTmp);
 			parseCopyTypeAndespecialEnum(cfgTmp);
 		}
@@ -48,8 +48,6 @@ public final class ActivityRateTypeCfgDAO extends
 		this.cfgMapByEnumid = cfgMapByEnumidTemp;		
 		return cfgCacheMap;
 	}
-
-	
 	
 	/**
 	 * 

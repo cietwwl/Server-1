@@ -2,7 +2,6 @@ package com.playerdata.activity.rankType.cfg;
 
 import java.util.Map;
 
-import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -21,15 +20,8 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 	public Map<String, ActivityRankTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRankTypeCfg.csv", ActivityRankTypeCfg.class);
 		for (ActivityRankTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
+			cfgTmp.ExtraInitAfterLoad();
 		}
 		return cfgCacheMap;
-	}
-
-	public void parseTime(ActivityRankTypeCfg cfgItem) {
-		long startTime = ActivityTimeHelper.cftStartTimeToLong(cfgItem.getStartTimeStr());
-		cfgItem.setStartTime(startTime);
-		long endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, cfgItem.getEndTimeStr());
-		cfgItem.setEndTime(endTime);
 	}
 }

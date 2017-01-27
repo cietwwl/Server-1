@@ -1,12 +1,9 @@
 package com.playerdata.activity.chargeRank.cfg;
-import org.apache.commons.lang3.StringUtils;
-
-import com.common.BaseConfig;
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
-public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
+public class ActivityChargeRankCfg implements ActivityCfgIF{
 	private int id; //活动id
 	private String title;	//活动的标题
 	private String startTimeStr; //开始时间
@@ -19,9 +16,6 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
 	
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 0;	//是否服务端同步描述
-	
-	private String totalStartTimeStr;
-	private String totalEndTimeStr;
 
 	public int getId() {
 		return id;
@@ -86,16 +80,7 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
 		return false;
 	}
 	
-	@Override
  	public void ExtraInitAfterLoad() {
-		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
-		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
-		if(StringUtils.isNotBlank(tmpStartStr)){
-			startTimeStr = tmpStartStr;
-		}
-		if(StringUtils.isNotBlank(tmpEndStr)){
-			endTimeStr = tmpEndStr;
-		}
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
 		startTime = timePair.getStartMil();
 		endTime = timePair.getEndMil();
@@ -104,15 +89,10 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
  	}
 	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		this.startTimeStr = startTimeStr;
-	}
-
-	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
 	}
 
 	@Override

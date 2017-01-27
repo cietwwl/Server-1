@@ -1,8 +1,7 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
@@ -26,9 +25,6 @@ public class ActivityDailyTypeCfg implements ActivityCfgIF{
 	
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 0;	//是否服务端同步描述
-	
-	private String totalStartTimeStr;
-	private String totalEndTimeStr;
 	
 	public int getEnumId() {
 		return enumId;
@@ -128,29 +124,19 @@ public class ActivityDailyTypeCfg implements ActivityCfgIF{
 		return true;
 	}
 
- 	public void ExtraInitAfterLoad() {
- 		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
-		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
-		if(StringUtils.isNotBlank(tmpStartStr)){
-			startTimeStr = tmpStartStr;
-		}
-		if(StringUtils.isNotBlank(tmpEndStr)){
-			endTimeStr = tmpEndStr;
-		}
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
  	}
-
+	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		this.startTimeStr = startTimeStr;
-	}
-
-	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.playerdata.activity.dailyCountType.cfg;
 
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
 
@@ -136,17 +137,10 @@ public class ActivityDailyTypeSubCfg implements ActivitySubCfgIF{
 	}
 	
 	public void ExtraInitAfterLoad() {
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
  	}
-
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		this.startTimeStr = startTimeStr;
-	}
-	
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
-		this.endTimeStr = endTimeStr;
-	}
 }
