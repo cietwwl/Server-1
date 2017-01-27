@@ -30,7 +30,6 @@ public class RouterHttpServer {
 	public void init() {
 
 		final int routerPort = PlatformFactory.getRounterPort();
-//		final String intranetIp = "localhost";
 
 		service.submit(new Runnable() {
 

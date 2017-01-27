@@ -184,22 +184,6 @@ public class ServerChannelManager {
 	}
 	
 	/**
-	 * 刷新登录服信息
-	 * @return
-	 */
-//	private HashMap<String, ServerInfo> refreshPlatformMap(){
-//		HashMap<String, ServerInfo> result = new HashMap<String, ServerInfo>();
-//		ServerInfo platform = new ServerInfo();
-//		platform.setId("1001");
-//		platform.setIp(RouterConst.TARGET_ADDR);
-//		platform.setPort(RouterConst.TARGET_PORT);
-//		result.put("1001", platform);
-//		
-//		
-//		return 
-//	}
-	
-	/**
 	 * 向登录服请求区信息
 	 * @param platformNodeMgr
 	 * @return
@@ -223,8 +207,6 @@ public class ServerChannelManager {
 								ServerInfo area = new ServerInfo();
 								area.setId(String.valueOf(zoneInfo.getZoneId()));
 								area.setName(zoneInfo.getZoneName());
-								//area.setIp(zoneInfo.getServerIp());//这里不可以用公网ip跟端口
-								//area.setPort(Integer.valueOf(zoneInfo.getPort())+1999);
 								area.setIp(zoneInfo.getIntranetIp());
 								area.setPort(zoneInfo.getUcGiftRounterPort());
 								//TODO 判断服务器状态
@@ -232,7 +214,6 @@ public class ServerChannelManager {
 								platformAreas.put(area.getId(), area);
 							}
 						}
-						
 					}
 					
 				} catch (Exception e) {
