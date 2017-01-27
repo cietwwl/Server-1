@@ -1,4 +1,6 @@
 package com.playerdata.activity.dailyCharge.cfg;
+import org.apache.commons.lang3.StringUtils;
+
 import com.common.BaseConfig;
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
@@ -16,6 +18,9 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private int isDailyRefresh;
 	
 	private int isSynDesc = 0;	//是否服务端同步描述
+	
+	private String totalStartTimeStr;
+	private String totalEndTimeStr;
 
 	public int getId() {
 		return id;
@@ -64,6 +69,14 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 
 	@Override
  	public void ExtraInitAfterLoad() {
+		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
+		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
+		if(StringUtils.isNotBlank(tmpStartStr)){
+			startTimeStr = tmpStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpEndStr)){
+			endTimeStr = tmpEndStr;
+		}
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
  	}

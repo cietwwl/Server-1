@@ -1,5 +1,7 @@
 package com.playerdata.activity.fortuneCatType.cfg;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.common.BaseConfig;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.playerdata.activityCommon.ActivityTimeHelper;
@@ -25,6 +27,9 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 	
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 0;	//是否服务端同步描述
+	
+	private String totalStartTimeStr;
+	private String totalEndTimeStr;
 
 	public long getStartTime() {
 		return startTime;
@@ -103,6 +108,14 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 
 	@Override
  	public void ExtraInitAfterLoad() {
+		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
+		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
+		if(StringUtils.isNotBlank(tmpStartStr)){
+			startTimeStr = tmpStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpEndStr)){
+			endTimeStr = tmpEndStr;
+		}
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
  	}

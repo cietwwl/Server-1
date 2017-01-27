@@ -1,5 +1,7 @@
 package com.playerdata.activity.exChangeType.cfg;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
@@ -33,6 +35,12 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 0;	//是否服务端同步描述
+	
+	private String totalDropStartStr;
+	private String totalDropEndStr;
+	private String totalViceChangeStartStr;
+	private String totalViceChangeEndStr;
+	
 	
 	public String getEnumId() {
 		return String.valueOf(enumId);
@@ -189,6 +197,22 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	}
 	
  	public void ExtraInitAfterLoad() {
+ 		String tmpDropStartStr = ActivityTimeHelper.getThisZoneTime(totalDropStartStr);
+		String tmpDropEndStr = ActivityTimeHelper.getThisZoneTime(totalDropEndStr);
+		String tmpChangeStartStr = ActivityTimeHelper.getThisZoneTime(totalViceChangeStartStr);
+		String tmpChangeEndStr = ActivityTimeHelper.getThisZoneTime(totalViceChangeEndStr);
+		if(StringUtils.isNotBlank(tmpDropStartStr)){
+			dropStartTimeStr = tmpDropStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpDropEndStr)){
+			dropEndTimeStr = tmpDropEndStr;
+		}
+		if(StringUtils.isNotBlank(tmpChangeStartStr)){
+			changeStartTimeStr = tmpChangeStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpChangeEndStr)){
+			changeEndTimeStr = tmpChangeEndStr;
+		}
 		dropStartTime = ActivityTimeHelper.cftStartTimeToLong(dropStartTimeStr);
 		dropEndTime = ActivityTimeHelper.cftEndTimeToLong(dropStartTime, dropEndTimeStr);
 		changeStartTime = ActivityTimeHelper.cftStartTimeToLong(changeStartTimeStr);

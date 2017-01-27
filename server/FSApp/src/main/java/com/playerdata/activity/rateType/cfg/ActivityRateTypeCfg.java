@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
@@ -61,6 +63,11 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	private int multiple;
 	
 	private int isAutoRefresh;
+	
+	private String totalStartTimeStr;
+	private String totalEndTimeStr;
+	private String totalAdStartTimeStr;
+	private String totalAdEndTimeStr;
 	
 	public int getEnumId() {
 		return enumId;
@@ -183,6 +190,22 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	}
 
  	public void ExtraInitAfterLoad() {
+ 		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
+		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
+		String tmpAdStartStr = ActivityTimeHelper.getThisZoneTime(totalAdStartTimeStr);
+		String tmpAdEndStr = ActivityTimeHelper.getThisZoneTime(totalAdEndTimeStr);
+		if(StringUtils.isNotBlank(tmpStartStr)){
+			startTimeStr = tmpStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpEndStr)){
+			endTimeStr = tmpEndStr;
+		}
+		if(StringUtils.isNotBlank(tmpAdStartStr)){
+			adStartTimeStr = tmpStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpAdEndStr)){
+			adEndTimeStr = tmpEndStr;
+		}
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
  	}

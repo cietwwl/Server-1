@@ -1,5 +1,7 @@
 package com.playerdata.activity.countType.cfg;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
@@ -40,6 +42,9 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	private String countLimit;
 	
 	private int isSynDesc = 0;	//是否服务端同步描述
+	
+	private String totalStartTimeStr;
+	private String totalEndTimeStr;
 	
 	public String getEnumId() {
 		return enumId;
@@ -158,6 +163,14 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 
 	@Override
 	public void setStartTime(String startTimeStr) {
+		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
+		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
+		if(StringUtils.isNotBlank(tmpStartStr)){
+			startTimeStr = tmpStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpEndStr)){
+			endTimeStr = tmpEndStr;
+		}
 		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		this.startTimeStr = startTimeStr;
 	}

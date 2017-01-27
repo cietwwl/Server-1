@@ -39,4 +39,20 @@ public class ActivityTimeHelper {
 		}
 		return result;
 	}
+	
+	public static String getThisZoneTime(String totalTimeStr){
+		if(null == totalTimeStr) return null;
+		String zoneId = String.valueOf(GameManager.getZoneId());
+		String tmpStr = totalTimeStr.replaceAll("\n\r", "");
+		String[] splitStrArr = tmpStr.split("|");
+		for(String zoneTimeStr : splitStrArr){
+			if(zoneTimeStr.indexOf(zoneId) >= 0){
+				String[] zoneAndTime = zoneTimeStr.split("_");
+				if(zoneAndTime.length == 2){
+					return zoneAndTime[1];
+				}
+			}
+		}
+		return null;
+	}
 }

@@ -1,5 +1,7 @@
 package com.playerdata.activity.redEnvelopeType.cfg;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
@@ -29,6 +31,10 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 	
 	private String titleBG;		//活动的描述
 	private int isSynDesc = 1;	//是否服务端同步描述
+	
+	private String totalStartTimeStr;
+	private String totalEndTimeStr;
+	private String totalRewardsTimeStr;
 
 	public int getLevelLimit() {
 		return levelLimit;
@@ -114,6 +120,18 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 	}
 
 	public void ExtraInitAfterLoad() {
+		String tmpStartStr = ActivityTimeHelper.getThisZoneTime(totalStartTimeStr);
+		String tmpEndStr = ActivityTimeHelper.getThisZoneTime(totalEndTimeStr);
+		String tmpRewardTimeStr = ActivityTimeHelper.getThisZoneTime(totalRewardsTimeStr);
+		if(StringUtils.isNotBlank(tmpStartStr)){
+			startTimeStr = tmpStartStr;
+		}
+		if(StringUtils.isNotBlank(tmpEndStr)){
+			endTimeStr = tmpEndStr;
+		}
+		if(StringUtils.isNotBlank(tmpRewardTimeStr)){
+			getRewardsTimeStr = tmpRewardTimeStr;
+		}
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
 		getRewardsTime = ActivityTimeHelper.cftEndTimeToLong(startTime, getRewardsTimeStr);
