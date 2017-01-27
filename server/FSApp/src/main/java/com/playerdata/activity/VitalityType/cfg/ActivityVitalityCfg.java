@@ -82,7 +82,7 @@ public class ActivityVitalityCfg implements ActivityCfgIF{
 
 	@Override
 	public int getId() {
-		return enumID;
+		return id;
 	}
 
 	@Override

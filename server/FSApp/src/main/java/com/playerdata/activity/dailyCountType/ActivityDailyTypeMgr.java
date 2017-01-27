@@ -89,8 +89,9 @@ public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeI
 				}
 			}
 			if (targetItem != null && !targetItem.isTaken()) {
-				takeGift(player, targetItem);
+				takeGift(player, targetItem, true);
 				result.setSuccess(true);
+				result.setReason("");
 				dataHolder.updateItem(player, dataItem);
 			}
 		}
@@ -102,14 +103,18 @@ public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeI
 	 * @param player
 	 * @param targetItem
 	 */
-	private void takeGift(Player player, ActivityDailyTypeSubItem targetItem) {
+	private void takeGift(Player player, ActivityDailyTypeSubItem targetItem, boolean isOnTime) {
 		ActivityDailyTypeSubCfg subCfg = ActivityDailyTypeSubCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
 		if (null == subCfg) {
 			return;
 		}
 		if (!targetItem.isTaken() && targetItem.getCount() >= subCfg.getCount()) {
 			targetItem.setTaken(true);
-			ComGiftMgr.getInstance().addGiftTOEmailById(player, subCfg.getGiftId(), MAKEUPEMAIL + "", subCfg.getEmailTitle());
+			if(isOnTime){
+				ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
+			}else{
+				ComGiftMgr.getInstance().addGiftTOEmailById(player, subCfg.getGiftId(), MAKEUPEMAIL + "", subCfg.getEmailTitle());
+			}
 		}
 	}
 	
@@ -125,7 +130,7 @@ public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeI
 		ActivityDailyTypeCfg cfg = ActivityDailyTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if (isLevelEnough(player, cfg)) {
 			for (ActivityDailyTypeSubItem subItem : subItems) {
-				takeGift(player, subItem);
+				takeGift(player, subItem, false);
 			}
 		}
 		item.reset();

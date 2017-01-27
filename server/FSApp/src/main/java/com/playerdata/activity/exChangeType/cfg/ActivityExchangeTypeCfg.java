@@ -138,7 +138,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 
 	@Override
 	public int getId() {
-		return enumId;
+		return id;
 	}
 
 	@Override

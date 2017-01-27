@@ -154,7 +154,7 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 
 	@Override
 	public int getId() {
-		return enumId;
+		return id;
 	}
 
 	@Override
