@@ -12,6 +12,8 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
+import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -52,21 +54,25 @@ public class ActivityModifyMgr {
 	 * @param player
 	 */
 	public void synModifiedActivity(Player player){
-		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
+		List<ActivityModifyItem> modifiedList = new ArrayList<ActivityModifyItem>();
 		for(ActivityKey actKey : ActivityKey.values()){
 			List<ActivityCfgIF> cfgs = actKey.getActivityType().getActivityDao().getAllCfg();
 			if(null != cfgs){
-				ActivityModifyGlobleData globleData = new ActivityModifyGlobleData();
 				for(ActivityCfgIF cfg : cfgs){
 					ActivityModifyItem item = new ActivityModifyItem();
 					item.setId(cfg.getCfgId());
 					item.setStartTime(cfg.getStartTimeStr());
 					item.setEndTime(cfg.getEndTimeStr());
 					item.setVersion(cfg.getVersion());
-					globleData.getItems().put(item.getId(), item);
-				}
-				if(!globleData.getItems().isEmpty()){
-					modifiedList.add(globleData);
+					item.setActDesc(cfg.getActDesc());
+					if(cfg instanceof ActivityExtendTimeIF){
+						item.setStartViceTime(((ActivityExtendTimeIF) cfg).getViceStartTime());
+						item.setEndViceTime(((ActivityExtendTimeIF) cfg).getViceEndTime());
+					}
+					if(cfg instanceof ActivityRangeTimeIF){
+						item.setRangeTime(((ActivityRangeTimeIF) cfg).getRangeTime());
+					}
+					modifiedList.add(item);
 				}
 			}
 		}
@@ -80,13 +86,11 @@ public class ActivityModifyMgr {
 	 * 给玩家同步变化的活动配置
 	 * @param data
 	 */
-	private void synSingalModifiedActivity(ActivityModifyGlobleData data){
-		List<ActivityModifyGlobleData> dataList = new ArrayList<ActivityModifyGlobleData>();
-		dataList.add(data);
+	private void synSingalModifiedActivity(ActivityModifyItem data){
 		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
 		for(Player player : onlinePlayers){
-			if(null != dataList && dataList.isEmpty()){				
-				ClientDataSynMgr.synDataList(player, dataList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_PART_LIST);
+			if(null != data){				
+				ClientDataSynMgr.synData(player, data, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_SINGLE);
 			}
 		}
 	}
@@ -157,6 +161,40 @@ public class ActivityModifyMgr {
 		updateModifiedActivity(activityKey, modifyItem, false);
 	}
 	
+//	/**
+//	 * gm命令设置活动的第二开始和结束时间（掉落活动的兑换时间）
+//	 * <note>有的活动有两层时间控制</note>
+//	 * @param cfgId
+//	 * @param startTime
+//	 * @param endTime
+//	 */
+//	public void gmSetCfgViceTime(int cfgId, String startTime, String endTime, int version){
+//		ActivityKey activityKey = ActivityKey.getByCfgId(cfgId);
+//		if(null == activityKey){
+//			GameLog.info("GM-gmSetCfgViceTime", "", "id[" + cfgId + "]暂时不支持动态更换时间");
+//			return;
+//		}
+//		long current = System.currentTimeMillis();
+//		long start = ActivityTimeHelper.cftStartTimeToLong(startTime);
+//		if(Math.abs(current - start) > THREE_MONTH_MS){
+//			return;
+//		}
+//		long end = ActivityTimeHelper.cftEndTimeToLong(start, endTime);
+//		if(Math.abs(current - end) > THREE_MONTH_MS){
+//			return;
+//		}
+//		ActivityModifyItem modifyItem = getModifiedActivity(activityKey, cfgId, 0);
+//		if(null == modifyItem){
+//			 modifyItem = new ActivityModifyItem();
+//			 modifyItem.setId(cfgId);
+//		} 
+//		//TODO 这里要处理版本的比较
+//		modifyItem.setStartTime(startTime);
+//		modifyItem.setEndTime(endTime);
+//		modifyItem.setVersion(version);
+//		updateModifiedActivity(activityKey, modifyItem, false);
+//	}
+	
 	/**
 	 * gm命令设置活动的奖励内容
 	 * @param cfgId
@@ -195,7 +233,7 @@ public class ActivityModifyMgr {
 				globleData = new ActivityModifyGlobleData();
 			}
 			globleData.getItems().put(item.getId(), item);
-			synSingalModifiedActivity(globleData);
+			synSingalModifiedActivity(item);
 			GameWorldFactory.getGameWorld().updateAttribute(activityKey.getGameWorldKey(), JsonUtil.writeValue(globleData));
 		}else if(isDropOld){
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
@@ -228,6 +266,16 @@ public class ActivityModifyMgr {
 				cfg.setEndTime(item.getEndTime());
 			}
 			cfg.setVersion(item.getVersion());
+			if(StringUtils.isNotBlank(item.getStartViceTime()) 
+					&& StringUtils.isNotBlank(item.getEndViceTime()) 
+					&& cfg instanceof ActivityExtendTimeIF){
+				((ActivityExtendTimeIF) cfg).setViceStartTime(item.getStartViceTime());
+				((ActivityExtendTimeIF) cfg).setViceEndTime(item.getEndViceTime());
+			}
+			if(StringUtils.isNotBlank(item.getRangeTime()) 
+					&& cfg instanceof ActivityRangeTimeIF){
+				((ActivityRangeTimeIF) cfg).setRangeTime(item.getRangeTime());
+			}
 			setRewardContent(actType, item);
 			return true;
 		}

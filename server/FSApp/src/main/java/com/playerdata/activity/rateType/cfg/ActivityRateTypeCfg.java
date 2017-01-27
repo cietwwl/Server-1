@@ -7,9 +7,11 @@ import java.util.Map;
 
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
+import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
 
 
-public class ActivityRateTypeCfg implements ActivityCfgIF{
+public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF, ActivityRangeTimeIF{
 
 	private int id;	
 	
@@ -20,6 +22,10 @@ public class ActivityRateTypeCfg implements ActivityCfgIF{
 	private String startTimeStr;
 	
 	private String endTimeStr;
+	
+	private String adStartTimeStr;
+	
+	private String adEndTimeStr;
 	
 	private String timeStr;
 	
@@ -44,7 +50,7 @@ public class ActivityRateTypeCfg implements ActivityCfgIF{
 	
 	private String titleBG;
 	
-	private String desc;
+	private String timeDesc;
 	
 	private int sortNum;
 	
@@ -118,10 +124,6 @@ public class ActivityRateTypeCfg implements ActivityCfgIF{
 		return titleBG;
 	}
 
-	public String getDesc() {
-		return desc;
-	}
-
 	public int getSortNum() {
 		return sortNum;
 	}
@@ -139,27 +141,15 @@ public class ActivityRateTypeCfg implements ActivityCfgIF{
 	}
 
 	public String getStartTimeStr() {
-		return startTimeStr;
+		return adStartTimeStr;
 	}
 
 	public String getEndTimeStr() {
-		return endTimeStr;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
+		return adEndTimeStr;
 	}
 
 	public String getTimeStr() {
 		return timeStr;
-	}
-
-	public void setTimeStr(String timeStr) {
-		this.timeStr = timeStr;
 	}
 
 	@Override
@@ -199,18 +189,53 @@ public class ActivityRateTypeCfg implements ActivityCfgIF{
 
 	@Override
 	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		this.startTimeStr = startTimeStr;
+		this.adStartTimeStr = startTimeStr;
 	}
 
 	@Override
 	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
-		this.endTimeStr = endTimeStr;
+		this.adEndTimeStr = endTimeStr;
 	}
 
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	@Override
+	public String getActDesc() {
+		return timeDesc;
+	}
+
+	@Override
+	public String getViceStartTime() {
+		return startTimeStr;
+	}
+
+	@Override
+	public String getViceEndTime() {
+		return endTimeStr;
+	}
+
+	@Override
+	public void setViceStartTime(String startExTime) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startExTime);
+		this.startTimeStr = startExTime;
+	}
+
+	@Override
+	public void setViceEndTime(String endExTime) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endExTime);
+		this.endTimeStr = endExTime;
+	}
+
+	@Override
+	public void setRangeTime(String rangeTime) {
+		timeStr = rangeTime;
+	}
+
+	@Override
+	public String getRangeTime() {
+		return timeStr;
 	}
 }

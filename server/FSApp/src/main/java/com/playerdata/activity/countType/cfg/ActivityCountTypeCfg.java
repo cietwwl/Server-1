@@ -21,8 +21,6 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	private String title;
 	
 	private String titleBG;
-	
-	private String desc;	
 
 	private String goToType;
 	
@@ -40,6 +38,8 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	private int sortNum;
 	
 	private String countLimit;
+	
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
 	public String getEnumId() {
 		return enumId;
@@ -95,10 +95,6 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 
 	public String getTitleBG() {
 		return titleBG;
-	}
-
-	public String getDesc() {
-		return desc;
 	}
 
 	public String getGoToType() {
@@ -170,5 +166,13 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+	}
+
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

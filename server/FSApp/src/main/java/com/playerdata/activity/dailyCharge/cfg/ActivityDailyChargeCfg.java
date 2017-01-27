@@ -14,6 +14,8 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private long endTime;
 	private int version; //活动版本
 	private int isDailyRefresh;
+	
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public int getId() {
 		return id;
@@ -91,5 +93,13 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+	}
+
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

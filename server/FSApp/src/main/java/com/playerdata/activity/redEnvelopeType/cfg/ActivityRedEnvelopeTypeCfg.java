@@ -26,29 +26,16 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 	private long getRewardsTime;
 	
 	private String emailTitle;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 1;	//是否服务端同步描述
 
 	public int getLevelLimit() {
 		return levelLimit;
 	}
-
-	public void setLevelLimit(int levelLimit) {
-		this.levelLimit = levelLimit;
-	}
 	
 	public String getEmailTitle() {
 		return emailTitle;
-	}
-
-	public void setEmailTitle(String emailTitle) {
-		this.emailTitle = emailTitle;
-	}
-
-	public void setStartTimeStr(String startTimeStr) {
-		this.startTimeStr = startTimeStr;
-	}
-
-	public void setEndTimeStr(String endTimeStr) {
-		this.endTimeStr = endTimeStr;
 	}
 
 	public String getStartTimeStr() {
@@ -56,58 +43,42 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 	}
 
 	public String getEndTimeStr() {
-		return endTimeStr;
+		return getRewardsTimeStr;
 	}
 
 	public long getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
 	public long getEndTime() {
 		return endTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
 	}
 
 	public String getGetRewardsTimeStr() {
 		return getRewardsTimeStr;
 	}
 
-	public void setGetRewardsTimeStr(String getRewardsTimeStr) {
-		this.getRewardsTimeStr = getRewardsTimeStr;
-	}
-
 	public long getGetRewardsTime() {
 		return getRewardsTime;
 	}
 
-	public void setGetRewardsTime(long getRewardsTime) {
-		this.getRewardsTime = getRewardsTime;
-	}
-
 	@Override
-	public String getExStartTime() {
+	public String getViceStartTime() {
 		return startTimeStr;
 	}
 
 	@Override
-	public String getExEndTime() {
-		return getRewardsTimeStr;
+	public String getViceEndTime() {
+		return endTimeStr;
 	}
 
 	@Override
-	public void setExStartTime(String startExTime) {
+	public void setViceStartTime(String startExTime) {
 		setStartTime(startExTime);
 	}
 
 	@Override
-	public void setExEndTime(String endExTime) {
+	public void setViceEndTime(String endExTime) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endExTime);
 		this.endTimeStr = endExTime;
 	}
@@ -163,5 +134,13 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

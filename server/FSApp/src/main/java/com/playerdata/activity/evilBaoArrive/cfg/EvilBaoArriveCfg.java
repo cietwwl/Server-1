@@ -13,6 +13,9 @@ public class EvilBaoArriveCfg extends BaseConfig implements ActivityCfgIF{
 	private int version; //活动版本
 	private long startTime;	//活动的开启时间
 	private long endTime;	//活动的结束时间
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public int getId() {
 		return id;
@@ -94,5 +97,13 @@ public class EvilBaoArriveCfg extends BaseConfig implements ActivityCfgIF{
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

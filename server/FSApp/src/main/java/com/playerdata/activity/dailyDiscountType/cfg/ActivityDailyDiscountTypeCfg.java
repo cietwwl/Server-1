@@ -28,6 +28,9 @@ public class ActivityDailyDiscountTypeCfg extends BaseConfig implements Activity
 	
 	private int isRefresh;
 	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
+	
 	public int getEnumId() {
 		return enumId;
 	}
@@ -136,5 +139,13 @@ public class ActivityDailyDiscountTypeCfg extends BaseConfig implements Activity
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

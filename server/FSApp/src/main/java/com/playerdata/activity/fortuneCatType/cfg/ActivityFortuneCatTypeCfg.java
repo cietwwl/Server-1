@@ -22,6 +22,9 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 	private int version;
 	
 	private int levelLimit;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public long getStartTime() {
 		return startTime;
@@ -93,7 +96,6 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 		return false;
 	}
 	
-
 	@Override
 	public boolean isEveryDaySame() {
 		return false;
@@ -115,5 +117,13 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

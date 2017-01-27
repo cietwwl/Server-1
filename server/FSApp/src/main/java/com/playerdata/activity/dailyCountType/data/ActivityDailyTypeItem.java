@@ -67,15 +67,7 @@ public class ActivityDailyTypeItem implements ActivityTypeItemIF<ActivityDailyTy
 	public void setTouchRedPoint(boolean isTouchRedPoint) {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
-	
-//	public void reset(ActivityDailyTypeCfg cfg){
-//		cfgid = cfg.getId();
-//		closed = false;
-//		version = cfg.getVersion();
-//		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList(cfg.getId()));
-//		lastTime = System.currentTimeMillis();
-//		isTouchRedPoint = false;
-//	}
+
 
 	public int getVersion() {
 		return version;

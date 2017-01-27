@@ -29,7 +29,10 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	
 	private int version;
 
-	private int levelLimit;	
+	private int levelLimit;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
 	public String getEnumId() {
 		return String.valueOf(enumId);
@@ -112,23 +115,23 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	}
 
 	@Override
-	public String getExStartTime() {
-		return changeStartTimeStr;
+	public String getViceStartTime() {
+		return dropStartTimeStr;
 	}
 
 	@Override
-	public String getExEndTime() {
-		return changeEndTimeStr;
+	public String getViceEndTime() {
+		return dropEndTimeStr;
 	}
 
 	@Override
-	public void setExStartTime(String startExTime) {
+	public void setViceStartTime(String startExTime) {
 		dropStartTime = ActivityTimeHelper.cftStartTimeToLong(startExTime);
 		dropStartTimeStr = startExTime;
 	}
 
 	@Override
-	public void setExEndTime(String endExTime) {
+	public void setViceEndTime(String endExTime) {
 		dropEndTime = ActivityTimeHelper.cftEndTimeToLong(dropStartTime, endExTime);
 		dropEndTimeStr = endExTime;
 	}
@@ -145,12 +148,12 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 
 	@Override
 	public long getStartTime() {
-		return dropStartTime;
+		return changeStartTime;
 	}
 
 	@Override
 	public long getEndTime() {
-		return dropEndTime;
+		return changeEndTime;
 	}
 
 	@Override
@@ -205,5 +208,13 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 	@Override
 	public String getEndTimeStr() {
 		return changeEndTimeStr;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

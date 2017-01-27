@@ -15,6 +15,9 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	private long startTime = 0;
 	private long endTime = Long.MAX_VALUE;
 	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
+	
 	public int getKey() {
 		return key;
 	}
@@ -107,5 +110,13 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	@Override
 	public String getEndTimeStr() {
 		return "300012120500";
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

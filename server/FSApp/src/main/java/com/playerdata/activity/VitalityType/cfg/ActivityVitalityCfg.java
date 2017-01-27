@@ -4,8 +4,6 @@ import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
-
-
 public class ActivityVitalityCfg implements ActivityCfgIF{
 
 	private int id;
@@ -30,6 +28,9 @@ public class ActivityVitalityCfg implements ActivityCfgIF{
 	private int levelLimit;
 	
 	private int vipLimit;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public int getEnumID() {
 		return enumID;
@@ -129,5 +130,13 @@ public class ActivityVitalityCfg implements ActivityCfgIF{
 	@Override
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

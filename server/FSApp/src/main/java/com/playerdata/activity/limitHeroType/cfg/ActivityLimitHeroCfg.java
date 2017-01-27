@@ -4,8 +4,6 @@ import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
-
-
 public class ActivityLimitHeroCfg implements ActivityCfgIF{
 
 	private int id;
@@ -29,7 +27,9 @@ public class ActivityLimitHeroCfg implements ActivityCfgIF{
 	private int levelLimit;
 
 	private int rankNumer;
-
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 1;	//是否服务端同步描述
 
 	public int getRankNumer() {
 		return rankNumer;
@@ -154,5 +154,13 @@ public class ActivityLimitHeroCfg implements ActivityCfgIF{
 	public void setEndTime(String endTimeStr) {
 		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
 	}
 }

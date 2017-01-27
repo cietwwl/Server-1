@@ -2,12 +2,12 @@ package com.playerdata.activityCommon.activityType;
 
 public interface ActivityExtendTimeIF {
 	
-	public String getExStartTime();
+	public String getViceStartTime();
 	
-	public String getExEndTime();
+	public String getViceEndTime();
 	
-	public void setExStartTime(String startExTime);
+	public void setViceStartTime(String startExTime);
 	
-	public void setExEndTime(String endExTime);
+	public void setViceEndTime(String endExTime);
 
 }
