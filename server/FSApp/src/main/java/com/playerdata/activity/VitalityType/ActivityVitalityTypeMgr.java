@@ -8,16 +8,16 @@ import org.apache.commons.codec.binary.StringUtils;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityRewardCfgDAO;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activityCommon.activityType.IndexRankJudgeIF;
@@ -26,7 +26,6 @@ import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.util.DateUtils;
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRankJudgeIF{
 	
@@ -41,7 +40,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 		return instance;
 	}
 
-	public void synVitalityTypeData(Player player) {
+	private void synVitalityTypeData(Player player) {
 		if(isOpen(System.currentTimeMillis())){
 			checkCfgVersion(player);
 			ActivityVitalityItemHolder.getInstance().synAllData(player);
@@ -54,26 +53,12 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 		checkCfgVersion(player);
 		checkOtherDay(player);
 		checkClose(player);
+		synVitalityTypeData(player);
 	}
 
 	private void checkNewOpen(Player player) {
 		String userId = player.getUserId();
-//		List<ActivityVitalityTypeItem> addList = null;
-//		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
-//		PlayerExtPropertyStore<ActivityVitalityTypeItem> store = null;
-//		try {
-//			store = storeCach.getStore(userId);
-			creatItems(userId, true);
-//			if(addList != null){
-//				store.addItem(addList);
-//			}
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (Throwable e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}		
+		creatItems(userId, true);
 	}
 
 	public List<ActivityVitalityTypeItem> creatItems(String userId, boolean isHasPlayer) {
@@ -92,7 +77,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 			if (acVitalityTypeEnum == null) {
 				continue;
 			}
-//			String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
 			int id = Integer.parseInt(acVitalityTypeEnum.getCfgId());
 			if(isHasPlayer){
 				try {
@@ -122,7 +106,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 			try {
 				store.addItem(addItemList);
 			} catch (DuplicatedKeyException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -160,23 +143,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 			freshItem.reset(cfg);
 			dataHolder.updateItem(player, freshItem);
 		}
-		
-		
-//		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {
-//			ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgByItemOfVersion(activityVitalityTypeItem);
-//			if (cfg == null) {
-//				continue;
-//			}
-//			ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());
-//			if (cfgenum == null) {
-//				dataHolder.removeItem(player, activityVitalityTypeItem);
-//				continue;
-//			}
-//			if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
-//				activityVitalityTypeItem.reset(cfg);
-//				dataHolder.updateItem(player, activityVitalityTypeItem);
-//			}
-//		}
 	}
 
 	private void checkOtherDay(Player player) {
@@ -214,19 +180,11 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 
 	private void checkClose(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		List<ActivityVitalityTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityVitalityTypeItem> itemList = null;
 		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityCfg> cfgList = dao.getAllCfg();
-		long createTime = player.getUserDataMgr().getCreateTime();
-		long currentTime = DateUtils.getSecondLevelMillis();
 		for(ActivityVitalityCfg cfg : cfgList){
 			if(isOpen(cfg)){//配置开启
-				continue;
-			}
-			if(createTime>cfg.getEndTime()){//配置过旧
-				continue;
-			}
-			if(currentTime < cfg.getStartTime()){//配置过新
 				continue;
 			}
 			if(itemList == null){
@@ -247,7 +205,9 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 				sendEmailIfBoxGiftNotTaken(player, closeItem);
 				closeItem.setClosed(true);
 				dataHolder.updateItem(player, closeItem);
-			}			
+			}else{
+				dataHolder.removeItem(player, closeItem);
+			}
 		}
 	}
 
@@ -309,8 +269,6 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate, IndexRan
 			}
 		}
 	}
-
-	//
 
 	public boolean isLevelEnough(ActivityVitalityTypeEnum eNum, Player player) {
 		ActivityVitalityCfg vitalityCfg = null;

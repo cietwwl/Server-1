@@ -47,11 +47,9 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		ActivityTimeCardTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityTimeCountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRateTypeMgr.getInstance().checkActivityOpen(player);
-//		ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityExchangeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
-		//ActivityDailyRechargeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityLimitHeroTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRetrieveTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityMgrHelper.getInstance().checkActivity(player);
