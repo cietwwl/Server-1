@@ -49,7 +49,21 @@ public class ChargeMgr {
 		return instance;
 	}
 	
-	public boolean isValid(ChargeTypeEnum monthCardType){
+	public boolean isValid(Player player,ChargeTypeEnum monthCardType){
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
+		ActivityTimeCardTypeSubItem targetItem = null;
+		String cardtype= monthCardType.getCfgId();
+		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
+			if(StringUtils.equals(itemTmp.getChargetype(), cardtype)){
+				targetItem = itemTmp;
+				break;
+			}
+		}
+		if(targetItem!=null){
+			return targetItem.getDayLeft() > 0?true:false;
+		}		
 		return false;
 	}
 	
@@ -322,8 +336,10 @@ public class ChargeMgr {
 		
 		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
+		ChargeTypeEnum cardtypenume = ChargeCfgDao.getInstance().getCfgById(chargeItemId).getChargeType();
+		String cardtype= cardtypenume.getCfgId();
 		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
-			if(StringUtils.equals(itemTmp.getId(), chargeItemId)){
+			if(StringUtils.equals(itemTmp.getChargetype(), cardtype)){
 				targetItem = itemTmp;
 				break;
 			}
@@ -334,7 +350,7 @@ public class ChargeMgr {
 			result.setTips("购买月卡异常");
 		}else{
 			int tempdayleft = targetItem.getDayLeft();
-			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getById(chargeItemId).getDays());
+			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
 			dataHolder.updateItem(player, dataItem);
 			result.setSuccess(true);
 			
