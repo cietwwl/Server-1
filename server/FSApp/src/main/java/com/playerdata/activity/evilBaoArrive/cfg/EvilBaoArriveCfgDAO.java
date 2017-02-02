@@ -2,6 +2,7 @@ package com.playerdata.activity.evilBaoArrive.cfg;
 
 import java.util.Map;
 
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -16,6 +17,9 @@ public class EvilBaoArriveCfgDAO extends CfgCsvDao<EvilBaoArriveCfg> {
 	@Override
 	public Map<String, EvilBaoArriveCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/EvilBaoArrive/EvilBaoArriveCfg.csv",EvilBaoArriveCfg.class);
+		for(ActivityCfgIF cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
+		}
 		return cfgCacheMap;
 	}
 }

@@ -37,6 +37,7 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeCfg.csv", ActivityVitalityCfg.class);
 		HashMap<String, List<ActivityVitalityCfg>> cfgListMapTmp = new HashMap<String, List<ActivityVitalityCfg>>();
 		for(ActivityVitalityCfg cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
 			ActivityTypeHelper.add(cfg, String.valueOf(cfg.getEnumID()), cfgListMapTmp);			
 		}
 		this.cfgListMap = cfgListMapTmp;

@@ -15,6 +15,7 @@ import com.playerdata.activity.limitHeroType.ActivityLimitHeroEnum;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -32,6 +33,9 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	@Override
 	public Map<String, ActivityLimitHeroCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroCfg.csv", ActivityLimitHeroCfg.class);		
+		for(ActivityCfgIF cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
+		}
 		return cfgCacheMap;
 	}
 	

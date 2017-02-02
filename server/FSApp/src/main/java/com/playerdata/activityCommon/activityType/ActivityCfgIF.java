@@ -1,6 +1,6 @@
 package com.playerdata.activityCommon.activityType;
 
-public interface ActivityCfgIF {
+public interface ActivityCfgIF extends ActivityTimeInitIF{
 	
 	public int getId();
 	
@@ -29,6 +29,4 @@ public interface ActivityCfgIF {
 	public void setVersion(int version);
 	
 	public String getActDesc();
-	
-	public void ExtraInitAfterLoad();
 }

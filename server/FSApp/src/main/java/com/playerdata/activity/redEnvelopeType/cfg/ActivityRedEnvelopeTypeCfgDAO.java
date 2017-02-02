@@ -14,6 +14,7 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -32,6 +33,9 @@ public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEn
 	@Override
 	public Map<String, ActivityRedEnvelopeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRedEnvelopeTypeCfg.csv", ActivityRedEnvelopeTypeCfg.class);
+		for(ActivityCfgIF cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
+		}
 		return cfgCacheMap;
 	}
 	

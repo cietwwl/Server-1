@@ -2,6 +2,7 @@ package com.playerdata.activity.dailyCharge.cfg;
 
 import java.util.Map;
 
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -16,6 +17,9 @@ public class ActivityDailyChargeCfgDAO extends CfgCsvDao<ActivityDailyChargeCfg>
 	@Override
 	public Map<String, ActivityDailyChargeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityDailyChargeCfg.csv",ActivityDailyChargeCfg.class);
+		for(ActivityCfgIF cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
+		}
 		return cfgCacheMap;
 	}
 }

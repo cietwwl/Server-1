@@ -33,6 +33,9 @@ public class ActivityTimeHelper {
 			int afterOpenServerDay = Integer.parseInt(startTime);
 			if(openTime <= 0){
 				openTime = DateUtils.getHour(GameManager.getOpenTime(), RESET_HOUR);
+				if(openTime <= 0){
+					return 0;
+				}
 			}
 			result = openTime + afterOpenServerDay * ONE_DAY_MS;
 		}
