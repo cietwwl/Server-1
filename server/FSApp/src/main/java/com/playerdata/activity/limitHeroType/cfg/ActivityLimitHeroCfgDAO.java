@@ -31,10 +31,7 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	
 	@Override
 	public Map<String, ActivityLimitHeroCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroCfg.csv", ActivityLimitHeroCfg.class);
-		for (ActivityLimitHeroCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
-		}		
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroCfg.csv", ActivityLimitHeroCfg.class);		
 		return cfgCacheMap;
 	}
 	

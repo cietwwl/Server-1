@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
+import com.rw.fsutil.cacheDao.CfgCsvDao;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ActivityMgrHelper {
@@ -15,6 +17,22 @@ public class ActivityMgrHelper {
 
 	public static ActivityMgrHelper getInstance() {
 		return instance;
+	}
+	
+	/**
+	 * 同步活动数据
+	 * @param player
+	 */
+	public void initActivityTime(){
+		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
+			CfgCsvDao<? extends ActivityCfgIF> cfgDao = type.getActivityDao();
+			if(null != cfgDao){
+				List<? extends ActivityCfgIF> cfgList = cfgDao.getAllCfg();
+				for(ActivityCfgIF cfg : cfgList){
+					cfg.ExtraInitAfterLoad();
+				}
+			}
+		}
 	}
 	
 	/**

@@ -28,9 +28,6 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 	@Override
 	public Map<String, ActivityExchangeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityExchangeTypeCfg.csv", ActivityExchangeTypeCfg.class);
-		for (ActivityExchangeTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
-		}
 		HashMap<String, List<ActivityExchangeTypeCfg>> cfgListMapTmp = new HashMap<String, List<ActivityExchangeTypeCfg>>();
 		for (ActivityExchangeTypeCfg cfg : cfgCacheMap.values()) {
 			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgListMapTmp);

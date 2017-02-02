@@ -171,6 +171,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 		changeEndTime = timePair.getEndMil();
 		changeStartTimeStr = timePair.getStartTime();
 		changeEndTimeStr = timePair.getEndTime();
+		ExtraInitViceAfterLoad();
  	}
 	
 	public void ExtraInitViceAfterLoad() {

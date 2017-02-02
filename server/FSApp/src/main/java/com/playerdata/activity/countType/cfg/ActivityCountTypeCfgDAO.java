@@ -19,9 +19,6 @@ public final class ActivityCountTypeCfgDAO extends CfgCsvDao<ActivityCountTypeCf
 	@Override
 	public Map<String, ActivityCountTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeCfg.csv", ActivityCountTypeCfg.class);
-		for (ActivityCountTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
-		}
 		return cfgCacheMap;
 	}
 }

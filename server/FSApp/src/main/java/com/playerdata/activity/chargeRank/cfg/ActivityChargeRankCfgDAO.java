@@ -1,6 +1,5 @@
 package com.playerdata.activity.chargeRank.cfg;
 
-import java.util.Collection;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -17,10 +16,6 @@ public class ActivityChargeRankCfgDAO extends CfgCsvDao<ActivityChargeRankCfg> {
 	@Override
 	public Map<String, ActivityChargeRankCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityChargeRank/ActivityChargeRankCfg.csv",ActivityChargeRankCfg.class);
-		Collection<ActivityChargeRankCfg> vals = cfgCacheMap.values();
-		for (ActivityChargeRankCfg cfg : vals) {
-			cfg.ExtraInitAfterLoad();
-		}
 		return cfgCacheMap;
 	}
 }

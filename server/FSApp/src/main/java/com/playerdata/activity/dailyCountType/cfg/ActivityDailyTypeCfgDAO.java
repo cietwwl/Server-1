@@ -20,9 +20,6 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 	@Override
 	public Map<String, ActivityDailyTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityDailyCountTypeCfg.csv", ActivityDailyTypeCfg.class);
-		for (ActivityDailyTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
-		}
 		return cfgCacheMap;
 	}
 }

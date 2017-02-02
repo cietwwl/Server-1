@@ -13,8 +13,7 @@ public class ActivityTimeHelper {
 	private static long ONE_DAY_MS = 24 * 60 * 60 * 1000;
 	
 	private static int RESET_HOUR = 5;	//活动的重置时间
-	private static long openTime = DateUtils.getHour(GameManager.getOpenTime(), RESET_HOUR);	//五点为重置时间
-	
+	private static long openTime = 0;
 	
 	public static TimePair transToAbsoluteTime(String startTime, String endTime){
 		long startMil = cftStartTimeToLong(startTime);
@@ -32,6 +31,9 @@ public class ActivityTimeHelper {
 			result = DateUtils.YyyymmddhhmmToMillionseconds(startTime);
 		}else if(startTime.length() <= MAX_DAYS_SIZE){
 			int afterOpenServerDay = Integer.parseInt(startTime);
+			if(openTime <= 0){
+				openTime = DateUtils.getHour(GameManager.getOpenTime(), RESET_HOUR);
+			}
 			result = openTime + afterOpenServerDay * ONE_DAY_MS;
 		}
 		return result;

@@ -29,4 +29,6 @@ public interface ActivityCfgIF {
 	public void setVersion(int version);
 	
 	public String getActDesc();
+	
+	public void ExtraInitAfterLoad();
 }

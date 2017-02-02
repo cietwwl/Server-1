@@ -233,4 +233,8 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 		this.endTimeStr = endTimeStr;
 		ExtraInitViceAfterLoad();
 	}
+	
+	public void ExtraInitAfterLoad(){
+		ExtraInitViceAfterLoad();
+	}
 }

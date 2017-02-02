@@ -107,6 +107,7 @@ public class ActivityRedEnvelopeTypeCfg implements ActivityCfgIF, ActivityExtend
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, getRewardsTimeStr);
 		getRewardsTime = timePair.getEndMil();
 		getRewardsTimeStr = timePair.getEndTime();
+		ExtraInitViceAfterLoad();
  	}
 	
 	public void ExtraInitViceAfterLoad() {

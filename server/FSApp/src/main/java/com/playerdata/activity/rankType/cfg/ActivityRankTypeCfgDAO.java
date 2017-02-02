@@ -19,9 +19,6 @@ public final class ActivityRankTypeCfgDAO extends CfgCsvDao<ActivityRankTypeCfg>
 	@Override
 	public Map<String, ActivityRankTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRankTypeCfg.csv", ActivityRankTypeCfg.class);
-		for (ActivityRankTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
-		}
 		return cfgCacheMap;
 	}
 }

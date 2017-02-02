@@ -1,6 +1,5 @@
 package com.playerdata.activity.growthFund.cfg;
 
-import java.util.Collection;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -18,10 +17,6 @@ public class GrowthFundBasicCfgDAO extends CfgCsvDao<GrowthFundBasicCfg> {
 	@Override
 	public Map<String, GrowthFundBasicCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("growthFund/GrowthFundBasic.csv", GrowthFundBasicCfg.class);
-		Collection<GrowthFundBasicCfg> vals = cfgCacheMap.values();
-		for (GrowthFundBasicCfg cfg : vals) {
-			cfg.ExtraInitAfterLoad();
-		}
 		return cfgCacheMap;
 	}
 }

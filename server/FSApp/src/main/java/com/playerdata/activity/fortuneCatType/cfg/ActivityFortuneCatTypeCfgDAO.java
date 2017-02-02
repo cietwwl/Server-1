@@ -16,9 +16,6 @@ public final class ActivityFortuneCatTypeCfgDAO extends CfgCsvDao<ActivityFortun
 	@Override
 	public Map<String, ActivityFortuneCatTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityFortunCatTypeCfg.csv", ActivityFortuneCatTypeCfg.class);
-		for (ActivityFortuneCatTypeCfg cfgTmp : cfgCacheMap.values()) {
-			cfgTmp.ExtraInitAfterLoad();
-		}
 		return cfgCacheMap;
 	}
 }
