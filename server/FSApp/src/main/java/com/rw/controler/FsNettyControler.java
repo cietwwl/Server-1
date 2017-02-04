@@ -10,6 +10,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
+import com.playerdata.activityCommon.timeControl.ActivitySpecialTimeMgr;
 import com.playerdata.randomname.RandomNameService;
 import com.playerdata.randomname.RandomNameAccountTask;
 import com.rw.netty.MsgResultType;
@@ -45,9 +46,11 @@ public class FsNettyControler {
 			ReConnect(exRequest, ctx);
 		} else if (command == Command.MSG_PLATFORMGS) {
 			doPlatformGSMsg(exRequest, ctx);
-		} else if (command == Command.MSG_RANDOM_NAME) {
+		} else if (command == Command.MSG_ACTIVITY_TIME) {
+			doPlatformActivityTime(exRequest, ctx);
+		} /**else if (command == Command.MSG_RANDOM_NAME) {
 			doGetRandomName(exRequest, ctx);
-		} else {
+		}*/ else {
 			Long sessionId = ServerHandler.getSessionId(ctx);
 			if (sessionId == null) {
 				return;
@@ -110,6 +113,10 @@ public class FsNettyControler {
 
 	private void doPlatformGSMsg(Request exRequest, ChannelHandlerContext ctx) {
 		PlatformGSService.doTask(exRequest, ctx);
+	}
+	
+	private void doPlatformActivityTime(Request exRequest, ChannelHandlerContext ctx) {
+		ActivitySpecialTimeMgr.getInstance().decodeActivityTimeInfo(exRequest, ctx);
 	}
 	
 	private void doGetRandomName(Request exRequest, ChannelHandlerContext ctx) {

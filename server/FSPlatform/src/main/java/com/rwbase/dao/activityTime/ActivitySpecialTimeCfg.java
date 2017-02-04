@@ -1,4 +1,4 @@
-package com.playerdata.activityCommon.timeControl;
+package com.rwbase.dao.activityTime;
 
 public class ActivitySpecialTimeCfg{
 	

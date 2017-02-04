@@ -19,7 +19,6 @@ import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
-import com.playerdata.activityCommon.timeControl.ActivitySpecialTimeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.jackson.JsonUtil;
@@ -43,7 +42,6 @@ public class ActivityModifyMgr {
 	 * @param cfgId
 	 */
 	public void checkModifiedActivity(){
-		ActivitySpecialTimeCfgDAO.getInstance().reload();
 		for(ActivityKey activityKey : ActivityKey.values()){
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
 			if(null != globleData){
