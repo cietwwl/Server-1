@@ -37,14 +37,6 @@ public final class PlatformGSMsg {
      * </pre>
      */
     GAME_SERVER_STATUS(2, 3),
-    /**
-     * <code>ACTIVITY_TIME = 4;</code>
-     *
-     * <pre>
-     *活动时间
-     * </pre>
-     */
-    ACTIVITY_TIME(3, 4),
     ;
 
     /**
@@ -71,14 +63,6 @@ public final class PlatformGSMsg {
      * </pre>
      */
     public static final int GAME_SERVER_STATUS_VALUE = 3;
-    /**
-     * <code>ACTIVITY_TIME = 4;</code>
-     *
-     * <pre>
-     *活动时间
-     * </pre>
-     */
-    public static final int ACTIVITY_TIME_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -88,7 +72,6 @@ public final class PlatformGSMsg {
         case 1: return USER_INFO;
         case 2: return USER_STATUS;
         case 3: return GAME_SERVER_STATUS;
-        case 4: return ACTIVITY_TIME;
         default: return null;
       }
     }
@@ -5188,12 +5171,11 @@ public final class PlatformGSMsg {
       "fgInfo\"\217\001\n\nActCfgInfo\022\r\n\005cfgId\030\001 \002(\005\022\021\n\t" +
       "startTime\030\002 \002(\t\022\017\n\007endTime\030\003 \002(\t\022\025\n\rstar" +
       "tViceTime\030\004 \001(\t\022\023\n\013endViceTime\030\005 \001(\t\022\021\n\t" +
-      "rangeTime\030\006 \001(\t\022\017\n\007actDesc\030\007 \001(\t*_\n\022ePla" +
+      "rangeTime\030\006 \001(\t\022\017\n\007actDesc\030\007 \001(\t*L\n\022ePla" +
       "tformGSMsgType\022\r\n\tUSER_INFO\020\001\022\017\n\013USER_ST" +
-      "ATUS\020\002\022\026\n\022GAME_SERVER_STATUS\020\003\022\021\n\rACTIVI" +
-      "TY_TIME\020\004*9\n\021eServerStatusType\022\017\n\013SERVER",
-      "_OPEN\020\001\022\023\n\017SERVER_SHUTDOWN\020\002B\034\n\013com.rwpr" +
-      "otoB\rPlatformGSMsg"
+      "ATUS\020\002\022\026\n\022GAME_SERVER_STATUS\020\003*9\n\021eServe" +
+      "rStatusType\022\017\n\013SERVER_OPEN\020\001\022\023\n\017SERVER_S",
+      "HUTDOWN\020\002B\034\n\013com.rwprotoB\rPlatformGSMsg"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -1,0 +1,29 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "RandomNameServiceProtos";
+
+// 请求类型
+enum RequestType {
+    RANDOM_NAME = 1;
+}
+
+// 结果类型
+enum ResultType {
+	SUCCESS = 1;
+	FAIL = 2;
+}
+
+// 随机名字请求
+message RandomNameRequest {
+	required RequestType reqType = 1; // 请求类型
+	required string accountId = 2; // 账号id
+	optional bool isFemale = 3; // 是否女性
+}
+
+// 随机名字响应
+message RandomNameResponse {
+	required RequestType reqType = 1; // 请求类型
+	required ResultType resultType = 2; // 结果
+	optional string tips = 3; // 提示信息
+	optional string name = 4; // 随机名字
+}
