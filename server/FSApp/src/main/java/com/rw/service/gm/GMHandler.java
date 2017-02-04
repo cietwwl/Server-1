@@ -40,6 +40,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
+import com.playerdata.activityCommon.timeControl.ActivitySpecialTimeCfgDAO;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
@@ -322,6 +323,7 @@ public class GMHandler {
 		// 修改活动配置的时间和奖励
 		funcCallBackMap.put("setcfgtime", "setCfgTime");
 		funcCallBackMap.put("setcfgreward", "setCfgReward");
+		funcCallBackMap.put("resetacttime", "resetActivityTime");
 
 		// 世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
 		funcCallBackMap.put("callwb", "callWorldBoss");
@@ -2381,6 +2383,21 @@ public class GMHandler {
 			String reward = arrCommandContents[2];
 			int version = Integer.parseInt(arrCommandContents[3]);
 			ActivityModifyMgr.getInstance().gmSetSubCfgReward(cfgId, subCfgId, reward, version);
+			return true;
+		} catch (Exception ex) {
+			return false;
+		}
+	}
+	
+	/**
+	 * 重置活动的时间
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	public boolean resetActivityTime(String[] arrCommandContents, Player player){
+		try {
+			ActivitySpecialTimeCfgDAO.getInstance().reload();
 			return true;
 		} catch (Exception ex) {
 			return false;

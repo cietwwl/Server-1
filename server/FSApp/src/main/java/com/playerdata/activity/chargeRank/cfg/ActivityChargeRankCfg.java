@@ -102,4 +102,9 @@ public class ActivityChargeRankCfg implements ActivityCfgIF{
 		}
 		return null;
 	}
+
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }

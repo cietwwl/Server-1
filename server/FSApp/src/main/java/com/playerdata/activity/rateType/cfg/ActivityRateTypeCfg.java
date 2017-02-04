@@ -142,11 +142,11 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	}
 
 	public String getStartTimeStr() {
-		return adStartTimeStr;
+		return startTimeStr;
 	}
 
 	public String getEndTimeStr() {
-		return adEndTimeStr;
+		return endTimeStr;
 	}
 
 	public String getTimeStr() {
@@ -195,7 +195,7 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 
 	@Override
 	public String getViceStartTime() {
-		return startTimeStr;
+		return adStartTimeStr;
 	}
 
 	@Override
@@ -225,6 +225,7 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	public void setStartAndEndTime(String adStartTimeStr, String adEndTimeStr) {
 		this.adStartTimeStr = adStartTimeStr;
 		this.adEndTimeStr = adEndTimeStr;
+		ExtraInitAfterLoad();
 	}
 	
 	@Override
@@ -234,7 +235,16 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 		ExtraInitViceAfterLoad();
 	}
 	
+	@Override
 	public void ExtraInitAfterLoad(){
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(adStartTimeStr, adEndTimeStr);
+		adStartTimeStr = timePair.getStartTime();
+		adEndTimeStr = timePair.getEndTime();
 		ExtraInitViceAfterLoad();
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		timeDesc = actDesc;
 	}
 }

@@ -400,6 +400,9 @@
 	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO"  init-method="init" />
 	
+	<!-- 分区配置活动的时间 -->
+	<bean class="com.playerdata.activityCommon.timeControl.ActivitySpecialTimeCfgDAO"  init-method="init" />
+	
 	<!-- 红点 -->
 	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
 	
