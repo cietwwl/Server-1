@@ -21,7 +21,7 @@ Key,Remarks,id,enumId,bg,icon,icon2,sort,activityType,goToType,group,title,bgTit
 20,,20,1,SmallTex/Activity/ActivityTitleText_34,huodong_002,,3,1,,,每日登录,,累计登陆{0}天,,201701270500,201702080500,,0,,1,1701270500
 21,,21,2,SmallTex/Activity/ActivityTitleText_25,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201701270500,201702040500,,0,,1,1701270500
 22,,22,2,SmallTex/Activity/ActivityTitleText_25,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201702040500,201702080500,,0,,1,1701270500
-23,,23,1,SmallTex/Activity/ActivityTitleText_30,huodong_002,,3,1,,,每日登录,,累计登陆{0}天,,201702080500,7,,0,,1,1701161600
+23,,23,1,SmallTex/Activity/ActivityTitleText_42,huodong_002,,3,1,,,每日登录,,累计登陆{0}天,,201702080500,7,,0,,1,1701161600
 24,,24,3,SmallTex/Activity/ActivityTitleText_21,huodong_025,,4,3,2,,闯关有礼,,挑战普通副本{0}次,,201702080500,3,,0,,1,1701161600
 25,,25,4,SmallTex/Activity/ActivityTitleText_24,huodong_024,,5,4,3,,精英闯关,,挑战精英副本{0}次,,201702110500,4,,0,,1,1701161600
 26,,26,2,SmallTex/Activity/ActivityTitleText_33,huodong_028,,2,2,,,消费送大礼,,累计消费{0}钻石,,201702080500,7,,0,,1,1701161600
