@@ -1,6 +1,7 @@
 package com.playerdata.charge;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
@@ -33,11 +34,16 @@ import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.yaowanlog.YaoWanLogHandler;
+import com.rwbase.ServerType;
 import com.rwbase.ServerTypeMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ChargeServiceProto;
+import com.rwproto.ChargeServiceProto.ChargeCfgData;
+import com.rwproto.ChargeServiceProto.ChargeServiceCommonRspMsg;
+import com.rwproto.ChargeServiceProto.RequestType;
 import com.rwproto.MsgDef;
+import com.rwproto.MsgDef.Command;
 
 public class ChargeMgr {
 
@@ -55,24 +61,24 @@ public class ChargeMgr {
 		_checker = new YinHanChargeCallbackChecker();
 	}
 	
-	private void checkVipMonthCardExists(Player player) {
-		if (isValid(player, ChargeTypeEnum.VipMonthCard)) {
-			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-			if (chargeInfo != null) {
-				List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
-				for (int i = 0; i < allCfg.size(); i++) {
-					ChargeCfg cfg = allCfg.get(i);
-					if (cfg.getChargeType() == ChargeTypeEnum.VipMonthCard) {
-						if (!chargeInfo.isContainsId(cfg.getId())) {
-							chargeInfo.addChargeCfgId(cfg.getId());
-							ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
+//	private void checkVipMonthCardExists(Player player) {
+//		if (isValid(player, ChargeTypeEnum.VipMonthCard)) {
+//			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+//			if (chargeInfo != null) {
+//				List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
+//				for (int i = 0; i < allCfg.size(); i++) {
+//					ChargeCfg cfg = allCfg.get(i);
+//					if (cfg.getChargeType() == ChargeTypeEnum.VipMonthCard) {
+//						if (!chargeInfo.isContainsId(cfg.getId())) {
+//							chargeInfo.addChargeCfgId(cfg.getId());
+//							ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
+//							break;
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
 
 	public boolean isValid(Player player, ChargeTypeEnum monthCardType) {
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
@@ -96,12 +102,27 @@ public class ChargeMgr {
 	}
 
 	public void syn(Player player, int version) {
-		checkVipMonthCardExists(player);
+		/* 开服第一周的时候，有部分玩家赠送了终身月卡，但是当时没有设置终身月卡的标识；
+		   现在已经过去1个月了，所以把这个上线检查去掉。 
+		 */
+//		checkVipMonthCardExists(player); 
+		sendAllChargeCfg(player);
 		ChargeInfoHolder.getInstance().syn(player, version);
 	}
 
 	public ChargeInfo getChargeInfo(String userId) {
 		return ChargeInfoHolder.getInstance().get(userId);
+	}
+	
+	private void sendAllChargeCfg(Player player) {
+		if (ServerTypeMgr.getInstance().getServerType() == ServerType.IOS_YAOWAN) {
+			List<ChargeCfgData> allCfgProtos = ChargeCfgDao.getInstance().getAllCfgProtos();
+			ChargeServiceCommonRspMsg.Builder builder = ChargeServiceCommonRspMsg.newBuilder();
+			builder.setReqType(RequestType.GetChargeCfg);
+			builder.setIsSuccess(true);
+			builder.addAllAllChargeCfgs(allCfgProtos);
+			player.SendMsg(Command.MSG_CHARGE_CFG_REQUEST, builder.build().toByteString());
+		}
 	}
 
 	// 主要检测是不是测试订单，并且能不能使用测试订单
