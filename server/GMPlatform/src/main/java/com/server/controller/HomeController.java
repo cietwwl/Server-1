@@ -3,6 +3,8 @@ package com.server.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +22,8 @@ import com.server.service.UserService;
 @RequestMapping("user")
 public class HomeController {
 
+	private Logger log = LoggerFactory.getLogger(HomeController.class);
+
 	@Autowired
 	private UserService userSerice;
 	
@@ -32,6 +36,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value="login", method={RequestMethod.POST})
 	public @ResponseBody RESTResponse login(@RequestBody User user){
+		log.info("try to login, user name[{}],paw[{}]",user.getAccount(),user.getPassword());
 		boolean login = userSerice.doUserLogin(user);
 		if(login){
 			requst.getSession().setAttribute(GlobalKey.USER_SESSION_KEY, user);
