@@ -13,21 +13,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from user
+    from gmp_user
     where account = #{account,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from user
+    delete from gmp_user
     where account = #{account,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.server.beans.User" >
-    insert into user (account, password, lastlogintime, 
+    insert into gmp_user (account, password, lastlogintime, 
       createTime)
     values (#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{lastlogintime,jdbcType=TIMESTAMP}, 
       #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.server.beans.User" >
-    insert into user
+    insert into gmp_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="account != null" >
         account,
@@ -58,7 +58,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.server.beans.User" >
-    update user
+    update gmp_user
     <set >
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -73,7 +73,7 @@
     where account = #{account,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.server.beans.User" >
-    update user
+    update gmp_user
     set password = #{password,jdbcType=VARCHAR},
       lastlogintime = #{lastlogintime,jdbcType=TIMESTAMP},
       createTime = #{createtime,jdbcType=TIMESTAMP}

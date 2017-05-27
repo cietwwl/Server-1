@@ -2,12 +2,12 @@ package com.server.service.impl;
 
 import java.util.Date;
 
+import com.server.dao.UserMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.server.beans.User;
-import com.server.dao.UserMapper;
 import com.server.service.UserService;
 
 @Service
@@ -16,10 +16,8 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper dao;
 
-	
-	
-	
-	@Override
+
+
 	public boolean doUserLogin(User u) {
 		
 		User user = dao.selectByPrimaryKey(u.getAccount());
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService{
 
 
 
-	@Override
+
 	public boolean checkUserExist(String account) {
 		User user = dao.selectByPrimaryKey(account);
 		if(user != null){
@@ -49,13 +47,13 @@ public class UserServiceImpl implements UserService{
 
 
 
-	@Override
+
 	public boolean registerUser(User user) {
 		Date date = new Date(System.currentTimeMillis());
 		user.setLastlogintime(date);
 		user.setCreatetime(date);
 		int selective = dao.insertSelective(user);
-		return selective <= 0 ? true : false;
+		return selective <= 0;
 	}
 
 	

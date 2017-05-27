@@ -12,7 +12,6 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.test.skip>true</maven.test.skip>
-		<java.home>${env.JAVA_HOME}</java.home>
 	</properties>
 
 
@@ -132,11 +131,13 @@
 			<version>4.0.23.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>csv</artifactId>
-			<version>1.2</version>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-csv</artifactId>
+		    <version>1.2</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -215,14 +216,39 @@
 		</dependency>
 		
 	</dependencies>
-	
-	
 
 
 
 	<build>
 		<finalName>GMPlatform</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<port>8080</port>
+					<path>/</path>
+				</configuration>
+			</plugin>
+		</plugins>
+
+
+		<!--要添加这个，否则maven编译的时候不会添加xml文件进去-->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
+
+	<!--<build>-->
+		<!--<finalName>GMPlatform</finalName>-->
+	<!--</build>-->
 
 
 </project>

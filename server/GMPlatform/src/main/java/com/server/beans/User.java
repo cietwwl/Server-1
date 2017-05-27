@@ -11,8 +11,6 @@ public class User {
 
     private Date createtime;
 
-    private boolean remember;
-    
     public String getAccount() {
         return account;
     }
@@ -44,14 +42,4 @@ public class User {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
-
-	public boolean isRemember() {
-		return remember;
-	}
-
-	public void setRemember(boolean remember) {
-		this.remember = remember;
-	}
-    
-    
 }

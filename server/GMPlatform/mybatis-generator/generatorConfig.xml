@@ -10,8 +10,8 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/fs_gm_mt" userId="root"
-                        password="123456"/>
+                        connectionURL="jdbc:mysql://bdm271956283.my3w.com:3306/bdm271956283_db" userId="bdm271956283"
+                        password="090173356a"/>
 
         <javaModelGenerator targetPackage="com.server.beans" targetProject="../src/main/java">
             <property name="enableSubPackages" value="true"/>
@@ -29,7 +29,7 @@
         </javaClientGenerator>
 
 		<!-- 要生成的表配置， 有新的表在下面添加 -->
-        <table tableName="user" domainObjectName="User"
+        <table tableName="gmp_user" domainObjectName="User"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
